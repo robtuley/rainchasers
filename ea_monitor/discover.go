@@ -2,9 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/robtuley/report"
 )
@@ -30,45 +28,40 @@ func discoverWiskiIDs() chan string {
 		currentOffset := 0
 		baseUrl := "http://environment.data.gov.uk/flood-monitoring/id/stations" +
 			"?_limit=" + strconv.Itoa(batchSize)
-		client := &http.Client{
-			Timeout: 10 * time.Second,
-		}
 
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
 		// until we receive a completely empty set.
 		for lastBatchSize > 0 {
-			<-apiRequestThrottle
-
 			url := baseUrl + "&_offset=" + strconv.Itoa(currentOffset)
-			req, err := http.NewRequest("GET", url, nil)
+			currentOffset = currentOffset + batchSize
+			tick := report.Tick()
+
+			err, resp := doJsonRequest(url)
 			if err != nil {
-				report.Action("discover.request", report.Data{"error": err.Error()})
-				return
+				report.Action("discover.request.error", report.Data{"url": url, "error": err.Error()})
+				resp.Body.Close()
+				continue
 			}
-			req.Header.Add("Accept", "application/json")
-			req.Header.Set("User-Agent", API_USER_AGENT)
-			resp, err := client.Do(req)
-			if err != nil {
-				report.Action("discover.request", report.Data{"error": err.Error()})
-				return
-			}
-			decoder := json.NewDecoder(resp.Body)
+
 			s := StationList{}
+			decoder := json.NewDecoder(resp.Body)
 			err = decoder.Decode(&s)
 			resp.Body.Close()
 			if err != nil {
-				report.Action("discover.decode", report.Data{"error": err.Error()})
-				return
+				report.Action("discover.decode.error", report.Data{"url": url, "error": err.Error()})
+				continue
 			}
 
 			for _, item := range s.Items {
 				idC <- item.WiskiID
 			}
-
 			lastBatchSize = len(s.Items)
-			report.Info("discover.request", report.Data{"count": lastBatchSize})
-			currentOffset = currentOffset + batchSize
+
+			report.Tock(tick, "discovery.response", report.Data{
+				"count": lastBatchSize,
+				"url":   url,
+			})
 		}
 
 		close(idC)
