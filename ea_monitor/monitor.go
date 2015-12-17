@@ -11,6 +11,14 @@ const (
 	API_USER_AGENT          = "Rainchasers v0.1"
 )
 
+type GaugeSnapshot struct {
+	WiskiId   string
+	Name      string
+	RiverName string
+	Lat       float32
+	Lg        float32
+}
+
 var apiRequestThrottle <-chan time.Time
 
 func main() {
@@ -20,9 +28,7 @@ func main() {
 	report.RuntimeStatsEvery(30 * time.Second)
 
 	apiRequestThrottle = time.Tick(time.Second / API_REQUESTS_PER_SECOND)
-	n := 0
-	for range discoverWiskiIDs() {
-		n = n + 1
+	for id := range discoverWiskiIDs() {
+		stationDetail(id)
 	}
-	report.Info("discover.found", report.Data{"count": n})
 }

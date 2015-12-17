@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/robtuley/report"
 )
@@ -29,7 +30,9 @@ func discoverWiskiIDs() chan string {
 		currentOffset := 0
 		baseUrl := "http://environment.data.gov.uk/flood-monitoring/id/stations" +
 			"?_limit=" + strconv.Itoa(batchSize)
-		client := &http.Client{}
+		client := &http.Client{
+			Timeout: 10 * time.Second,
+		}
 
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
