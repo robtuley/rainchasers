@@ -7,8 +7,8 @@ import (
 )
 
 // Retrieve the detail and latest readings for an individual gauge.
-func stationDetail(wiskiId string) chan GaugeSnapshot {
-	rtnC := make(chan GaugeSnapshot)
+func requestStationDetail(wiskiId string, reTryC chan string, resultC chan GaugeSnapshot) {
+	waitOnApiRequestSchedule()
 
 	go func() {
 		type StationIndividual struct {
@@ -27,11 +27,12 @@ func stationDetail(wiskiId string) chan GaugeSnapshot {
 		})
 
 		err, resp := doJsonRequest(url)
-		defer resp.Body.Close()
 		if err != nil {
 			report.Action("detail.request.error", report.Data{"url": url, "error": err.Error()})
-			close(rtnC)
+			reTryC <- wiskiId
 			return
+		} else {
+			defer resp.Body.Close()
 		}
 
 		s := StationIndividual{}
@@ -39,16 +40,13 @@ func stationDetail(wiskiId string) chan GaugeSnapshot {
 		err = decoder.Decode(&s)
 		if err != nil {
 			report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
-			close(rtnC)
+			reTryC <- wiskiId
 			return
 		}
 
-		rtnC <- GaugeSnapshot{
+		resultC <- GaugeSnapshot{
 			s.Items.WiskiID, s.Items.Name, s.Items.RiverName, s.Items.Lat, s.Items.Lg,
 		}
-		close(rtnC)
 
 	}()
-
-	return rtnC
 }

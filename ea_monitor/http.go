@@ -18,8 +18,11 @@ func init() {
 	apiRequestThrottle = time.Tick(time.Second / API_REQUESTS_PER_SECOND)
 }
 
-func doJsonRequest(url string) (error, *http.Response) {
+func waitOnApiRequestSchedule() {
 	<-apiRequestThrottle
+}
+
+func doJsonRequest(url string) (error, *http.Response) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}

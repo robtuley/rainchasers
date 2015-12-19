@@ -33,6 +33,8 @@ func discoverWiskiIDs() chan string {
 		// in the EA API result set rather than the number of items, so simply iterate
 		// until we receive a completely empty set.
 		for lastBatchSize > 0 {
+			waitOnApiRequestSchedule()
+
 			url := baseUrl + "&_offset=" + strconv.Itoa(currentOffset)
 			currentOffset = currentOffset + batchSize
 			tick := report.Tick()
