@@ -13,7 +13,7 @@ import (
 //         log.Println(url)
 //     }
 //
-func discoverUrls() chan string {
+func discoverStationUrls() chan string {
 	urlC := make(chan string)
 
 	go func() {
