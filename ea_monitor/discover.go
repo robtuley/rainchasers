@@ -13,13 +13,13 @@ import (
 //         log.Println(id)
 //     }
 //
-func discoverWiskiIDs() chan string {
-	idC := make(chan string)
+func discoverUrls() chan string {
+	urlC := make(chan string)
 
 	go func() {
 		type StationList struct {
 			Items []struct {
-				WiskiID string `json:"wiskiId"`
+				Url string `json:"@id"`
 			} `json:"items"`
 		}
 
@@ -55,19 +55,19 @@ func discoverWiskiIDs() chan string {
 				continue
 			}
 
-			for _, item := range s.Items {
-				idC <- item.WiskiID
-			}
 			lastBatchSize = len(s.Items)
-
 			report.Tock(tick, "discovery.response", report.Data{
 				"count": lastBatchSize,
 				"url":   url,
 			})
+
+			for _, item := range s.Items {
+				urlC <- item.Url
+			}
 		}
 
-		close(idC)
+		close(urlC)
 	}()
 
-	return idC
+	return urlC
 }

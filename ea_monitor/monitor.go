@@ -7,7 +7,7 @@ import (
 )
 
 type GaugeSnapshot struct {
-	WiskiId   string
+	Url       string
 	Name      string
 	RiverName string
 	Lat       float32
@@ -22,13 +22,11 @@ func main() {
 
 	gaugeSnapshotC := make(chan GaugeSnapshot)
 
-	reTryWiskiIdC := make(chan string, 5000)
-	for id := range discoverWiskiIDs() {
-		requestStationDetail(id, reTryWiskiIdC, gaugeSnapshotC)
+	reTryUrlC := make(chan string, 10)
+	for url := range discoverUrls() {
+		requestStationDetail(url, reTryUrlC, gaugeSnapshotC)
 	}
-	failedWiskiIdC := make(chan string, 5000)
-	for id := range reTryWiskiIdC {
-		requestStationDetail(id, failedWiskiIdC, gaugeSnapshotC)
+	for url := range reTryUrlC() {
+		requestStationDetail(url, reTryUrlC, gaugeSnapshotC)
 	}
-
 }
