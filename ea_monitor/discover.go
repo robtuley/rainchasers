@@ -7,10 +7,10 @@ import (
 	"github.com/robtuley/report"
 )
 
-// Discover all available EA guage WiskiId values.
+// Discover all available EA identifying URLs.
 //
-//     for id := range discoverWiskiIDs() {
-//         log.Println(id)
+//     for url := range discoverUrls() {
+//         log.Println(url)
 //     }
 //
 func discoverUrls() chan string {

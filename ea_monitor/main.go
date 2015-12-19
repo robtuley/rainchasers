@@ -20,13 +20,13 @@ func main() {
 	report.Global(report.Data{"service": "ea_monitor"})
 	report.RuntimeStatsEvery(30 * time.Second)
 
-	gaugeSnapshotC := make(chan GaugeSnapshot)
+	gaugeSnapshotC := make(chan *GaugeSnapshot, 10)
 
-	reTryUrlC := make(chan string, 10)
 	for url := range discoverUrls() {
-		requestStationDetail(url, reTryUrlC, gaugeSnapshotC)
+		_, g := requestStationDetail(url)
+		if g != nil {
+			gaugeSnapshotC <- g
+		}
 	}
-	for url := range reTryUrlC() {
-		requestStationDetail(url, reTryUrlC, gaugeSnapshotC)
-	}
+
 }
