@@ -16,7 +16,7 @@ type readingJson struct {
 	} `json:"items"`
 }
 
-func requestLatestReadings(updateC chan *SnapshotUpdate) {
+func requestLatestReadings(updateC chan SnapshotUpdate) {
 	batchSize := 100
 	lastBatchSize := batchSize
 	currentOffset := 0
@@ -52,7 +52,7 @@ func requestLatestReadings(updateC chan *SnapshotUpdate) {
 		})
 
 		for _, item := range r.Items {
-			updateC <- &SnapshotUpdate{
+			updateC <- SnapshotUpdate{
 				item.Measure,
 				item.DateTime,
 				item.Value,

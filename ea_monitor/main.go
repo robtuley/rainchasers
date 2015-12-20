@@ -11,27 +11,34 @@ func main() {
 	report.StdOut()
 	report.Global(report.Data{"service": "ea_monitor"})
 	report.RuntimeStatsEvery(30 * time.Second)
-	demoMode := true
+	isDemo := true
 
-	refSnapC := make(chan *Snapshot, 10)
+	refSnapC := make(chan Snapshot, 10)
+	updateSnapC := make(chan SnapshotUpdate, 10)
+	pubSnapC := applyUpdatesToRefSnaps(refSnapC, updateSnapC)
+
+	// blackhole pubSnapC (todo: send to Google pub/sub)
+	go func() {
+		for s := range pubSnapC {
+			report.Info("published", report.Data{"snapshot": s})
+		}
+	}()
+
+	// retrieve list of all stations & latest readings
 	for url := range discoverStationUrls() {
 		_, measures := requestStationDetail(url)
 		for _, m := range measures {
-			refSnapC <- &m
+			refSnapC <- m
 		}
-		if demoMode {
+		if isDemo {
 			break
 		}
 	}
 
-	updateSnapC := make(chan *SnapshotUpdate, 10)
-	go func() {
-		tick := time.Tick(time.Minute * 15)
-		for {
-			requestLatestReadings(updateSnapC)
-			<-tick
-		}
-	}()
-
-	//pubSnapC := applyUpdatesToReferenceSnapshots(refSnapC, updateSnapC)
+	// poll for latest readings
+	tick := time.Tick(time.Minute * 15)
+	for {
+		requestLatestReadings(updateSnapC)
+		<-tick
+	}
 }
