@@ -7,7 +7,7 @@ import (
 	"github.com/robtuley/report"
 )
 
-type StationMeasure struct {
+type detailStationMeasureJson struct {
 	Url    string `json:"@id"`
 	Name   string `json:"label"`
 	Type   string `json:"parameter"`
@@ -18,7 +18,7 @@ type StationMeasure struct {
 	} `json:"latestReading"`
 }
 
-type StationIndividual struct {
+type detailStationJson struct {
 	Items struct {
 		Url             string          `json:"@id"`
 		Name            string          `json:"label"`
@@ -45,7 +45,7 @@ func requestStationDetail(url string) (error, []Snapshot) {
 		defer resp.Body.Close()
 	}
 
-	s := StationIndividual{}
+	s := detailStationJson{}
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&s)
 	if err != nil {
@@ -56,12 +56,12 @@ func requestStationDetail(url string) (error, []Snapshot) {
 	// the EA API returns either an ARRAY of measures OR a single OBJECT
 	// which makes it hard to decode. We try decoding as an array first,
 	// then failback to an single object.
-	var measureArray []StationMeasure
+	var measureArray []detailStationMeasureJson
 	err = json.Unmarshal(s.Items.MeasuresRawJson, &measureArray)
 	if err != nil {
-		var measureObject StationMeasure
+		var measureObject detailStationMeasureJson
 		err = json.Unmarshal(s.Items.MeasuresRawJson, &measureObject)
-		measureArray = []StationMeasure{measureObject}
+		measureArray = []detailStationMeasureJson{measureObject}
 	}
 	if err != nil {
 		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
@@ -83,8 +83,6 @@ func requestStationDetail(url string) (error, []Snapshot) {
 			m.Latest.Value,
 		}
 	}
-
-	report.Info("debug", report.Data{"measures": snapshots})
 
 	return nil, snapshots
 }

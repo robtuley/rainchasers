@@ -7,6 +7,12 @@ import (
 	"github.com/robtuley/report"
 )
 
+type stationListJson struct {
+	Items []struct {
+		Url string `json:"@id"`
+	} `json:"items"`
+}
+
 // Discover all available EA identifying URLs.
 //
 //     for url := range discoverUrls() {
@@ -17,12 +23,6 @@ func discoverStationUrls() chan string {
 	urlC := make(chan string)
 
 	go func() {
-		type StationList struct {
-			Items []struct {
-				Url string `json:"@id"`
-			} `json:"items"`
-		}
-
 		batchSize := 100
 		lastBatchSize := batchSize
 		currentOffset := 0
@@ -46,7 +46,7 @@ func discoverStationUrls() chan string {
 				continue
 			}
 
-			s := StationList{}
+			s := stationListJson{}
 			decoder := json.NewDecoder(resp.Body)
 			err = decoder.Decode(&s)
 			resp.Body.Close()
