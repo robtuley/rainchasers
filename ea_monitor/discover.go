@@ -42,7 +42,6 @@ func discoverStationUrls() chan string {
 			err, resp := doJsonRequest(url)
 			if err != nil {
 				report.Action("discover.request.error", report.Data{"url": url, "error": err.Error()})
-				resp.Body.Close()
 				continue
 			}
 

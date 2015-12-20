@@ -11,6 +11,7 @@ func main() {
 	report.StdOut()
 	report.Global(report.Data{"service": "ea_monitor"})
 	report.RuntimeStatsEvery(30 * time.Second)
+	demoMode := true
 
 	refSnapC := make(chan *Snapshot, 10)
 	for url := range discoverStationUrls() {
@@ -18,13 +19,17 @@ func main() {
 		for _, m := range measures {
 			refSnapC <- &m
 		}
+		if demoMode {
+			break
+		}
 	}
 
 	updateSnapC := make(chan *SnapshotUpdate, 10)
-	ticker := time.NewTicker(time.Minute * 15)
 	go func() {
-		for range ticker.C {
+		tick := time.Tick(time.Minute * 15)
+		for {
 			requestLatestReadings(updateSnapC)
+			<-tick
 		}
 	}()
 

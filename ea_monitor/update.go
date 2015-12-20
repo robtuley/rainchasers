@@ -21,9 +21,9 @@ func requestLatestReadings(updateC chan *SnapshotUpdate) {
 	lastBatchSize := batchSize
 	currentOffset := 0
 	baseUrl := "http://environment.data.gov.uk/flood-monitoring/data/readings" +
-		"latest&_limit=" + strconv.Itoa(batchSize)
+		"?latest&_limit=" + strconv.Itoa(batchSize)
 
-	for lastBatchSize < batchSize {
+	for lastBatchSize == batchSize {
 		waitOnApiRequestSchedule()
 
 		url := baseUrl + "&_offset=" + strconv.Itoa(currentOffset)
@@ -33,7 +33,6 @@ func requestLatestReadings(updateC chan *SnapshotUpdate) {
 		err, resp := doJsonRequest(url)
 		if err != nil {
 			report.Action("update.request.error", report.Data{"url": url, "error": err.Error()})
-			resp.Body.Close()
 			continue
 		}
 
