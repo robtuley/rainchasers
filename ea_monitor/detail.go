@@ -72,8 +72,8 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 		return err, []gauge.Snapshot{}
 	}
 
-	snapshots := make([]gauge.Snapshot, len(measureArray))
-	for k, m := range measureArray {
+	snapshots := make([]gauge.Snapshot, 0, len(measureArray))
+	for _, m := range measureArray {
 
 		// in the EA API, most latestReading keys are an object with dateTime
 		// and value fields, but sometimes it doesn't -- URLs seem common. We
@@ -82,6 +82,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 		if err != nil {
 			report.Info("detail.corrupt.latestreading",
 				report.Data{"url": m.Url, "station": s.Items.Url, "json": m.LatestRawJson})
+			continue
 		}
 
 		v, u := normaliseUnit(m.LatestParsed.Value, m.Unit)
@@ -89,7 +90,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 			report.Action("detail.unit.error", report.Data{"url": m.Url, "unit": m.Unit})
 		}
 
-		snapshots[k] = gauge.Snapshot{
+		snapshots = append(snapshots, gauge.Snapshot{
 			m.Url,
 			s.Items.Url,
 			s.Items.Name,
@@ -100,7 +101,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 			u,
 			m.LatestParsed.DateTime,
 			v,
-		}
+		})
 
 	}
 
