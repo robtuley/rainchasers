@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/robtuley/report"
 )
 
@@ -13,14 +14,14 @@ func main() {
 	report.RuntimeStatsEvery(30 * time.Second)
 	isDemo := true
 
-	refSnapC := make(chan Snapshot, 10)
-	updateSnapC := make(chan SnapshotUpdate, 10)
+	refSnapC := make(chan gauge.Snapshot, 10)
+	updateSnapC := make(chan gauge.SnapshotUpdate, 10)
 	pubSnapC := applyUpdatesToRefSnaps(refSnapC, updateSnapC)
 
 	// blackhole pubSnapC (todo: send to Google pub/sub)
 	go func() {
 		for s := range pubSnapC {
-			report.Info("published", report.Data{"snapshot": s})
+			report.Info("gpubsub.snapshot", report.Data{"snapshot": s})
 		}
 	}()
 

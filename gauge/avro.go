@@ -1,4 +1,4 @@
-package main
+package gauge
 
 import (
 	"bytes"
@@ -68,7 +68,7 @@ func init() {
 	}
 }
 
-func avroEncode(s Snapshot) (*bytes.Buffer, error) {
+func Encode(s Snapshot) (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 
 	// todo: is this repeated call of RecordSchema inefficient?
@@ -93,7 +93,7 @@ func avroEncode(s Snapshot) (*bytes.Buffer, error) {
 	return bb, nil
 }
 
-func avroDecode(bb *bytes.Buffer) (Snapshot, error) {
+func Decode(bb *bytes.Buffer) (Snapshot, error) {
 	var s Snapshot
 
 	decoded, err := avroCodec.Decode(bb)

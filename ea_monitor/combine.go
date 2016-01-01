@@ -1,10 +1,16 @@
 package main
 
-func applyUpdatesToRefSnaps(refSnapC chan Snapshot, updateSnapC chan SnapshotUpdate) chan Snapshot {
-	pubSnapC := make(chan Snapshot)
+import (
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+)
+
+func applyUpdatesToRefSnaps(refSnapC chan gauge.Snapshot,
+	updateSnapC chan gauge.SnapshotUpdate) chan gauge.Snapshot {
+
+	pubSnapC := make(chan gauge.Snapshot)
 
 	go func() {
-		ref := make(map[string]Snapshot, 5000)
+		ref := make(map[string]gauge.Snapshot, 5000)
 
 		for {
 			select {

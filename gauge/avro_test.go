@@ -1,14 +1,16 @@
-package main
+package gauge_test
 
 import (
 	"testing"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func TestSnapshotEncodeDecode(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 
-	before := Snapshot{
+	before := gauge.Snapshot{
 		"http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
 		"http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
 		"Bourton Dickler",
@@ -21,12 +23,12 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 		-0.14,
 	}
 
-	bb, err := avroEncode(before)
+	bb, err := gauge.Encode(before)
 	if err != nil {
 		t.Error(err)
 	}
 
-	after, err := avroDecode(bb)
+	after, err := gauge.Decode(bb)
 	if err != nil {
 		t.Error(err)
 	}

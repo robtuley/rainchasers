@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/robtuley/report"
 )
 
@@ -30,7 +31,7 @@ type detailStationJson struct {
 }
 
 // Retrieve the detail and latest readings for an individual gauge.
-func requestStationDetail(url string) (error, []Snapshot) {
+func requestStationDetail(url string) (error, []gauge.Snapshot) {
 	waitOnApiRequestSchedule()
 
 	defer report.Tock(report.Tick(), "detail.response", report.Data{
@@ -40,7 +41,7 @@ func requestStationDetail(url string) (error, []Snapshot) {
 	err, resp := doJsonRequest(url)
 	if err != nil {
 		report.Action("detail.request.error", report.Data{"url": url, "error": err.Error()})
-		return err, []Snapshot{}
+		return err, []gauge.Snapshot{}
 	} else {
 		defer resp.Body.Close()
 	}
@@ -50,7 +51,7 @@ func requestStationDetail(url string) (error, []Snapshot) {
 	err = decoder.Decode(&s)
 	if err != nil {
 		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
-		return err, []Snapshot{}
+		return err, []gauge.Snapshot{}
 	}
 
 	// the EA API returns either an ARRAY of measures OR a single OBJECT
@@ -65,12 +66,12 @@ func requestStationDetail(url string) (error, []Snapshot) {
 	}
 	if err != nil {
 		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
-		return err, []Snapshot{}
+		return err, []gauge.Snapshot{}
 	}
 
-	snapshots := make([]Snapshot, len(measureArray))
+	snapshots := make([]gauge.Snapshot, len(measureArray))
 	for k, m := range measureArray {
-		snapshots[k] = Snapshot{
+		snapshots[k] = gauge.Snapshot{
 			m.Url,
 			s.Items.Url,
 			s.Items.Name,
