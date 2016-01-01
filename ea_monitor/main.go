@@ -12,7 +12,6 @@ func main() {
 	report.StdOut()
 	report.Global(report.Data{"service": "ea_monitor"})
 	report.RuntimeStatsEvery(30 * time.Second)
-	isDemo := true
 
 	refSnapC := make(chan gauge.Snapshot, 10)
 	updateSnapC := make(chan gauge.SnapshotUpdate, 10)
@@ -30,9 +29,6 @@ func main() {
 		_, measures := requestStationDetail(url)
 		for _, m := range measures {
 			refSnapC <- m
-		}
-		if isDemo {
-			break
 		}
 	}
 
