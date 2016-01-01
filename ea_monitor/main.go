@@ -26,7 +26,7 @@ func main() {
 
 	// retrieve list of all stations & latest readings
 	for url := range discoverStationUrls() {
-		_, measures := requestStationDetail(url)
+		measures, _ := requestStationDetail(url)
 		for _, m := range measures {
 			refSnapC <- m
 		}

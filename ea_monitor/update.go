@@ -31,7 +31,7 @@ func requestLatestReadings(updateC chan gauge.SnapshotUpdate) {
 		currentOffset = currentOffset + batchSize
 		tick := report.Tick()
 
-		err, resp := doJsonRequest(url)
+		resp, err := doJsonRequest(url)
 		if err != nil {
 			report.Action("update.request.error", report.Data{"url": url, "error": err.Error()})
 			continue

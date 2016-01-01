@@ -34,17 +34,17 @@ type detailStationJson struct {
 }
 
 // Retrieve the detail and latest readings for an individual gauge.
-func requestStationDetail(url string) (error, []gauge.Snapshot) {
+func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	waitOnApiRequestSchedule()
 
 	defer report.Tock(report.Tick(), "detail.response", report.Data{
 		"url": url,
 	})
 
-	err, resp := doJsonRequest(url)
+	resp, err := doJsonRequest(url)
 	if err != nil {
 		report.Action("detail.request.error", report.Data{"url": url, "error": err.Error()})
-		return err, []gauge.Snapshot{}
+		return []gauge.Snapshot{}, err
 	} else {
 		defer resp.Body.Close()
 	}
@@ -54,7 +54,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 	err = decoder.Decode(&s)
 	if err != nil {
 		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
-		return err, []gauge.Snapshot{}
+		return []gauge.Snapshot{}, err
 	}
 
 	// the EA API returns either an ARRAY of measures OR a single OBJECT
@@ -69,7 +69,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 	}
 	if err != nil {
 		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
-		return err, []gauge.Snapshot{}
+		return []gauge.Snapshot{}, err
 	}
 
 	snapshots := make([]gauge.Snapshot, 0, len(measureArray))
@@ -105,7 +105,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 
 	}
 
-	return nil, snapshots
+	return snapshots, nil
 }
 
 func normaliseUnit(value float32, qudtUnit string) (float32, string) {

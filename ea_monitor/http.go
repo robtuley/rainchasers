@@ -22,14 +22,14 @@ func waitOnApiRequestSchedule() {
 	<-apiRequestThrottle
 }
 
-func doJsonRequest(url string) (error, *http.Response) {
+func doJsonRequest(url string) (*http.Response, error) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 
 	req.Header.Add("Accept", "application/json")
@@ -37,11 +37,11 @@ func doJsonRequest(url string) (error, *http.Response) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return errors.New("Status code " + strconv.Itoa(resp.StatusCode)), nil
+		return nil, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 
-	return nil, resp
+	return resp, nil
 }

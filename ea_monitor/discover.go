@@ -39,7 +39,7 @@ func discoverStationUrls() chan string {
 			currentOffset = currentOffset + batchSize
 			tick := report.Tick()
 
-			err, resp := doJsonRequest(url)
+			resp, err := doJsonRequest(url)
 			if err != nil {
 				report.Action("discover.request.error", report.Data{"url": url, "error": err.Error()})
 				continue
