@@ -111,22 +111,22 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 func normaliseUnit(value float32, qudtUnit string) (float32, string) {
 	switch qudtUnit {
 	case "http://qudt.org/1.1/vocab/unit#CubicMeterPerSecond":
-		return value, "CubicMetrePerSecond"
+		return value, "cumec"
 	case "http://qudt.org/1.1/vocab/unit#DegreeCentigrade":
-		return value, "DegreeCentigrade"
+		return value, "centigrade"
 	case "http://qudt.org/1.1/vocab/unit#Meter":
-		return value, "Metre"
+		return value, "metre"
 	case "http://qudt.org/1.1/vocab/unit#MeterPerSecond":
-		return value, "MetrePerSecond"
+		return value, "metre_per_second"
 
 	case "http://qudt.org/1.1/vocab/unit#Knot":
-		return value * 0.514444, "MetrePerSecond"
+		return value * 0.514444, "metre_per_second"
 	case "http://qudt.org/1.1/vocab/unit#MegaLiterPerDay":
-		return value * 0.0115741, "CubicMetrePerSecond"
+		return value * 0.0115741, "cumec"
 	case "http://qudt.org/1.1/vocab/unit#Millimeter":
-		return value * 0.001, "Metre"
+		return value * 0.001, "metre"
 	case "http://qudt.org/1.1/vocab/unit#LiterPerSecond":
-		return value * 0.001, "CubicMetrePerSecond"
+		return value * 0.001, "cumec"
 	}
 
 	return value, ""

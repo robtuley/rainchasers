@@ -18,7 +18,7 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 		51.874767,
 		-1.740083,
 		"level",
-		"",
+		"metre",
 		timestamp,
 		-0.14,
 	}
@@ -57,6 +57,9 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 		t.Error("Timestamp mis-match", before.DateTime.Unix(), after.DateTime.Unix(), after)
 	}
 	if before.Value != after.Value {
-		t.Error("Lg mis-match", after)
+		t.Error("Value mis-match", after)
+	}
+	if before.Unit != after.Unit {
+		t.Error("Unit mis-match", after)
 	}
 }

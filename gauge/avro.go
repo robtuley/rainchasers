@@ -53,6 +53,12 @@ func init() {
       "name": "value"
     },
     {
+      "doc": "Measurement unit",
+      "type": {"type": "enum", "name": "unitValues",
+                "symbols": ["", "metre", "centigrade", "cumec", "metre_per_second"]},
+      "name": "unit"
+    },
+    {
       "doc": "Unix epoch time in seconds for snapshot",
       "type": "long",
       "name": "timestamp"
@@ -84,6 +90,7 @@ func Encode(s Snapshot) (*bytes.Buffer, error) {
 	r.Set("lat", s.Lat)
 	r.Set("lg", s.Lg)
 	r.Set("value", s.Value)
+	r.Set("unit", s.Unit)
 	r.Set("timestamp", s.DateTime.Unix())
 
 	if err = avroCodec.Encode(bb, r); err != nil {
@@ -143,6 +150,11 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 		return s, err
 	}
 
+	unit, err := r.Get("unit")
+	if err != nil {
+		return s, err
+	}
+
 	s = Snapshot{
 		url.(string),
 		stationUrl.(string),
@@ -151,7 +163,7 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 		lat.(float32),
 		lg.(float32),
 		"",
-		"",
+		unit.(string),
 		time.Unix(timestamp.(int64), 0),
 		value.(float32),
 	}
