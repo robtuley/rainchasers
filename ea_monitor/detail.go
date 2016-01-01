@@ -9,14 +9,17 @@ import (
 )
 
 type detailStationMeasureJson struct {
-	Url    string `json:"@id"`
-	Name   string `json:"label"`
-	Type   string `json:"parameter"`
-	Unit   string `json:"unit"`
-	Latest struct {
-		DateTime time.Time `json:"dateTime"`
-		Value    float32   `json:"value"`
-	} `json:"latestReading"`
+	Url           string          `json:"@id"`
+	Name          string          `json:"label"`
+	Type          string          `json:"parameter"`
+	Unit          string          `json:"unit"`
+	LatestRawJson json.RawMessage `json:"latestReading"`
+	LatestParsed  detailStationMeasureLatestJson
+}
+
+type detailStationMeasureLatestJson struct {
+	DateTime time.Time `json:"dateTime"`
+	Value    float32   `json:"value"`
 }
 
 type detailStationJson struct {
@@ -55,8 +58,8 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 	}
 
 	// the EA API returns either an ARRAY of measures OR a single OBJECT
-	// which makes it hard to decode. We try decoding as an array first,
-	// then failback to an single object.
+	// in the 'measures' key which makes it hard to decode. We try decoding
+	// as an array first, then failback to an single object.
 	var measureArray []detailStationMeasureJson
 	err = json.Unmarshal(s.Items.MeasuresRawJson, &measureArray)
 	if err != nil {
@@ -72,7 +75,16 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 	snapshots := make([]gauge.Snapshot, len(measureArray))
 	for k, m := range measureArray {
 
-		v, u := normaliseUnit(m.Latest.Value, m.Unit)
+		// in the EA API, most latestReading keys are an object with dateTime
+		// and value fields, but sometimes it doesn't -- URLs seem common. We
+		// do a conditional parse and simply dump those that can't match.
+		err := json.Unmarshal(m.LatestRawJson, &m.LatestParsed)
+		if err != nil {
+			report.Info("detail.corrupt.latestreading",
+				report.Data{"url": m.Url, "station": s.Items.Url, "json": m.LatestRawJson})
+		}
+
+		v, u := normaliseUnit(m.LatestParsed.Value, m.Unit)
 		if len(m.Unit) > 0 && len(u) == 0 {
 			report.Action("detail.unit.error", report.Data{"url": m.Url, "unit": m.Unit})
 		}
@@ -86,7 +98,7 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 			s.Items.Lg,
 			m.Type,
 			u,
-			m.Latest.DateTime,
+			m.LatestParsed.DateTime,
 			v,
 		}
 
