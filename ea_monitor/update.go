@@ -11,9 +11,10 @@ import (
 
 type readingJson struct {
 	Items []struct {
-		Measure  string    `json:"measure"`
-		DateTime time.Time `json:"dateTime"`
-		Value    float32   `json:"value"`
+		Measure      string          `json:"measure"`
+		DateTime     time.Time       `json:"dateTime"`
+		ValueRawJson json.RawMessage `json:"value"`
+		ValueParsed  float32
 	} `json:"items"`
 }
 
@@ -53,10 +54,19 @@ func requestLatestReadings(updateC chan gauge.SnapshotUpdate) {
 		})
 
 		for _, item := range r.Items {
+			// the 'value' keys should be a float, but instances exist of arrays
+			// so we do a conditional parse and simply dump those that can't match.
+			err := json.Unmarshal(item.ValueRawJson, &item.ValueParsed)
+			if err != nil {
+				report.Info("update.corrupt.value",
+					report.Data{"url": item.Measure, "json": item.ValueRawJson})
+				continue
+			}
+
 			updateC <- gauge.SnapshotUpdate{
 				item.Measure,
 				item.DateTime,
-				item.Value,
+				item.ValueParsed,
 			}
 		}
 	}
