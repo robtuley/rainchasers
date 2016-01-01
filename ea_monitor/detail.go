@@ -71,6 +71,12 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 
 	snapshots := make([]gauge.Snapshot, len(measureArray))
 	for k, m := range measureArray {
+
+		v, u := normaliseUnit(m.Latest.Value, m.Unit)
+		if len(m.Unit) > 0 && len(u) == 0 {
+			report.Action("detail.unit.error", report.Data{"url": m.Url, "unit": m.Unit})
+		}
+
 		snapshots[k] = gauge.Snapshot{
 			m.Url,
 			s.Items.Url,
@@ -79,11 +85,36 @@ func requestStationDetail(url string) (error, []gauge.Snapshot) {
 			s.Items.Lat,
 			s.Items.Lg,
 			m.Type,
-			m.Unit,
+			u,
 			m.Latest.DateTime,
-			m.Latest.Value,
+			v,
 		}
+
 	}
 
 	return nil, snapshots
+}
+
+func normaliseUnit(value float32, qudtUnit string) (float32, string) {
+	switch qudtUnit {
+	case "http://qudt.org/1.1/vocab/unit#CubicMeterPerSecond":
+		return value, "CubicMetrePerSecond"
+	case "http://qudt.org/1.1/vocab/unit#DegreeCentigrade":
+		return value, "DegreeCentigrade"
+	case "http://qudt.org/1.1/vocab/unit#Meter":
+		return value, "Metre"
+	case "http://qudt.org/1.1/vocab/unit#MeterPerSecond":
+		return value, "MetrePerSecond"
+
+	case "http://qudt.org/1.1/vocab/unit#Knot":
+		return value * 0.514444, "MetrePerSecond"
+	case "http://qudt.org/1.1/vocab/unit#MegaLiterPerDay":
+		return value * 0.0115741, "CubicMetrePerSecond"
+	case "http://qudt.org/1.1/vocab/unit#Millimeter":
+		return value * 0.001, "Metre"
+	case "http://qudt.org/1.1/vocab/unit#LiterPerSecond":
+		return value * 0.001, "CubicMetrePerSecond"
+	}
+
+	return value, ""
 }
