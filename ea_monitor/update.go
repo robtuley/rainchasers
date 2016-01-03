@@ -19,17 +19,18 @@ type readingJson struct {
 }
 
 func requestLatestReadings(updateC chan gauge.SnapshotUpdate) {
-	batchSize := 100
-	lastBatchSize := batchSize
+	const BATCHSIZE = 100
+
+	lastBatchSize := BATCHSIZE
 	currentOffset := 0
 	baseUrl := "http://environment.data.gov.uk/flood-monitoring/data/readings" +
-		"?latest&_limit=" + strconv.Itoa(batchSize)
+		"?latest&_limit=" + strconv.Itoa(BATCHSIZE)
 
-	for lastBatchSize == batchSize {
+	for lastBatchSize > 0 {
 		waitOnApiRequestSchedule()
 
 		url := baseUrl + "&_offset=" + strconv.Itoa(currentOffset)
-		currentOffset = currentOffset + batchSize
+		currentOffset = currentOffset + BATCHSIZE
 		tick := report.Tick()
 
 		resp, err := doJsonRequest(url)

@@ -23,12 +23,13 @@ func discoverStationUrls(limit int) chan string {
 	urlC := make(chan string)
 
 	go func() {
-		nStations := 0
-		batchSize := 100
-		lastBatchSize := batchSize
+		const BATCHSIZE = 100
+
+		total := 0
+		lastBatchSize := BATCHSIZE
 		currentOffset := 0
 		baseUrl := "http://environment.data.gov.uk/flood-monitoring/id/stations" +
-			"?_limit=" + strconv.Itoa(batchSize)
+			"?_limit=" + strconv.Itoa(BATCHSIZE)
 
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
@@ -38,7 +39,7 @@ func discoverStationUrls(limit int) chan string {
 			waitOnApiRequestSchedule()
 
 			url := baseUrl + "&_offset=" + strconv.Itoa(currentOffset)
-			currentOffset = currentOffset + batchSize
+			currentOffset = currentOffset + BATCHSIZE
 			tick := report.Tick()
 
 			resp, err := doJsonRequest(url)
@@ -64,8 +65,8 @@ func discoverStationUrls(limit int) chan string {
 
 			for _, item := range s.Items {
 				urlC <- item.Url
-				nStations = nStations + 1
-				if nStations == limit {
+				total = total + 1
+				if total == limit {
 					break RequestLoop
 				}
 			}
