@@ -19,10 +19,11 @@ type stationListJson struct {
 //         log.Println(url)
 //     }
 //
-func discoverStationUrls() chan string {
+func discoverStationUrls(limit int) chan string {
 	urlC := make(chan string)
 
 	go func() {
+		nStations := 0
 		batchSize := 100
 		lastBatchSize := batchSize
 		currentOffset := 0
@@ -32,6 +33,7 @@ func discoverStationUrls() chan string {
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
 		// until we receive a completely empty set.
+	RequestLoop:
 		for lastBatchSize > 0 {
 			waitOnApiRequestSchedule()
 
@@ -62,6 +64,10 @@ func discoverStationUrls() chan string {
 
 			for _, item := range s.Items {
 				urlC <- item.Url
+				nStations = nStations + 1
+				if nStations == limit {
+					break RequestLoop
+				}
 			}
 		}
 
