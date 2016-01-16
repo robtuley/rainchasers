@@ -53,13 +53,16 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 	if before.Lg != after.Lg {
 		t.Error("Lg mis-match", after)
 	}
+	if before.Type != after.Type {
+		t.Error("Type mis-match", after)
+	}
+	if before.Unit != after.Unit {
+		t.Error("Unit mis-match", after)
+	}
 	if before.DateTime.Unix() != after.DateTime.Unix() {
 		t.Error("Timestamp mis-match", before.DateTime.Unix(), after.DateTime.Unix(), after)
 	}
 	if before.Value != after.Value {
 		t.Error("Value mis-match", after)
-	}
-	if before.Unit != after.Unit {
-		t.Error("Unit mis-match", after)
 	}
 }

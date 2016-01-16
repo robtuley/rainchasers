@@ -90,17 +90,27 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 			report.Action("detail.unit.error", report.Data{"url": m.Url, "unit": m.Unit})
 		}
 
+		switch m.Type {
+		case "flow", "level", "temperature":
+		case "wind":
+			// skip wind measures as not required
+			continue
+		default:
+			report.Action("detail.type.error", report.Data{"url": m.Url, "type": m.Type})
+			continue
+		}
+
 		snapshots = append(snapshots, gauge.Snapshot{
-			m.Url,
-			s.Items.Url,
-			s.Items.Name,
-			s.Items.RiverName,
-			s.Items.Lat,
-			s.Items.Lg,
-			m.Type,
-			u,
-			m.LatestParsed.DateTime,
-			v,
+			Url:        m.Url,
+			StationUrl: s.Items.Url,
+			Name:       s.Items.Name,
+			RiverName:  s.Items.RiverName,
+			Lat:        s.Items.Lat,
+			Lg:         s.Items.Lg,
+			Type:       m.Type,
+			Unit:       u,
+			DateTime:   m.LatestParsed.DateTime,
+			Value:      v,
 		})
 
 	}

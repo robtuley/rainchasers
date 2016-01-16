@@ -21,47 +21,44 @@ func init() {
       "doc": "URL for the gauge measurement",
       "type": "string",
       "name": "url"
-    },
-    {
+    },{
       "doc": "URL for the measuring station",
       "type": "string",
       "name": "station_url"
-    },
-    {
+    },{
       "doc": "Human-readable name of the measurement",
       "type": "string",
       "name": "name"
-    },
-    {
+    },{
       "doc": "Name of the river measured",
       "type": "string",
       "name": "river_name"
-    },
-    {
+    },{
       "doc": "Location latitude",
       "type": "float",
       "name": "lat"
-    },
-    {
+    },{
       "doc": "Location longitude",
       "type": "float",
       "name": "lg"
-    },
-    {
-      "doc": "Measurement value",
-      "type": "float",
-      "name": "value"
-    },
-    {
+    },{
       "doc": "Measurement unit",
       "type": {"type": "enum", "name": "unitValues",
                 "symbols": ["", "metre", "centigrade", "cumec", "metre_per_second"]},
       "name": "unit"
-    },
-    {
+    },{
+      "doc": "Measurement type",
+      "type": {"type": "enum", "name": "typeValues",
+                "symbols": ["level", "flow", "temperature"]},
+      "name": "type"
+    },{
       "doc": "Unix epoch time in seconds for snapshot",
       "type": "long",
       "name": "timestamp"
+    },{
+      "doc": "Measurement value",
+      "type": "float",
+      "name": "value"
     }
   ]
 }
@@ -89,9 +86,10 @@ func Encode(s Snapshot) (*bytes.Buffer, error) {
 	r.Set("river_name", s.RiverName)
 	r.Set("lat", s.Lat)
 	r.Set("lg", s.Lg)
-	r.Set("value", s.Value)
+	r.Set("type", s.Type)
 	r.Set("unit", s.Unit)
 	r.Set("timestamp", s.DateTime.Unix())
+	r.Set("value", s.Value)
 
 	if err = avroCodec.Encode(bb, r); err != nil {
 		return bb, err
@@ -140,17 +138,22 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 		return s, err
 	}
 
+	typeStr, err := r.Get("type")
+	if err != nil {
+		return s, err
+	}
+
+	unit, err := r.Get("unit")
+	if err != nil {
+		return s, err
+	}
+
 	timestamp, err := r.Get("timestamp")
 	if err != nil {
 		return s, err
 	}
 
 	value, err := r.Get("value")
-	if err != nil {
-		return s, err
-	}
-
-	unit, err := r.Get("unit")
 	if err != nil {
 		return s, err
 	}
@@ -162,7 +165,7 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 		RiverName:  riverName.(string),
 		Lat:        lat.(float32),
 		Lg:         lg.(float32),
-		Type:       "",
+		Type:       typeStr.(string),
 		Unit:       unit.(string),
 		DateTime:   time.Unix(timestamp.(int64), 0),
 		Value:      value.(float32),
