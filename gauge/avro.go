@@ -156,16 +156,16 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 	}
 
 	s = Snapshot{
-		url.(string),
-		stationUrl.(string),
-		name.(string),
-		riverName.(string),
-		lat.(float32),
-		lg.(float32),
-		"",
-		unit.(string),
-		time.Unix(timestamp.(int64), 0),
-		value.(float32),
+		Url:        url.(string),
+		StationUrl: stationUrl.(string),
+		Name:       name.(string),
+		RiverName:  riverName.(string),
+		Lat:        lat.(float32),
+		Lg:         lg.(float32),
+		Type:       "",
+		Unit:       unit.(string),
+		DateTime:   time.Unix(timestamp.(int64), 0),
+		Value:      value.(float32),
 	}
 
 	return s, nil
