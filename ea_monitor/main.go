@@ -10,10 +10,12 @@ import (
 	"github.com/robtuley/report"
 )
 
-// Responds to 3 environment variables:
-//   EA_MONITOR_DISCOVER_STATIONS_LIMIT (default no limit)
-//   EA_MONITOR_UPDATE_EVERY_X_SECONDS (default 15*60)
-//   EA_MONITOR_UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
+// Responds to environment variables:
+//   DISCOVER_STATIONS_LIMIT (default no limit)
+//   UPDATE_EVERY_X_SECONDS (default 15*60)
+//   UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
+//   GCLOUD_PROJECT_ID (no default)
+//   GCLOUD_PUBSUB_TOPIC (no default)
 //
 func main() {
 
@@ -24,22 +26,26 @@ func main() {
 	report.RuntimeStatsEvery(30 * time.Second)
 
 	// parse env vars
-	stationLimit, err := strconv.Atoi(os.Getenv("EA_MONITOR_DISCOVER_STATIONS_LIMIT"))
+	stationLimit, err := strconv.Atoi(os.Getenv("DISCOVER_STATIONS_LIMIT"))
 	if err != nil {
 		stationLimit = math.MaxInt32
 	}
-	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("EA_MONITOR_UPDATE_EVERY_X_SECONDS"))
+	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
 		updatePeriodSeconds = 15 * 60
 	}
-	updateCountOnShutdown, err := strconv.Atoi(os.Getenv("EA_MONITOR_UPDATE_COUNT_BEFORE_SHUTDOWN"))
+	updateCountOnShutdown, err := strconv.Atoi(os.Getenv("UPDATE_COUNT_BEFORE_SHUTDOWN"))
 	if err != nil {
 		updateCountOnShutdown = 100
 	}
+	projectId := os.Getenv("GCLOUD_PROJECT_ID")
+	topicName := os.Getenv("GCLOUD_PUBSUB_TOPIC")
 	report.Info("daemon.start", report.Data{
 		"station_limit":            stationLimit,
 		"update_period":            updatePeriodSeconds,
 		"update_count_on_shutdown": updateCountOnShutdown,
+		"project_id":               projectId,
+		"pubsub_topic":             topicName,
 	})
 
 	// init in-bounds channels & publisher
@@ -47,10 +53,33 @@ func main() {
 	updateSnapC := make(chan gauge.SnapshotUpdate, 10)
 	pubSnapC := applyUpdatesToRefSnaps(refSnapC, updateSnapC)
 
-	// blackhole pubSnapC (todo: send to Google pub/sub)
+	// publish snapshots to PubSub topic
+	ctx, err := gauge.NewContext(projectId, topicName)
+	if err != nil {
+		report.Action("gpubsub.connect.error", report.Data{"error": err.Error()})
+		return
+	}
 	go func() {
-		for s := range pubSnapC {
-			report.Info("gpubsub.snapshot", report.Data{"snapshot": s})
+		tickC := time.Tick(time.Second * 10)
+		n := 0
+		for {
+			select {
+			case s, is_ok := <-pubSnapC:
+				if !is_ok {
+					break
+				}
+				err := gauge.Publish(ctx, s)
+				n = n + 1
+				if err != nil {
+					report.Action("gpubsub.publish.error", report.Data{
+						"snapshot": s,
+						"error":    err.Error(),
+					})
+				}
+			case <-tickC:
+				report.Info("gpubsub.publish.ok", report.Data{"count": n})
+				n = 0
+			}
 		}
 	}()
 
@@ -73,4 +102,8 @@ func main() {
 		}
 		<-tick
 	}
+
+	close(updateSnapC)
+	close(pubSnapC)
+	report.Info("daemon.stop", report.Data{})
 }

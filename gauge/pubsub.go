@@ -21,6 +21,18 @@ func NewContext(projectId string, topicName string) (Context, error) {
 		return Context{}, err
 	}
 	ctx := cloud.NewContext(projectId, client)
+
+	exists, err := pubsub.TopicExists(ctx, topicName)
+	if err != nil {
+		return Context{}, err
+	}
+	if !exists {
+		err = pubsub.CreateTopic(ctx, topicName)
+		if err != nil {
+			return Context{}, err
+		}
+	}
+
 	return Context{
 		PubSubContext: ctx,
 		TopicName:     topicName,
