@@ -4,17 +4,22 @@ machine:
 
 dependencies:
   pre:
-    - GO15VENDOREXPERIMENT=1 go build -o ./ea_monitor/ea_monitor -a ./ea_monitor
+    - go get golang.org/x/net/context
+    - go get golang.org/x/oauth2/google
+    - go get google.golang.org/cloud
+    - go get google.golang.org/cloud/pubsub
+    - go get github.com/linkedin/goavro
+    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor
   override:
-    - docker build -t quay.io/robtuley/com.rainchasers.gauge.ea_monitor ./ea_monitor
+    - docker build -t quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM .
 
 test:
   override:
-    - docker run -e EA_MONITOR_DISCOVER_STATIONS_LIMIT=2 -e EA_MONITOR_UPDATE_EVERY_X_SECONDS=5 EA_MONITOR_UPDATE_COUNT_BEFORE_SHUTDOWN=1 quay.io/robtuley/com.rainchasers.gauge.ea_monitor > ~/eam.log
+    - go test ./gauge/
 
 deployment:
   hub: 
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PWD $DOCKER_URL
-      - docker push quay.io/robtuley/com.rainchasers.gauge.ea_monitor
+      - docker push quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM
