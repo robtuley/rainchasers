@@ -3,6 +3,11 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "2402d76f3d41f928c7902a765dfc872356dd3aad",
+			"revisionTime": "2016-01-06T12:58:00+11:00"
+		},
+		{
 			"path": "github.com/golang/snappy",
 			"revision": "723cc1e459b8eea2dea4583200fd60757d40097a",
 			"revisionTime": "2015-07-30T13:18:44+10:00"
@@ -16,6 +21,151 @@
 			"path": "github.com/robtuley/report",
 			"revision": "6facc1e8246681a934f92ec15dba17e116cf0572",
 			"revisionTime": "2015-03-10T07:58:44Z"
+		},
+		{
+			"path": "golang.org/x/net/context",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/net/context/ctxhttp",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/net/http2",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/net/http2/hpack",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/net/internal/timeseries",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/net/trace",
+			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
+			"revisionTime": "2016-01-06T17:41:05Z"
+		},
+		{
+			"path": "golang.org/x/oauth2",
+			"revision": "2baa8a1b9338cf13d9eeb27696d761155fa480be",
+			"revisionTime": "2015-12-03T13:21:41-08:00"
+		},
+		{
+			"path": "golang.org/x/oauth2/google",
+			"revision": "2baa8a1b9338cf13d9eeb27696d761155fa480be",
+			"revisionTime": "2015-12-03T13:21:41-08:00"
+		},
+		{
+			"path": "golang.org/x/oauth2/internal",
+			"revision": "2baa8a1b9338cf13d9eeb27696d761155fa480be",
+			"revisionTime": "2015-12-03T13:21:41-08:00"
+		},
+		{
+			"path": "golang.org/x/oauth2/jws",
+			"revision": "2baa8a1b9338cf13d9eeb27696d761155fa480be",
+			"revisionTime": "2015-12-03T13:21:41-08:00"
+		},
+		{
+			"path": "golang.org/x/oauth2/jwt",
+			"revision": "2baa8a1b9338cf13d9eeb27696d761155fa480be",
+			"revisionTime": "2015-12-03T13:21:41-08:00"
+		},
+		{
+			"path": "google.golang.org/api/gensupport",
+			"revision": "f5b7ec483f357a211c03c6722a840444c2d395dc",
+			"revisionTime": "2016-01-06T14:29:43+11:00"
+		},
+		{
+			"path": "google.golang.org/api/googleapi",
+			"revision": "f5b7ec483f357a211c03c6722a840444c2d395dc",
+			"revisionTime": "2016-01-06T14:29:43+11:00"
+		},
+		{
+			"path": "google.golang.org/api/googleapi/internal/uritemplates",
+			"revision": "f5b7ec483f357a211c03c6722a840444c2d395dc",
+			"revisionTime": "2016-01-06T14:29:43+11:00"
+		},
+		{
+			"path": "google.golang.org/api/pubsub/v1",
+			"revision": "f5b7ec483f357a211c03c6722a840444c2d395dc",
+			"revisionTime": "2016-01-06T14:29:43+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud/compute/metadata",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud/internal",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud/internal/opts",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud/internal/transport",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/cloud/pubsub",
+			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
+			"revisionTime": "2016-01-05T15:27:56+11:00"
+		},
+		{
+			"path": "google.golang.org/grpc",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/codes",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/credentials",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/credentials/oauth",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/grpclog",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/metadata",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/naming",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
+		},
+		{
+			"path": "google.golang.org/grpc/transport",
+			"revision": "78905999da08d7f87d5dd11608fa79ff8700daa8",
+			"revisionTime": "2015-12-22T15:13:58-08:00"
 		}
 	]
 }
