@@ -27,4 +27,9 @@ Daemon that polls the [EA Real Time Data API](http://environment.data.gov.uk/flo
 2. *Station Metadata* (`detail.go`): for each station get the required meta-data. The need for the Lg/Lat means an individual request needs to be made for each station.
 3. *Measurement Update* (`update.go`): paginates through all measurements and publishes the latest measurement combined (`combine.go`) with the already gathered meta-data.
 
-A standard API http request library (`http.go`) throttles the requests into the EA API.  
+A standard API http request library (`http.go`) throttles the requests into the EA API.
+
+Kubernetes
+----------
+
+Appropriate `replication-controller.yml` are found in each application directory for deployment into Kubernetes.

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ea-monitor
+  labels:
+    name: ea-monitor
+spec:
+  replicas: 1
+  selector:
+    name: ea-monitor
+  template:
+    metadata:
+      labels:
+        name: ea-monitor
+    spec:
+      containers:
+      - name: ea-monitor-v4
+        image: quay.io/rainchasers/ea_monitor:v4
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: GCLOUD_PROJECT_ID
+          value: tuleyprod
+        - name: GCLOUD_PUBSUB_TOPIC
+          value: com.rainchasers.gauge.latest
