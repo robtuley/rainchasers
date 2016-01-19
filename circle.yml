@@ -13,9 +13,9 @@ dependencies:
     - ln -s `pwd`/vendor/github.com/robtuley /usr/local/go/src/github.com/robtuley
     - mkdir -p /usr/local/go/src/github.com/rainchasers
     - ln -s `pwd` /usr/local/go/src/github.com/rainchasers/com.rainchasers.gauge
-    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor
   override:
-    - docker build -t quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM .
+    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor && docker build -t quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM .
+    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM .
 
 test:
   override:
@@ -27,3 +27,4 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PWD $DOCKER_URL
       - docker push quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM
+      - docker push quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM
