@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: gauge-bigquery
+  labels:
+    name: gauge-bigquery
+spec:
+  replicas: 1
+  selector:
+    name: gauge-bigquery
+  template:
+    metadata:
+      labels:
+        name: gauge-bigquery
+    spec:
+      containers:
+      - name: gauge-bigquery-v7
+        image: quay.io/rainchasers/gauge_bigquery:v7
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: GCLOUD_PROJECT_ID
+          value: tuleyprod
+        - name: GCLOUD_PUBSUB_TOPIC
+          value: com.rainchasers.gauge.latest
