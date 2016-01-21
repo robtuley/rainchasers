@@ -1,6 +1,9 @@
 package gauge
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"io"
 	"time"
 )
 
@@ -30,4 +33,10 @@ func (s Snapshot) Apply(u SnapshotUpdate) Snapshot {
 	s.DateTime = u.DateTime
 	s.Value = u.Value
 	return s
+}
+
+func (s Snapshot) InsertId() string {
+	h := sha256.New()
+	io.WriteString(h, s.DateTime.Format(time.RFC822)+s.Url)
+	return hex.EncodeToString(h.Sum(nil))
 }
