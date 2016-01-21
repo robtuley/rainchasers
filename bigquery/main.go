@@ -45,9 +45,15 @@ func main() {
 		}
 	}()
 
-	// consume & log
+	// consume, de-dup & encode to csv, writing every
+	// hour to cloud storage
+	dedup := newDeDupeCache(10000)
 	for s := range snapC {
-		report.Action("gpubsub.consume.ok", report.Data{"snapshot": s})
+		id := s.InsertId()
+		if !dedup.Exists(id) {
+			report.Info("gpubsub.consume.ok", report.Data{"snapshot": s})
+		}
+		dedup.Set(id)
 	}
 
 	report.Info("daemon.stop", report.Data{})
