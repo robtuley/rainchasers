@@ -8,6 +8,11 @@ import (
 	"github.com/robtuley/report"
 )
 
+type actionableEvent struct {
+	EventName string
+	Message   string
+}
+
 // Responds to environment variables:
 //   GCLOUD_PROJECT_ID (no default)
 //   GCLOUD_PUBSUB_TOPIC (no default)
@@ -28,32 +33,57 @@ func main() {
 		"pubsub_topic": topicName,
 	})
 
+	// setup actionable events channel
+	actionC := make(chan actionableEvent)
+
 	// consume snapshots from pubsub
 	ctx, err := gauge.NewContext(projectId, topicName)
 	if err != nil {
-		report.Action("gpubsub.connect.error", report.Data{"error": err.Error()})
+		report.Action("connect.error", report.Data{"error": err.Error()})
 		return
 	}
-	snapC, errC, err := gauge.Consume(ctx, "snap-to-bigquery")
+	snapC, snapErrC, err := gauge.Consume(ctx, "snap-to-bigquery")
 	if err != nil {
-		report.Action("gpubsub.consume.error", report.Data{"error": err.Error()})
+		report.Action("consume.error", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
-		for err := range errC {
-			report.Action("gpubsub.consume.error", report.Data{"error": err.Error()})
+		for err := range snapErrC {
+			actionC <- actionableEvent{"consume.error", err.Error()}
 		}
 	}()
 
-	// consume, de-dup & encode to csv, writing every
-	// hour to cloud storage
-	dedup := newDeDupeCache(10000)
-	for s := range snapC {
-		id := s.InsertId()
-		if !dedup.Exists(id) {
-			report.Info("gpubsub.consume.ok", report.Data{"snapshot": s})
+	// preliminary in-memory de-dup
+	dedupC := make(chan gauge.Snapshot, 10)
+	go func() {
+		cache := newDeDupeCache(10000)
+		for s := range snapC {
+			id := s.InsertId()
+			if !cache.Exists(id) {
+				dedupC <- s
+			}
+			cache.Set(id)
 		}
-		dedup.Set(id)
+	}()
+
+	// buffer in-memory, flush to long-term CSV file storage
+	_, csvErrC, err := bufferAndFlushToCsv(dedupC)
+	if err != nil {
+		report.Action("csv.error", report.Data{"error": err.Error()})
+		return
+	}
+	go func() {
+		for err := range csvErrC {
+			actionC <- actionableEvent{"csv.error", err.Error()}
+		}
+	}()
+
+	// todo: load CSV file into bigquery table then perform
+	// final dedup and load queries
+
+	// log any actionable events.
+	for e := range actionC {
+		report.Action(e.EventName, report.Data{"error": e.Message})
 	}
 
 	report.Info("daemon.stop", report.Data{})
