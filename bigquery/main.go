@@ -16,6 +16,7 @@ type actionableEvent struct {
 // Responds to environment variables:
 //   GCLOUD_PROJECT_ID (no default)
 //   GCLOUD_PUBSUB_TOPIC (no default)
+//   GCLOUD_BUCKET_NAME (no default)
 //
 func main() {
 
@@ -28,9 +29,11 @@ func main() {
 	// parse env vars
 	projectId := os.Getenv("GCLOUD_PROJECT_ID")
 	topicName := os.Getenv("GCLOUD_PUBSUB_TOPIC")
+	bucketName := os.Getenv("GCLOUD_BUCKET_NAME")
 	report.Info("daemon.start", report.Data{
 		"project_id":   projectId,
 		"pubsub_topic": topicName,
+		"bucket_name":  bucketName,
 	})
 
 	// setup actionable events channel
@@ -67,7 +70,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	_, csvErrC, err := bufferAndFlushToCsv(dedupC)
+	_, csvErrC, err := bufferAndFlushToCsv(dedupC, projectId, bucketName)
 	if err != nil {
 		report.Action("csv.error", report.Data{"error": err.Error()})
 		return
