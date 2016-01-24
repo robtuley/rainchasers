@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"io"
+	"strings"
 	"time"
 )
 
@@ -37,6 +38,12 @@ func (s Snapshot) Apply(u SnapshotUpdate) Snapshot {
 
 func (s Snapshot) InsertId() string {
 	h := sha256.New()
-	io.WriteString(h, s.DateTime.Format(time.RFC822)+s.Url)
+	io.WriteString(h, s.DateTime.Format(time.RFC822)+strings.ToLower(s.Url))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+func (s Snapshot) MetricId() string {
+	h := sha256.New()
+	io.WriteString(h, strings.ToLower(s.Url))
 	return hex.EncodeToString(h.Sum(nil))
 }

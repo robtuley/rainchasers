@@ -55,7 +55,8 @@ func singleBatchCsvEncodeAndWrite(
 	nextBatchSignalC chan<- bool,
 	batchSize int,
 ) {
-	fileName := "v1/" + strconv.FormatInt(time.Now().UnixNano(), 10) + ".csv"
+	now := time.Now()
+	fileName := now.Format("2006/01/02/") + strconv.FormatInt(now.UnixNano(), 10) + ".csv"
 
 	gw := bucket.Object(fileName).NewWriter(gContext)
 	gw.ContentType = "text/csv"
@@ -90,10 +91,9 @@ ThisBatch:
 
 func snap2Record(s gauge.Snapshot) []string {
 	return []string{
+		s.InsertId(),
+		s.MetricId(),
 		s.Url,
-		s.StationUrl,
-		s.Name,
-		s.RiverName,
 		strconv.FormatFloat(float64(s.Lat), 'f', -1, 32),
 		strconv.FormatFloat(float64(s.Lg), 'f', -1, 32),
 		s.Type,
