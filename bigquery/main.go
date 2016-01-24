@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
@@ -30,11 +31,16 @@ func main() {
 	projectId := os.Getenv("GCLOUD_PROJECT_ID")
 	topicName := os.Getenv("GCLOUD_PUBSUB_TOPIC")
 	bucketName := os.Getenv("GCLOUD_BUCKET_NAME")
+	batchSize, err := strconv.Atoi(os.Getenv("SNAPSHOT_BATCH_SIZE"))
+	if err != nil {
+		batchSize = 1000
+	}
 
 	report.Info("daemon.start", report.Data{
 		"project_id":   projectId,
 		"pubsub_topic": topicName,
 		"bucket_name":  bucketName,
+		"batch_size":   batchSize,
 	})
 
 	// setup actionable events channel
@@ -71,7 +77,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, 1000, dedupC)
+	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, batchSize, dedupC)
 	if err != nil {
 		report.Action("csv.error", report.Data{"error": err.Error()})
 		return
