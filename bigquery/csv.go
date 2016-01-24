@@ -12,8 +12,14 @@ import (
 	"google.golang.org/cloud/storage"
 )
 
-func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC <-chan gauge.Snapshot) (<-chan string, <-chan error, error) {
-	csvC := make(chan string)
+type CSVFile struct {
+	Id     string
+	Bucket string
+	Object string
+}
+
+func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error, error) {
+	csvC := make(chan CSVFile)
 	errC := make(chan error)
 
 	// auth with Google storage, and get bucket handle
@@ -24,13 +30,11 @@ func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC
 	}
 	ctx := cloud.NewContext(projectId, client)
 
-	gcs, err := storage.NewClient(ctx)
+	sClient, err := storage.NewClient(ctx)
 	if err != nil {
 		return csvC, errC, err
 	}
-	defer gcs.Close()
-
-	bucket := gcs.Bucket(bucketName)
+	defer sClient.Close()
 
 	// maintain a single go-routine encoding snapC
 	// to csv, then flush to google storage
@@ -38,7 +42,7 @@ func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC
 	nextBatchSignalC := make(chan bool)
 	go func() {
 		for {
-			go singleBatchCsvEncodeAndWrite(ctx, bucket, snapC, csvC, errC, nextBatchSignalC, batchSize)
+			go singleBatchCsvEncodeAndWrite(ctx, sClient, bucketName, snapC, csvC, errC, nextBatchSignalC, batchSize)
 			<-nextBatchSignalC
 		}
 	}()
@@ -48,17 +52,24 @@ func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC
 
 func singleBatchCsvEncodeAndWrite(
 	gContext context.Context,
-	bucket *storage.BucketHandle,
+	gClient *storage.Client,
+	bucketName string,
 	snapC <-chan gauge.Snapshot,
-	csvC chan<- string,
+	csvC chan<- CSVFile,
 	errC chan<- error,
 	nextBatchSignalC chan<- bool,
 	batchSize int,
 ) {
 	now := time.Now()
-	fileName := now.Format("2006/01/02/") + strconv.FormatInt(now.UnixNano(), 10) + ".csv"
+	id := strconv.FormatInt(now.UnixNano(), 10)
+	file := CSVFile{
+		Id:     id,
+		Bucket: bucketName,
+		Object: now.Format("2006/01/02/") + id + ".csv",
+	}
 
-	gw := bucket.Object(fileName).NewWriter(gContext)
+	bucket := gClient.Bucket(bucketName)
+	gw := bucket.Object(file.Object).NewWriter(gContext)
 	gw.ContentType = "text/csv"
 
 	cw := csv.NewWriter(gw)
@@ -86,7 +97,7 @@ ThisBatch:
 		errC <- err
 	}
 
-	csvC <- fileName
+	csvC <- file
 }
 
 func snap2Record(s gauge.Snapshot) []string {

@@ -90,9 +90,14 @@ func main() {
 
 	// todo: load CSV file into bigquery table then perform
 	// final dedup and load queries
+	bqErrC, err := loadCSVIntoBigQuery(projectId, "rainchasers", "gauge_reading", csvC)
+	if err != nil {
+		report.Action("bigquery.error", report.Data{"error": err.Error()})
+		return
+	}
 	go func() {
-		for fileName := range csvC {
-			report.Info("csv.write", report.Data{"filename": fileName})
+		for err := range bqErrC {
+			actionC <- actionableEvent{"bigquery.error", err.Error()}
 		}
 	}()
 
