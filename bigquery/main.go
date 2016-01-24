@@ -70,7 +70,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	_, csvErrC, err := bufferAndFlushToCsv(dedupC, projectId, bucketName)
+	csvC, csvErrC, err := bufferAndFlushToCsv(dedupC, projectId, bucketName, 1000)
 	if err != nil {
 		report.Action("csv.error", report.Data{"error": err.Error()})
 		return
@@ -83,6 +83,11 @@ func main() {
 
 	// todo: load CSV file into bigquery table then perform
 	// final dedup and load queries
+	go func() {
+		for fileName := range csvC {
+			report.Info("csv.write", report.Data{"filename": fileName})
+		}
+	}()
 
 	// log any actionable events.
 	for e := range actionC {
