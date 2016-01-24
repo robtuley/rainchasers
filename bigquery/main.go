@@ -30,6 +30,7 @@ func main() {
 	projectId := os.Getenv("GCLOUD_PROJECT_ID")
 	topicName := os.Getenv("GCLOUD_PUBSUB_TOPIC")
 	bucketName := os.Getenv("GCLOUD_BUCKET_NAME")
+
 	report.Info("daemon.start", report.Data{
 		"project_id":   projectId,
 		"pubsub_topic": topicName,
@@ -70,7 +71,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	csvC, csvErrC, err := bufferAndFlushToCsv(dedupC, projectId, bucketName, 1000)
+	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, 1000, dedupC)
 	if err != nil {
 		report.Action("csv.error", report.Data{"error": err.Error()})
 		return
