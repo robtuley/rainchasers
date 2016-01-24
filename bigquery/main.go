@@ -40,12 +40,12 @@ func main() {
 	actionC := make(chan actionableEvent)
 
 	// consume snapshots from pubsub
-	ctx, err := gauge.NewContext(projectId, topicName)
+	ctx, err := gauge.NewPubSubContext(projectId, topicName)
 	if err != nil {
 		report.Action("connect.error", report.Data{"error": err.Error()})
 		return
 	}
-	snapC, snapErrC, err := gauge.Consume(ctx, "snap-to-bigquery")
+	snapC, snapErrC, err := gauge.Subscribe(ctx, "snap-to-bigquery")
 	if err != nil {
 		report.Action("consume.error", report.Data{"error": err.Error()})
 		return

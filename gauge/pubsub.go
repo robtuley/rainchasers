@@ -10,60 +10,60 @@ import (
 	"google.golang.org/cloud/pubsub"
 )
 
-type Context struct {
-	PubSubContext context.Context
+type PubSubContext struct {
+	GoogleContext context.Context
 	TopicName     string
 }
 
-func NewContext(projectId string, topicName string) (Context, error) {
+func NewPubSubContext(projectId string, topicName string) (PubSubContext, error) {
 	client, err := google.DefaultClient(context.Background(), pubsub.ScopePubSub)
 	if err != nil {
-		return Context{}, err
+		return PubSubContext{}, err
 	}
 	ctx := cloud.NewContext(projectId, client)
 
 	exists, err := pubsub.TopicExists(ctx, topicName)
 	if err != nil {
-		return Context{}, err
+		return PubSubContext{}, err
 	}
 	if !exists {
 		err = pubsub.CreateTopic(ctx, topicName)
 		if err != nil {
-			return Context{}, err
+			return PubSubContext{}, err
 		}
 	}
 
-	return Context{
-		PubSubContext: ctx,
+	return PubSubContext{
+		GoogleContext: ctx,
 		TopicName:     topicName,
 	}, nil
 }
 
-func Publish(ctx Context, snap Snapshot) error {
+func Publish(ctx PubSubContext, snap Snapshot) error {
 	bb, err := Encode(snap)
 	if err != nil {
 		return err
 	}
 
-	_, err = pubsub.Publish(ctx.PubSubContext, ctx.TopicName, &pubsub.Message{
+	_, err = pubsub.Publish(ctx.GoogleContext, ctx.TopicName, &pubsub.Message{
 		Data: bb.Bytes(),
 	})
 	return err
 }
 
-func Consume(ctx Context, subName string) (<-chan Snapshot, <-chan error, error) {
+func Subscribe(ctx PubSubContext, subName string) (<-chan Snapshot, <-chan error, error) {
 	snapC := make(chan Snapshot, 100)
 	errC := make(chan error, 10)
 	ackDeadline := time.Second * 10
 
-	isSub, err := pubsub.SubExists(ctx.PubSubContext, subName)
+	isSub, err := pubsub.SubExists(ctx.GoogleContext, subName)
 	if err != nil {
 		close(snapC)
 		close(errC)
 		return snapC, errC, err
 	}
 	if !isSub {
-		err = pubsub.CreateSub(ctx.PubSubContext, subName, ctx.TopicName, ackDeadline, "")
+		err = pubsub.CreateSub(ctx.GoogleContext, subName, ctx.TopicName, ackDeadline, "")
 		if err != nil {
 			close(snapC)
 			close(errC)
@@ -73,7 +73,7 @@ func Consume(ctx Context, subName string) (<-chan Snapshot, <-chan error, error)
 
 	go func() {
 		for {
-			msgs, err := pubsub.PullWait(ctx.PubSubContext, subName, 10)
+			msgs, err := pubsub.PullWait(ctx.GoogleContext, subName, 10)
 			if err != nil {
 				errC <- err
 				continue
@@ -81,7 +81,7 @@ func Consume(ctx Context, subName string) (<-chan Snapshot, <-chan error, error)
 
 			for _, m := range msgs {
 				snap, decodeErr := Decode(bytes.NewBuffer(m.Data))
-				ackErr := pubsub.Ack(ctx.PubSubContext, subName, m.AckID)
+				ackErr := pubsub.Ack(ctx.GoogleContext, subName, m.AckID)
 				if decodeErr != nil {
 					errC <- decodeErr
 				} else {

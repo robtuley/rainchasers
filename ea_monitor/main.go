@@ -54,9 +54,9 @@ func main() {
 	pubSnapC := applyUpdatesToRefSnaps(refSnapC, updateSnapC)
 
 	// publish snapshots to PubSub topic
-	ctx, err := gauge.NewContext(projectId, topicName)
+	ctx, err := gauge.NewPubSubContext(projectId, topicName)
 	if err != nil {
-		report.Action("gpubsub.connect.error", report.Data{"error": err.Error()})
+		report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
@@ -71,13 +71,13 @@ func main() {
 				err := gauge.Publish(ctx, s)
 				n = n + 1
 				if err != nil {
-					report.Action("gpubsub.publish.error", report.Data{
+					report.Action("pubsub.publish.error", report.Data{
 						"snapshot": s,
 						"error":    err.Error(),
 					})
 				}
 			case <-tickC:
-				report.Info("gpubsub.publish.ok", report.Data{"count": n})
+				report.Info("pubsub.publish.ok", report.Data{"count": n})
 				n = 0
 			}
 		}
