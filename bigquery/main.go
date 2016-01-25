@@ -20,6 +20,7 @@ type actionableEvent struct {
 //   BUCKET_NAME (no default)
 //   BIGQUERY_DATASET (no default)
 //   BIGQUERY_TABLE (no default)
+//   SNAPSHOT_BATCH_SIZE (defaut 1000)
 //
 func main() {
 

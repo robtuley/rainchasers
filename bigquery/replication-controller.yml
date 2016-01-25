@@ -14,12 +14,20 @@ spec:
         name: gauge-bigquery
     spec:
       containers:
-      - name: gauge-bigquery-v7
-        image: quay.io/rainchasers/gauge_bigquery:v7
+      - name: gauge-bigquery-v9
+        image: quay.io/rainchasers/gauge_bigquery:v9
         env:
         - name: GET_HOSTS_FROM
           value: dns
-        - name: GCLOUD_PROJECT_ID
+        - name: PROJECT_ID
           value: tuleyprod
-        - name: GCLOUD_PUBSUB_TOPIC
+        - name: PUBSUB_TOPIC
           value: com.rainchasers.gauge.latest
+        - name: BUCKET_NAME
+          value: com-rainchasers-gauge-csv
+        - name: BIGQUERY_DATASET
+          value: rainchasers
+        - name: BIGQUERY_TABLE
+          value: gauge_reading
+        - name: SNAPSHOT_BATCH_SIZE
+          value: 1000
