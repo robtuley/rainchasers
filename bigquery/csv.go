@@ -13,9 +13,12 @@ import (
 )
 
 type CSVFile struct {
-	Id     string
-	Bucket string
-	Object string
+	Id                string
+	Bucket            string
+	Object            string
+	BatchSize         int
+	ListenNanoseconds int64
+	WriteNanoseconds  int64
 }
 
 func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error, error) {
@@ -60,16 +63,13 @@ func singleBatchCsvEncodeAndWrite(
 	nextBatchSignalC chan<- bool,
 	batchSize int,
 ) {
-	now := time.Now()
-	id := strconv.FormatInt(now.UnixNano(), 10)
-	file := CSVFile{
-		Id:     id,
-		Bucket: bucketName,
-		Object: now.Format("2006/01/02/") + id + ".csv",
-	}
+	startListenTime := time.Now()
+
+	id := strconv.FormatInt(startListenTime.UnixNano(), 10)
+	objectName := startListenTime.Format("2006/01/02/") + id + ".csv"
 
 	bucket := gClient.Bucket(bucketName)
-	gw := bucket.Object(file.Object).NewWriter(gContext)
+	gw := bucket.Object(objectName).NewWriter(gContext)
 	gw.ContentType = "text/csv"
 
 	cw := csv.NewWriter(gw)
@@ -88,8 +88,10 @@ ThisBatch:
 		}
 	}
 
-	cw.Flush()
+	listenDuration := time.Now().Sub(startListenTime)
+	startWriteTime := time.Now()
 
+	cw.Flush()
 	if err := cw.Error(); err != nil {
 		errC <- err
 	}
@@ -97,7 +99,15 @@ ThisBatch:
 		errC <- err
 	}
 
-	csvC <- file
+	writeDuration := time.Now().Sub(startWriteTime)
+	csvC <- CSVFile{
+		Id:                id,
+		Bucket:            bucketName,
+		Object:            objectName,
+		BatchSize:         batchSize,
+		ListenNanoseconds: listenDuration.Nanoseconds(),
+		WriteNanoseconds:  writeDuration.Nanoseconds(),
+	}
 }
 
 func snap2Record(s gauge.Snapshot) []string {

@@ -49,17 +49,17 @@ func main() {
 	// consume snapshots from pubsub
 	ctx, err := gauge.NewPubSubContext(projectId, topicName)
 	if err != nil {
-		report.Action("connect.error", report.Data{"error": err.Error()})
+		report.Action("error.connect", report.Data{"error": err.Error()})
 		return
 	}
 	snapC, snapErrC, err := gauge.Subscribe(ctx, "snap-to-bigquery")
 	if err != nil {
-		report.Action("consume.error", report.Data{"error": err.Error()})
+		report.Action("error.consume", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
 		for err := range snapErrC {
-			actionC <- actionableEvent{"consume.error", err.Error()}
+			actionC <- actionableEvent{"error.consume", err.Error()}
 		}
 	}()
 
@@ -79,25 +79,32 @@ func main() {
 	// buffer in-memory, flush to long-term CSV file storage
 	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, batchSize, dedupC)
 	if err != nil {
-		report.Action("csv.error", report.Data{"error": err.Error()})
+		report.Action("error.csv", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
 		for err := range csvErrC {
-			actionC <- actionableEvent{"csv.error", err.Error()}
+			actionC <- actionableEvent{"error.csv", err.Error()}
 		}
 	}()
 
-	// todo: load CSV file into bigquery table then perform
-	// final dedup and load queries
-	bqErrC, err := loadCSVIntoBigQuery(projectId, "rainchasers", "gauge_reading", csvC)
+	// load CSV file into bigquery table
+	batchStatusC, bqErrC, err := loadCSVIntoBigQuery(projectId, "rainchasers", "gauge_reading", csvC)
 	if err != nil {
-		report.Action("bigquery.error", report.Data{"error": err.Error()})
+		report.Action("error.bigquery", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
 		for err := range bqErrC {
-			actionC <- actionableEvent{"bigquery.error", err.Error()}
+			actionC <- actionableEvent{"error.bigquery", err.Error()}
+		}
+	}()
+	go func() {
+		for s := range batchStatusC {
+			report.Info("job.status", report.Data{
+				"file": s.File,
+				"jobs": s.Jobs,
+			})
 		}
 	}()
 

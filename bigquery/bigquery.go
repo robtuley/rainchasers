@@ -8,37 +8,58 @@ import (
 	"google.golang.org/cloud/bigquery"
 )
 
-func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) (<-chan error, error) {
+type BigQueryJobStatus struct {
+	Id          string
+	Label       string
+	Nanoseconds int64
+}
+
+type BatchStatus struct {
+	File CSVFile
+	Jobs []BigQueryJobStatus
+}
+
+func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) (<-chan BatchStatus, <-chan error, error) {
 	errC := make(chan error)
+	batchStatusC := make(chan BatchStatus)
 
 	client, err := google.DefaultClient(context.Background(), bigquery.Scope)
 	if err != nil {
-		return errC, err
+		return batchStatusC, errC, err
 	}
 	bqClient, err := bigquery.NewClient(client, projectId)
 	if err != nil {
-		return errC, err
+		return batchStatusC, errC, err
 	}
 
-	for f := range csvC {
-		go func(file CSVFile) {
-			tempTableId := tableId + "_with_dups"
-			err := loadSingleCSVFileIntoBigQuery(
-				bqClient, projectId,
-				file.Bucket, file.Object,
-				datasetId, tempTableId,
-			)
-			if err != nil {
-				errC <- err
-			}
+	go func() {
+		for f := range csvC {
+			go func(file CSVFile) {
+				status := BatchStatus{
+					File: file,
+					Jobs: make([]BigQueryJobStatus, 1),
+				}
+				var err error
 
-		}(f)
-	}
+				dupTableId := tableId + "_with_dups"
+				status.Jobs[0], err = loadSingleCSVFileIntoBigQuery(
+					bqClient, projectId,
+					file.Bucket, file.Object,
+					datasetId, dupTableId,
+				)
+				if err != nil {
+					errC <- err
+				}
 
-	return errC, err
+				batchStatusC <- status
+			}(f)
+		}
+	}()
+
+	return batchStatusC, errC, err
 }
 
-func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bucketName string, objectName string, datasetId string, tableId string) error {
+func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bucketName string, objectName string, datasetId string, tableId string) (BigQueryJobStatus, error) {
 
 	table := bigquery.Table{
 		ProjectID: projectId,
@@ -102,23 +123,32 @@ func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bu
 		bigquery.DestinationSchema(schema),
 		bigquery.MaxBadRecords(1),
 	)
+	status := BigQueryJobStatus{
+		Id:    job.ID(),
+		Label: "csv.load." + tableId,
+	}
 	if err != nil {
-		return err
+		return status, err
 	}
 
+	waitStartTime := time.Now()
+
 	for range time.Tick(time.Second * 5) {
-		status, err := job.Status(context.Background())
+		s, err := job.Status(context.Background())
 		if err != nil {
-			return err
+			return status, err
 		}
-		if !status.Done() {
+		if !s.Done() {
 			continue
 		}
-		if err := status.Err(); err != nil {
-			return err
+		if err := s.Err(); err != nil {
+			return status, err
 		}
 		break
 	}
 
-	return nil
+	waitDuration := time.Now().Sub(waitStartTime)
+	status.Nanoseconds = waitDuration.Nanoseconds()
+
+	return status, nil
 }
