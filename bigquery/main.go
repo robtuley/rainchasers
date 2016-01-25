@@ -15,9 +15,11 @@ type actionableEvent struct {
 }
 
 // Responds to environment variables:
-//   GCLOUD_PROJECT_ID (no default)
-//   GCLOUD_PUBSUB_TOPIC (no default)
-//   GCLOUD_BUCKET_NAME (no default)
+//   PROJECT_ID (no default)
+//   PUBSUB_TOPIC (no default)
+//   BUCKET_NAME (no default)
+//   BIGQUERY_DATASET (no default)
+//   BIGQUERY_TABLE (no default)
 //
 func main() {
 
@@ -28,9 +30,11 @@ func main() {
 	report.RuntimeStatsEvery(30 * time.Second)
 
 	// parse env vars
-	projectId := os.Getenv("GCLOUD_PROJECT_ID")
-	topicName := os.Getenv("GCLOUD_PUBSUB_TOPIC")
-	bucketName := os.Getenv("GCLOUD_BUCKET_NAME")
+	projectId := os.Getenv("PROJECT_ID")
+	topicName := os.Getenv("PUBSUB_TOPIC")
+	bucketName := os.Getenv("BUCKET_NAME")
+	datasetId := os.Getenv("BIGQUERY_DATASET")
+	tableId := os.Getenv("BIGQUERY_TABLE")
 	batchSize, err := strconv.Atoi(os.Getenv("SNAPSHOT_BATCH_SIZE"))
 	if err != nil {
 		batchSize = 1000
@@ -41,6 +45,8 @@ func main() {
 		"pubsub_topic": topicName,
 		"bucket_name":  bucketName,
 		"batch_size":   batchSize,
+		"dataset":      datasetId,
+		"table":        tableId,
 	})
 
 	// setup actionable events channel
@@ -89,7 +95,7 @@ func main() {
 	}()
 
 	// load CSV file into bigquery table
-	batchStatusC, bqErrC, err := loadCSVIntoBigQuery(projectId, "rainchasers", "gauge_reading", csvC)
+	batchStatusC, bqErrC, err := loadCSVIntoBigQuery(projectId, datasetId, tableId, csvC)
 	if err != nil {
 		report.Action("error.bigquery", report.Data{"error": err.Error()})
 		return
