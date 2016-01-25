@@ -22,7 +22,7 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 
 	for f := range csvC {
 		go func(file CSVFile) {
-			tempTableId := tableId + "_" + file.Id
+			tempTableId := tableId + "_with_dups"
 			err := loadSingleCSVFileIntoBigQuery(
 				bqClient, projectId,
 				file.Bucket, file.Object,
