@@ -20,7 +20,8 @@ type actionableEvent struct {
 //   BUCKET_NAME (no default)
 //   BIGQUERY_DATASET (no default)
 //   BIGQUERY_TABLE (no default)
-//   SNAPSHOT_BATCH_SIZE (defaut 1000)
+//   MAX_BATCH_SIZE (default 1000)
+//   ERROR_COUNT_ON_EXIT (default 10)
 //
 func main() {
 
@@ -36,18 +37,22 @@ func main() {
 	bucketName := os.Getenv("BUCKET_NAME")
 	datasetId := os.Getenv("BIGQUERY_DATASET")
 	tableId := os.Getenv("BIGQUERY_TABLE")
-	batchSize, err := strconv.Atoi(os.Getenv("SNAPSHOT_BATCH_SIZE"))
+	maxBatchSize, err := strconv.Atoi(os.Getenv("MAX_BATCH_SIZE"))
 	if err != nil {
-		batchSize = 1000
+		maxBatchSize = 1000
+	}
+	errCountOnExit, err := strconv.Atoi(os.Getenv("ERROR_COUNT_ON_EXIT"))
+	if err != nil {
+		errCountOnExit = 10
 	}
 
 	report.Info("daemon.start", report.Data{
-		"project_id":   projectId,
-		"pubsub_topic": topicName,
-		"bucket_name":  bucketName,
-		"batch_size":   batchSize,
-		"dataset":      datasetId,
-		"table":        tableId,
+		"project_id":     projectId,
+		"pubsub_topic":   topicName,
+		"bucket_name":    bucketName,
+		"max_batch_size": maxBatchSize,
+		"dataset":        datasetId,
+		"table":          tableId,
 	})
 
 	// setup actionable events channel
@@ -84,7 +89,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, batchSize, dedupC)
+	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, maxBatchSize, dedupC)
 	if err != nil {
 		report.Action("error.csv", report.Data{"error": err.Error()})
 		return
@@ -116,8 +121,13 @@ func main() {
 	}()
 
 	// log any actionable events.
+	nErr := 0
 	for e := range actionC {
+		nErr += 1
 		report.Action(e.EventName, report.Data{"error": e.Message})
+		if nErr > errCountOnExit {
+			break
+		}
 	}
 
 	report.Info("daemon.stop", report.Data{})
