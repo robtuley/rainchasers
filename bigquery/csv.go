@@ -73,16 +73,25 @@ func singleBatchCsvEncodeAndWrite(
 	gw.ContentType = "text/csv"
 
 	cw := csv.NewWriter(gw)
-	n := 0
+	nBatch := 0
+	timeout := time.Tick(time.Minute * 20)
 
 ThisBatch:
-	for s := range snapC {
-		n += 1
-		r := snap2Record(s)
-		if err := cw.Write(r); err != nil {
-			errC <- err
-		}
-		if n >= batchSize {
+	for {
+		select {
+		case s := <-snapC:
+			nBatch += 1
+			r := snap2Record(s)
+			if err := cw.Write(r); err != nil {
+				errC <- err
+			}
+			if nBatch >= batchSize {
+				nextBatchSignalC <- true
+				break ThisBatch
+			}
+		case <-timeout:
+			// write early to maintain data flow and prevent
+			// Google auth timeout errors
 			nextBatchSignalC <- true
 			break ThisBatch
 		}
@@ -104,7 +113,7 @@ ThisBatch:
 		Id:                id,
 		Bucket:            bucketName,
 		Object:            objectName,
-		BatchSize:         batchSize,
+		BatchSize:         nBatch,
 		ListenNanoseconds: listenDuration.Nanoseconds(),
 		WriteNanoseconds:  writeDuration.Nanoseconds(),
 	}
