@@ -89,11 +89,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	csvC, csvErrC, err := csvEncodeAndWrite(projectId, bucketName, maxBatchSize, dedupC)
-	if err != nil {
-		report.Action("error.csv", report.Data{"error": err.Error()})
-		return
-	}
+	csvC, csvErrC := csvEncodeAndWrite(projectId, bucketName, maxBatchSize, dedupC)
 	go func() {
 		for err := range csvErrC {
 			actionC <- actionableEvent{"error.csv", err.Error()}

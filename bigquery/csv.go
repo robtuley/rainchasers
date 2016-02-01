@@ -21,49 +21,40 @@ type CSVFile struct {
 	WriteNanoseconds  int64
 }
 
-func csvEncodeAndWrite(projectId string, bucketName string, batchSize int, snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error, error) {
+func csvEncodeAndWrite(projectId string, bucketName string, maxBatchSize int, snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error) {
 	csvC := make(chan CSVFile)
 	errC := make(chan error)
-
-	// auth with Google storage, and get bucket handle
-
-	client, err := google.DefaultClient(context.Background(), storage.ScopeReadWrite)
-	if err != nil {
-		return csvC, errC, err
-	}
-	ctx := cloud.NewContext(projectId, client)
-
-	sClient, err := storage.NewClient(ctx)
-	if err != nil {
-		return csvC, errC, err
-	}
-	defer sClient.Close()
 
 	// maintain a single go-routine encoding snapC
 	// to csv, then flush to google storage
 
-	nextBatchSignalC := make(chan bool)
+	nextBatchC := make(chan bool)
 	go func() {
 		for {
-			go singleBatchCsvEncodeAndWrite(ctx, sClient, bucketName, snapC, csvC, errC, nextBatchSignalC, batchSize)
-			<-nextBatchSignalC
+			go singleBatchCsvEncodeAndWrite(projectId, bucketName, snapC, csvC, errC, nextBatchC, maxBatchSize)
+			<-nextBatchC
 		}
 	}()
 
-	return csvC, errC, nil
+	return csvC, errC
 }
 
 func singleBatchCsvEncodeAndWrite(
-	gContext context.Context,
-	gClient *storage.Client,
+	projectId string,
 	bucketName string,
 	snapC <-chan gauge.Snapshot,
 	csvC chan<- CSVFile,
 	errC chan<- error,
-	nextBatchSignalC chan<- bool,
-	batchSize int,
+	nextBatchC chan<- bool,
+	maxBatchSize int,
 ) {
 	startListenTime := time.Now()
+	gContext, gClient, err := getAuthedClient(projectId)
+	if err != nil {
+		errC <- err
+		return
+	}
+	defer gClient.Close()
 
 	id := strconv.FormatInt(startListenTime.UnixNano(), 10)
 	objectName := startListenTime.Format("2006/01/02/") + id + ".csv"
@@ -85,14 +76,14 @@ ThisBatch:
 			if err := cw.Write(r); err != nil {
 				errC <- err
 			}
-			if nBatch >= batchSize {
-				nextBatchSignalC <- true
+			if nBatch >= maxBatchSize {
+				nextBatchC <- true
 				break ThisBatch
 			}
 		case <-timeout:
 			// write early to maintain data flow and prevent
 			// Google auth timeout errors
-			nextBatchSignalC <- true
+			nextBatchC <- true
 			break ThisBatch
 		}
 	}
@@ -107,6 +98,9 @@ ThisBatch:
 	if err := gw.Close(); err != nil {
 		errC <- err
 	}
+	if nBatch == 0 {
+		return // no records to process
+	}
 
 	writeDuration := time.Now().Sub(startWriteTime)
 	csvC <- CSVFile{
@@ -117,6 +111,21 @@ ThisBatch:
 		ListenNanoseconds: listenDuration.Nanoseconds(),
 		WriteNanoseconds:  writeDuration.Nanoseconds(),
 	}
+}
+
+func getAuthedClient(projectId string) (context.Context, *storage.Client, error) {
+	client, err := google.DefaultClient(context.Background(), storage.ScopeReadWrite)
+	if err != nil {
+		return nil, nil, err
+	}
+	ctx := cloud.NewContext(projectId, client)
+
+	sClient, err := storage.NewClient(ctx)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return ctx, sClient, nil
 }
 
 func snap2Record(s gauge.Snapshot) []string {
