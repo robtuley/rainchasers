@@ -23,11 +23,7 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 	errC := make(chan error)
 	batchStatusC := make(chan BatchStatus)
 
-	client, err := google.DefaultClient(context.Background(), bigquery.Scope)
-	if err != nil {
-		return batchStatusC, errC, err
-	}
-	bqClient, err := bigquery.NewClient(client, projectId)
+	bqClient, err := bigQueryClient(projectId)
 	if err != nil {
 		return batchStatusC, errC, err
 	}
@@ -158,4 +154,12 @@ func snapshotSchema() bigquery.Schema {
 			Type:     bigquery.FloatFieldType,
 		},
 	}
+}
+
+func bigQueryClient(projectId string) (*bigquery.Client, error) {
+	client, err := google.DefaultClient(context.Background(), bigquery.Scope)
+	if err != nil {
+		return nil, err
+	}
+	return bigquery.NewClient(client, projectId)
 }
