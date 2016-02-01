@@ -19,14 +19,9 @@ type BatchStatus struct {
 	Jobs []BigQueryJobStatus
 }
 
-func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) (<-chan BatchStatus, <-chan error, error) {
+func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) (<-chan BatchStatus, <-chan error) {
 	errC := make(chan error)
 	batchStatusC := make(chan BatchStatus)
-
-	bqClient, err := bigQueryClient(projectId)
-	if err != nil {
-		return batchStatusC, errC, err
-	}
 
 	go func() {
 		for f := range csvC {
@@ -35,7 +30,11 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 					File: file,
 					Jobs: make([]BigQueryJobStatus, 1),
 				}
-				var err error
+				bqClient, err := bigQueryClient(projectId)
+				if err != nil {
+					errC <- err
+					return
+				}
 
 				dupTableId := tableId + "_with_dups"
 				status.Jobs[0], err = loadSingleCSVFileIntoBigQuery(
@@ -52,7 +51,7 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 		}
 	}()
 
-	return batchStatusC, errC, err
+	return batchStatusC, errC
 }
 
 func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bucketName string, objectName string, datasetId string, tableId string) (BigQueryJobStatus, error) {
