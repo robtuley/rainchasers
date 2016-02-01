@@ -69,7 +69,44 @@ func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bu
 
 	gcs := client.NewGCSReference("gs://" + bucketName + "/" + objectName)
 
-	schema := bigquery.Schema{
+	job, err := client.Copy(
+		context.Background(), &table, gcs,
+		bigquery.CreateDisposition(bigquery.CreateIfNeeded),
+		bigquery.DestinationSchema(snapshotSchema()),
+		bigquery.MaxBadRecords(1),
+	)
+	status := BigQueryJobStatus{
+		Id:    job.ID(),
+		Label: "csv.load." + tableId,
+	}
+	if err != nil {
+		return status, err
+	}
+
+	waitStartTime := time.Now()
+
+	for range time.Tick(time.Second * 5) {
+		s, err := job.Status(context.Background())
+		if err != nil {
+			return status, err
+		}
+		if !s.Done() {
+			continue
+		}
+		if err := s.Err(); err != nil {
+			return status, err
+		}
+		break
+	}
+
+	waitDuration := time.Now().Sub(waitStartTime)
+	status.Nanoseconds = waitDuration.Nanoseconds()
+
+	return status, nil
+}
+
+func snapshotSchema() bigquery.Schema {
+	return bigquery.Schema{
 		&bigquery.FieldSchema{
 			Name:     "insertId",
 			Required: true,
@@ -116,39 +153,4 @@ func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bu
 			Type:     bigquery.FloatFieldType,
 		},
 	}
-
-	job, err := client.Copy(
-		context.Background(), &table, gcs,
-		bigquery.CreateDisposition(bigquery.CreateIfNeeded),
-		bigquery.DestinationSchema(schema),
-		bigquery.MaxBadRecords(1),
-	)
-	status := BigQueryJobStatus{
-		Id:    job.ID(),
-		Label: "csv.load." + tableId,
-	}
-	if err != nil {
-		return status, err
-	}
-
-	waitStartTime := time.Now()
-
-	for range time.Tick(time.Second * 5) {
-		s, err := job.Status(context.Background())
-		if err != nil {
-			return status, err
-		}
-		if !s.Done() {
-			continue
-		}
-		if err := s.Err(); err != nil {
-			return status, err
-		}
-		break
-	}
-
-	waitDuration := time.Now().Sub(waitStartTime)
-	status.Nanoseconds = waitDuration.Nanoseconds()
-
-	return status, nil
 }
