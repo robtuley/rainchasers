@@ -49,9 +49,12 @@ func singleBatchCsvEncodeAndWrite(
 	maxBatchSize int,
 ) {
 	startListenTime := time.Now()
-	gContext, gClient, err := getAuthedClient(projectId)
+	gContext, gClient, err := storageClient(projectId)
 	if err != nil {
 		errC <- err
+		// pause before re-try batch
+		time.Sleep(time.Second)
+		nextBatchC <- true
 		return
 	}
 	defer gClient.Close()
@@ -113,7 +116,7 @@ ThisBatch:
 	}
 }
 
-func getAuthedClient(projectId string) (context.Context, *storage.Client, error) {
+func storageClient(projectId string) (context.Context, *storage.Client, error) {
 	client, err := google.DefaultClient(context.Background(), storage.ScopeReadWrite)
 	if err != nil {
 		return nil, nil, err
