@@ -97,18 +97,16 @@ func main() {
 	}()
 
 	// load CSV file into bigquery table
-	batchStatusC, bqErrC := loadCSVIntoBigQuery(projectId, datasetId, tableId, csvC)
-	go func() {
-		for err := range bqErrC {
-			actionC <- actionableEvent{"error.bigquery", err.Error()}
-		}
-	}()
+	batchStatusC := loadCSVIntoBigQuery(projectId, datasetId, tableId, csvC)
 	go func() {
 		for s := range batchStatusC {
 			report.Info("job.status", report.Data{
 				"file": s.File,
 				"jobs": s.Jobs,
 			})
+			if s.Error != nil {
+				actionC <- actionableEvent{"error.bigquery", s.Error.Error()}
+			}
 		}
 	}()
 

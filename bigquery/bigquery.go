@@ -15,64 +15,72 @@ type BigQueryJobStatus struct {
 }
 
 type BatchStatus struct {
-	File CSVFile
-	Jobs []BigQueryJobStatus
+	File  CSVFile
+	Jobs  []BigQueryJobStatus
+	Error error
 }
 
-func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) (<-chan BatchStatus, <-chan error) {
-	errC := make(chan error)
+func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csvC <-chan CSVFile) <-chan BatchStatus {
 	batchStatusC := make(chan BatchStatus)
+	table := &bigquery.Table{
+		ProjectID: projectId,
+		DatasetID: datasetId,
+		TableID:   tableId + "_with_dups",
+	}
 
 	go func() {
-		for f := range csvC {
-			go func(file CSVFile) {
-				status := BatchStatus{
-					File: file,
-					Jobs: make([]BigQueryJobStatus, 1),
-				}
-				bqClient, err := bigQueryClient(projectId)
-				if err != nil {
-					errC <- err
-					return
-				}
-
-				dupTableId := tableId + "_with_dups"
-				status.Jobs[0], err = loadSingleCSVFileIntoBigQuery(
-					bqClient, projectId,
-					file.Bucket, file.Object,
-					datasetId, dupTableId,
-				)
-				if err != nil {
-					errC <- err
-				}
-
-				batchStatusC <- status
-			}(f)
+		for file := range csvC {
+			go loadSingleCSVFileIntoBigQuery(table, file, batchStatusC)
 		}
 	}()
 
-	return batchStatusC, errC
+	return batchStatusC
 }
 
-func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bucketName string, objectName string, datasetId string, tableId string) (BigQueryJobStatus, error) {
-
-	table := bigquery.Table{
-		ProjectID: projectId,
-		DatasetID: datasetId,
-		TableID:   tableId,
+func loadSingleCSVFileIntoBigQuery(table *bigquery.Table, file CSVFile, batchStatusC chan<- BatchStatus) {
+	status := BatchStatus{
+		File:  file,
+		Jobs:  make([]BigQueryJobStatus, 1),
+		Error: nil,
 	}
+	dupTable := &bigquery.Table{
+		ProjectID: table.ProjectID,
+		DatasetID: table.DatasetID,
+		TableID:   table.TableID + "_with_dups",
+	}
+
+	client, err := bigQueryClient(table.ProjectID)
+	if err != nil {
+		status.Error = err
+		goto endPipeline
+	}
+
+	status.Jobs[0], err = copyCSVFileIntoTable(
+		client, dupTable,
+		file.Bucket, file.Object,
+	)
+	if err != nil {
+		status.Error = err
+		goto endPipeline
+	}
+
+endPipeline:
+	batchStatusC <- status
+}
+
+func copyCSVFileIntoTable(client *bigquery.Client, table *bigquery.Table, bucketName string, objectName string) (BigQueryJobStatus, error) {
 
 	gcs := client.NewGCSReference("gs://" + bucketName + "/" + objectName)
 
 	job, err := client.Copy(
-		context.Background(), &table, gcs,
+		context.Background(), table, gcs,
 		bigquery.CreateDisposition(bigquery.CreateIfNeeded),
 		bigquery.DestinationSchema(snapshotSchema()),
 		bigquery.MaxBadRecords(1),
 	)
 	status := BigQueryJobStatus{
 		Id:    job.ID(),
-		Label: "csv.load." + tableId,
+		Label: "csv.load." + table.TableID,
 	}
 	if err != nil {
 		return status, err
