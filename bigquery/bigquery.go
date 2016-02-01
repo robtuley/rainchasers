@@ -83,26 +83,31 @@ func loadSingleCSVFileIntoBigQuery(client *bigquery.Client, projectId string, bu
 		return status, err
 	}
 
-	waitStartTime := time.Now()
+	wait, err := waitForJobCompletion(job)
+	status.Nanoseconds = wait.Nanoseconds()
+	if err != nil {
+		return status, err
+	}
 
+	return status, nil
+}
+
+func waitForJobCompletion(job *bigquery.Job) (time.Duration, error) {
+	startTime := time.Now()
 	for range time.Tick(time.Second * 5) {
 		s, err := job.Status(context.Background())
 		if err != nil {
-			return status, err
+			return time.Now().Sub(startTime), err
 		}
 		if !s.Done() {
 			continue
 		}
 		if err := s.Err(); err != nil {
-			return status, err
+			return time.Now().Sub(startTime), err
 		}
 		break
 	}
-
-	waitDuration := time.Now().Sub(waitStartTime)
-	status.Nanoseconds = waitDuration.Nanoseconds()
-
-	return status, nil
+	return time.Now().Sub(startTime), nil
 }
 
 func snapshotSchema() bigquery.Schema {
