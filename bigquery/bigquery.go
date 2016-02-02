@@ -25,7 +25,7 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 	table := &bigquery.Table{
 		ProjectID: projectId,
 		DatasetID: datasetId,
-		TableID:   tableId + "_with_dups",
+		TableID:   tableId,
 	}
 
 	go func() {
