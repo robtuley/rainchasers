@@ -40,13 +40,8 @@ func loadCSVIntoBigQuery(projectId string, datasetId string, tableId string, csv
 func loadSingleCSVFileIntoBigQuery(table *bigquery.Table, file CSVFile, batchStatusC chan<- BatchStatus) {
 	status := BatchStatus{
 		File:  file,
-		Jobs:  make([]BigQueryJobStatus, 1),
+		Jobs:  make([]BigQueryJobStatus, 2),
 		Error: nil,
-	}
-	dupTable := &bigquery.Table{
-		ProjectID: table.ProjectID,
-		DatasetID: table.DatasetID,
-		TableID:   table.TableID + "_with_dups",
 	}
 
 	client, err := bigQueryClient(table.ProjectID)
@@ -56,8 +51,16 @@ func loadSingleCSVFileIntoBigQuery(table *bigquery.Table, file CSVFile, batchSta
 	}
 
 	status.Jobs[0], err = copyCSVFileIntoTable(
-		client, dupTable,
+		client, table,
 		file.Bucket, file.Object,
+	)
+	if err != nil {
+		status.Error = err
+		goto endPipeline
+	}
+
+	status.Jobs[1], err = dedupThisTable(
+		client, table,
 	)
 	if err != nil {
 		status.Error = err
@@ -66,6 +69,43 @@ func loadSingleCSVFileIntoBigQuery(table *bigquery.Table, file CSVFile, batchSta
 
 endPipeline:
 	batchStatusC <- status
+}
+
+func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJobStatus, error) {
+	sql := `SELECT insertId,metricId,url, lat,lg,type,unit,timestamp,value
+            FROM (
+              SELECT *, ROW_NUMBER()
+              OVER (PARTITION BY insertId)
+              row_number,
+              FROM ` + table.FullyQualifiedName() + `
+            ) WHERE row_number = 1`
+
+	query := &bigquery.Query{
+		Q:                sql,
+		DefaultProjectID: table.ProjectID,
+		DefaultDatasetID: table.DatasetID,
+	}
+
+	job, err := client.Copy(
+		context.Background(), table,
+		query, bigquery.WriteTruncate,
+	)
+
+	status := BigQueryJobStatus{
+		Id:    job.ID(),
+		Label: "dedup." + table.TableID,
+	}
+	if err != nil {
+		return status, err
+	}
+
+	wait, err := waitForJobCompletion(job)
+	status.Nanoseconds = wait.Nanoseconds()
+	if err != nil {
+		return status, err
+	}
+
+	return status, nil
 }
 
 func copyCSVFileIntoTable(client *bigquery.Client, table *bigquery.Table, bucketName string, objectName string) (BigQueryJobStatus, error) {
@@ -80,7 +120,7 @@ func copyCSVFileIntoTable(client *bigquery.Client, table *bigquery.Table, bucket
 	)
 	status := BigQueryJobStatus{
 		Id:    job.ID(),
-		Label: "csv.load." + table.TableID,
+		Label: "csv_into." + table.TableID,
 	}
 	if err != nil {
 		return status, err
