@@ -49,12 +49,23 @@ func singleBatchCsvEncodeAndWrite(
 	maxBatchSize int,
 ) {
 	startListenTime := time.Now()
+	cache := make([]gauge.Snapshot, 0, maxBatchSize)
+
+	for s := range snapC {
+		cache = append(cache, s)
+		if len(cache) == maxBatchSize {
+			break
+		}
+	}
+
+	listenDuration := time.Now().Sub(startListenTime)
+	nextBatchC <- true
+
+	startWriteTime := time.Now()
+
 	gContext, gClient, err := storageClient(projectId)
 	if err != nil {
 		errC <- err
-		// pause before re-try batch
-		time.Sleep(time.Second)
-		nextBatchC <- true
 		return
 	}
 	defer gClient.Close()
@@ -67,42 +78,20 @@ func singleBatchCsvEncodeAndWrite(
 	gw.ContentType = "text/csv"
 
 	cw := csv.NewWriter(gw)
-	nBatch := 0
-	timeout := time.Tick(time.Minute * 20)
-
-ThisBatch:
-	for {
-		select {
-		case s := <-snapC:
-			nBatch += 1
-			r := snap2Record(s)
-			if err := cw.Write(r); err != nil {
-				errC <- err
-			}
-			if nBatch >= maxBatchSize {
-				nextBatchC <- true
-				break ThisBatch
-			}
-		case <-timeout:
-			// write early to maintain data flow and prevent
-			// Google auth timeout errors
-			nextBatchC <- true
-			break ThisBatch
+	for _, s := range cache {
+		r := snap2Record(s)
+		if err := cw.Write(r); err != nil {
+			errC <- err
 		}
 	}
-
-	listenDuration := time.Now().Sub(startListenTime)
-	startWriteTime := time.Now()
-
 	cw.Flush()
 	if err := cw.Error(); err != nil {
 		errC <- err
+		return
 	}
 	if err := gw.Close(); err != nil {
 		errC <- err
-	}
-	if nBatch == 0 {
-		return // no records to process
+		return
 	}
 
 	writeDuration := time.Now().Sub(startWriteTime)
@@ -110,7 +99,7 @@ ThisBatch:
 		Id:                id,
 		Bucket:            bucketName,
 		Object:            objectName,
-		BatchSize:         nBatch,
+		BatchSize:         len(cache),
 		ListenNanoseconds: listenDuration.Nanoseconds(),
 		WriteNanoseconds:  writeDuration.Nanoseconds(),
 	}
