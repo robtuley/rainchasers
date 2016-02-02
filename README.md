@@ -29,6 +29,13 @@ Daemon that polls the [EA Real Time Data API](http://environment.data.gov.uk/flo
 
 A standard API http request library (`http.go`) throttles the requests into the EA API.
 
+`/bigquery/` Archive Gauge Values to Google Storage & Big Query
+---------------------------------------------------------------
+
+[![Docker Repository on Quay](https://quay.io/repository/rainchasers/gauge_bigquery/status "Docker Repository on Quay")](https://quay.io/repository/rainchasers/gauge_bigquery)
+
+ETL Daemon that consumes the PubSub stream of both latest and historical gauge values and archives to Google Storage in CSV format and loads into Google Big Query.
+
 Kubernetes
 ----------
 
