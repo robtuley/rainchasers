@@ -89,6 +89,7 @@ func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJob
 	job, err := client.Copy(
 		context.Background(), table,
 		query, bigquery.WriteTruncate,
+		bigquery.DestinationSchema(snapshotSchema()),
 	)
 
 	status := BigQueryJobStatus{
