@@ -72,7 +72,6 @@ endPipeline:
 }
 
 func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJobStatus, error) {
-
 	schema := snapshotSchema()
 	var fieldList string
 	for i, field := range schema {
@@ -120,7 +119,6 @@ func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJob
 }
 
 func copyCSVFileIntoTable(client *bigquery.Client, table *bigquery.Table, bucketName string, objectName string) (BigQueryJobStatus, error) {
-
 	gcs := client.NewGCSReference("gs://" + bucketName + "/" + objectName)
 
 	job, err := client.Copy(
@@ -164,8 +162,8 @@ func waitForJobCompletion(job *bigquery.Job) (time.Duration, error) {
 	return time.Now().Sub(startTime), nil
 }
 
-// no required field to allow dedup query
-// to write truncate this table.
+// no required fields to allow dedup query to
+// write-truncate directly to a table with this schema
 func snapshotSchema() bigquery.Schema {
 	return bigquery.Schema{
 		&bigquery.FieldSchema{
