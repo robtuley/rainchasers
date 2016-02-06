@@ -72,7 +72,18 @@ endPipeline:
 }
 
 func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJobStatus, error) {
-	sql := `SELECT insertId,metricId,url, lat,lg,type,unit,timestamp,value
+
+	schema := snapshotSchema()
+	var fieldList string
+	for i, field := range schema {
+		if i == 0 {
+			fieldList = field.Name
+		} else {
+			fieldList = fieldList + "," + field.Name
+		}
+	}
+
+	sql := `SELECT ` + fieldList + `
             FROM (
               SELECT *, ROW_NUMBER()
               OVER (PARTITION BY insertId)
@@ -89,7 +100,6 @@ func dedupThisTable(client *bigquery.Client, table *bigquery.Table) (BigQueryJob
 	job, err := client.Copy(
 		context.Background(), table,
 		query, bigquery.WriteTruncate,
-		bigquery.DestinationSchema(snapshotSchema()),
 	)
 
 	status := BigQueryJobStatus{
@@ -154,52 +164,45 @@ func waitForJobCompletion(job *bigquery.Job) (time.Duration, error) {
 	return time.Now().Sub(startTime), nil
 }
 
+// no required field to allow dedup query
+// to write truncate this table.
 func snapshotSchema() bigquery.Schema {
 	return bigquery.Schema{
 		&bigquery.FieldSchema{
-			Name:     "insertId",
-			Required: true,
-			Type:     bigquery.StringFieldType,
+			Name: "insertId",
+			Type: bigquery.StringFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "metricId",
-			Required: true,
-			Type:     bigquery.StringFieldType,
+			Name: "metricId",
+			Type: bigquery.StringFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "url",
-			Required: true,
-			Type:     bigquery.StringFieldType,
+			Name: "url",
+			Type: bigquery.StringFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "lat",
-			Required: false,
-			Type:     bigquery.FloatFieldType,
+			Name: "lat",
+			Type: bigquery.FloatFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "lg",
-			Required: false,
-			Type:     bigquery.FloatFieldType,
+			Name: "lg",
+			Type: bigquery.FloatFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "type",
-			Required: true,
-			Type:     bigquery.StringFieldType,
+			Name: "type",
+			Type: bigquery.StringFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "unit",
-			Required: false,
-			Type:     bigquery.StringFieldType,
+			Name: "unit",
+			Type: bigquery.StringFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "timestamp",
-			Required: true,
-			Type:     bigquery.TimestampFieldType,
+			Name: "timestamp",
+			Type: bigquery.TimestampFieldType,
 		},
 		&bigquery.FieldSchema{
-			Name:     "value",
-			Required: true,
-			Type:     bigquery.FloatFieldType,
+			Name: "value",
+			Type: bigquery.FloatFieldType,
 		},
 	}
 }
