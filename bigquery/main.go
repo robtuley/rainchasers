@@ -97,7 +97,7 @@ func main() {
 	}()
 
 	// load CSV file into bigquery table
-	batchStatusC := loadCSVIntoBigQuery(projectId, datasetId, tableId+"_recent", csvC)
+	batchStatusC := loadCSVIntoBigQuery(projectId, datasetId, tableId+"_recent_with_dups", csvC)
 	go func() {
 		for s := range batchStatusC {
 			report.Info("job.status", report.Data{
