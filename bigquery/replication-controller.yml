@@ -29,3 +29,5 @@ spec:
           value: rainchasers
         - name: BIGQUERY_TABLE
           value: gauge_reading
+        - name: MAX_BATCH_SIZE
+          value: "3000"
