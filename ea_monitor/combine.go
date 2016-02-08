@@ -10,7 +10,7 @@ func applyUpdatesToRefSnaps(refSnapC chan gauge.Snapshot,
 	pubSnapC := make(chan gauge.Snapshot)
 
 	go func() {
-		ref := make(map[string]gauge.Snapshot, 5000)
+		ref := make(map[string]gauge.Snapshot, 10000)
 
 		for {
 			select {
