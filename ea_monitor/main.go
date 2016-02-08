@@ -22,7 +22,7 @@ func main() {
 	// setup telemetry and logging
 	defer report.Drain()
 	report.StdOut()
-	report.Global(report.Data{"service": "eam", "daemon": time.Now().Unix()})
+	report.Global(report.Data{"service": "eam", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(30 * time.Second)
 
 	// parse env vars
