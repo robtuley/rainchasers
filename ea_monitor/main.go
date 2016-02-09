@@ -100,6 +100,7 @@ func main() {
 			case <-tickC:
 				report.Info("pubsub.publish.ok", report.Data{"latest": nLatest, "history": nHistory})
 				nLatest = 0
+				nHistory = 0
 			}
 		}
 	}()
