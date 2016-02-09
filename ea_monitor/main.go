@@ -15,7 +15,8 @@ import (
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
 //   PROJECT_ID (no default)
-//   PUBSUB_TOPIC (no default)
+//   LATEST_PUBSUB_TOPIC (no default)
+//   HISTORY_PUBSUB_TOPIC (no default)
 //
 func main() {
 
@@ -39,13 +40,15 @@ func main() {
 		updateCountOnShutdown = 100
 	}
 	projectId := os.Getenv("PROJECT_ID")
-	topicName := os.Getenv("PUBSUB_TOPIC")
+	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
+	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 	report.Info("daemon.start", report.Data{
 		"station_limit":            stationLimit,
 		"update_period":            updatePeriodSeconds,
 		"update_count_on_shutdown": updateCountOnShutdown,
 		"project_id":               projectId,
-		"pubsub_topic":             topicName,
+		"latest_pubsub_topic":      latestTopicName,
+		"history_pubsub_topic":     historyTopicName,
 	})
 
 	// init in-bounds channels & publisher
@@ -55,39 +58,48 @@ func main() {
 
 	latestSnapC, historySnapC := applyUpdatesToRefSnaps(refSnapC, updateLatestC, updateHistoryC)
 
-	// publish snapshots to PubSub topic
-	ctx, err := gauge.NewPubSubContext(projectId, topicName)
+	// publish snapshots to latest & history PubSub topic
+	latestCtx, err := gauge.NewPubSubContext(projectId, latestTopicName)
 	if err != nil {
-		report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
+		report.Action("pubsub.connect.latest", report.Data{"error": err.Error()})
+		return
+	}
+	historyCtx, err := gauge.NewPubSubContext(projectId, historyTopicName)
+	if err != nil {
+		report.Action("pubsub.connect.history", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {
 		tickC := time.Tick(time.Second * 10)
-		n := 0
+		nLatest := 0
+		nHistory := 0
 		for {
 			select {
 			case s, is_ok := <-latestSnapC:
 				if !is_ok {
 					break
 				}
-				err := gauge.Publish(ctx, s)
-				n = n + 1
+				err := gauge.Publish(latestCtx, s)
+				nLatest = nLatest + 1
 				if err != nil {
-					report.Action("pubsub.publish.error", report.Data{
-						"snapshot": s,
-						"error":    err.Error(),
+					report.Action("pubsub.publish.latest", report.Data{
+						"error": err.Error(),
 					})
 				}
 			case s, is_ok := <-historySnapC:
 				if !is_ok {
 					break
 				}
-				report.Info("history.snapshot", report.Data{
-					"snapshot": s,
-				})
+				err := gauge.Publish(historyCtx, s)
+				nHistory = nHistory + 1
+				if err != nil {
+					report.Action("pubsub.publish.history", report.Data{
+						"error": err.Error(),
+					})
+				}
 			case <-tickC:
-				report.Info("pubsub.publish.ok", report.Data{"count": n})
-				n = 0
+				report.Info("pubsub.publish.ok", report.Data{"latest": nLatest, "history": nHistory})
+				nLatest = 0
 			}
 		}
 	}()
