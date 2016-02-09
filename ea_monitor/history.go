@@ -37,6 +37,11 @@ func downloadHistoricalDataForDaysAgo(nDays int, updateC chan<- gauge.SnapshotUp
 			if err == io.EOF {
 				break
 			}
+			// some corrupt reading values appear as 1.23|4.56 so
+			// we simply skip these as known errors.
+			if strings.Contains(r[2], "|") {
+				continue
+			}
 			if err != nil {
 				errC <- err
 				continue
