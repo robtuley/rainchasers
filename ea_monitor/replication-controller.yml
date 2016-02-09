@@ -19,7 +19,7 @@ spec:
         env:
         - name: GET_HOSTS_FROM
           value: dns
-        - name: GCLOUD_PROJECT_ID
+        - name: PROJECT_ID
           value: tuleyprod
-        - name: GCLOUD_PUBSUB_TOPIC
+        - name: PUBSUB_TOPIC
           value: com.rainchasers.gauge.latest

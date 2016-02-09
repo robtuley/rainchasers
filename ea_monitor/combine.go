@@ -4,27 +4,33 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
-func applyUpdatesToRefSnaps(refSnapC chan gauge.Snapshot,
-	updateSnapC chan gauge.SnapshotUpdate) chan gauge.Snapshot {
+func applyUpdatesToRefSnaps(refC <-chan gauge.Snapshot,
+	inLatestC <-chan gauge.SnapshotUpdate, inHistoryC <-chan gauge.SnapshotUpdate) (<-chan gauge.Snapshot, <-chan gauge.Snapshot) {
 
-	pubSnapC := make(chan gauge.Snapshot)
+	outLatestC := make(chan gauge.Snapshot)
+	outHistoryC := make(chan gauge.Snapshot)
 
 	go func() {
 		ref := make(map[string]gauge.Snapshot, 10000)
 
 		for {
 			select {
-			case r := <-refSnapC:
+			case r := <-refC:
 				ref[r.Url] = r
-				pubSnapC <- r
-			case u := <-updateSnapC:
+				outLatestC <- r
+			case u := <-inLatestC:
 				tpl, exists := ref[u.Url]
 				if exists {
-					pubSnapC <- tpl.Apply(u)
+					outLatestC <- tpl.Apply(u)
+				}
+			case u := <-inHistoryC:
+				tpl, exists := ref[u.Url]
+				if exists {
+					outHistoryC <- tpl.Apply(u)
 				}
 			}
 		}
 	}()
 
-	return pubSnapC
+	return outLatestC, outHistoryC
 }
