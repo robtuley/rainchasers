@@ -16,7 +16,8 @@ type actionableEvent struct {
 
 // Responds to environment variables:
 //   PROJECT_ID (no default)
-//   PUBSUB_TOPIC (no default)
+//   LATEST_PUBSUB_TOPIC (no default)
+//   HISTORY_PUBSUB_TOPIC (no default)
 //   BUCKET_NAME (no default)
 //   BIGQUERY_DATASET (no default)
 //   BIGQUERY_TABLE (no default)
@@ -33,7 +34,8 @@ func main() {
 
 	// parse env vars
 	projectId := os.Getenv("PROJECT_ID")
-	topicName := os.Getenv("PUBSUB_TOPIC")
+	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
+	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 	bucketName := os.Getenv("BUCKET_NAME")
 	datasetId := os.Getenv("BIGQUERY_DATASET")
 	tableId := os.Getenv("BIGQUERY_TABLE")
@@ -47,24 +49,20 @@ func main() {
 	}
 
 	report.Info("daemon.start", report.Data{
-		"project_id":     projectId,
-		"pubsub_topic":   topicName,
-		"bucket_name":    bucketName,
-		"max_batch_size": maxBatchSize,
-		"dataset":        datasetId,
-		"table":          tableId,
+		"project_id":           projectId,
+		"latest_pubsub_topic":  latestTopicName,
+		"history_pubsub_topic": historyTopicName,
+		"bucket_name":          bucketName,
+		"max_batch_size":       maxBatchSize,
+		"dataset":              datasetId,
+		"table":                tableId,
 	})
 
 	// setup actionable events channel
 	actionC := make(chan actionableEvent)
 
 	// consume snapshots from pubsub
-	ctx, err := gauge.NewPubSubContext(projectId, topicName)
-	if err != nil {
-		report.Action("error.connect", report.Data{"error": err.Error()})
-		return
-	}
-	snapC, snapErrC, err := gauge.Subscribe(ctx, "snap-to-bigquery")
+	snapC, snapErrC, err := consumeTopics(projectId, latestTopicName, historyTopicName)
 	if err != nil {
 		report.Action("error.consume", report.Data{"error": err.Error()})
 		return
