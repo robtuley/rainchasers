@@ -21,13 +21,15 @@ spec:
           value: dns
         - name: PROJECT_ID
           value: tuleyprod
-        - name: PUBSUB_TOPIC
+        - name: LATEST_PUBSUB_TOPIC
           value: com.rainchasers.gauge.latest
+        - name: HISTORY_PUBSUB_TOPIC
+          value: com.rainchasers.gauge.history
         - name: BUCKET_NAME
           value: com-rainchasers-gauge-csv
         - name: BIGQUERY_DATASET
           value: rainchasers
         - name: BIGQUERY_TABLE
           value: gauge_reading
-        - name: MAX_BATCH_SIZE
+        - name: BATCH_SIZE
           value: "3000"

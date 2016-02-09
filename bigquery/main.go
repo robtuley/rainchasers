@@ -21,7 +21,7 @@ type actionableEvent struct {
 //   BUCKET_NAME (no default)
 //   BIGQUERY_DATASET (no default)
 //   BIGQUERY_TABLE (no default)
-//   MAX_BATCH_SIZE (default 1000)
+//   BATCH_SIZE (default 1000)
 //   ERROR_COUNT_ON_EXIT (default 10)
 //
 func main() {
@@ -39,9 +39,9 @@ func main() {
 	bucketName := os.Getenv("BUCKET_NAME")
 	datasetId := os.Getenv("BIGQUERY_DATASET")
 	tableId := os.Getenv("BIGQUERY_TABLE")
-	maxBatchSize, err := strconv.Atoi(os.Getenv("MAX_BATCH_SIZE"))
+	batchSize, err := strconv.Atoi(os.Getenv("BATCH_SIZE"))
 	if err != nil {
-		maxBatchSize = 1000
+		batchSize = 1000
 	}
 	errCountOnExit, err := strconv.Atoi(os.Getenv("ERROR_COUNT_ON_EXIT"))
 	if err != nil {
@@ -53,7 +53,7 @@ func main() {
 		"latest_pubsub_topic":  latestTopicName,
 		"history_pubsub_topic": historyTopicName,
 		"bucket_name":          bucketName,
-		"max_batch_size":       maxBatchSize,
+		"batch_size":           batchSize,
 		"dataset":              datasetId,
 		"table":                tableId,
 	})
@@ -87,7 +87,7 @@ func main() {
 	}()
 
 	// buffer in-memory, flush to long-term CSV file storage
-	csvC, csvErrC := csvEncodeAndWrite(projectId, bucketName, maxBatchSize, dedupC)
+	csvC, csvErrC := csvEncodeAndWrite(projectId, bucketName, batchSize, dedupC)
 	go func() {
 		for err := range csvErrC {
 			actionC <- actionableEvent{"error.csv", err.Error()}
