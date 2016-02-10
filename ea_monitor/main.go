@@ -114,12 +114,12 @@ func main() {
 	}
 
 	// start job to download historical data
-	historyErrC := downloadHistoricalDataForDaysAgo(2, updateHistoryC)
-	go func() {
-		for err := range historyErrC {
-			report.Action("history.error", report.Data{"error": err.Error()})
-		}
-	}()
+	// historyErrC := downloadHistoricalDataForDaysAgo(2, updateHistoryC)
+	// go func() {
+	//	for err := range historyErrC {
+	//		report.Action("history.error", report.Data{"error": err.Error()})
+	//	}
+	// }()
 
 	// poll for latest readings
 	tick := time.Tick(time.Second * time.Duration(updatePeriodSeconds))
@@ -133,7 +133,5 @@ func main() {
 		<-tick
 	}
 
-	close(updateLatestC)
-	close(updateHistoryC)
 	report.Info("daemon.stop", report.Data{})
 }
