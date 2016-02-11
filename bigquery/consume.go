@@ -13,7 +13,7 @@ func consumeTopics(projectId string, topicNames ...string) (<-chan gauge.Snapsho
 		if err != nil {
 			return snapC, errC, err
 		}
-		sC, eC, err := gauge.Subscribe(ctx, "to-bigquery")
+		sC, eC, err := gauge.Subscribe(ctx, "bigquery")
 		if err != nil {
 			return snapC, errC, err
 		}

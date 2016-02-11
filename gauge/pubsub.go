@@ -15,31 +15,31 @@ type PubSubContext struct {
 	TopicName     string
 }
 
-func NewPubSubContext(projectId string, topicName string) (PubSubContext, error) {
+func NewPubSubContext(projectId string, topicName string) (*PubSubContext, error) {
 	client, err := google.DefaultClient(context.Background(), pubsub.ScopePubSub)
 	if err != nil {
-		return PubSubContext{}, err
+		return nil, err
 	}
 	ctx := cloud.NewContext(projectId, client)
 
 	exists, err := pubsub.TopicExists(ctx, topicName)
 	if err != nil {
-		return PubSubContext{}, err
+		return nil, err
 	}
 	if !exists {
 		err = pubsub.CreateTopic(ctx, topicName)
 		if err != nil {
-			return PubSubContext{}, err
+			return nil, err
 		}
 	}
 
-	return PubSubContext{
+	return &PubSubContext{
 		GoogleContext: ctx,
 		TopicName:     topicName,
 	}, nil
 }
 
-func Publish(ctx PubSubContext, snap Snapshot) error {
+func Publish(ctx *PubSubContext, snap Snapshot) error {
 	bb, err := Encode(snap)
 	if err != nil {
 		return err
@@ -51,10 +51,11 @@ func Publish(ctx PubSubContext, snap Snapshot) error {
 	return err
 }
 
-func Subscribe(ctx PubSubContext, subName string) (<-chan Snapshot, <-chan error, error) {
+func Subscribe(ctx *PubSubContext, subLabel string) (<-chan Snapshot, <-chan error, error) {
 	snapC := make(chan Snapshot, 100)
 	errC := make(chan error, 10)
 	ackDeadline := time.Second * 10
+	subName := ctx.TopicName + "." + subLabel
 
 	isSub, err := pubsub.SubExists(ctx.GoogleContext, subName)
 	if err != nil {
