@@ -14,8 +14,8 @@ spec:
         name: ea-monitor
     spec:
       containers:
-      - name: ea-monitor-v21
-        image: quay.io/rainchasers/ea_monitor:v21
+      - name: ea-monitor-v23
+        image: quay.io/rainchasers/ea_monitor:v23
         env:
         - name: GET_HOSTS_FROM
           value: dns
