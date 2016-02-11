@@ -32,10 +32,14 @@ func downloadHistoricalDataForDaysAgo(nDays int, updateC chan<- gauge.SnapshotUp
 
 		csv := csv.NewReader(resp.Body)
 		isFirst := true
+		nErr := 0
+
+	ReadCSV:
 		for {
 			r, err := csv.Read()
-			if err == io.EOF {
-				break
+
+			if err == io.EOF || err == io.ErrUnexpectedEOF || err == io.ErrClosedPipe {
+				break ReadCSV
 			}
 			// some corrupt reading values appear as 1.23|4.56 so
 			// we simply skip these as known errors.
@@ -46,16 +50,22 @@ func downloadHistoricalDataForDaysAgo(nDays int, updateC chan<- gauge.SnapshotUp
 			}
 			if err != nil {
 				errC <- err
+				nErr += 1
 				continue
 			}
 			if isFirst {
 				isFirst = false
 				continue
 			}
+			if nErr > 10 {
+				errC <- errors.New("History runaway error levels, abandon CSV parse")
+				break ReadCSV
+			}
 
 			s, err := csvRecordToSnapshotUpdate(r)
 			if err != nil {
 				errC <- err
+				nErr += 1
 				continue
 			}
 
