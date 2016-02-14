@@ -19,11 +19,17 @@ func downloadHistoricalDataForDaysAgo(nDays int, updateC chan<- gauge.SnapshotUp
 		day := time.Now().AddDate(0, 0, -1*nDays)
 		url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
 
+	getCSV:
 		resp, err := http.Get(url)
 		if err != nil {
 			errC <- err
 			return
 		}
+		if resp.StatusCode == http.StatusNotFound {
+			time.Sleep(time.Hour)
+			goto getCSV
+		}
+
 		if resp.StatusCode != http.StatusOK {
 			errC <- errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 			return
