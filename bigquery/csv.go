@@ -21,7 +21,13 @@ type CSVFile struct {
 	WriteNanoseconds  int64
 }
 
-func csvEncodeAndWrite(projectId string, bucketName string, maxBatchSize int, snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error) {
+func csvEncodeAndWrite(
+	projectId string,
+	bucketName string,
+	minBatchSize int,
+	minBatchSeconds int,
+	snapC <-chan gauge.Snapshot) (<-chan CSVFile, <-chan error) {
+
 	csvC := make(chan CSVFile)
 	errC := make(chan error)
 
@@ -31,7 +37,7 @@ func csvEncodeAndWrite(projectId string, bucketName string, maxBatchSize int, sn
 	nextBatchC := make(chan bool)
 	go func() {
 		for {
-			go singleBatchCsvEncodeAndWrite(projectId, bucketName, snapC, csvC, errC, nextBatchC, maxBatchSize)
+			go singleBatchCsvEncodeAndWrite(projectId, bucketName, snapC, csvC, errC, nextBatchC, minBatchSize, minBatchSeconds)
 			<-nextBatchC
 		}
 	}()
@@ -46,14 +52,19 @@ func singleBatchCsvEncodeAndWrite(
 	csvC chan<- CSVFile,
 	errC chan<- error,
 	nextBatchC chan<- bool,
-	maxBatchSize int,
+	minBatchSize int,
+	minBatchSeconds int,
 ) {
 	startListenTime := time.Now()
-	cache := make([]gauge.Snapshot, 0, maxBatchSize)
+	minBatchEnd := startListenTime.Add(time.Second * time.Duration(minBatchSeconds))
+	cache := make([]gauge.Snapshot, 0, minBatchSize)
 
 	for s := range snapC {
 		cache = append(cache, s)
-		if len(cache) == maxBatchSize {
+		if minBatchEnd.After(time.Now()) {
+			continue
+		}
+		if len(cache) >= minBatchSize {
 			break
 		}
 	}

@@ -14,8 +14,8 @@ spec:
         name: gauge-bigquery
     spec:
       containers:
-      - name: gauge-bigquery-v25
-        image: quay.io/rainchasers/gauge_bigquery:v25
+      - name: gauge-bigquery-v27
+        image: quay.io/rainchasers/gauge_bigquery:v27
         env:
         - name: GET_HOSTS_FROM
           value: dns
@@ -31,5 +31,7 @@ spec:
           value: rainchasers
         - name: BIGQUERY_TABLE
           value: gauge_reading
-        - name: BATCH_SIZE
+        - name: MIN_BATCH_SIZE
           value: "3000"
+        - name: MIN_BATCH_SECONDS
+          value: "1200"
