@@ -4,8 +4,8 @@
 	"package": [
 		{
 			"path": "github.com/golang/protobuf/proto",
-			"revision": "2402d76f3d41f928c7902a765dfc872356dd3aad",
-			"revisionTime": "2016-01-06T12:58:00+11:00"
+			"revision": "552c7b9542c194800fd493123b3798ef0a832032",
+			"revisionTime": "2016-02-26T12:45:00+11:00"
 		},
 		{
 			"path": "github.com/golang/snappy",
@@ -24,8 +24,8 @@
 		},
 		{
 			"path": "golang.org/x/net/context",
-			"revision": "1ade16a5450925b7496e1031938175d1f5d30d31",
-			"revisionTime": "2016-01-06T17:41:05Z"
+			"revision": "6acef71eb69611914f7a30939ea9f6e194c78172",
+			"revisionTime": "2016-02-25T17:50:37Z"
 		},
 		{
 			"path": "golang.org/x/net/context/ctxhttp",
@@ -108,14 +108,64 @@
 			"revisionTime": "2016-01-06T14:29:43+11:00"
 		},
 		{
+			"path": "google.golang.org/appengine",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/app_identity",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/base",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/datastore",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/log",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/modules",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/remote_api",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/internal/urlfetch",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
+			"path": "google.golang.org/appengine/urlfetch",
+			"revision": "6a436539be38c296a8075a871cc536686b458371",
+			"revisionTime": "2016-02-05T13:58:43+11:00"
+		},
+		{
 			"path": "google.golang.org/cloud",
 			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
 			"revisionTime": "2016-01-05T15:27:56+11:00"
 		},
 		{
 			"path": "google.golang.org/cloud/bigquery",
-			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
-			"revisionTime": "2016-01-05T15:27:56+11:00"
+			"revision": "3fb76bc404703eddc53d1e407eaa665ab3881362",
+			"revisionTime": "2016-02-26T12:57:43+11:00"
 		},
 		{
 			"path": "google.golang.org/cloud/compute/metadata",
@@ -139,8 +189,8 @@
 		},
 		{
 			"path": "google.golang.org/cloud/pubsub",
-			"revision": "1bff51b8fae8d33cb3dab8f7858c266ce001ee3e",
-			"revisionTime": "2016-01-05T15:27:56+11:00"
+			"revision": "3fb76bc404703eddc53d1e407eaa665ab3881362",
+			"revisionTime": "2016-02-26T12:57:43+11:00"
 		},
 		{
 			"path": "google.golang.org/cloud/storage",
