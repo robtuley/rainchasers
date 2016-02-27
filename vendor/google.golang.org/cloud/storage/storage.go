@@ -27,7 +27,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -62,6 +61,54 @@ const (
 	// data in Google Cloud Storage.
 	ScopeReadWrite = raw.DevstorageReadWriteScope
 )
+
+// AdminClient is a client type for performing admin operations on a project's
+// buckets.
+type AdminClient struct {
+	hc        *http.Client
+	raw       *raw.Service
+	projectID string
+}
+
+// NewAdminClient creates a new AdminClient for a given project.
+func NewAdminClient(ctx context.Context, projectID string, opts ...cloud.ClientOption) (*AdminClient, error) {
+	c, err := NewClient(ctx, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &AdminClient{
+		hc:        c.hc,
+		raw:       c.raw,
+		projectID: projectID,
+	}, nil
+}
+
+// Close closes the AdminClient.
+func (c *AdminClient) Close() error {
+	c.hc = nil
+	return nil
+}
+
+// Create creates a Bucket in the project.
+// If attrs is nil the API defaults will be used.
+func (c *AdminClient) CreateBucket(ctx context.Context, bucketName string, attrs *BucketAttrs) error {
+	var bkt *raw.Bucket
+	if attrs != nil {
+		bkt = attrs.toRawBucket()
+	} else {
+		bkt = &raw.Bucket{}
+	}
+	bkt.Name = bucketName
+	req := c.raw.Buckets.Insert(c.projectID, bkt)
+	_, err := req.Context(ctx).Do()
+	return err
+}
+
+// Delete deletes a Bucket in the project.
+func (c *AdminClient) DeleteBucket(ctx context.Context, bucketName string) error {
+	req := c.raw.Buckets.Delete(bucketName)
+	return req.Context(ctx).Do()
+}
 
 // Client is a client for interacting with Google Cloud Storage.
 type Client struct {
@@ -173,9 +220,7 @@ func (b *BucketHandle) Object(name string) *ObjectHandle {
 }
 
 // TODO(jbd): Add storage.buckets.list.
-// TODO(jbd): Add storage.buckets.insert.
 // TODO(jbd): Add storage.buckets.update.
-// TODO(jbd): Add storage.buckets.delete.
 
 // TODO(jbd): Add storage.objects.watch.
 
@@ -411,10 +456,10 @@ func (c *Client) CopyObject(ctx context.Context, srcBucket, srcName string, dest
 	return newObject(o), nil
 }
 
-// NewReader creates a new io.ReadCloser to read the contents
-// of the object.
+// NewReader creates a new Reader to read the contents of the
+// object.
 // ErrObjectNotExist will be returned if the object is not found.
-func (o *ObjectHandle) NewReader(ctx context.Context) (io.ReadCloser, error) {
+func (o *ObjectHandle) NewReader(ctx context.Context) (*Reader, error) {
 	if !utf8.ValidString(o.object) {
 		return nil, fmt.Errorf("storage: object name %q is not valid UTF-8", o.object)
 	}
@@ -433,18 +478,20 @@ func (o *ObjectHandle) NewReader(ctx context.Context) (io.ReadCloser, error) {
 	}
 	if res.StatusCode < 200 || res.StatusCode > 299 {
 		res.Body.Close()
-		return res.Body, fmt.Errorf("storage: can't read object %v/%v, status code: %v", o.bucket, o.object, res.Status)
+		return nil, fmt.Errorf("storage: can't read object %v/%v, status code: %v", o.bucket, o.object, res.Status)
 	}
-	return res.Body, nil
+	return &Reader{
+		body:        res.Body,
+		size:        res.ContentLength,
+		contentType: res.Header.Get("Content-Type"),
+	}, nil
 }
 
 // NewWriter returns a storage Writer that writes to the GCS object
-// identified by the specified name.
+// associated with this ObjectHandle.
 // If such an object doesn't exist, it creates one.
 // Attributes can be set on the object by modifying the returned Writer's
-// ObjectAttrs field before the first call to Write. The name parameter to this
-// function is ignored if the Name field of the ObjectAttrs field is set to a
-// non-empty string.
+// ObjectAttrs field before the first call to Write.
 //
 // It is the caller's responsibility to call Close when writing is done.
 //
@@ -452,11 +499,12 @@ func (o *ObjectHandle) NewReader(ctx context.Context) (io.ReadCloser, error) {
 // name is not replaced on Cloud Storage until Close is called.
 func (o *ObjectHandle) NewWriter(ctx context.Context) *Writer {
 	return &Writer{
-		ctx:    ctx,
-		client: o.c,
-		bucket: o.bucket,
-		name:   o.object,
-		donec:  make(chan struct{}),
+		ctx:         ctx,
+		client:      o.c,
+		bucket:      o.bucket,
+		name:        o.object,
+		donec:       make(chan struct{}),
+		ObjectAttrs: ObjectAttrs{Name: o.object},
 	}
 }
 

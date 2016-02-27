@@ -37,8 +37,8 @@ type BucketAttrs struct {
 	// Location is the location of the bucket. It defaults to "US".
 	Location string
 
-	// Metageneration is the metadata generation of the bucket.
-	Metageneration int64
+	// MetaGeneration is the metadata generation of the bucket.
+	MetaGeneration int64
 
 	// StorageClass is the storage class of the bucket. This defines
 	// how objects in the bucket are stored and determines the SLA
@@ -57,7 +57,7 @@ func newBucket(b *raw.Bucket) *BucketAttrs {
 	bucket := &BucketAttrs{
 		Name:           b.Name,
 		Location:       b.Location,
-		Metageneration: b.Metageneration,
+		MetaGeneration: b.Metageneration,
 		StorageClass:   b.StorageClass,
 		Created:        convertTime(b.TimeCreated),
 	}
@@ -80,18 +80,45 @@ func newBucket(b *raw.Bucket) *BucketAttrs {
 	return bucket
 }
 
-// toRawObject copies the editable attributes from o to the raw library's Object type.
-func (o ObjectAttrs) toRawObject(bucket string) *raw.Object {
+func toRawObjectACL(oldACL []ACLRule) []*raw.ObjectAccessControl {
 	var acl []*raw.ObjectAccessControl
-	if len(o.ACL) > 0 {
-		acl = make([]*raw.ObjectAccessControl, len(o.ACL))
-		for i, rule := range o.ACL {
+	if len(oldACL) > 0 {
+		acl = make([]*raw.ObjectAccessControl, len(oldACL))
+		for i, rule := range oldACL {
 			acl[i] = &raw.ObjectAccessControl{
 				Entity: string(rule.Entity),
 				Role:   string(rule.Role),
 			}
 		}
 	}
+	return acl
+}
+
+// toRawBucket copies the editable attribute from b to the raw library's Bucket type.
+func (b *BucketAttrs) toRawBucket() *raw.Bucket {
+	var acl []*raw.BucketAccessControl
+	if len(b.ACL) > 0 {
+		acl = make([]*raw.BucketAccessControl, len(b.ACL))
+		for i, rule := range b.ACL {
+			acl[i] = &raw.BucketAccessControl{
+				Entity: string(rule.Entity),
+				Role:   string(rule.Role),
+			}
+		}
+	}
+	dACL := toRawObjectACL(b.DefaultObjectACL)
+	return &raw.Bucket{
+		Name:             b.Name,
+		DefaultObjectAcl: dACL,
+		Location:         b.Location,
+		StorageClass:     b.StorageClass,
+		Acl:              acl,
+	}
+}
+
+// toRawObject copies the editable attributes from o to the raw library's Object type.
+func (o ObjectAttrs) toRawObject(bucket string) *raw.Object {
+	acl := toRawObjectACL(o.ACL)
 	return &raw.Object{
 		Bucket:             bucket,
 		Name:               o.Name,
@@ -112,6 +139,7 @@ type ObjectAttrs struct {
 	Bucket string
 
 	// Name is the name of the object within the bucket.
+	// This field is read-only.
 	Name string
 
 	// ContentType is the MIME type of the object's content.
