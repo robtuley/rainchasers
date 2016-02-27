@@ -17,6 +17,9 @@ var (
 	ErrTooLarge = errors.New("snappy: decoded block is too large")
 	// ErrUnsupported reports that the input isn't supported.
 	ErrUnsupported = errors.New("snappy: unsupported input")
+
+	errUnsupportedCopy4Tag      = errors.New("snappy: unsupported COPY_4 tag")
+	errUnsupportedLiteralLength = errors.New("snappy: unsupported literal length")
 )
 
 // DecodedLen returns the length of the decoded block.
@@ -40,96 +43,36 @@ func decodedLen(src []byte) (blockLen, headerLen int, err error) {
 	return int(v), n, nil
 }
 
+const (
+	decodeErrCodeCorrupt                  = 1
+	decodeErrCodeUnsupportedLiteralLength = 2
+	decodeErrCodeUnsupportedCopy4Tag      = 3
+)
+
 // Decode returns the decoded form of src. The returned slice may be a sub-
 // slice of dst if dst was large enough to hold the entire decoded block.
 // Otherwise, a newly allocated slice will be returned.
-// It is valid to pass a nil dst.
+//
+// The dst and src must not overlap. It is valid to pass a nil dst.
 func Decode(dst, src []byte) ([]byte, error) {
 	dLen, s, err := decodedLen(src)
 	if err != nil {
 		return nil, err
 	}
-	if len(dst) < dLen {
+	if dLen <= len(dst) {
+		dst = dst[:dLen]
+	} else {
 		dst = make([]byte, dLen)
 	}
-
-	var d, offset, length int
-	for s < len(src) {
-		switch src[s] & 0x03 {
-		case tagLiteral:
-			x := uint(src[s] >> 2)
-			switch {
-			case x < 60:
-				s++
-			case x == 60:
-				s += 2
-				if s > len(src) {
-					return nil, ErrCorrupt
-				}
-				x = uint(src[s-1])
-			case x == 61:
-				s += 3
-				if s > len(src) {
-					return nil, ErrCorrupt
-				}
-				x = uint(src[s-2]) | uint(src[s-1])<<8
-			case x == 62:
-				s += 4
-				if s > len(src) {
-					return nil, ErrCorrupt
-				}
-				x = uint(src[s-3]) | uint(src[s-2])<<8 | uint(src[s-1])<<16
-			case x == 63:
-				s += 5
-				if s > len(src) {
-					return nil, ErrCorrupt
-				}
-				x = uint(src[s-4]) | uint(src[s-3])<<8 | uint(src[s-2])<<16 | uint(src[s-1])<<24
-			}
-			length = int(x + 1)
-			if length <= 0 {
-				return nil, errors.New("snappy: unsupported literal length")
-			}
-			if length > len(dst)-d || length > len(src)-s {
-				return nil, ErrCorrupt
-			}
-			copy(dst[d:], src[s:s+length])
-			d += length
-			s += length
-			continue
-
-		case tagCopy1:
-			s += 2
-			if s > len(src) {
-				return nil, ErrCorrupt
-			}
-			length = 4 + int(src[s-2])>>2&0x7
-			offset = int(src[s-2])&0xe0<<3 | int(src[s-1])
-
-		case tagCopy2:
-			s += 3
-			if s > len(src) {
-				return nil, ErrCorrupt
-			}
-			length = 1 + int(src[s-3])>>2
-			offset = int(src[s-2]) | int(src[s-1])<<8
-
-		case tagCopy4:
-			return nil, errors.New("snappy: unsupported COPY_4 tag")
-		}
-
-		end := d + length
-		if offset > d || end > len(dst) {
-			return nil, ErrCorrupt
-		}
-		for ; d < end; d++ {
-			dst[d] = dst[d-offset]
-		}
+	switch decode(dst, src[s:]) {
+	case 0:
+		return dst, nil
+	case decodeErrCodeUnsupportedLiteralLength:
+		return nil, errUnsupportedLiteralLength
+	case decodeErrCodeUnsupportedCopy4Tag:
+		return nil, errUnsupportedCopy4Tag
 	}
-	if d != dLen {
-		return nil, ErrCorrupt
-	}
-	return dst[:d], nil
+	return nil, ErrCorrupt
 }
 
 // NewReader returns a new Reader that decompresses from r, using the framing
@@ -138,12 +81,12 @@ func Decode(dst, src []byte) ([]byte, error) {
 func NewReader(r io.Reader) *Reader {
 	return &Reader{
 		r:       r,
-		decoded: make([]byte, maxUncompressedChunkLen),
-		buf:     make([]byte, MaxEncodedLen(maxUncompressedChunkLen)+checksumSize),
+		decoded: make([]byte, maxBlockSize),
+		buf:     make([]byte, maxEncodedLenOfMaxBlockSize+checksumSize),
 	}
 }
 
-// Reader is an io.Reader than can read Snappy-compressed bytes.
+// Reader is an io.Reader that can read Snappy-compressed bytes.
 type Reader struct {
 	r       io.Reader
 	err     error

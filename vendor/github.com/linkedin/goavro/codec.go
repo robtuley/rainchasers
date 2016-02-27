@@ -318,7 +318,7 @@ func (st symtab) buildString(enclosingNamespace, typeName string, schema interfa
 	default:
 		t, err := newName(nameName(typeName), nameEnclosingNamespace(enclosingNamespace))
 		if err != nil {
-			return nil, newCodecBuildError(typeName, "could not normalize name: %s", enclosingNamespace, typeName)
+			return nil, newCodecBuildError(typeName, "could not normalize name: %q: %q: %s", enclosingNamespace, typeName, err)
 		}
 		c, ok := st[t.n]
 		if !ok {
@@ -357,7 +357,7 @@ func (st symtab) makeUnionCodec(enclosingNamespace string, schema interface{}) (
 	for idx, unionMemberSchema := range schemaArray {
 		c, err := st.buildCodec(enclosingNamespace, unionMemberSchema)
 		if err != nil {
-			return nil, newCodecBuildError(friendlyName, "member ought to be decodable: %v", err)
+			return nil, newCodecBuildError(friendlyName, "member ought to be decodable: %s", err)
 		}
 		allowedNames[idx] = c.nm.n
 		indexToDecoder[idx] = c.df
