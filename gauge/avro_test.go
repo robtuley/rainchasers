@@ -11,16 +11,16 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 
 	before := gauge.Snapshot{
-		"http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
-		"http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
-		"Bourton Dickler",
-		"Dikler",
-		51.874767,
-		-1.740083,
-		"level",
-		"metre",
-		timestamp,
-		-0.14,
+		Url:        "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
+		StationUrl: "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
+		Name:       "Bourton Dickler",
+		RiverName:  "Dikler",
+		Lat:        51.874767,
+		Lg:         -1.740083,
+		Type:       "level",
+		Unit:       "metre",
+		DateTime:   timestamp,
+		Value:      -0.14,
 	}
 
 	bb, err := gauge.Encode(before)

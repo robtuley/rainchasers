@@ -65,9 +65,9 @@ func requestLatestReadings(updateC chan gauge.SnapshotUpdate) {
 			}
 
 			updateC <- gauge.SnapshotUpdate{
-				item.Measure,
-				item.DateTime,
-				item.ValueParsed,
+				Url:      item.Measure,
+				DateTime: item.DateTime,
+				Value:    item.ValueParsed,
 			}
 		}
 	}

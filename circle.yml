@@ -17,6 +17,10 @@ dependencies:
     - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM .
 
 test:
+  pre:
+    - go vet ./gauge/
+    - go vet ./ea_monitor/
+    - go vet ./bigquery/
   override:
     - go test ./gauge/
     - go test ./bigquery/
