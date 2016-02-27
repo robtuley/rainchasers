@@ -1,12 +1,18 @@
 machine:
   services:
     - docker
-  environment:
-    GO15VENDOREXPERIMENT: 1
 
 dependencies:
+  pre:
+    - ln -s `pwd`/vendor/golang.org /usr/local/go/src/golang.org
+    - ln -s `pwd`/vendor/google.golang.org /usr/local/go/src/google.golang.org
+    - mkdir -p /usr/local/go/src/github.com/
+    - ln -s `pwd`/vendor/github.com/linkedin /usr/local/go/src/github.com/linkedin
+    - ln -s `pwd`/vendor/github.com/robtuley /usr/local/go/src/github.com/robtuley
+    - ln -s `pwd`/vendor/github.com/golang /usr/local/go/src/github.com/golang
+    - mkdir -p /usr/local/go/src/github.com/rainchasers
+    - ln -s `pwd` /usr/local/go/src/github.com/rainchasers/com.rainchasers.gauge
   override:
-    - go version
     - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor && docker build -t quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM .
     - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM .
 
