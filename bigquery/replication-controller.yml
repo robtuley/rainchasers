@@ -14,8 +14,8 @@ spec:
         name: gauge-bigquery
     spec:
       containers:
-      - name: gauge-bigquery-v27
-        image: quay.io/rainchasers/gauge_bigquery:v27
+      - name: gauge-bigquery-v34
+        image: quay.io/rainchasers/gauge_bigquery:v34
         env:
         - name: GET_HOSTS_FROM
           value: dns
