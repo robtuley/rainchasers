@@ -87,9 +87,15 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		return []gauge.Snapshot{}, err
 	}
 
-	// the EA API returns either an ARRAY of measures OR a single OBJECT
-	// in the 'measures' key which makes it hard to decode. We try decoding
-	// as an array first, then failback to an single object.
+	// the EA API returns either an:
+	//   * missing 'measures' key
+	//   * ARRAY in the measures key
+	//   * single OBJECT in the measures key
+	// This makes decoding complex.
+	if s.Items.MeasuresRawJson == nil {
+		report.Info("detail.measure.missing", report.Data{"url": url})
+		return []gauge.Snapshot{}, err
+	}
 	var measureArray []detailStationMeasureJson
 	err = json.Unmarshal(s.Items.MeasuresRawJson, &measureArray)
 	if err != nil {
