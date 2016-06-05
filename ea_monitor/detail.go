@@ -33,6 +33,17 @@ type detailStationJson struct {
 	} `json:"items"`
 }
 
+type detailStationJsonWithLatLgArray struct {
+	Items struct {
+		Url             string          `json:"@id"`
+		Name            string          `json:"label"`
+		RiverName       string          `json:"riverName"`
+		Lat             []float32       `json:"lat"`
+		Lg              []float32       `json:"long"`
+		MeasuresRawJson json.RawMessage `json:"measures"`
+	} `json:"items"`
+}
+
 // Retrieve the detail and latest readings for an individual gauge.
 func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	waitOnApiRequestSchedule()
@@ -53,7 +64,21 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&s)
 	if err != nil {
-		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
+		// a known inconsistency is that the API can provide Lat/Lg as an array,
+		// not sure what this actually represents but attempt a re-parse on this assumption:
+		sWithLatLgArray := detailStationJsonWithLatLgArray{}
+		err = decoder.Decode(&sWithLatLgArray)
+		if len(sWithLatLgArray.Items.Lat) > 0 && len(sWithLatLgArray.Items.Lg) > 0 {
+			s.Items.Url = sWithLatLgArray.Items.Url
+			s.Items.Name = sWithLatLgArray.Items.Name
+			s.Items.RiverName = sWithLatLgArray.Items.RiverName
+			s.Items.MeasuresRawJson = sWithLatLgArray.Items.MeasuresRawJson
+			s.Items.Lat = sWithLatLgArray.Items.Lat[0]
+			s.Items.Lg = sWithLatLgArray.Items.Lg[0]
+		}
+	}
+	if err != nil {
+		report.Action("detail.station.error", report.Data{"url": url, "error": err.Error()})
 		return []gauge.Snapshot{}, err
 	}
 
@@ -68,7 +93,7 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		measureArray = []detailStationMeasureJson{measureObject}
 	}
 	if err != nil {
-		report.Action("detail.decode.error", report.Data{"url": url, "error": err.Error()})
+		report.Action("detail.measure.error", report.Data{"url": url, "error": err.Error()})
 		return []gauge.Snapshot{}, err
 	}
 
@@ -76,11 +101,11 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	for _, m := range measureArray {
 
 		// in the EA API, most latestReading keys are an object with dateTime
-		// and value fields, but sometimes it doesn't -- URLs seem common. We
+		// and value fields, but sometimes it isn't -- URLs seem common. We
 		// do a conditional parse and simply dump those that can't match.
 		err := json.Unmarshal(m.LatestRawJson, &m.LatestParsed)
 		if err != nil {
-			report.Info("detail.corrupt.latestreading",
+			report.Info("detail.latestreading.corrupt",
 				report.Data{"url": m.Url, "station": s.Items.Url, "json": m.LatestRawJson})
 			continue
 		}
