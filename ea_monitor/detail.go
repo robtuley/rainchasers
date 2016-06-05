@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
@@ -59,15 +60,19 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	} else {
 		defer resp.Body.Close()
 	}
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		report.Action("detail.body.error", report.Data{"url": url, "error": err.Error()})
+		return []gauge.Snapshot{}, err
+	}
 
 	s := detailStationJson{}
-	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&s)
+	err = json.Unmarshal(bodyBytes, &s)
 	if err != nil {
 		// a known inconsistency is that the API can provide Lat/Lg as an array,
 		// not sure what this actually represents but attempt a re-parse on this assumption:
 		sWithLatLgArray := detailStationJsonWithLatLgArray{}
-		err = decoder.Decode(&sWithLatLgArray)
+		err = json.Unmarshal(bodyBytes, &sWithLatLgArray)
 		if len(sWithLatLgArray.Items.Lat) > 0 && len(sWithLatLgArray.Items.Lg) > 0 {
 			s.Items.Url = sWithLatLgArray.Items.Url
 			s.Items.Name = sWithLatLgArray.Items.Name
@@ -106,7 +111,7 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		err := json.Unmarshal(m.LatestRawJson, &m.LatestParsed)
 		if err != nil {
 			report.Info("detail.latestreading.corrupt",
-				report.Data{"url": m.Url, "station": s.Items.Url, "json": m.LatestRawJson})
+				report.Data{"url": m.Url, "station": s.Items.Url, "json": string(m.LatestRawJson)})
 			continue
 		}
 
