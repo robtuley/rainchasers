@@ -9,7 +9,7 @@ import (
 
 const (
 	API_REQUESTS_PER_SECOND = 1
-	API_USER_AGENT          = "Rainchasers v0.1"
+	API_USER_AGENT          = "Rainchaser Bot <hello@rainchasers.com>"
 )
 
 var apiRequestThrottle <-chan time.Time
