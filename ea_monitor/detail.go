@@ -25,22 +25,14 @@ type detailStationMeasureLatestJson struct {
 
 type detailStationJson struct {
 	Items struct {
-		Url             string          `json:"@id"`
-		Name            string          `json:"label"`
+		Url             string `json:"@id"`
+		Name            string
+		NameRawJson     json.RawMessage `json:"label"`
 		RiverName       string          `json:"riverName"`
-		Lat             float32         `json:"lat"`
-		Lg              float32         `json:"long"`
-		MeasuresRawJson json.RawMessage `json:"measures"`
-	} `json:"items"`
-}
-
-type detailStationJsonWithLatLgArray struct {
-	Items struct {
-		Url             string          `json:"@id"`
-		Name            string          `json:"label"`
-		RiverName       string          `json:"riverName"`
-		Lat             []float32       `json:"lat"`
-		Lg              []float32       `json:"long"`
+		Lat             float32
+		Lg              float32
+		LatRawJson      json.RawMessage `json:"lat"`
+		LgRawJson       json.RawMessage `json:"long"`
 		MeasuresRawJson json.RawMessage `json:"measures"`
 	} `json:"items"`
 }
@@ -69,21 +61,25 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	s := detailStationJson{}
 	err = json.Unmarshal(bodyBytes, &s)
 	if err != nil {
-		// a known inconsistency is that the API can provide Lat/Lg as an array,
-		// not sure what this actually represents but attempt a re-parse on this assumption:
-		sWithLatLgArray := detailStationJsonWithLatLgArray{}
-		err = json.Unmarshal(bodyBytes, &sWithLatLgArray)
-		if len(sWithLatLgArray.Items.Lat) > 0 && len(sWithLatLgArray.Items.Lg) > 0 {
-			s.Items.Url = sWithLatLgArray.Items.Url
-			s.Items.Name = sWithLatLgArray.Items.Name
-			s.Items.RiverName = sWithLatLgArray.Items.RiverName
-			s.Items.MeasuresRawJson = sWithLatLgArray.Items.MeasuresRawJson
-			s.Items.Lat = sWithLatLgArray.Items.Lat[0]
-			s.Items.Lg = sWithLatLgArray.Items.Lg[0]
-		}
+		report.Action("detail.parse.error", report.Data{"url": url, "error": err.Error()})
+		return []gauge.Snapshot{}, err
 	}
+	// a known inconsistency is that the API can provide Lat, Lg or label as an array
+	// so we use a defensive mechanism to parse these fields
+	// e.g. http://environment.data.gov.uk/flood-monitoring/id/stations/E40411
+	s.Items.Lat, err = parseFloatFromScalarOrArray(s.Items.LatRawJson)
 	if err != nil {
-		report.Action("detail.station.error", report.Data{"url": url, "error": err.Error()})
+		report.Action("detail.lat.error", report.Data{"url": url, "error": err.Error()})
+		return []gauge.Snapshot{}, err
+	}
+	s.Items.Lg, err = parseFloatFromScalarOrArray(s.Items.LgRawJson)
+	if err != nil {
+		report.Action("detail.lg.error", report.Data{"url": url, "error": err.Error()})
+		return []gauge.Snapshot{}, err
+	}
+	s.Items.Name, err = parseStringFromScalarOrArray(s.Items.NameRawJson)
+	if err != nil {
+		report.Action("detail.name.error", report.Data{"url": url, "error": err.Error()})
 		return []gauge.Snapshot{}, err
 	}
 
