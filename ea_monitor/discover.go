@@ -31,6 +31,9 @@ func discoverStationUrls(limit int) chan string {
 		baseUrl := "http://environment.data.gov.uk/flood-monitoring/id/stations" +
 			"?_limit=" + strconv.Itoa(BATCHSIZE)
 
+		// Missing lat/lg
+		// urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E14680"
+
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
 		// until we receive a completely empty set.

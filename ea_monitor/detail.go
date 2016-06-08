@@ -69,18 +69,18 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	// e.g. http://environment.data.gov.uk/flood-monitoring/id/stations/E40411
 	s.Items.Lat, err = parseFloatFromScalarOrArray(s.Items.LatRawJson)
 	if err != nil {
-		report.Action("detail.lat.error", report.Data{"url": url, "error": err.Error()})
-		return []gauge.Snapshot{}, err
+		report.Info("detail.lat.missing", report.Data{"url": url, "error": err.Error()})
+		s.Items.Lat = 0.0
 	}
 	s.Items.Lg, err = parseFloatFromScalarOrArray(s.Items.LgRawJson)
 	if err != nil {
-		report.Action("detail.lg.error", report.Data{"url": url, "error": err.Error()})
-		return []gauge.Snapshot{}, err
+		report.Info("detail.lg.missing", report.Data{"url": url, "error": err.Error()})
+		s.Items.Lg = 0.0
 	}
 	s.Items.Name, err = parseStringFromScalarOrArray(s.Items.NameRawJson)
 	if err != nil {
-		report.Action("detail.name.error", report.Data{"url": url, "error": err.Error()})
-		return []gauge.Snapshot{}, err
+		report.Action("detail.name.missing", report.Data{"url": url, "error": err.Error()})
+		s.Items.Name = ""
 	}
 
 	// the EA API returns either an:
@@ -90,7 +90,7 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	// This makes decoding complex.
 	if s.Items.MeasuresRawJson == nil {
 		report.Info("detail.measure.missing", report.Data{"url": url})
-		return []gauge.Snapshot{}, err
+		return []gauge.Snapshot{}, nil
 	}
 	var measureArray []detailStationMeasureJson
 	err = json.Unmarshal(s.Items.MeasuresRawJson, &measureArray)
