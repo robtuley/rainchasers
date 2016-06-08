@@ -13,35 +13,45 @@ type stationListJson struct {
 	} `json:"items"`
 }
 
+func sampleStationUrls() chan string {
+	urlC := make(chan string)
+
+	go func() {
+		// single measure
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E9250"
+		// Missing lat/lg
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E14680"
+		// 404 response
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/H_obs.upstream"
+		// lat/lg/label array
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E40411"
+
+		close(urlC)
+	}()
+
+	return urlC
+}
+
 // Discover all available EA identifying URLs.
 //
 //     for url := range discoverUrls() {
 //         log.Println(url)
 //     }
 //
-func discoverStationUrls(limit int) chan string {
+func discoverStationUrls() chan string {
 	urlC := make(chan string)
 
 	go func() {
 		const BATCHSIZE = 100
 
-		total := 0
 		lastBatchSize := BATCHSIZE
 		currentOffset := 0
 		baseUrl := "http://environment.data.gov.uk/flood-monitoring/id/stations" +
 			"?_limit=" + strconv.Itoa(BATCHSIZE)
 
-		// Missing lat/lg
-		// urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E14680"
-		// 404 response
-		// urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/H_obs.upstream"
-		// lat/lg/label array
-		// urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E40411"
-
 		// The paging _limit and _offset parameters apply to the number of 'measures'
 		// in the EA API result set rather than the number of items, so simply iterate
 		// until we receive a completely empty set.
-	RequestLoop:
 		for lastBatchSize > 0 {
 			waitOnApiRequestSchedule()
 
@@ -72,10 +82,6 @@ func discoverStationUrls(limit int) chan string {
 
 			for _, item := range s.Items {
 				urlC <- item.Url
-				total = total + 1
-				if total == limit {
-					break RequestLoop
-				}
 			}
 		}
 

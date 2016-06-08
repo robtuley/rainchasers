@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math"
 	"os"
 	"strconv"
 	"time"
@@ -11,7 +10,7 @@ import (
 )
 
 // Responds to environment variables:
-//   DISCOVER_STATIONS_LIMIT (default no limit)
+//   USE_SAMPLE_STATIONS (set to use test sample stations)
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
 //   PROJECT_ID (no default)
@@ -27,10 +26,6 @@ func main() {
 	report.RuntimeStatsEvery(30 * time.Second)
 
 	// parse env vars
-	stationLimit, err := strconv.Atoi(os.Getenv("DISCOVER_STATIONS_LIMIT"))
-	if err != nil {
-		stationLimit = math.MaxInt32
-	}
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
 		updatePeriodSeconds = 15 * 60
@@ -43,7 +38,6 @@ func main() {
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 	report.Info("daemon.start", report.Data{
-		"station_limit":            stationLimit,
 		"update_period":            updatePeriodSeconds,
 		"update_count_on_shutdown": updateCountOnShutdown,
 		"project_id":               projectId,
@@ -106,7 +100,13 @@ func main() {
 	}()
 
 	// retrieve list of all stations & latest readings
-	for url := range discoverStationUrls(stationLimit) {
+	var stationC chan string
+	if os.Getenv("USE_SAMPLE_STATIONS") != "" {
+		stationC = sampleStationUrls()
+	} else {
+		stationC = discoverStationUrls()
+	}
+	for url := range stationC {
 		measures, _ := requestStationDetail(url)
 		for _, m := range measures {
 			refSnapC <- m
