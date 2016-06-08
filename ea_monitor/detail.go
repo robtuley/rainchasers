@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"net/http"
 	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
@@ -47,6 +48,12 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 
 	resp, err := doJsonRequest(url)
 	if err != nil {
+		if resp != nil {
+			if resp.StatusCode == http.StatusNotFound {
+				report.Info("detail.request.notfound", report.Data{"url": url, "error": err.Error()})
+				return []gauge.Snapshot{}, err
+			}
+		}
 		report.Action("detail.request.error", report.Data{"url": url, "error": err.Error()})
 		return []gauge.Snapshot{}, err
 	} else {

@@ -40,7 +40,7 @@ func doJsonRequest(url string) (*http.Response, error) {
 		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+		return resp, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 
 	return resp, nil
