@@ -10,12 +10,11 @@ import (
 )
 
 // Responds to environment variables:
-//   USE_SAMPLE_STATIONS (set to use test sample stations)
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
-//   PROJECT_ID (no default)
-//   LATEST_PUBSUB_TOPIC (no default)
-//   HISTORY_PUBSUB_TOPIC (no default)
+//   PROJECT_ID (no default, blank for validation mode)
+//   LATEST_PUBSUB_TOPIC (no default, blank for validation mode)
+//   HISTORY_PUBSUB_TOPIC (no default, blank for validation mode)
 //
 func main() {
 
@@ -53,55 +52,15 @@ func main() {
 	latestSnapC, historySnapC := applyUpdatesToRefSnaps(refSnapC, updateLatestC, updateHistoryC)
 
 	// publish snapshots to latest & history PubSub topic
-	latestCtx, err := gauge.NewPubSubContext(projectId, latestTopicName)
+	err = publishSnapshotsFromChannels(projectId, latestTopicName, historyTopicName, latestSnapC, historySnapC)
 	if err != nil {
-		report.Action("pubsub.connect.latest", report.Data{"error": err.Error()})
+		report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
 		return
 	}
-	historyCtx, err := gauge.NewPubSubContext(projectId, historyTopicName)
-	if err != nil {
-		report.Action("pubsub.connect.history", report.Data{"error": err.Error()})
-		return
-	}
-	go func() {
-		tickC := time.Tick(time.Second * 10)
-		nLatest := 0
-		nHistory := 0
-		for {
-			select {
-			case s, is_ok := <-latestSnapC:
-				if !is_ok {
-					break
-				}
-				err := gauge.Publish(latestCtx, s)
-				nLatest = nLatest + 1
-				if err != nil {
-					report.Action("pubsub.publish.latest", report.Data{
-						"error": err.Error(),
-					})
-				}
-			case s, is_ok := <-historySnapC:
-				if !is_ok {
-					break
-				}
-				err := gauge.Publish(historyCtx, s)
-				nHistory = nHistory + 1
-				if err != nil {
-					report.Action("pubsub.publish.history", report.Data{
-						"error": err.Error(),
-					})
-				}
-			case <-tickC:
-				report.Info("pubsub.publish.ok", report.Data{"latest": nLatest, "history": nHistory})
-				nLatest = 0
-				nHistory = 0
-			}
-		}
-	}()
 
 	// retrieve list of all stations & latest readings
 	var stationC chan string
-	if os.Getenv("USE_SAMPLE_STATIONS") != "" {
+	if projectId == "" {
 		stationC = sampleStationUrls()
 	} else {
 		stationC = discoverStationUrls()
