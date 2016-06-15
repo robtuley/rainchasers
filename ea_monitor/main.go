@@ -49,13 +49,19 @@ func main() {
 	updateLatestC := make(chan gauge.SnapshotUpdate, 10)
 	updateHistoryC := make(chan gauge.SnapshotUpdate, 10)
 
+	// combine updates (time & value) with reference snapshot data (everything else)
 	latestSnapC, historySnapC := applyUpdatesToRefSnaps(refSnapC, updateLatestC, updateHistoryC)
 
 	// publish snapshots to latest & history PubSub topic
-	err = publishSnapshotsFromChannels(projectId, latestTopicName, historyTopicName, latestSnapC, historySnapC)
-	if err != nil {
-		report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
-		return
+	if projectId == "" {
+		go logSnapshotsFromChannel("snapshot.latest", latestSnapC)
+		go logSnapshotsFromChannel("snapshot.history", historySnapC)
+	} else {
+		err = publishSnapshotsFromChannels(projectId, latestTopicName, historyTopicName, latestSnapC, historySnapC)
+		if err != nil {
+			report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
+			return
+		}
 	}
 
 	// retrieve list of all stations & latest readings

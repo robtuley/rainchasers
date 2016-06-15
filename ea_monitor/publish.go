@@ -7,6 +7,12 @@ import (
 	"github.com/robtuley/report"
 )
 
+func logSnapshotsFromChannel(label string, snapC <-chan gauge.Snapshot) {
+	for s := range snapC {
+		report.Info(label, report.Data{"snapshot": s})
+	}
+}
+
 func publishSnapshotsFromChannels(
 	projectId string, latestTopicName string, historyTopicName string,
 	latestSnapC <-chan gauge.Snapshot, historySnapC <-chan gauge.Snapshot,
