@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Write all recorded events to a log file
+// File write events to the specified log file
 func File(filename string) {
 	go func() {
 		for {
@@ -29,7 +29,7 @@ func fileWriter(filename string) error {
 	defer f.Close()
 
 	for {
-		json, more := <-channel.JsonEncoded
+		json, more := <-channel.JSONEncoded
 		if !more {
 			channel.DrainSignal <- true
 			return nil

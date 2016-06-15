@@ -1,6 +1,6 @@
 package report
 
-// Log ACTIONABLE events that need intervention or resolving.
+// Action logs events that need intervention or resolving.
 //
 //     report.Action("http.unavailable", report.Data{"path":req.URL.Path, "error":err.Error()})
 //

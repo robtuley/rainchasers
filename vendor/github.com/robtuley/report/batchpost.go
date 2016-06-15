@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-// Forward all batched events via HTTP POST
-func BatchPostToUrl(url string) {
+// BatchPostToURL HTTP POSTs events in batches to a URL
+func BatchPostToURL(url string) {
 	log.Println("reporting:> batch POST to " + url)
 
 	go batchPoster(url)
@@ -28,7 +28,7 @@ func batchPoster(url string) {
 	buffering:
 		for {
 			select {
-			case json, more := <-channel.JsonEncoded:
+			case json, more := <-channel.JSONEncoded:
 				if !more {
 					stopping = true
 					break buffering

@@ -18,7 +18,7 @@ func init() {
 				log.Println("error:> json encoding ", data)
 				continue
 			}
-			channel.JsonEncoded <- json
+			channel.JSONEncoded <- json
 		}
 	}()
 }

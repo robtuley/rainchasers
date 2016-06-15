@@ -1,4 +1,3 @@
-// Telemetry & logging utility to record unstructured data events for aggregation
 package report
 
 import (
@@ -8,19 +7,23 @@ import (
 // Data is a string-keyed map of unstructured data relevant to the event
 type Data map[string]interface{}
 
+// Observer allows custom functional interception of the log stream
+type Observer func(Data)
+
 //     info.go, action.go, timer.go
 // --> channel.RawEvents
 // --> global.go <-- channel.AddGlobal
 //               --> channel.Drain
 // --> channel.WithGlobals
 // --> json.go --> channel.Drain
-// --> channel.JsonEncoded
+// --> channel.JSONEncoded
 // --> broadcast.go --> channel.Drain
 var channel struct {
 	RawEvents   chan Data
 	WithGlobals chan Data
 	AddGlobal   chan Data
-	JsonEncoded chan string
+	AddObserver chan Observer
+	JSONEncoded chan string
 	DrainSignal chan bool
 	IsDraining  chan bool
 }
@@ -29,7 +32,8 @@ func init() {
 	channel.RawEvents = make(chan Data, 50)
 	channel.WithGlobals = make(chan Data, 50)
 	channel.AddGlobal = make(chan Data)
-	channel.JsonEncoded = make(chan string, 50)
+	channel.AddObserver = make(chan Observer)
+	channel.JSONEncoded = make(chan string, 50)
 	channel.DrainSignal = make(chan bool)
 	channel.IsDraining = make(chan bool)
 }
@@ -50,7 +54,7 @@ func Drain() {
 	close(channel.WithGlobals)
 	<-channel.DrainSignal
 
-	close(channel.JsonEncoded)
+	close(channel.JSONEncoded)
 	<-channel.DrainSignal
 }
 

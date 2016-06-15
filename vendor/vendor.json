@@ -19,8 +19,8 @@
 		},
 		{
 			"path": "github.com/robtuley/report",
-			"revision": "6facc1e8246681a934f92ec15dba17e116cf0572",
-			"revisionTime": "2015-03-10T07:58:44Z"
+			"revision": "dca78c344e16bc6add183ad78b09c8de51ddb2db",
+			"revisionTime": "2016-06-15T19:29:17+01:00"
 		},
 		{
 			"path": "golang.org/x/net/context",

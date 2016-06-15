@@ -4,14 +4,14 @@ import (
 	"os"
 )
 
-// Write all recorded events to stdout
+// StdOut write events to stdout
 func StdOut() {
 	go stdoutWriter()
 }
 
 func stdoutWriter() {
 	for {
-		json, more := <-channel.JsonEncoded
+		json, more := <-channel.JSONEncoded
 		if !more {
 			channel.DrainSignal <- true
 			return

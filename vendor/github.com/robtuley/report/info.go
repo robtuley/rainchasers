@@ -1,6 +1,6 @@
 package report
 
-// Log informational event that will provide context to any events requiring action.
+// Info logs event that will provide context to any events requiring action.
 //
 //     report.Info("http.request", report.Data{"path":req.URL.Path, "ua":req.UserAgent()})
 //
