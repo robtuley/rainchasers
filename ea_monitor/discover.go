@@ -19,6 +19,8 @@ func sampleStationUrls() chan string {
 	go func() {
 		// single measure
 		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E9250"
+		// multi-measure
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/F1906"
 		// Missing lat/lg
 		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E14680"
 		// 404 response
