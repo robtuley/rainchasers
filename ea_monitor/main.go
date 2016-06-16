@@ -17,7 +17,13 @@ import (
 //   HISTORY_PUBSUB_TOPIC (no default, blank for validation mode)
 //
 func main() {
+	if err := run(); err != nil {
+		os.Stderr.WriteString(err.Error() + "\n")
+		os.Exit(1)
+	}
+}
 
+func run() error {
 	// setup telemetry and logging
 	defer report.Drain()
 	report.StdOut()
@@ -36,6 +42,13 @@ func main() {
 	projectId := os.Getenv("PROJECT_ID")
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
+
+	// decision on validate mode (test running)
+	isValidateMode := projectId == ""
+	var validateC <-chan report.Data
+	if isValidateMode {
+		validateC = bufferLogStream(1000)
+	}
 	report.Info("daemon.start", report.Data{
 		"update_period":            updatePeriodSeconds,
 		"update_count_on_shutdown": updateCountOnShutdown,
@@ -53,20 +66,20 @@ func main() {
 	latestSnapC, historySnapC := applyUpdatesToRefSnaps(refSnapC, updateLatestC, updateHistoryC)
 
 	// publish snapshots to latest & history PubSub topic
-	if projectId == "" {
+	if isValidateMode {
 		go logSnapshotsFromChannel("snapshot.latest", latestSnapC)
 		go logSnapshotsFromChannel("snapshot.history", historySnapC)
 	} else {
 		err = publishSnapshotsFromChannels(projectId, latestTopicName, historyTopicName, latestSnapC, historySnapC)
 		if err != nil {
 			report.Action("pubsub.connect.error", report.Data{"error": err.Error()})
-			return
+			return err
 		}
 	}
 
 	// retrieve list of all stations & latest readings
 	var stationC chan string
-	if projectId == "" {
+	if isValidateMode {
 		stationC = sampleStationUrls()
 	} else {
 		stationC = discoverStationUrls()
@@ -98,5 +111,10 @@ func main() {
 		<-tick
 	}
 
-	report.Info("daemon.stop", report.Data{})
+	// validate log stream on shutdown if required
+	err = nil
+	if isValidateMode {
+		err = validateLogStream(validateC)
+	}
+	return err
 }
