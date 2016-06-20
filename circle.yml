@@ -24,6 +24,7 @@ test:
   override:
     - go test ./gauge/
     - go test ./bigquery/
+    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM
 
 deployment:
   hub: 
