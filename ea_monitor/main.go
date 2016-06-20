@@ -43,10 +43,10 @@ func run() error {
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 
-	// decision on validate mode (test running)
-	isValidateMode := projectId == ""
+	// decision on whether validating logs
+	isValidating := projectId == ""
 	var validateC <-chan report.Data
-	if isValidateMode {
+	if isValidating {
 		validateC = bufferLogStream(1000)
 	}
 	report.Info("daemon.start", report.Data{
@@ -66,7 +66,7 @@ func run() error {
 	latestSnapC, historySnapC := applyUpdatesToRefSnaps(refSnapC, updateLatestC, updateHistoryC)
 
 	// publish snapshots to latest & history PubSub topic
-	if isValidateMode {
+	if isValidating {
 		go logSnapshotsFromChannel("snapshot.latest", latestSnapC)
 		go logSnapshotsFromChannel("snapshot.history", historySnapC)
 	} else {
@@ -79,7 +79,7 @@ func run() error {
 
 	// retrieve list of all stations & latest readings
 	var stationC chan string
-	if isValidateMode {
+	if isValidating {
 		stationC = sampleStationUrls()
 	} else {
 		stationC = discoverStationUrls()
@@ -113,7 +113,7 @@ func run() error {
 
 	// validate log stream on shutdown if required
 	err = nil
-	if isValidateMode {
+	if isValidating {
 		expect := map[string]int{
 			"update.response":  updateCountOnShutdown,
 			"snapshot.history": VALIDATE_IS_PRESENT,
