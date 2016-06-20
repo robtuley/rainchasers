@@ -114,7 +114,12 @@ func run() error {
 	// validate log stream on shutdown if required
 	err = nil
 	if isValidateMode {
-		err = validateLogStream(validateC)
+		expect := map[string]int{
+			"update.response":  updateCountOnShutdown,
+			"snapshot.history": VALIDATE_IS_PRESENT,
+			"snapshot.latest":  VALIDATE_IS_PRESENT,
+		}
+		err = validateLogStream(validateC, expect)
 	}
 	return err
 }
