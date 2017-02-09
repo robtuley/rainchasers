@@ -1,9 +1,22 @@
 machine:
   services:
     - docker
+  environment:
+    GOOGLE_APPLICATION_CREDENTIALS: "/home/ubuntu/gcloud-service-key.json"
 
 dependencies:
   pre:
+    - echo $GCLOUD_SERVICE_KEY | base64 --decode > $GOOGLE_APPLICATION_CREDENTIALS
+    - sudo -i /opt/google-cloud-sdk/bin/gcloud --quiet components update
+    - sudo -i /opt/google-cloud-sdk/bin/gcloud --quiet components install kubectl
+    - gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+    - gcloud --quiet config set project $GCLOUD_PROJECT
+    - gcloud --quiet config set compute/zone $GCLOUD_ZONE
+    - gcloud --quiet config set container/cluster $GCLOUD_CLUSTER
+    - gcloud --quiet container clusters get-credentials $GCLOUD_CLUSTER
+    - gcloud --version
+    - gcloud config list
+    - kubectl describe deployments
     - ln -s `pwd`/vendor/golang.org /usr/local/go/src/golang.org
     - ln -s `pwd`/vendor/google.golang.org /usr/local/go/src/google.golang.org
     - mkdir -p /usr/local/go/src/github.com/
@@ -13,8 +26,10 @@ dependencies:
     - mkdir -p /usr/local/go/src/github.com/rainchasers
     - ln -s `pwd` /usr/local/go/src/github.com/rainchasers/com.rainchasers.gauge
   override:
-    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor && docker build -t quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM .
-    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM .
+    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM .
+    - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM .
+    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:latest
+    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:latest
 
 test:
   pre:
@@ -24,12 +39,14 @@ test:
   override:
     - go test ./gauge/
     - go test ./bigquery/
-    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM
+    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.app/ea:v$CIRCLE_BUILD_NUM
 
 deployment:
-  hub: 
+  production: 
     branch: master
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PWD $DOCKER_URL
-      - docker push quay.io/rainchasers/ea_monitor:v$CIRCLE_BUILD_NUM
-      - docker push quay.io/rainchasers/gauge_bigquery:v$CIRCLE_BUILD_NUM
+      - gcloud --quiet docker push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea
+      - gcloud --quiet docker push eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery
+      - kubectl set image deployment/rainchasers-ea rainchasers-ea=eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM
+      - kubectl rollout status deployment/rainchasers-ea
+      - kubectl describe deployments
