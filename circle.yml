@@ -34,7 +34,7 @@ test:
     - go vet ./bigquery/
   override:
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go test ./...
-    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.app/ea:v$CIRCLE_BUILD_NUM
+    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM
 
 deployment:
   production: 
