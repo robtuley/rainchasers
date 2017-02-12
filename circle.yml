@@ -17,15 +17,15 @@ dependencies:
     - gcloud --version
     - gcloud config list
     - kubectl describe deployments
-    - mkdir -p $HOME/.go_workspace/src/github.com/rainchasers/
-    - ln -s $HOME/com.rainchasers.gauge $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
+    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/rainchasers/
+    - ln -s /home/ubuntu/com.rainchasers.gauge /home/ubuntu/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
 
 compile:
   override:
     - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea_monitor && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM .:
-        pwd: $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
+        pwd: /home/ubuntu/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
     - CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM .:
-        pwd: $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
+        pwd: /home/ubuntu/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:latest
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:latest
 
@@ -36,7 +36,7 @@ test:
     - go vet ./bigquery/
   override:
     - go test ./...:
-        pwd: $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
+        pwd: /home/ubuntu/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
     - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.app/ea:v$CIRCLE_BUILD_NUM
 
 deployment:
