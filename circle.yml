@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    GOOGLE_APPLICATION_CREDENTIALS: "~/gcloud-service-key.json"
+    GOOGLE_APPLICATION_CREDENTIALS: "/home/ubuntu/gcloud-service-key.json"
 
 dependencies:
   pre:
