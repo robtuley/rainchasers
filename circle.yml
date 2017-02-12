@@ -17,6 +17,8 @@ dependencies:
     - gcloud --version
     - gcloud config list
     - kubectl describe deployments
+    - mkdir -p  $HOME/.go_workspace/src/github.com/rainchasers/
+    - ln -s $HOME/com.rainchasers.gauge $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge
 
 compile:
   override:
