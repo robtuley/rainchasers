@@ -92,7 +92,7 @@ func run() error {
 	}
 
 	// start job to download historical data
-	historyErrC := downloadHistoricalDataForDaysAgo(1, updateHistoryC)
+	historyErrC := downloadHistoricalDataForDaysAgo(2, updateHistoryC)
 	go func() {
 		for err := range historyErrC {
 			report.Action("history.error", report.Data{"error": err.Error()})
