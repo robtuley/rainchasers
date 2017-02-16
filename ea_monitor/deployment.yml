@@ -1,21 +1,20 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: ea-monitor
-  labels:
-    name: ea-monitor
+  name: rainchasers-ea
 spec:
   replicas: 1
   selector:
-    name: ea-monitor
+    matchLabels:
+      name: rainchasers-ea
   template:
     metadata:
       labels:
-        name: ea-monitor
+        name: rainchasers-ea
     spec:
       containers:
-      - name: ea-monitor-v38
-        image: quay.io/rainchasers/ea_monitor:v38
+      - name: rainchasers-ea
+        image: eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:latest
         env:
         - name: GET_HOSTS_FROM
           value: dns

@@ -44,4 +44,6 @@ deployment:
       - gcloud --quiet docker push eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery
       - kubectl set image deployment/rainchasers-ea rainchasers-ea=eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM
       - kubectl rollout status deployment/rainchasers-ea
+      - kubectl set image deployment/rainchasers-bigquery rainchasers-bigquery=eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM
+      - kubectl rollout status deployment/rainchasers-bigquery
       - kubectl describe deployments

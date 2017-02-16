@@ -1,21 +1,20 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: gauge-bigquery
-  labels:
-    name: gauge-bigquery
+  name: rainchasers-bigquery
 spec:
   replicas: 1
   selector:
-    name: gauge-bigquery
+    matchLabels:
+      name: rainchasers-bigquery
   template:
     metadata:
       labels:
-        name: gauge-bigquery
+        name: rainchasers-bigquery
     spec:
       containers:
-      - name: gauge-bigquery-v34
-        image: quay.io/rainchasers/gauge_bigquery:v34
+      - name: rainchasers-bigquery
+        image: eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:latest
         env:
         - name: GET_HOSTS_FROM
           value: dns
