@@ -1,7 +1,7 @@
 Rainchasers Gauge Service
 =========================
 
-Responsible for retrieving updates from various flavours of river gauges and providing a consistent stream of these through Google Pub/Sub, archiving into Google BigQuery and presenting out a HTML gauge view service for the Rainchasers site.
+Responsible for retrieving updates from various flavours of river gauges and providing a consistent stream of these through Google Pub/Sub, archiving into Google BigQuery and presenting out an API gauge view service for the [Rainchasers PWA](https://app.rainchasers.com).
 
 [![Circle CI](https://circleci.com/gh/rainchasers/com.rainchasers.gauge.svg?style=svg)](https://circleci.com/gh/rainchasers/com.rainchasers.gauge)
 
@@ -20,10 +20,8 @@ Library package that covers:
 * Avro schema, encoding & decoding
 * Google Cloud PubSub publish & consume
 
-`/ea_monitor/` Latest EA Gauge Values
--------------------------------------
-
-[![Docker Repository on Quay](https://quay.io/repository/rainchasers/ea_monitor/status "Docker Repository on Quay")](https://quay.io/repository/rainchasers/ea_monitor)
+`/ea/` Retrieve Latest EA Gauge Values
+--------------------------------------
 
 Daemon that polls the [EA Real Time Data API](http://environment.data.gov.uk/flood-monitoring/doc/reference) and publishes a stream of the latest reading values to a PubSub topic. The daemon executes in 3 phases:
 
@@ -38,11 +36,9 @@ In addition to this 3 stage monitoring for the latest readings, after stage (2) 
 `/bigquery/` Archive Gauge Values to Google Storage & Big Query
 ---------------------------------------------------------------
 
-[![Docker Repository on Quay](https://quay.io/repository/rainchasers/gauge_bigquery/status "Docker Repository on Quay")](https://quay.io/repository/rainchasers/gauge_bigquery)
+ETL daemon that consumes the PubSub stream of both latest and historical gauge values, archives to Google Storage in CSV format and loads into Google Big Query.
 
-ETL Daemon that consumes the PubSub stream of both latest and historical gauge values, archives to Google Storage in CSV format and loads into Google Big Query.
+Docker > GCE Kubernetes Deployment
+----------------------------------
 
-Kubernetes
-----------
-
-Appropriate `replication-controller.yml` are found in each application directory for deployment into Kubernetes.
+Required applications are built by CircleCI into docker images that are then deployed into a GCE kubernetes cluster using the appropriate `deployment.yml`.
