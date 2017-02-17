@@ -9,11 +9,11 @@ func consumeTopics(projectId string, topicNames ...string) (<-chan gauge.Snapsho
 	errC := make(chan error)
 
 	for _, tn := range topicNames {
-		ctx, err := gauge.NewPubSubContext(projectId, tn)
+		topic, err := gauge.NewTopic(projectId, tn)
 		if err != nil {
 			return snapC, errC, err
 		}
-		sC, eC, err := gauge.Subscribe(ctx, "bigquery")
+		sC, eC, err := gauge.Subscribe(topic, "bigq")
 		if err != nil {
 			return snapC, errC, err
 		}

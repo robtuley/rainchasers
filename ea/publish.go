@@ -18,11 +18,11 @@ func publishSnapshotsFromChannels(
 	latestSnapC <-chan gauge.Snapshot, historySnapC <-chan gauge.Snapshot,
 ) error {
 
-	latestCtx, err := gauge.NewPubSubContext(projectId, latestTopicName)
+	latestTopic, err := gauge.NewTopic(projectId, latestTopicName)
 	if err != nil {
 		return err
 	}
-	historyCtx, err := gauge.NewPubSubContext(projectId, historyTopicName)
+	historyTopic, err := gauge.NewTopic(projectId, historyTopicName)
 	if err != nil {
 		return err
 	}
@@ -37,7 +37,7 @@ func publishSnapshotsFromChannels(
 				if !is_ok {
 					break
 				}
-				err := gauge.Publish(latestCtx, s)
+				err := gauge.Publish(latestTopic, s)
 				nLatest = nLatest + 1
 				if err != nil {
 					report.Action("pubsub.publish.latest", report.Data{
@@ -48,7 +48,7 @@ func publishSnapshotsFromChannels(
 				if !is_ok {
 					break
 				}
-				err := gauge.Publish(historyCtx, s)
+				err := gauge.Publish(historyTopic, s)
 				nHistory = nHistory + 1
 				if err != nil {
 					report.Action("pubsub.publish.history", report.Data{

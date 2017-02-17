@@ -70,7 +70,7 @@ func main() {
 	// consume snapshots from pubsub
 	snapC, snapErrC, err := consumeTopics(projectId, latestTopicName, historyTopicName)
 	if err != nil {
-		report.Action("error.consume", report.Data{"error": err.Error()})
+		report.Action("error.subscribe", report.Data{"error": err.Error()})
 		return
 	}
 	go func() {

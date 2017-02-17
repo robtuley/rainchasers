@@ -4,67 +4,73 @@ import (
 	"bytes"
 	"time"
 
+	"cloud.google.com/go/pubsub"
 	"golang.org/x/net/context"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/cloud"
-	"google.golang.org/cloud/pubsub"
+	"google.golang.org/api/iterator"
 )
 
-type PubSubContext struct {
-	GoogleContext context.Context
-	TopicName     string
+type Topic struct {
+	ProjectID string
+	PubSub    *pubsub.Topic
 }
 
-func NewPubSubContext(projectId string, topicName string) (*PubSubContext, error) {
-	client, err := google.DefaultClient(context.Background(), pubsub.ScopePubSub)
+func NewTopic(projectId string, topicName string) (*Topic, error) {
+	client, err := pubsub.NewClient(context.Background(), projectId)
 	if err != nil {
 		return nil, err
 	}
-	ctx := cloud.NewContext(projectId, client)
 
-	exists, err := pubsub.TopicExists(ctx, topicName)
+	topic := client.Topic(topicName)
+	exists, err := topic.Exists(context.Background())
 	if err != nil {
 		return nil, err
 	}
 	if !exists {
-		err = pubsub.CreateTopic(ctx, topicName)
+		topic, err = client.NewTopic(context.Background(), topicName)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	return &PubSubContext{
-		GoogleContext: ctx,
-		TopicName:     topicName,
+	return &Topic{
+		ProjectID: projectId,
+		PubSub:    topic,
 	}, nil
 }
 
-func Publish(ctx *PubSubContext, snap Snapshot) error {
+func Publish(topic *Topic, snap Snapshot) error {
 	bb, err := Encode(snap)
 	if err != nil {
 		return err
 	}
 
-	_, err = pubsub.Publish(ctx.GoogleContext, ctx.TopicName, &pubsub.Message{
+	_, err = topic.PubSub.Publish(context.Background(), &pubsub.Message{
 		Data: bb.Bytes(),
 	})
 	return err
 }
 
-func Subscribe(ctx *PubSubContext, subLabel string) (<-chan Snapshot, <-chan error, error) {
+func Subscribe(topic *Topic, consumerGroup string) (<-chan Snapshot, <-chan error, error) {
 	snapC := make(chan Snapshot, 100)
 	errC := make(chan error, 10)
 	ackDeadline := time.Second * 10
-	subName := ctx.TopicName + "." + subLabel
-
-	isSub, err := pubsub.SubExists(ctx.GoogleContext, subName)
+	subName := topic.PubSub.Name() + "." + consumerGroup
+	client, err := pubsub.NewClient(context.Background(), topic.ProjectID)
 	if err != nil {
 		close(snapC)
 		close(errC)
 		return snapC, errC, err
 	}
-	if !isSub {
-		err = pubsub.CreateSub(ctx.GoogleContext, subName, ctx.TopicName, ackDeadline, "")
+
+	sub := client.Subscription(subName)
+	exists, err := sub.Exists(context.Background())
+	if err != nil {
+		close(snapC)
+		close(errC)
+		return snapC, errC, err
+	}
+	if !exists {
+		sub, err = client.NewSubscription(context.Background(), subName, topic.PubSub, ackDeadline, nil)
 		if err != nil {
 			close(snapC)
 			close(errC)
@@ -74,24 +80,31 @@ func Subscribe(ctx *PubSubContext, subLabel string) (<-chan Snapshot, <-chan err
 
 	go func() {
 		for {
-			msgs, err := pubsub.PullWait(ctx.GoogleContext, subName, 10)
+			it, err := sub.Pull(context.Background())
 			if err != nil {
 				errC <- err
 				continue
 			}
 
-			for _, m := range msgs {
+			for i := 0; i < 100; i++ {
+				m, err := it.Next()
+				if err == iterator.Done {
+					break
+				}
+				if err != nil {
+					errC <- err
+					continue
+				}
 				snap, decodeErr := Decode(bytes.NewBuffer(m.Data))
-				ackErr := pubsub.Ack(ctx.GoogleContext, subName, m.AckID)
 				if decodeErr != nil {
 					errC <- decodeErr
 				} else {
 					snapC <- snap
 				}
-				if ackErr != nil {
-					errC <- ackErr
-				}
+				m.Done(true)
 			}
+
+			it.Stop()
 		}
 	}()
 

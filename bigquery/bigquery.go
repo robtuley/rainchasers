@@ -3,9 +3,8 @@ package main
 import (
 	"time"
 
+	"cloud.google.com/go/bigquery"
 	"golang.org/x/net/context"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/cloud/bigquery"
 )
 
 type BigQueryJobStatus struct {
@@ -207,9 +206,5 @@ func snapshotSchema() bigquery.Schema {
 }
 
 func bigQueryClient(projectId string) (*bigquery.Client, error) {
-	client, err := google.DefaultClient(context.Background(), bigquery.Scope)
-	if err != nil {
-		return nil, err
-	}
-	return bigquery.NewClient(client, projectId)
+	return bigquery.NewClient(context.Background(), projectId)
 }

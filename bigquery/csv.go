@@ -5,11 +5,9 @@ import (
 	"strconv"
 	"time"
 
+	"cloud.google.com/go/storage"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"golang.org/x/net/context"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/cloud"
-	"google.golang.org/cloud/storage"
 )
 
 type CSVFile struct {
@@ -74,18 +72,19 @@ func singleBatchCsvEncodeAndWrite(
 
 	startWriteTime := time.Now()
 
-	gContext, gClient, err := storageClient(projectId)
+	ctx := context.Background()
+	client, err := storage.NewClient(ctx)
 	if err != nil {
 		errC <- err
 		return
 	}
-	defer gClient.Close()
+	defer client.Close()
 
 	id := strconv.FormatInt(startListenTime.UnixNano(), 10)
 	objectName := startListenTime.Format("2006/01/02/") + id + ".csv"
 
-	bucket := gClient.Bucket(bucketName)
-	gw := bucket.Object(objectName).NewWriter(gContext)
+	bucket := client.Bucket(bucketName)
+	gw := bucket.Object(objectName).NewWriter(ctx)
 	gw.ContentType = "text/csv"
 
 	cw := csv.NewWriter(gw)
@@ -114,21 +113,6 @@ func singleBatchCsvEncodeAndWrite(
 		ListenNanoseconds: listenDuration.Nanoseconds(),
 		WriteNanoseconds:  writeDuration.Nanoseconds(),
 	}
-}
-
-func storageClient(projectId string) (context.Context, *storage.Client, error) {
-	client, err := google.DefaultClient(context.Background(), storage.ScopeReadWrite)
-	if err != nil {
-		return nil, nil, err
-	}
-	ctx := cloud.NewContext(projectId, client)
-
-	sClient, err := storage.NewClient(ctx)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return ctx, sClient, nil
 }
 
 func snap2Record(s gauge.Snapshot) []string {
