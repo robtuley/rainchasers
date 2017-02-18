@@ -26,15 +26,16 @@ type detailStationMeasureLatestJson struct {
 
 type detailStationJson struct {
 	Items struct {
-		Url             string `json:"@id"`
-		Name            string
-		NameRawJson     json.RawMessage `json:"label"`
-		RiverName       string          `json:"riverName"`
-		Lat             float32
-		Lg              float32
-		LatRawJson      json.RawMessage `json:"lat"`
-		LgRawJson       json.RawMessage `json:"long"`
-		MeasuresRawJson json.RawMessage `json:"measures"`
+		Url              string `json:"@id"`
+		Name             string
+		NameRawJson      json.RawMessage `json:"label"`
+		RiverName        string
+		RiverNameRawJson json.RawMessage `json:"riverName"`
+		Lat              float32
+		Lg               float32
+		LatRawJson       json.RawMessage `json:"lat"`
+		LgRawJson        json.RawMessage `json:"long"`
+		MeasuresRawJson  json.RawMessage `json:"measures"`
 	} `json:"items"`
 }
 
@@ -72,7 +73,7 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		return []gauge.Snapshot{}, err
 	}
 	// a known inconsistency is that the API can provide Lat, Lg or label as an array
-	// so we use a defensive mechanism to parse these fields
+	// so we use a defensive mechanism to parse these fields and let them be missing completely
 	// e.g. http://environment.data.gov.uk/flood-monitoring/id/stations/E40411
 	s.Items.Lat, err = parseFloatFromScalarOrArray(s.Items.LatRawJson)
 	if err != nil {
@@ -86,8 +87,13 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 	}
 	s.Items.Name, err = parseStringFromScalarOrArray(s.Items.NameRawJson)
 	if err != nil {
-		report.Action("detail.name.missing", report.Data{"url": url, "error": err.Error()})
+		report.Info("detail.name.missing", report.Data{"url": url, "error": err.Error()})
 		s.Items.Name = ""
+	}
+	s.Items.RiverName, err = parseStringFromScalarOrArray(s.Items.RiverNameRawJson)
+	if err != nil {
+		report.Info("detail.rivername.missing", report.Data{"url": url, "error": err.Error()})
+		s.Items.RiverName = ""
 	}
 
 	// the EA API returns either an:
