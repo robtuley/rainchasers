@@ -27,6 +27,10 @@ func sampleStationUrls() chan string {
 		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/H_obs.upstream"
 		// lat/lg/label array
 		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/E40411"
+		// rain tipping bucket
+		urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/46107"
+		//
+		// urlC <- "http://environment.data.gov.uk/flood-monitoring/id/stations/F0304"
 
 		close(urlC)
 	}()

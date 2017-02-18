@@ -130,12 +130,12 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		}
 
 		switch m.Type {
-		case "flow", "level", "temperature":
+		case "flow", "level", "temperature", "rainfall":
 		case "wind":
 			// skip wind measures as not required
 			continue
 		default:
-			report.Action("detail.type.error", report.Data{"url": m.Url, "type": m.Type})
+			report.Action("detail.type.error", report.Data{"url": m.Url, "unknownType": m.Type})
 			continue
 		}
 
