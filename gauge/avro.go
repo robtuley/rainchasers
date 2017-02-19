@@ -49,7 +49,7 @@ func init() {
     },{
       "doc": "Measurement type",
       "type": {"type": "enum", "name": "typeValues",
-                "symbols": ["level", "flow", "temperature"]},
+                "symbols": ["level", "flow", "temperature", "rainfall"]},
       "name": "type"
     },{
       "doc": "Unix epoch time in seconds for snapshot",
