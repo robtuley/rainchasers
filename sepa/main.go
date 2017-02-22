@@ -48,10 +48,11 @@ func run() error {
 	_ = latestTopicName
 	_ = historyTopicName
 
-	// PSEUDO:
-	//
-	// 1. Blocking download and parse of SEPA gauge index CSV
-	// http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv
+	_, err = discoverStations()
+	if err != nil {
+		return err
+	}
+
 	//
 	// SEPA_HYDROLOGY_OFFICE,STATION_NAME,LOCATION_CODE,NATIONAL_GRID_REFERENCE,CATCHMENT_NAME,RIVER_NAME,GAUGE_DATUM,CATCHMENT_AREA,START_DATE,END_DATE,SYSTEM_ID,LOWEST_VALUE,LOW,MAX_VALUE,HIGH,MAX_DISPLAY,MEAN,UNITS,WEB_MESSAGE,NRFA_LINK
 	// Perth,Perth,10048,NO1160525332,---,Tay,2.08,4991.0,August 1991,2017-02-20 12:45:00,58156010,0.0,0.168,4.928,3.493,4.928m @ 17/01/1993 19:30:00,0.894,m,,http://www.ceh.ac.uk/data/nrfa/data/station.html?15042
