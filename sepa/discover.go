@@ -85,9 +85,14 @@ func csvRecordToSnapshot(r []string) (gauge.Snapshot, error) {
 	s.StationUrl = "http://apps.sepa.org.uk/waterlevels/default.aspx?sd=t&lc=" + r[2]
 	s.Name = r[1]
 	s.RiverName = r[5]
-	s.Lat = 0.0
-	s.Lg = 0.0 // TODO: convert r[3]
 	s.Type = "level"
+
+	var err error
+	s.Lat, s.Lg, err = gridRef2LatLg(r[3])
+	if err != nil {
+		return s, err
+	}
+
 	_, s.Unit = normaliseUnit(0.0, r[17])
 
 	// no snapshot readings are available

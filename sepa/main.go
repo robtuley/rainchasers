@@ -48,10 +48,13 @@ func run() error {
 	_ = latestTopicName
 	_ = historyTopicName
 
+	// discover SEPA gauging stations
 	_, err = discoverStations()
 	if err != nil {
 		return err
 	}
+
+	//
 
 	//
 	// SEPA_HYDROLOGY_OFFICE,STATION_NAME,LOCATION_CODE,NATIONAL_GRID_REFERENCE,CATCHMENT_NAME,RIVER_NAME,GAUGE_DATUM,CATCHMENT_AREA,START_DATE,END_DATE,SYSTEM_ID,LOWEST_VALUE,LOW,MAX_VALUE,HIGH,MAX_DISPLAY,MEAN,UNITS,WEB_MESSAGE,NRFA_LINK
