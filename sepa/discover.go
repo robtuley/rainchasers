@@ -9,18 +9,18 @@ import (
 	"strings"
 
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/robtuley/report"
 )
 
 func discoverStations() ([]gauge.Snapshot, error) {
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
+	var snapshots []gauge.Snapshot
 
 	resp, err := http.Get(url)
 	if err != nil {
-		return []gauge.Snapshot{}, err
+		return snapshots, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return []gauge.Snapshot{}, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+		return snapshots, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 
@@ -35,7 +35,7 @@ ReadCSV:
 			break ReadCSV
 		}
 		if err != nil {
-			continue
+			return snapshots, err
 		}
 		if isFirst {
 			isFirst = false
@@ -44,13 +44,13 @@ ReadCSV:
 
 		s, err := csvRecordToSnapshot(r)
 		if err != nil {
-			continue
+			return snapshots, err
 		}
 
-		report.Info("station", report.Data{"s": s})
+		snapshots = append(snapshots, s)
 	}
 
-	return []gauge.Snapshot{}, nil
+	return snapshots, nil
 }
 
 // 0:SEPA_HYDROLOGY_OFFICE

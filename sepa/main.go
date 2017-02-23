@@ -42,24 +42,21 @@ func run() error {
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 
-	_ = updateCountOnShutdown
-	_ = updatePeriodSeconds
-	_ = projectId
-	_ = latestTopicName
-	_ = historyTopicName
+	report.Info("daemon.start", report.Data{
+		"update_period":            updatePeriodSeconds,
+		"update_count_on_shutdown": updateCountOnShutdown,
+		"project_id":               projectId,
+		"latest_pubsub_topic":      latestTopicName,
+		"history_pubsub_topic":     historyTopicName,
+	})
 
 	// discover SEPA gauging stations
-	_, err = discoverStations()
+	refSnapshots, err := discoverStations()
 	if err != nil {
 		return err
 	}
+	report.Info("discovered", report.Data{"count": len(refSnapshots)})
 
-	//
-
-	//
-	// SEPA_HYDROLOGY_OFFICE,STATION_NAME,LOCATION_CODE,NATIONAL_GRID_REFERENCE,CATCHMENT_NAME,RIVER_NAME,GAUGE_DATUM,CATCHMENT_AREA,START_DATE,END_DATE,SYSTEM_ID,LOWEST_VALUE,LOW,MAX_VALUE,HIGH,MAX_DISPLAY,MEAN,UNITS,WEB_MESSAGE,NRFA_LINK
-	// Perth,Perth,10048,NO1160525332,---,Tay,2.08,4991.0,August 1991,2017-02-20 12:45:00,58156010,0.0,0.168,4.928,3.493,4.928m @ 17/01/1993 19:30:00,0.894,m,,http://www.ceh.ac.uk/data/nrfa/data/station.html?15042
-	//
 	// 2. Calculate tick rate (with min) and spawn individual gauge download CSVs
 	// 3. Download individual CSV, latest value to latest reading topic, previous to history
 	// 4. Close and restart
