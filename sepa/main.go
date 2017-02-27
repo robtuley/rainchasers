@@ -42,6 +42,12 @@ func run() error {
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 
+	// decision on whether validating logs
+	isValidating := projectId == ""
+	var validateC <-chan report.Data
+	if isValidating {
+		validateC = bufferLogStream(1000)
+	}
 	report.Info("daemon.start", report.Data{
 		"update_period":            updatePeriodSeconds,
 		"update_count_on_shutdown": updateCountOnShutdown,
@@ -55,11 +61,40 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	if isValidating {
+		refSnapshots = refSnapshots[0:5]
+	}
 	report.Info("discovered", report.Data{"count": len(refSnapshots)})
 
-	// 2. Calculate tick rate (with min) and spawn individual gauge download CSVs
-	// 3. Download individual CSV, latest value to latest reading topic, previous to history
-	// 4. Close and restart
+	// calculate tick rate and spawn individual gauge download CSVs
+	tickerMillisecond := updatePeriodSeconds * 1000 / len(refSnapshots)
+	if tickerMillisecond < 1000 {
+		tickerMillisecond = 1000
+	}
+	nMax := updateCountOnShutdown * len(refSnapshots)
+	n := 0
+	ticker := time.NewTicker(time.Millisecond * time.Duration(tickerMillisecond))
 
-	return nil
+updateTick:
+	for range ticker.C {
+		i := n % len(refSnapshots)
+		report.Info("updated", report.Data{"url": refSnapshots[i].Url})
+
+		n = n + 1
+		if n >= nMax {
+			break updateTick
+		}
+	}
+
+	// validate log stream on shutdown if required
+	err = nil
+	if isValidating {
+		expect := map[string]int{
+			"discovered": VALIDATE_IS_PRESENT,
+			"updated":    updateCountOnShutdown * len(refSnapshots),
+		}
+		time.Sleep(time.Second) // allow log flush
+		err = validateLogStream(validateC, expect)
+	}
+	return err
 }
