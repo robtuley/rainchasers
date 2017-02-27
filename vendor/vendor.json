@@ -23,6 +23,12 @@
 			"revisionTime": "2016-06-15T19:29:17+01:00"
 		},
 		{
+			"checksumSHA1": "lQki/q/fns2/qLu22oUeppAm4/M=",
+			"path": "github.com/thingful/osgridconverter",
+			"revision": "06789ac2e515d7a1eedc8b72124794fef678199c",
+			"revisionTime": "2017-01-27T11:45:42Z"
+		},
+		{
 			"path": "golang.org/x/net/context",
 			"revision": "6acef71eb69611914f7a30939ea9f6e194c78172",
 			"revisionTime": "2016-02-25T17:50:37Z"
@@ -247,5 +253,6 @@
 			"revision": "b4b62c5f29c6bc2411c38b00b1e41b1b521eedd4",
 			"revisionTime": "2016-02-26T14:33:54-08:00"
 		}
-	]
+	],
+	"rootPath": "github.com/rainchasers/com.rainchasers.gauge"
 }

@@ -1,0 +1,13 @@
+box: golang:1.7.4
+# Build definition
+build:
+  steps:
+    # Sets the go workspace and places you package
+    # at the right place in the workspace tree
+    - setup-go-workspace
+
+    # Test the project
+    - script:
+        name: go test
+        code: |
+          go test ./...
