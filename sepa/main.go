@@ -59,12 +59,13 @@ func run() error {
 	// discover SEPA gauging stations
 	refSnapshots, err := discoverStations()
 	if err != nil {
+		report.Action("discovered.error", report.Data{"error": err.Error()})
 		return err
 	}
 	if isValidating {
 		refSnapshots = refSnapshots[0:5]
 	}
-	report.Info("discovered", report.Data{"count": len(refSnapshots)})
+	report.Info("discovered.ok", report.Data{"count": len(refSnapshots)})
 
 	// calculate tick rate and spawn individual gauge download CSVs
 	tickerMillisecond := updatePeriodSeconds * 1000 / len(refSnapshots)
@@ -78,7 +79,19 @@ func run() error {
 updateTick:
 	for range ticker.C {
 		i := n % len(refSnapshots)
-		report.Info("updated", report.Data{"url": refSnapshots[i].Url})
+
+		tick := report.Tick()
+		readings, err := getReadings(refSnapshots[i])
+		if err != nil {
+			report.Action("updated.error", report.Data{
+				"url":   refSnapshots[i].Url,
+				"error": err.Error(),
+			})
+		}
+		report.Tock(tick, "updated.ok", report.Data{
+			"url":   refSnapshots[i].Url,
+			"count": len(readings),
+		})
 
 		n = n + 1
 		if n >= nMax {
@@ -90,8 +103,8 @@ updateTick:
 	err = nil
 	if isValidating {
 		expect := map[string]int{
-			"discovered": VALIDATE_IS_PRESENT,
-			"updated":    updateCountOnShutdown * len(refSnapshots),
+			"discovered.ok": VALIDATE_IS_PRESENT,
+			"updated.ok":    updateCountOnShutdown * len(refSnapshots),
 		}
 		time.Sleep(time.Second) // allow log flush
 		err = validateLogStream(validateC, expect)
