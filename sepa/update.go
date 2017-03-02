@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
@@ -42,6 +43,17 @@ ReadCSV:
 		u := gauge.SnapshotUpdate{
 			Url: s.Url,
 		}
+
+		u.DateTime, err = time.Parse("02/01/2006 15:04:05", r[0])
+		if err != nil {
+			continue
+		}
+
+		v, err := strconv.ParseFloat(r[1], 32)
+		if err != nil {
+			continue
+		}
+		u.Value = float32(v)
 
 		updates = append(updates, u)
 	}

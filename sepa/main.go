@@ -87,11 +87,12 @@ updateTick:
 				"url":   refSnapshots[i].Url,
 				"error": err.Error(),
 			})
+		} else {
+			report.Tock(tick, "updated.ok", report.Data{
+				"url":   refSnapshots[i].Url,
+				"count": len(readings),
+			})
 		}
-		report.Tock(tick, "updated.ok", report.Data{
-			"url":   refSnapshots[i].Url,
-			"count": len(readings),
-		})
 
 		n = n + 1
 		if n >= nMax {
@@ -106,7 +107,7 @@ updateTick:
 			"discovered.ok": VALIDATE_IS_PRESENT,
 			"updated.ok":    updateCountOnShutdown * len(refSnapshots),
 		}
-		time.Sleep(time.Second) // allow log flush
+		time.Sleep(time.Second) // TODO: remove this! it allows log flush
 		err = validateLogStream(validateC, expect)
 	}
 	return err
