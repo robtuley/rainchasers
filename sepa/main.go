@@ -59,7 +59,7 @@ func run() error {
 	// discover SEPA gauging stations
 	refSnapshots, err := discoverStations()
 	if err != nil {
-		report.Action("discovered.error", report.Data{"error": err.Error()})
+		report.Action("discovered.failed", report.Data{"error": err.Error()})
 		return err
 	}
 	if isValidating {
@@ -83,7 +83,7 @@ updateTick:
 		tick := report.Tick()
 		readings, err := getReadings(refSnapshots[i])
 		if err != nil {
-			report.Action("updated.error", report.Data{
+			report.Tock(tick, "updated.failed", report.Data{
 				"url":   refSnapshots[i].DataURL,
 				"error": err.Error(),
 			})
@@ -105,7 +105,7 @@ updateTick:
 	if isValidating {
 		expect := map[string]int{
 			"discovered.ok": VALIDATE_IS_PRESENT,
-			"updated.ok":    updateCountOnShutdown * len(refSnapshots),
+			"updated.ok":    VALIDATE_IS_PRESENT, // TODO: updateCountOnShutdown * len(refSnapshots),
 		}
 		time.Sleep(time.Second) // TODO: remove this! it allows log flush
 		err = validateLogStream(validateC, expect)
