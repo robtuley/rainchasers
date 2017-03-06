@@ -11,16 +11,16 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 
 	before := gauge.Snapshot{
-		Url:        "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
-		StationUrl: "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
-		Name:       "Bourton Dickler",
-		RiverName:  "Dikler",
-		Lat:        51.874767,
-		Lg:         -1.740083,
-		Type:       "level",
-		Unit:       "metre",
-		DateTime:   timestamp,
-		Value:      -0.14,
+		DataURL:   "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
+		HumanURL:  "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
+		Name:      "Bourton Dickler",
+		RiverName: "Dikler",
+		Lat:       51.874767,
+		Lg:        -1.740083,
+		Type:      "level",
+		Unit:      "metre",
+		DateTime:  timestamp,
+		Value:     -0.14,
 	}
 
 	bb, err := gauge.Encode(before)
@@ -35,10 +35,10 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 
 	// check fields individually (not using reflect.DeepEqual as
 	// some custom compare needed for the dates)
-	if before.Url != after.Url {
+	if before.DataURL != after.DataURL {
 		t.Error("Url mis-match", after)
 	}
-	if before.StationUrl != after.StationUrl {
+	if before.HumanURL != after.HumanURL {
 		t.Error("Station Url mis-match", after)
 	}
 	if before.Name != after.Name {

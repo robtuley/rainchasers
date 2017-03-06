@@ -12,51 +12,55 @@ func TestSnapshotIdGeneration(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 
 	snap := gauge.Snapshot{
-		Url:        "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
-		StationUrl: "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
-		Name:       "Bourton Dickler",
-		RiverName:  "Dikler",
-		Lat:        51.874767,
-		Lg:         -1.740083,
-		Type:       "level",
-		Unit:       "metre",
-		DateTime:   timestamp,
-		Value:      -0.14,
+		DataURL:   "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
+		HumanURL:  "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
+		Name:      "Bourton Dickler",
+		RiverName: "Dikler",
+		Lat:       51.874767,
+		Lg:        -1.740083,
+		Type:      "level",
+		Unit:      "metre",
+		DateTime:  timestamp,
+		Value:     -0.14,
 	}
 
-	insertId := snap.InsertId()
-	metricId := snap.MetricId()
+	insertID := snap.InsertID()
+	metricID := snap.MetricID()
 
 	var validHex = regexp.MustCompile(`^[a-f0-9]+$`)
-	if !validHex.MatchString(insertId) {
-		t.Error("InsertId not valid hex string", insertId)
+	if !validHex.MatchString(insertID) {
+		t.Error("InsertID not valid hex string", insertID)
 	}
-	if insertId != snap.InsertId() {
-		t.Error("Non-deterministic insertId", insertId)
+	if insertID != snap.InsertID() {
+		t.Error("Non-deterministic insertID", insertID)
 	}
-	if !validHex.MatchString(metricId) {
-		t.Error("MetricId ot valid hex string", insertId)
+	if !validHex.MatchString(metricID) {
+		t.Error("MetricID ot valid hex string", insertID)
 	}
-	if metricId != snap.MetricId() {
-		t.Error("Non-deterministic metricId", insertId)
-	}
-
-	snap.Url = "http://different"
-	if insertId == snap.InsertId() {
-		t.Error("insertId does not change on URL", insertId)
-	}
-	if metricId == snap.MetricId() {
-		t.Error("metricId does not change on URL", insertId)
+	if metricID != snap.MetricID() {
+		t.Error("Non-deterministic metricID", insertID)
 	}
 
-	insertId = snap.InsertId()
-	metricId = snap.MetricId()
+	snap.DataURL = "http://different"
+	if insertID == snap.InsertID() {
+		t.Error("insertID does not change on URL", insertID)
+	}
+	if metricID == snap.MetricID() {
+		t.Error("metricID does not change on URL", insertID)
+	}
+
+	insertID = snap.InsertID()
+	metricID = snap.MetricID()
 	diffTimestamp, _ := time.Parse(time.RFC3339, "2016-01-01T11:30:00Z")
 	snap.DateTime = diffTimestamp
-	if insertId == snap.InsertId() {
-		t.Error("insertId does not change on timestamp", insertId)
+	if insertID == snap.InsertID() {
+		t.Error("insertID does not change on timestamp", insertID)
 	}
-	if metricId != snap.MetricId() {
-		t.Error("metricId changes on timestamp", insertId)
+	if metricID != snap.MetricID() {
+		t.Error("metricID changes on timestamp", insertID)
 	}
+	if gauge.CalculateMetricID(snap.DataURL) != snap.MetricID() {
+		t.Error("metricID different between calculate and embedded method", snap.MetricID(), gauge.CalculateMetricID(snap.DataURL))
+	}
+
 }
