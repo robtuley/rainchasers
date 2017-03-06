@@ -51,10 +51,12 @@ func requestLatestReadings(updateC chan gauge.SnapshotUpdate) {
 			continue
 		}
 
-		updateC <- gauge.SnapshotUpdate{
-			Url:      item.Measure,
+		u := gauge.SnapshotUpdate{
+			MetricID: gauge.CalculateMetricID(item.Measure),
 			DateTime: item.DateTime,
 			Value:    value,
 		}
+
+		updateC <- u
 	}
 }

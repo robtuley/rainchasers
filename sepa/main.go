@@ -84,12 +84,12 @@ updateTick:
 		readings, err := getReadings(refSnapshots[i])
 		if err != nil {
 			report.Action("updated.error", report.Data{
-				"url":   refSnapshots[i].Url,
+				"url":   refSnapshots[i].DataURL,
 				"error": err.Error(),
 			})
 		} else {
 			report.Tock(tick, "updated.ok", report.Data{
-				"url":   refSnapshots[i].Url,
+				"url":   refSnapshots[i].DataURL,
 				"count": len(readings),
 			})
 		}

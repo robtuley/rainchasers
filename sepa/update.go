@@ -15,12 +15,12 @@ import (
 func getReadings(s gauge.Snapshot) ([]gauge.SnapshotUpdate, error) {
 	var updates []gauge.SnapshotUpdate
 
-	resp, err := http.Get(s.Url)
+	resp, err := http.Get(s.DataURL)
 	if err != nil {
 		return updates, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return updates, errors.New(s.Url + " status code " + strconv.Itoa(resp.StatusCode))
+		return updates, errors.New(s.DataURL + " status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 
@@ -41,7 +41,7 @@ ReadCSV:
 		}
 
 		u := gauge.SnapshotUpdate{
-			Url: s.Url,
+			MetricID: s.MetricID(),
 		}
 
 		u.DateTime, err = time.Parse("02/01/2006 15:04:05", r[0])

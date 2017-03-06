@@ -133,9 +133,9 @@ func storageClient(projectId string) (context.Context, *storage.Client, error) {
 
 func snap2Record(s gauge.Snapshot) []string {
 	return []string{
-		s.InsertId(),
-		s.MetricId(),
-		s.Url,
+		s.InsertID(),
+		s.MetricID(),
+		s.DataURL,
 		strconv.FormatFloat(float64(s.Lat), 'f', -1, 32),
 		strconv.FormatFloat(float64(s.Lg), 'f', -1, 32),
 		s.Type,

@@ -92,7 +92,8 @@ func csvRecordToSnapshotUpdate(r []string) (gauge.SnapshotUpdate, error) {
 	if len(r) != 3 {
 		return s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 	}
-	s.Url = r[1]
+
+	s.MetricID = gauge.CalculateMetricID(r[1])
 
 	s.DateTime, err = time.Parse(time.RFC3339, r[0])
 	if err != nil {

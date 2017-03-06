@@ -18,13 +18,13 @@ func init() {
   "doc:": "Gauge measurement record information and reading snapshot",
   "fields": [
     {
-      "doc": "URL for the gauge measurement",
+      "doc": "Data URL for the gauge measurement",
       "type": "string",
-      "name": "url"
+      "name": "data_url"
     },{
-      "doc": "URL for the measuring station",
+      "doc": "Human linkable URL for the station",
       "type": "string",
-      "name": "station_url"
+      "name": "human_url"
     },{
       "doc": "Human-readable name of the measurement",
       "type": "string",
@@ -80,8 +80,8 @@ func Encode(s Snapshot) (*bytes.Buffer, error) {
 		return bb, err
 	}
 
-	r.Set("url", s.Url)
-	r.Set("station_url", s.StationUrl)
+	r.Set("data_url", s.DataURL)
+	r.Set("human_url", s.HumanURL)
 	r.Set("name", s.Name)
 	r.Set("river_name", s.RiverName)
 	r.Set("lat", s.Lat)
@@ -108,12 +108,12 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 
 	r := decoded.(*goavro.Record)
 
-	url, err := r.Get("url")
+	dataURL, err := r.Get("data_url")
 	if err != nil {
 		return s, err
 	}
 
-	stationUrl, err := r.Get("station_url")
+	humanURL, err := r.Get("human_url")
 	if err != nil {
 		return s, err
 	}
@@ -159,16 +159,16 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 	}
 
 	s = Snapshot{
-		Url:        url.(string),
-		StationUrl: stationUrl.(string),
-		Name:       name.(string),
-		RiverName:  riverName.(string),
-		Lat:        lat.(float32),
-		Lg:         lg.(float32),
-		Type:       typeStr.(string),
-		Unit:       unit.(string),
-		DateTime:   time.Unix(timestamp.(int64), 0),
-		Value:      value.(float32),
+		DataURL:   dataURL.(string),
+		HumanURL:  humanURL.(string),
+		Name:      name.(string),
+		RiverName: riverName.(string),
+		Lat:       lat.(float32),
+		Lg:        lg.(float32),
+		Type:      typeStr.(string),
+		Unit:      unit.(string),
+		DateTime:  time.Unix(timestamp.(int64), 0),
+		Value:     value.(float32),
 	}
 
 	return s, nil

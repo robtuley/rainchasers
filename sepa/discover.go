@@ -81,8 +81,8 @@ func csvRecordToSnapshot(r []string) (gauge.Snapshot, error) {
 		return s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 	}
 
-	s.Url = "http://apps.sepa.org.uk/database/riverlevels/" + r[2] + "-SG.csv"
-	s.StationUrl = "http://apps.sepa.org.uk/waterlevels/default.aspx?sd=t&lc=" + r[2]
+	s.DataURL = "http://apps.sepa.org.uk/database/riverlevels/" + r[2] + "-SG.csv"
+	s.HumanURL = "http://apps.sepa.org.uk/waterlevels/default.aspx?sd=t&lc=" + r[2]
 	s.Name = r[1]
 	s.RiverName = r[5]
 	s.Type = "level"

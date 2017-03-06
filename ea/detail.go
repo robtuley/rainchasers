@@ -146,16 +146,16 @@ func requestStationDetail(url string) ([]gauge.Snapshot, error) {
 		}
 
 		snapshots = append(snapshots, gauge.Snapshot{
-			Url:        m.Url,
-			StationUrl: s.Items.Url,
-			Name:       s.Items.Name,
-			RiverName:  s.Items.RiverName,
-			Lat:        s.Items.Lat,
-			Lg:         s.Items.Lg,
-			Type:       m.Type,
-			Unit:       u,
-			DateTime:   m.LatestParsed.DateTime,
-			Value:      v,
+			DataURL:   m.Url,
+			HumanURL:  s.Items.Url,
+			Name:      s.Items.Name,
+			RiverName: s.Items.RiverName,
+			Lat:       s.Items.Lat,
+			Lg:        s.Items.Lg,
+			Type:      m.Type,
+			Unit:      u,
+			DateTime:  m.LatestParsed.DateTime,
+			Value:     v,
 		})
 
 	}

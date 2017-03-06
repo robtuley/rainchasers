@@ -19,15 +19,15 @@ func applyUpdatesToRefSnaps(
 		for {
 			select {
 			case s := <-refC:
-				ref[s.Url] = s
+				ref[s.MetricID()] = s
 				outLatestC <- s
 			case u := <-inLatestC:
-				tpl, exists := ref[u.Url]
+				tpl, exists := ref[u.MetricID]
 				if exists {
 					outLatestC <- tpl.Apply(u)
 				}
 			case u := <-inHistoryC:
-				tpl, exists := ref[u.Url]
+				tpl, exists := ref[u.MetricID]
 				if exists {
 					outHistoryC <- tpl.Apply(u)
 				}

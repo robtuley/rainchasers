@@ -84,7 +84,7 @@ func main() {
 	go func() {
 		cache := newDeDupeCache(10000)
 		for s := range snapC {
-			id := s.InsertId()
+			id := s.InsertID()
 			if !cache.Exists(id) {
 				dedupC <- s
 			}

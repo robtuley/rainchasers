@@ -9,41 +9,45 @@ import (
 )
 
 type Snapshot struct {
-	Url        string
-	StationUrl string
-	Name       string
-	RiverName  string
-	Lat        float32
-	Lg         float32
-	Type       string
-	Unit       string
-	DateTime   time.Time
-	Value      float32
+	DataURL   string
+	HumanURL  string
+	Name      string
+	RiverName string
+	Lat       float32
+	Lg        float32
+	Type      string
+	Unit      string
+	DateTime  time.Time
+	Value     float32
 }
 
 type SnapshotUpdate struct {
-	Url      string
+	MetricID string
 	DateTime time.Time
 	Value    float32
 }
 
 func (s Snapshot) Apply(u SnapshotUpdate) Snapshot {
-	if s.Url != u.Url {
-		panic("Snapshot update " + u.Url + " applied to " + s.Url)
+	if s.MetricID() != u.MetricID {
+		panic("Snapshot update " + u.MetricID + " applied to " + s.MetricID())
 	}
 	s.DateTime = u.DateTime
 	s.Value = u.Value
 	return s
 }
 
-func (s Snapshot) InsertId() string {
+func (s Snapshot) InsertID() string {
 	h := sha256.New()
-	io.WriteString(h, s.DateTime.Format(time.RFC822)+strings.ToLower(s.Url))
+	io.WriteString(h, s.DateTime.Format(time.RFC822)+strings.ToLower(s.DataURL))
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-func (s Snapshot) MetricId() string {
+func CalculateMetricID(dataURL string) string {
 	h := sha256.New()
-	io.WriteString(h, strings.ToLower(s.Url))
+	io.WriteString(h, strings.ToLower(dataURL))
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+func (s Snapshot) MetricID() string {
+	return CalculateMetricID(s.DataURL)
 }
