@@ -9,12 +9,12 @@ import (
 
 func logSnapshotsFromChannel(label string, snapC <-chan gauge.Snapshot) {
 	for s := range snapC {
-		encoded, err := gauge.Encode(s)
+		encoded, err := gauge.EncodeSnapshot(s)
 		if err != nil {
 			report.Action("snapshot.encode.error", report.Data{"error": err.Error(), "snapshot": s})
 			continue
 		}
-		_, err = gauge.Decode(encoded)
+		_, err = gauge.DecodeSnapshot(encoded)
 		if err != nil {
 			report.Action("snapshot.decode.error", report.Data{"error": err.Error(), "snapshot": s})
 			continue

@@ -2,17 +2,14 @@ package gauge
 
 import (
 	"bytes"
-	"time"
-
+	"fmt"
 	"github.com/linkedin/goavro"
+	"time"
 )
 
-var avroSchemaJSON string
-var avroCodec goavro.Codec
-
-func init() {
-	avroSchemaJSON = `
-{ "namespace": "com.rainchasers.gauge",
+const snapshotSchemaJSON = `
+{
+  "namespace": "com.rainchasers.gauge",
   "type": "record",
   "name": "snapshot",
   "doc:": "Gauge measurement record information and reading snapshot",
@@ -64,18 +61,72 @@ func init() {
 }
 `
 
+const measureSchemaJSON = `
+{
+  "namespace": "com.rainchasers.gauge",
+  "type": "record",
+  "name": "measure",
+  "doc:": "Gauge measurement information",
+  "fields": [
+    {
+      "doc": "Metric ID for this measurement",
+      "type": "string",
+      "name": "metric_id"
+    },{
+      "doc": "Unix epoch time in seconds for measurement",
+      "type": "long",
+      "name": "timestamp"
+    },{
+      "doc": "Measurement value",
+      "type": "float",
+      "name": "value"
+    }
+  ]
+}
+`
+
+var (
+	measurementsSchemaJSON string
+	snapshotCodec          goavro.Codec
+	measurementsCodec      goavro.Codec
+)
+
+func init() {
+	measurementsSchemaJSON = fmt.Sprintf(`
+{
+  "namespace": "com.rainchasers.gauge",
+  "type": "record",
+  "name": "measurements",
+  "doc:": "Array of gauge measurement information",
+  "fields": [
+    {
+      "type": {
+        "items": %s,
+        "type": "array"
+      },
+      "name": "data"
+    }
+  ]
+}
+`, measureSchemaJSON)
+
 	var err error
-	avroCodec, err = goavro.NewCodec(avroSchemaJSON)
+
+	snapshotCodec, err = goavro.NewCodec(snapshotSchemaJSON)
+	if err != nil {
+		panic(err)
+	}
+
+	measurementsCodec, err = goavro.NewCodec(measurementsSchemaJSON)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func Encode(s Snapshot) (*bytes.Buffer, error) {
+func EncodeSnapshot(s Snapshot) (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 
-	// todo: is this repeated call of RecordSchema inefficient?
-	r, err := goavro.NewRecord(goavro.RecordSchema(avroSchemaJSON))
+	r, err := goavro.NewRecord(goavro.RecordSchema(snapshotSchemaJSON))
 	if err != nil {
 		return bb, err
 	}
@@ -91,17 +142,17 @@ func Encode(s Snapshot) (*bytes.Buffer, error) {
 	r.Set("timestamp", s.DateTime.Unix())
 	r.Set("value", s.Value)
 
-	if err = avroCodec.Encode(bb, r); err != nil {
+	if err = snapshotCodec.Encode(bb, r); err != nil {
 		return bb, err
 	}
 
 	return bb, nil
 }
 
-func Decode(bb *bytes.Buffer) (Snapshot, error) {
+func DecodeSnapshot(bb *bytes.Buffer) (Snapshot, error) {
 	var s Snapshot
 
-	decoded, err := avroCodec.Decode(bb)
+	decoded, err := snapshotCodec.Decode(bb)
 	if err != nil {
 		return s, err
 	}
@@ -172,4 +223,73 @@ func Decode(bb *bytes.Buffer) (Snapshot, error) {
 	}
 
 	return s, nil
+}
+
+func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
+	bb := new(bytes.Buffer)
+	var innerRecords []interface{}
+
+	for _, u := range updates {
+		m, err := goavro.NewRecord(goavro.RecordSchema(measureSchemaJSON))
+		if err != nil {
+			return bb, err
+		}
+		m.Set("metric_id", u.MetricID)
+		m.Set("timestamp", u.DateTime.Unix())
+		m.Set("value", u.Value)
+		innerRecords = append(innerRecords, m)
+	}
+
+	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(measurementsSchemaJSON))
+	if err != nil {
+		return bb, nil
+	}
+	outerRecord.Set("data", innerRecords)
+	if err = measurementsCodec.Encode(bb, outerRecord); err != nil {
+		return bb, err
+	}
+
+	return bb, nil
+}
+
+func DecodeSnapshotUpdates(bb *bytes.Buffer) ([]SnapshotUpdate, error) {
+	var updates []SnapshotUpdate
+
+	decoded, err := measurementsCodec.Decode(bb)
+	if err != nil {
+		return updates, err
+	}
+
+	outerRecord := decoded.(*goavro.Record)
+	r, err := outerRecord.Get("data")
+	if err != nil {
+		return updates, err
+	}
+	innerRecords := r.([]interface{})
+	for _, r = range innerRecords {
+		u := r.(*goavro.Record)
+
+		metricID, err := u.Get("metric_id")
+		if err != nil {
+			return updates, err
+		}
+
+		timestamp, err := u.Get("timestamp")
+		if err != nil {
+			return updates, err
+		}
+
+		value, err := u.Get("value")
+		if err != nil {
+			return updates, err
+		}
+
+		updates = append(updates, SnapshotUpdate{
+			MetricID: metricID.(string),
+			DateTime: time.Unix(timestamp.(int64), 0),
+			Value:    value.(float32),
+		})
+	}
+
+	return updates, nil
 }

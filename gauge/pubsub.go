@@ -40,7 +40,7 @@ func NewPubSubContext(projectId string, topicName string) (*PubSubContext, error
 }
 
 func Publish(ctx *PubSubContext, snap Snapshot) error {
-	bb, err := Encode(snap)
+	bb, err := EncodeSnapshot(snap)
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func Subscribe(ctx *PubSubContext, subLabel string) (<-chan Snapshot, <-chan err
 			}
 
 			for _, m := range msgs {
-				snap, decodeErr := Decode(bytes.NewBuffer(m.Data))
+				snap, decodeErr := DecodeSnapshot(bytes.NewBuffer(m.Data))
 				ackErr := pubsub.Ack(ctx.GoogleContext, subName, m.AckID)
 				if decodeErr != nil {
 					errC <- decodeErr

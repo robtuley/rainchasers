@@ -1,10 +1,9 @@
 package gauge_test
 
 import (
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"testing"
 	"time"
-
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func TestSnapshotEncodeDecode(t *testing.T) {
@@ -23,12 +22,12 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 		Value:     -0.14,
 	}
 
-	bb, err := gauge.Encode(before)
+	bb, err := gauge.EncodeSnapshot(before)
 	if err != nil {
 		t.Error(err)
 	}
 
-	after, err := gauge.Decode(bb)
+	after, err := gauge.DecodeSnapshot(bb)
 	if err != nil {
 		t.Error(err)
 	}
@@ -64,5 +63,50 @@ func TestSnapshotEncodeDecode(t *testing.T) {
 	}
 	if before.Value != after.Value {
 		t.Error("Value mis-match", after)
+	}
+}
+
+func TestSnapshotUpdatesEncodeDecode(t *testing.T) {
+	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
+	var before []gauge.SnapshotUpdate
+
+	before = append(before, gauge.SnapshotUpdate{
+		MetricID: "123456",
+		DateTime: timestamp.Add(time.Second),
+		Value:    1.23,
+	})
+	before = append(before, gauge.SnapshotUpdate{
+		MetricID: "3456789",
+		DateTime: timestamp.Add(time.Second * 10),
+		Value:    4.56,
+	})
+
+	bb, err := gauge.EncodeSnapshotUpdates(before)
+	if err != nil {
+		t.Error(err)
+	}
+
+	after, err := gauge.DecodeSnapshotUpdates(bb)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(after) != len(before) {
+		t.Error("length mismatch", len(before), len(after))
+		return
+	}
+
+	for i, b := range before {
+		a := after[i]
+
+		if a.MetricID != b.MetricID {
+			t.Error("metricID mismatch", i, a.MetricID, b.MetricID)
+		}
+		if b.DateTime.Unix() != a.DateTime.Unix() {
+			t.Error("Timestamp mis-match", i, b.DateTime.Unix(), a.DateTime.Unix())
+		}
+		if b.Value != a.Value {
+			t.Error("Value mis-match", i, b.Value, a.Value)
+		}
 	}
 }
