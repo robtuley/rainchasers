@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -33,7 +32,7 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-func discoverStations() ([]gauge.Snapshot, error) {
+func discover() ([]gauge.Snapshot, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
 	var snapshots []gauge.Snapshot
 
@@ -46,15 +45,14 @@ func discoverStations() ([]gauge.Snapshot, error) {
 	}
 	defer resp.Body.Close()
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return []gauge.Snapshot{}, err
-	}
-
 	list := stationListJson{}
-	err = json.Unmarshal(bodyBytes, &list)
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&list)
 	if err != nil {
-		return []gauge.Snapshot{}, err
+		return snapshots, err
+	}
+	if err != nil {
+		return snapshots, err
 	}
 
 	for _, s := range list.Stations {

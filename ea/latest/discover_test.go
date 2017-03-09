@@ -1,14 +1,14 @@
 package main
 
 import (
-	"math"
 	"testing"
+	"math"
 )
 
 const ε = 0.0001
 
 func TestDiscoveringStations(t *testing.T) {
-	snapshots, err := discoverStations()
+	snapshots, err := discover()
 
 	if err != nil {
 		t.Error("Discover stations error", err)
