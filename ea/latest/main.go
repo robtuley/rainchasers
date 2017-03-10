@@ -43,9 +43,8 @@ func run() error {
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
-	var validateC <-chan report.Data
 	if isValidating {
-		validateC = bufferLogStream(1000)
+		trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
 		"update_period":        updatePeriodSeconds,
@@ -91,7 +90,7 @@ updateLoop:
 			"discovered.ok": VALIDATE_IS_PRESENT,
 			"updated.ok":    VALIDATE_IS_PRESENT,
 		}
-		err = validateLogStream(validateC, expect)
+		err = validateLogStream(expect)
 	}
 	return err
 }
