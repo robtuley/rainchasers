@@ -32,9 +32,9 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-func discover() ([]gauge.Snapshot, error) {
+func discover() (map[string]gauge.Snapshot, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
-	var snapshots []gauge.Snapshot
+	snapshots := make(map[string]gauge.Snapshot)
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -74,7 +74,7 @@ func discover() ([]gauge.Snapshot, error) {
 			// no snapshot readings are available
 			// s.DateTime and s.Value left as defaults
 
-			snapshots = append(snapshots, gauge.Snapshot{
+			snap := gauge.Snapshot{
 				DataURL:   m.Url,
 				HumanURL:  s.Url,
 				Name:      s.Name,
@@ -83,7 +83,8 @@ func discover() ([]gauge.Snapshot, error) {
 				Lg:        s.Lg,
 				Type:      m.Type,
 				Unit:      m.Unit,
-			})
+			}
+			snapshots[snap.MetricID()] = snap
 		}
 	}
 

@@ -23,3 +23,26 @@ func TestUpdatingStations(t *testing.T) {
 		}
 	}
 }
+
+func TestUpdatesAreForDiscoveredStations(t *testing.T) {
+	updates, err := update()
+	if err != nil {
+		t.Error("Update stations error", err)
+	}
+
+	snapshots, err := discover()
+	if err != nil {
+		t.Error("Discover stations error", err)
+	}
+
+	nSkippedMetrics := 0
+	for _, u := range updates {
+		_, ok := snapshots[u.MetricID]
+		if !ok {
+			nSkippedMetrics += 1
+		}
+	}
+	if nSkippedMetrics > len(updates)/4 {
+		t.Error("Too many skipped updates", nSkippedMetrics, len(updates))
+	}
+}

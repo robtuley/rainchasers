@@ -1,18 +1,18 @@
 package main
 
 import (
-	"testing"
 	"math"
+	"testing"
 )
 
 const ε = 0.0001
 
 func TestDiscoveringStations(t *testing.T) {
 	snapshots, err := discover()
-
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}
+
 	if len(snapshots) < 4000 {
 		t.Error("Not enough stations found", len(snapshots))
 	}
@@ -21,19 +21,21 @@ func TestDiscoveringStations(t *testing.T) {
 	nMissingRiverNames := 0
 	nMissingLat := 0
 	nMissingLg := 0
-	for i, s := range snapshots {
-
+	for id, s := range snapshots {
+		if id != s.MetricID() {
+			t.Error("Metric ID not mapped", id, s.MetricID())
+		}
 		if len(s.DataURL) < 5 {
-			t.Error("No data URL", i, s)
+			t.Error("No data URL", id, s)
 		}
 		if len(s.HumanURL) < 5 {
-			t.Error("No human URL", i, s)
+			t.Error("No human URL", id, s)
 		}
 		if len(s.Type) < 3 {
-			t.Error("No type", i, s)
+			t.Error("No type", id, s)
 		}
 		if len(s.Unit) < 1 {
-			t.Error("No units", i, s)
+			t.Error("No units", id, s)
 		}
 		if len(s.Name) < 3 {
 			nMissingNames += 1
