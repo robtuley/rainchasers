@@ -68,12 +68,23 @@ func run() error {
 
 updateLoop:
 	for {
+		tick := report.Tick()
 		updates, err := update()
 		if err != nil {
 			report.Action("updated.fail", report.Data{"error": err.Error()})
 			return err
 		}
-		report.Info("updated.ok", report.Data{"count": len(updates)})
+		report.Tock(tick, "updated.ok", report.Data{"count": len(updates)})
+
+		if !isValidating {
+			tick = report.Tick()
+			err = publish(projectId, latestTopicName, updates, refSnapshots)
+			if err != nil {
+				report.Action("published.fail", report.Data{"error": err.Error()})
+				return err
+			}
+			report.Tock(tick, "published.ok", report.Data{"count": len(updates)})
+		}
 
 		select {
 		case <-ticker.C:
