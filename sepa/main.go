@@ -99,6 +99,7 @@ updateTick:
 			break updateTick
 		}
 	}
+	ticker.Stop()
 
 	// validate log stream on shutdown if required
 	err = nil
