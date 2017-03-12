@@ -11,7 +11,7 @@ func publish(
 	updates []gauge.SnapshotUpdate,
 	refSnapshots map[string]gauge.Snapshot,
 ) error {
-	throttle := time.NewTicker(time.Second / 10)
+	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
 	ctx, err := gauge.NewPubSubContext(projectID, topicName)
 	if err != nil {
 		return err

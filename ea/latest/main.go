@@ -2,17 +2,22 @@ package main
 
 import (
 	"github.com/robtuley/report"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
+)
+
+const (
+	maxPublishPerSecond  = 20
+	httpTimeoutInSeconds = 30
 )
 
 // Responds to environment variables:
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   SHUTDOWN_AFTER_X_SECONDS (default 24*60*60)
 //   PROJECT_ID (no default, blank for validation mode)
-//   LATEST_PUBSUB_TOPIC (no default, blank for validation mode)
-//   HISTORY_PUBSUB_TOPIC (no default, blank for validation mode)
+//   PUBSUB_TOPIC (no default, blank for validation mode)
 //
 func main() {
 	if err := run(); err != nil {
@@ -28,6 +33,9 @@ func run() error {
 	report.Global(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(30 * time.Second)
 
+	// setup golang package defaults
+	http.DefaultTransport.(*http.Transport).ResponseHeaderTimeout = time.Second * httpTimeoutInSeconds
+
 	// parse env vars
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
@@ -35,11 +43,10 @@ func run() error {
 	}
 	shutdownDeadline, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
-		shutdownDeadline = 24 * 60 * 60
+		shutdownDeadline = 7 * 24 * 60 * 60
 	}
 	projectId := os.Getenv("PROJECT_ID")
-	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
-	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
+	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
@@ -47,11 +54,10 @@ func run() error {
 		trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
-		"update_period":        updatePeriodSeconds,
-		"shutdown_deadline":    shutdownDeadline,
-		"project_id":           projectId,
-		"latest_pubsub_topic":  latestTopicName,
-		"history_pubsub_topic": historyTopicName,
+		"update_period":     updatePeriodSeconds,
+		"shutdown_deadline": shutdownDeadline,
+		"project_id":        projectId,
+		"pubsub_topic":      topicName,
 	})
 	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 
@@ -78,7 +84,7 @@ updateLoop:
 
 		if !isValidating {
 			tick = report.Tick()
-			err = publish(projectId, latestTopicName, updates, refSnapshots)
+			err = publish(projectId, topicName, updates, refSnapshots)
 			if err != nil {
 				report.Action("published.fail", report.Data{"error": err.Error()})
 				return err
