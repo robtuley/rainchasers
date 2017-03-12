@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"testing"
 )
 
@@ -37,9 +38,16 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 
 	nSkippedMetrics := 0
 	for _, u := range updates {
-		_, ok := snapshots[u.MetricID]
+		ref, ok := snapshots[u.MetricID]
 		if !ok {
 			nSkippedMetrics += 1
+			continue
+		}
+
+		s := ref.Apply(u)
+		_, err := gauge.EncodeSnapshot(s)
+		if err != nil {
+			t.Error("encoding snapshot error", err)
 		}
 	}
 	if nSkippedMetrics > len(updates)/4 {

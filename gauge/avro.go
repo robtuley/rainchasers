@@ -40,8 +40,7 @@ const snapshotSchemaJSON = `
       "name": "lg"
     },{
       "doc": "Measurement unit",
-      "type": {"type": "enum", "name": "unitValues",
-                "symbols": ["", "metre", "centigrade", "cumec", "metre_per_second"]},
+      "type": "string",
       "name": "unit"
     },{
       "doc": "Measurement type",
