@@ -27,6 +27,30 @@ func (b LogBuffer) Extract() map[string][]report.Data {
 	return logs
 }
 
+func (b LogBuffer) FirstActionableError() error {
+	var err error
+	b.Mutex.Lock()
+	for name, events := range b.Map {
+		for _, e := range events {
+			if e["type"] == "action" {
+				err = errors.New("Actionable error: " + name)
+			}
+		}
+	}
+	b.Mutex.Unlock()
+	return err
+}
+
+func (b LogBuffer) Count() map[string]int {
+	count := make(map[string]int)
+	b.Mutex.Lock()
+	for name, events := range b.Map {
+		count[name] = len(events)
+	}
+	b.Mutex.Unlock()
+	return count
+}
+
 func trackLogs() *LogBuffer {
 	buffer := LogBuffer{
 		Mutex: &sync.Mutex{},
@@ -37,31 +61,20 @@ func trackLogs() *LogBuffer {
 }
 
 func validateLogStream(buffer *LogBuffer, expectCounts map[string]int) error {
-	n := 0
-	count := make(map[string]int)
-
-	for name, evts := range buffer.Extract() {
-		count[name] = len(evts)
-
-		// detect and fail on any actionable errors
-		for _, e := range evts {
-			if e["type"] == "action" {
-				return errors.New("Actionable error: " + name)
-			}
-		}
+	err := buffer.FirstActionableError()
+	if err != nil {
+		return err
 	}
-	report.Info("daemon.validation", report.Data{"buffer_size": n, "count": count})
 
-	// make assertions on event counts
+	count := buffer.Count()
 	for k, expect := range expectCounts {
 		val, exists := count[k]
 		if !exists {
-			return errors.New(k + " not present")
+			return errors.New(k + " expected but not present")
 		}
 		if expect != VALIDATE_IS_PRESENT && expect != val {
 			return errors.New(k + " unexpected count")
 		}
 	}
-
 	return nil
 }

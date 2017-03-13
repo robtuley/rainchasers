@@ -27,13 +27,10 @@ func main() {
 }
 
 func run() error {
-	// setup telemetry and logging
-	defer report.Drain()
+	// setup telemetry and golang defaults
 	report.StdOut()
 	report.Global(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(30 * time.Second)
-
-	// setup golang package defaults
 	http.DefaultTransport.(*http.Transport).ResponseHeaderTimeout = time.Second * httpTimeoutInSeconds
 
 	// parse env vars
@@ -48,7 +45,7 @@ func run() error {
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
-	// decision on whether validating logs
+	// decision on whether validating
 	isValidating := projectId == ""
 	var logs *LogBuffer
 	if isValidating {
@@ -102,6 +99,7 @@ updateLoop:
 	ticker.Stop()
 
 	// validate log stream on shutdown if required
+	report.Drain()
 	err = nil
 	if isValidating {
 		expect := map[string]int{
