@@ -50,8 +50,9 @@ func run() error {
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
+	var logs *LogBuffer
 	if isValidating {
-		trackLogs()
+		logs = trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
 		"update_period":     updatePeriodSeconds,
@@ -107,7 +108,7 @@ updateLoop:
 			"discovered.ok": VALIDATE_IS_PRESENT,
 			"updated.ok":    VALIDATE_IS_PRESENT,
 		}
-		err = validateLogStream(expect)
+		err = validateLogStream(logs, expect)
 	}
 	return err
 }
