@@ -32,7 +32,6 @@ func run() error {
 	report.StdOut()
 	report.Global(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(30 * time.Second)
-	http.DefaultTransport.(*http.Transport).ResponseHeaderTimeout = time.Second * httpTimeoutInSeconds
 
 	// parse env vars
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
