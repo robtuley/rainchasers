@@ -2,10 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -21,12 +18,9 @@ func update() ([]gauge.SnapshotUpdate, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 	var updates []gauge.SnapshotUpdate
 
-	resp, err := http.Get(url)
+	resp, err := doJsonRequest(url)
 	if err != nil {
 		return updates, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return updates, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 

@@ -11,6 +11,7 @@ import (
 const (
 	maxPublishPerSecond  = 20
 	httpTimeoutInSeconds = 30
+	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
 )
 
 // Responds to environment variables:

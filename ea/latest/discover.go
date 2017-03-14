@@ -2,10 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"net/http"
-	"strconv"
 )
 
 type stationListJson struct {
@@ -36,12 +33,9 @@ func discover() (map[string]gauge.Snapshot, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
 	snapshots := make(map[string]gauge.Snapshot)
 
-	resp, err := http.Get(url)
+	resp, err := doJsonRequest(url)
 	if err != nil {
 		return snapshots, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return snapshots, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 
