@@ -3,85 +3,58 @@ package main
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"io"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
-func downloadHistoricalDataForDaysAgo(nDays int, updateC chan<- gauge.SnapshotUpdate) <-chan error {
-	errC := make(chan error)
+func download(day time.Time) ([]gauge.SnapshotUpdate, error) {
+	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
+	snapshots := []gauge.SnapshotUpdate{}
 
-	go func() {
-		day := time.Now().AddDate(0, 0, -1*nDays)
-		url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
+	resp, err := doRequest(url)
+	if err != nil {
+		return snapshots, err
+	}
+	defer resp.Body.Close()
 
-	getCSV:
-		resp, err := http.Get(url)
+	csv := csv.NewReader(resp.Body)
+	isFirst := true
+
+ReadCSV:
+	for {
+		r, err := csv.Read()
+
+		if err == io.EOF || err == io.ErrUnexpectedEOF || err == io.ErrClosedPipe {
+			break ReadCSV
+		}
+		// some corrupt reading values appear as 1.23|4.56 so
+		// we simply skip these as known errors.
+		if len(r) == 3 {
+			if strings.Contains(r[2], "|") {
+				continue
+			}
+		}
 		if err != nil {
-			errC <- err
-			return
+			return snapshots, err
 		}
-		if resp.StatusCode == http.StatusNotFound {
-			time.Sleep(time.Hour)
-			goto getCSV
-		}
-
-		if resp.StatusCode != http.StatusOK {
-			errC <- errors.New("Status code " + strconv.Itoa(resp.StatusCode))
-			return
-		}
-		defer resp.Body.Close()
-
-		csv := csv.NewReader(resp.Body)
-		isFirst := true
-		nErr := 0
-
-	ReadCSV:
-		for {
-			r, err := csv.Read()
-
-			if err == io.EOF || err == io.ErrUnexpectedEOF || err == io.ErrClosedPipe {
-				break ReadCSV
-			}
-			// some corrupt reading values appear as 1.23|4.56 so
-			// we simply skip these as known errors.
-			if len(r) == 3 {
-				if strings.Contains(r[2], "|") {
-					continue
-				}
-			}
-			if err != nil {
-				errC <- err
-				nErr += 1
-				continue
-			}
-			if isFirst {
-				isFirst = false
-				continue
-			}
-			if nErr > 10 {
-				errC <- errors.New("History runaway error levels, abandon CSV parse")
-				break ReadCSV
-			}
-
-			s, err := csvRecordToSnapshotUpdate(r)
-			if err != nil {
-				errC <- err
-				nErr += 1
-				continue
-			}
-
-			updateC <- s
+		if isFirst {
+			isFirst = false
+			continue
 		}
 
-		close(errC)
-	}()
+		s, err := csvRecordToSnapshotUpdate(r)
+		if err != nil {
+			return snapshots, err
+		}
 
-	return errC
+		snapshots = append(snapshots, s)
+	}
+
+	return snapshots, nil
 }
 
 // 2016-01-30T00:00:00Z,http://environment.data.gov.uk/flood-monitoring/id/measures/0569TH-level-stage-i-15_min-mASD,3.430
@@ -107,4 +80,28 @@ func csvRecordToSnapshotUpdate(r []string) (gauge.SnapshotUpdate, error) {
 	s.Value = float32(v)
 
 	return s, nil
+}
+
+func doRequest(url string) (*http.Response, error) {
+	client := &http.Client{
+		Timeout: httpTimeoutInSeconds * time.Second,
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Accept", "text/csv")
+	req.Header.Set("User-Agent", httpUserAgent)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return resp, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+	}
+
+	return resp, nil
 }

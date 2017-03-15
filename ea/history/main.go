@@ -2,9 +2,7 @@ package main
 
 import (
 	"github.com/robtuley/report"
-	"net/http"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -27,19 +25,23 @@ func main() {
 }
 
 func run() error {
+	var err error
+
 	// setup telemetry and golang defaults
 	report.StdOut()
 	report.Global(report.Data{"service": "ea.history", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(1 * time.Second)
 
 	// parse env vars
-	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
-	if err != nil {
-		updatePeriodSeconds = 15 * 60
-	}
-	shutdownDeadline, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
-	if err != nil {
-		shutdownDeadline = 7 * 24 * 60 * 60
+	requestedDay := os.Getenv("DATE")
+	var day time.Time
+	if len(requestedDay) == 0 {
+		day = time.Now().AddDate(0, 0, -1)
+	} else {
+		day, err = time.Parse("2006-01-02", requestedDay)
+		if err != nil {
+			return err
+		}
 	}
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
@@ -51,59 +53,25 @@ func run() error {
 		logs = trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
-		"update_period":     updatePeriodSeconds,
-		"shutdown_deadline": shutdownDeadline,
-		"project_id":        projectId,
-		"pubsub_topic":      topicName,
+		"day":          day.Format("2006-01-02"),
+		"project_id":   projectId,
+		"pubsub_topic": topicName,
 	})
-	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 
-	// discover EA gauging stations
-	refSnapshots, err := discover()
+	// download & parse CSV data
+	snapshots, err := download(day)
 	if err != nil {
-		report.Action("discovered.fail", report.Data{"error": err.Error()})
+		report.Action("download.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	report.Info("discovered.ok", report.Data{"count": len(refSnapshots)})
-
-	// periodically get latest updates
-	ticker := time.NewTicker(time.Second * time.Duration(updatePeriodSeconds))
-
-updateLoop:
-	for {
-		tick := report.Tick()
-		updates, err := update()
-		if err != nil {
-			report.Action("updated.fail", report.Data{"error": err.Error()})
-			return err
-		}
-		report.Tock(tick, "updated.ok", report.Data{"count": len(updates)})
-
-		if !isValidating {
-			tick = report.Tick()
-			err = publish(projectId, topicName, updates, refSnapshots)
-			if err != nil {
-				report.Action("published.fail", report.Data{"error": err.Error()})
-				return err
-			}
-			report.Tock(tick, "published.ok", report.Data{"count": len(updates)})
-		}
-
-		select {
-		case <-ticker.C:
-		case <-shutdownC:
-			break updateLoop
-		}
-	}
-	ticker.Stop()
+	report.Info("download.ok", report.Data{"count": len(snapshots)})
 
 	// validate log stream on shutdown if required
 	report.Drain()
 	err = nil
 	if isValidating {
 		expect := map[string]int{
-			"discovered.ok": VALIDATE_IS_PRESENT,
-			"updated.ok":    VALIDATE_IS_PRESENT,
+			"download.ok": VALIDATE_IS_PRESENT,
 		}
 		err = validateLogStream(logs, expect)
 	}
