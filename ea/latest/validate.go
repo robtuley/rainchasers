@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"github.com/robtuley/report"
+	"github.com/rainchasers/report"
 	"sync"
 )
 
