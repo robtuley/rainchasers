@@ -22,8 +22,8 @@ func TestDiscoveringStations(t *testing.T) {
 	nMissingLat := 0
 	nMissingLg := 0
 	for id, s := range snapshots {
-		if id != s.MetricID() {
-			t.Error("Metric ID not mapped", id, s.MetricID())
+		if id != s.DataURL {
+			t.Error("Data URL not mapped", id, s.DataURL)
 		}
 		if len(s.DataURL) < 5 {
 			t.Error("No data URL", id, s)

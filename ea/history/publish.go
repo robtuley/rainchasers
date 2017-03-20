@@ -8,27 +8,23 @@ import (
 func publish(
 	projectID string,
 	topicName string,
-	updates []gauge.SnapshotUpdate,
+	updates map[string][]gauge.SnapshotUpdate,
 ) error {
-	// groups updates per metric ID
-	var updateMap map[string][]gauge.SnapshotUpdate
-	for _, u := range updates {
-		updateMap[u.MetricID] = append(updateMap[u.MetricID], u)
-	}
-
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
-	ctx, err := gauge.NewPubSubContext(projectID, topicName)
-	_ = ctx
+	defer throttle.Stop()
+
+	_, err := gauge.NewPubSubContext(projectID, topicName)
 	if err != nil {
 		return err
 	}
 
-	for id, snaps := range updateMap {
-		_ = id
-		_ = snaps
+	for url, snaps := range updates {
+		_, err := gauge.EncodeSnapshotUpdates(url, snaps)
+		if err != nil {
+			return err
+		}
 		<-throttle.C
 	}
-	throttle.Stop()
 
 	return nil
 }

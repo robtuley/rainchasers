@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-func download(day time.Time) ([]gauge.SnapshotUpdate, error) {
+func download(day time.Time) (map[string][]gauge.SnapshotUpdate, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
-	snapshots := []gauge.SnapshotUpdate{}
+	snapshots := make(map[string][]gauge.SnapshotUpdate)
 
 	resp, err := doRequest(url)
 	if err != nil {
@@ -46,40 +46,38 @@ ReadCSV:
 			continue
 		}
 
-		s, err := csvRecordToSnapshotUpdate(r)
+		url, s, err := csvRecordToSnapshotUpdate(r)
 		if err != nil {
 			return snapshots, err
 		}
 
-		snapshots = append(snapshots, s)
+		snapshots[url] = append(snapshots[url], s)
 	}
 
 	return snapshots, nil
 }
 
 // 2016-01-30T00:00:00Z,http://environment.data.gov.uk/flood-monitoring/id/measures/0569TH-level-stage-i-15_min-mASD,3.430
-func csvRecordToSnapshotUpdate(r []string) (gauge.SnapshotUpdate, error) {
+func csvRecordToSnapshotUpdate(r []string) (string, gauge.SnapshotUpdate, error) {
 	var s gauge.SnapshotUpdate
 	var err error
 
 	if len(r) != 3 {
-		return s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
+		return "", s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 	}
-
-	s.MetricID = gauge.CalculateMetricID(r[1])
 
 	s.DateTime, err = time.Parse(time.RFC3339, r[0])
 	if err != nil {
-		return s, errors.New(r[0] + " is not RFC3339")
+		return "", s, errors.New(r[0] + " is not RFC3339")
 	}
 
 	v, err := strconv.ParseFloat(r[2], 32)
 	if err != nil {
-		return s, errors.New(r[2] + " is not a float")
+		return "", s, errors.New(r[2] + " is not a float")
 	}
 	s.Value = float32(v)
 
-	return s, nil
+	return r[1], s, nil
 }
 
 func doRequest(url string) (*http.Response, error) {

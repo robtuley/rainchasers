@@ -78,7 +78,7 @@ func discover() (map[string]gauge.Snapshot, error) {
 				Type:      m.Type,
 				Unit:      m.Unit,
 			}
-			snapshots[snap.MetricID()] = snap
+			snapshots[m.Url] = snap
 		}
 	}
 

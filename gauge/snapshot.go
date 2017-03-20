@@ -22,15 +22,11 @@ type Snapshot struct {
 }
 
 type SnapshotUpdate struct {
-	MetricID string
 	DateTime time.Time
 	Value    float32
 }
 
 func (s Snapshot) Apply(u SnapshotUpdate) Snapshot {
-	if s.MetricID() != u.MetricID {
-		panic("Snapshot update " + u.MetricID + " applied to " + s.MetricID())
-	}
 	s.DateTime = u.DateTime
 	s.Value = u.Value
 	return s

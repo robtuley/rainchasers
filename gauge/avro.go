@@ -2,7 +2,6 @@ package gauge
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"github.com/linkedin/goavro"
 	"time"
@@ -96,9 +95,9 @@ func init() {
   "doc:": "Array of gauge measurement information",
   "fields": [
     {
-      "doc": "Metric ID for these measurements",
+      "doc": "Data URL for the gauge measurement",
       "type": "string",
-      "name": "metric_id"
+      "name": "data_url"
     },{
       "type": {
         "items": %s,
@@ -225,10 +224,9 @@ func DecodeSnapshot(bb *bytes.Buffer) (Snapshot, error) {
 	return s, nil
 }
 
-func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
+func EncodeSnapshotUpdates(dataURL string, updates []SnapshotUpdate) (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 	var innerRecords []interface{}
-	var metricID string
 
 	for _, u := range updates {
 		m, err := goavro.NewRecord(goavro.RecordSchema(measureSchemaJSON))
@@ -236,10 +234,6 @@ func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
 			return bb, err
 		}
 
-		if len(metricID) > 0 && u.MetricID != metricID {
-			return bb, errors.New("Inconsistent metric IDs")
-		}
-		metricID = u.MetricID
 		m.Set("timestamp", u.DateTime.Unix())
 		m.Set("value", u.Value)
 		innerRecords = append(innerRecords, m)
@@ -249,7 +243,7 @@ func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
 	if err != nil {
 		return bb, nil
 	}
-	outerRecord.Set("metric_id", metricID)
+	outerRecord.Set("data_url", dataURL)
 	outerRecord.Set("data", innerRecords)
 	if err = measurementsCodec.Encode(bb, outerRecord); err != nil {
 		return bb, err
@@ -258,22 +252,25 @@ func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
 	return bb, nil
 }
 
-func DecodeSnapshotUpdates(bb *bytes.Buffer) ([]SnapshotUpdate, error) {
+func DecodeSnapshotUpdates(bb *bytes.Buffer) (string, []SnapshotUpdate, error) {
 	var updates []SnapshotUpdate
+	var dataURL string
 
 	decoded, err := measurementsCodec.Decode(bb)
 	if err != nil {
-		return updates, err
+		return dataURL, updates, err
 	}
 
 	outerRecord := decoded.(*goavro.Record)
-	metricID, err := outerRecord.Get("metric_id")
+	url, err := outerRecord.Get("data_url")
 	if err != nil {
-		return updates, err
+		return dataURL, updates, err
 	}
+	dataURL = url.(string)
+
 	r, err := outerRecord.Get("data")
 	if err != nil {
-		return updates, err
+		return dataURL, updates, err
 	}
 	innerRecords := r.([]interface{})
 	for _, r = range innerRecords {
@@ -281,20 +278,19 @@ func DecodeSnapshotUpdates(bb *bytes.Buffer) ([]SnapshotUpdate, error) {
 
 		timestamp, err := u.Get("timestamp")
 		if err != nil {
-			return updates, err
+			return dataURL, updates, err
 		}
 
 		value, err := u.Get("value")
 		if err != nil {
-			return updates, err
+			return dataURL, updates, err
 		}
 
 		updates = append(updates, SnapshotUpdate{
-			MetricID: metricID.(string),
 			DateTime: time.Unix(timestamp.(int64), 0),
 			Value:    value.(float32),
 		})
 	}
 
-	return updates, nil
+	return dataURL, updates, nil
 }

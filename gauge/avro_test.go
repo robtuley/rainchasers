@@ -71,22 +71,20 @@ func TestSnapshotUpdatesEncodeDecode(t *testing.T) {
 	var before []gauge.SnapshotUpdate
 
 	before = append(before, gauge.SnapshotUpdate{
-		MetricID: "123456",
 		DateTime: timestamp.Add(time.Second),
 		Value:    1.23,
 	})
 	before = append(before, gauge.SnapshotUpdate{
-		MetricID: "123456",
 		DateTime: timestamp.Add(time.Second * 10),
 		Value:    4.56,
 	})
 
-	bb, err := gauge.EncodeSnapshotUpdates(before)
+	bb, err := gauge.EncodeSnapshotUpdates("123456", before)
 	if err != nil {
 		t.Error(err)
 	}
 
-	after, err := gauge.DecodeSnapshotUpdates(bb)
+	url, after, err := gauge.DecodeSnapshotUpdates(bb)
 	if err != nil {
 		t.Error(err)
 	}
@@ -96,33 +94,17 @@ func TestSnapshotUpdatesEncodeDecode(t *testing.T) {
 		return
 	}
 
+	if url != "123456" {
+		t.Error("Data URL mismatch", url)
+	}
+
 	for i, b := range before {
 		a := after[i]
-
-		if a.MetricID != b.MetricID {
-			t.Error("metricID mismatch", i, a.MetricID, b.MetricID)
-		}
 		if b.DateTime.Unix() != a.DateTime.Unix() {
 			t.Error("Timestamp mis-match", i, b.DateTime.Unix(), a.DateTime.Unix())
 		}
 		if b.Value != a.Value {
 			t.Error("Value mis-match", i, b.Value, a.Value)
 		}
-	}
-}
-
-func TestErrorOnSnapshotUpdatesWithMixedMetricIDs(t *testing.T) {
-	var before []gauge.SnapshotUpdate
-
-	before = append(before, gauge.SnapshotUpdate{
-		MetricID: "123456",
-	})
-	before = append(before, gauge.SnapshotUpdate{
-		MetricID: "3456789",
-	})
-
-	_, err := gauge.EncodeSnapshotUpdates(before)
-	if err == nil {
-		t.Error("Accepts inconsistent metric IDs")
 	}
 }

@@ -14,9 +14,9 @@ type readingJson struct {
 	} `json:"items"`
 }
 
-func update() ([]gauge.SnapshotUpdate, error) {
+func update() (map[string]gauge.SnapshotUpdate, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
-	var updates []gauge.SnapshotUpdate
+	updates := make(map[string]gauge.SnapshotUpdate)
 
 	resp, err := doJsonRequest(url)
 	if err != nil {
@@ -39,11 +39,10 @@ func update() ([]gauge.SnapshotUpdate, error) {
 			continue
 		}
 
-		updates = append(updates, gauge.SnapshotUpdate{
-			MetricID: gauge.CalculateMetricID(item.Measure),
+		updates[item.Measure] = gauge.SnapshotUpdate{
 			DateTime: item.DateTime,
 			Value:    value,
-		})
+		}
 	}
 
 	return updates, nil

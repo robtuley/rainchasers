@@ -11,16 +11,18 @@ func TestDownloadCSVParse(t *testing.T) {
 	if err != nil {
 		t.Error("download error", err)
 	}
-	if len(snapshots) < 10000 {
-		t.Error("Not enough readings found", len(snapshots))
+	if len(snapshots) < 2000 {
+		t.Error("Not enough gauges found", len(snapshots))
 	}
 
-	for i, s := range snapshots {
-		if len(s.MetricID) < 32 {
-			t.Error("No Metric ID", i, s)
+	for id, snaps := range snapshots {
+		if len(id) < 32 {
+			t.Error("Bad Data URL", id)
 		}
-		if s.DateTime.IsZero() {
-			t.Error("No DateTime", i, s)
+		for i, s := range snaps {
+			if s.DateTime.IsZero() {
+				t.Error("No DateTime", id, i, s)
+			}
 		}
 	}
 }

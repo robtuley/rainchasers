@@ -15,12 +15,12 @@ func TestUpdatingStations(t *testing.T) {
 		t.Error("Not enough readings found", len(updates))
 	}
 
-	for i, u := range updates {
-		if len(u.MetricID) < 32 {
-			t.Error("No Metric ID", i, u)
+	for url, u := range updates {
+		if len(url) < 32 {
+			t.Error("Too short data URL", url)
 		}
 		if u.DateTime.IsZero() {
-			t.Error("No DateTime", i, u)
+			t.Error("No DateTime", url)
 		}
 	}
 }
@@ -37,8 +37,8 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 	}
 
 	nSkippedMetrics := 0
-	for _, u := range updates {
-		ref, ok := snapshots[u.MetricID]
+	for id, u := range updates {
+		ref, ok := snapshots[id]
 		if !ok {
 			nSkippedMetrics += 1
 			continue
