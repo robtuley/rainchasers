@@ -105,7 +105,11 @@ updateLoop:
 			"discovered.ok": VALIDATE_IS_PRESENT,
 			"updated.ok":    VALIDATE_IS_PRESENT,
 		}
-		err = validateLogStream(logs, expect)
+		err := validateLogStream(logs, expect)
+		if err != nil {
+			return err
+		}
 	}
-	return err
+
+	return nil
 }

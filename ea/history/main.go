@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/robtuley/report"
+	"github.com/rainchasers/report"
 	"os"
 	"time"
 )
@@ -31,12 +31,13 @@ func run() error {
 	report.StdOut()
 	report.Global(report.Data{"service": "ea.history", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(1 * time.Second)
+	defer report.Drain()
 
 	// parse env vars
 	requestedDay := os.Getenv("DATE")
 	var day time.Time
 	if len(requestedDay) == 0 {
-		day = time.Now().AddDate(0, 0, -1)
+		day = time.Now().AddDate(0, 0, -2)
 	} else {
 		day, err = time.Parse("2006-01-02", requestedDay)
 		if err != nil {
@@ -59,21 +60,36 @@ func run() error {
 	})
 
 	// download & parse CSV data
+	tick := report.Tick()
 	snapshots, err := download(day)
 	if err != nil {
 		report.Action("download.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	report.Info("download.ok", report.Data{"count": len(snapshots)})
+	report.Tock(tick, "download.ok", report.Data{"count": len(snapshots)})
+
+	// publish historical data
+	if !isValidating {
+		tick := report.Tick()
+		err := publish(projectId, topicName, snapshots)
+		if err != nil {
+			report.Action("publish.fail", report.Data{"error": err.Error()})
+			return err
+		}
+		report.Tock(tick, "publish.ok", report.Data{})
+	}
 
 	// validate log stream on shutdown if required
-	report.Drain()
-	err = nil
 	if isValidating {
+		report.Drain()
 		expect := map[string]int{
 			"download.ok": VALIDATE_IS_PRESENT,
 		}
-		err = validateLogStream(logs, expect)
+		err := validateLogStream(logs, expect)
+		if err != nil {
+			return err
+		}
 	}
-	return err
+
+	return nil
 }
