@@ -2,6 +2,7 @@ package gauge
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/linkedin/goavro"
 	"time"
@@ -68,10 +69,6 @@ const measureSchemaJSON = `
   "doc:": "Gauge measurement information",
   "fields": [
     {
-      "doc": "Metric ID for this measurement",
-      "type": "string",
-      "name": "metric_id"
-    },{
       "doc": "Unix epoch time in seconds for measurement",
       "type": "long",
       "name": "timestamp"
@@ -99,6 +96,10 @@ func init() {
   "doc:": "Array of gauge measurement information",
   "fields": [
     {
+      "doc": "Metric ID for these measurements",
+      "type": "string",
+      "name": "metric_id"
+    },{
       "type": {
         "items": %s,
         "type": "array"
@@ -227,13 +228,18 @@ func DecodeSnapshot(bb *bytes.Buffer) (Snapshot, error) {
 func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 	var innerRecords []interface{}
+	var metricID string
 
 	for _, u := range updates {
 		m, err := goavro.NewRecord(goavro.RecordSchema(measureSchemaJSON))
 		if err != nil {
 			return bb, err
 		}
-		m.Set("metric_id", u.MetricID)
+
+		if len(metricID) > 0 && u.MetricID != metricID {
+			return bb, errors.New("Inconsistent metric IDs")
+		}
+		metricID = u.MetricID
 		m.Set("timestamp", u.DateTime.Unix())
 		m.Set("value", u.Value)
 		innerRecords = append(innerRecords, m)
@@ -243,6 +249,7 @@ func EncodeSnapshotUpdates(updates []SnapshotUpdate) (*bytes.Buffer, error) {
 	if err != nil {
 		return bb, nil
 	}
+	outerRecord.Set("metric_id", metricID)
 	outerRecord.Set("data", innerRecords)
 	if err = measurementsCodec.Encode(bb, outerRecord); err != nil {
 		return bb, err
@@ -260,6 +267,10 @@ func DecodeSnapshotUpdates(bb *bytes.Buffer) ([]SnapshotUpdate, error) {
 	}
 
 	outerRecord := decoded.(*goavro.Record)
+	metricID, err := outerRecord.Get("metric_id")
+	if err != nil {
+		return updates, err
+	}
 	r, err := outerRecord.Get("data")
 	if err != nil {
 		return updates, err
@@ -267,11 +278,6 @@ func DecodeSnapshotUpdates(bb *bytes.Buffer) ([]SnapshotUpdate, error) {
 	innerRecords := r.([]interface{})
 	for _, r = range innerRecords {
 		u := r.(*goavro.Record)
-
-		metricID, err := u.Get("metric_id")
-		if err != nil {
-			return updates, err
-		}
 
 		timestamp, err := u.Get("timestamp")
 		if err != nil {
