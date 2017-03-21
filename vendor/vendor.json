@@ -18,6 +18,12 @@
 			"revisionTime": "2016-02-12T14:28:21-05:00"
 		},
 		{
+			"checksumSHA1": "PJJaV+xVSbfpZwqFnv8Sr9FOtW0=",
+			"path": "github.com/rainchasers/report",
+			"revision": "d40ab12cc2946304fcd88364df952afdfdffef8a",
+			"revisionTime": "2017-03-17T06:09:39Z"
+		},
+		{
 			"checksumSHA1": "3M3+21suN5jOYWQIZbrCUB8s0bs=",
 			"path": "github.com/robtuley/report",
 			"revision": "dca78c344e16bc6add183ad78b09c8de51ddb2db",
