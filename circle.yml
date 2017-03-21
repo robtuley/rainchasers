@@ -22,33 +22,29 @@ dependencies:
 
 compile:
   override:
-    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea/latest && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM .
+    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea/latest && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM .
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./sepa && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM .
-    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./bigquery && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM .
-    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:latest
+    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea/history && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM .
+    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:latest
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:latest
-    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:latest
+    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:latest
 
 test:
   pre:
     - go vet ./gauge/
-    - go vet ./ea/latest/
+    - go vet ./ea/...
     - go vet ./sepa/
-    - go vet ./bigquery/
   override:
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go test ./...
-    - docker run -e "SHUTDOWN_AFTER_X_SECONDS=30" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM
-    - docker run -e "UPDATE_COUNT_BEFORE_SHUTDOWN=2" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM
+    - docker run -e "SHUTDOWN_AFTER_X_SECONDS=30" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM
+    - docker run -e "SHUTDOWN_AFTER_X_SECONDS=30" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM
+    - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM
 
 deployment:
   production: 
     branch: master
     commands:
-      - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea
+      - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest
       - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa
-      - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery
-      - kubectl set image deployment/rainchasers-ea rainchasers-ea=eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea:v$CIRCLE_BUILD_NUM
-      - kubectl rollout status deployment/rainchasers-ea
-      - kubectl set image deployment/rainchasers-bigquery rainchasers-bigquery=eu.gcr.io/tuleyprod/com.rainchasers.gauge/bigquery:v$CIRCLE_BUILD_NUM
-      - kubectl rollout status deployment/rainchasers-bigquery
+      - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history
       - kubectl describe deployments
