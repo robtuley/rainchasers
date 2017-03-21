@@ -2,66 +2,79 @@ package main
 
 import (
 	"errors"
-
-	"github.com/robtuley/report"
+	"github.com/rainchasers/report"
+	"sync"
 )
 
-const (
-	VALIDATE_IS_PRESENT = iota * -1
-)
+const VALIDATE_IS_PRESENT = iota * -1
 
-func bufferLogStream(bufferSize int) <-chan report.Data {
-	logC := make(chan report.Data, bufferSize)
-	log2Channel := func(d report.Data) {
-		select {
-		case logC <- d:
-		default:
-			// (a non-blocking publish)
-		}
-	}
-	report.Observe(log2Channel)
-	return logC
+type LogBuffer struct {
+	Mutex *sync.Mutex
+	Map   map[string][]report.Data
 }
 
-func validateLogStream(logC <-chan report.Data, expectEventCounts map[string]int) error {
-	n := 0
-	count := make(map[string]int)
+func (b LogBuffer) Add(d report.Data) {
+	evtName := d["event"].(string)
+	b.Mutex.Lock()
+	b.Map[evtName] = append(b.Map[evtName], d)
+	b.Mutex.Unlock()
+}
 
-Consume:
-	for {
-		select {
-		case d := <-logC:
-			n = n + 1
-			evtName := d["event"].(string)
+func (b LogBuffer) Extract() map[string][]report.Data {
+	b.Mutex.Lock()
+	logs := b.Map
+	b.Mutex.Unlock()
+	return logs
+}
 
-			// detect and fail on any actionable errors
-			if d["type"] == "action" {
-				return errors.New("Actionable error: " + evtName)
+func (b LogBuffer) FirstActionableError() error {
+	var err error
+	b.Mutex.Lock()
+	for name, events := range b.Map {
+		for _, e := range events {
+			if e["type"] == "action" {
+				err = errors.New("Actionable error: " + name)
 			}
-
-			// count types of each event
-			count[evtName] = count[evtName] + 1
-		default:
-			break Consume
 		}
 	}
-	report.Info("daemon.validation", report.Data{"buffer_size": n, "count": count})
+	b.Mutex.Unlock()
+	return err
+}
 
-	// if buffer is full, we likely discarded logs
-	if n == cap(logC) {
-		return errors.New("Buffer capacity exceeded")
+func (b LogBuffer) Count() map[string]int {
+	count := make(map[string]int)
+	b.Mutex.Lock()
+	for name, events := range b.Map {
+		count[name] = len(events)
+	}
+	b.Mutex.Unlock()
+	return count
+}
+
+func trackLogs() *LogBuffer {
+	buffer := LogBuffer{
+		Mutex: &sync.Mutex{},
+		Map:   make(map[string][]report.Data),
+	}
+	report.Observe(buffer.Add)
+	return &buffer
+}
+
+func validateLogStream(buffer *LogBuffer, expectCounts map[string]int) error {
+	err := buffer.FirstActionableError()
+	if err != nil {
+		return err
 	}
 
-	// make assertions on event counts
-	for k, expect := range expectEventCounts {
+	count := buffer.Count()
+	for k, expect := range expectCounts {
 		val, exists := count[k]
 		if !exists {
-			return errors.New(k + " not present")
+			return errors.New(k + " expected but not present")
 		}
 		if expect != VALIDATE_IS_PRESENT && expect != val {
 			return errors.New(k + " unexpected count")
 		}
 	}
-
 	return nil
 }

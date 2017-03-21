@@ -1,16 +1,22 @@
 package main
 
 import (
+	"github.com/rainchasers/report"
 	"os"
 	"strconv"
 	"time"
+)
 
-	"github.com/robtuley/report"
+const (
+	maxDownloadPerSecond = 1
+	maxPublishPerSecond  = 20
+	httpTimeoutInSeconds = 30
+	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
 )
 
 // Responds to environment variables:
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
-//   UPDATE_COUNT_BEFORE_SHUTDOWN (default 100)
+//   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default, blank for validation mode)
 //   LATEST_PUBSUB_TOPIC (no default, blank for validation mode)
 //   HISTORY_PUBSUB_TOPIC (no default, blank for validation mode)
@@ -24,40 +30,41 @@ func main() {
 
 func run() error {
 	// setup telemetry and logging
-	defer report.Drain()
 	report.StdOut()
 	report.Global(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	report.RuntimeStatsEvery(30 * time.Second)
+	defer report.Drain()
 
 	// parse env vars
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
 		updatePeriodSeconds = 15 * 60
 	}
-	updateCountOnShutdown, err := strconv.Atoi(os.Getenv("UPDATE_COUNT_BEFORE_SHUTDOWN"))
+	shutdownDeadline, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
-		updateCountOnShutdown = 100
+		shutdownDeadline = 7 * 24 * 60 * 60
 	}
+	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 	projectId := os.Getenv("PROJECT_ID")
 	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
 	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
-	var validateC <-chan report.Data
+	var logs *LogBuffer
 	if isValidating {
-		validateC = bufferLogStream(1000)
+		logs = trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
-		"update_period":            updatePeriodSeconds,
-		"update_count_on_shutdown": updateCountOnShutdown,
-		"project_id":               projectId,
-		"latest_pubsub_topic":      latestTopicName,
-		"history_pubsub_topic":     historyTopicName,
+		"update_period":        updatePeriodSeconds,
+		"shutdown_deadline":    shutdownDeadline,
+		"project_id":           projectId,
+		"latest_pubsub_topic":  latestTopicName,
+		"history_pubsub_topic": historyTopicName,
 	})
 
 	// discover SEPA gauging stations
-	refSnapshots, err := discoverStations()
+	refSnapshots, err := discover()
 	if err != nil {
 		report.Action("discovered.failed", report.Data{"error": err.Error()})
 		return err
@@ -68,16 +75,16 @@ func run() error {
 	report.Info("discovered.ok", report.Data{"count": len(refSnapshots)})
 
 	// calculate tick rate and spawn individual gauge download CSVs
-	tickerMillisecond := updatePeriodSeconds * 1000 / len(refSnapshots)
-	if tickerMillisecond < 1000 {
-		tickerMillisecond = 1000
+	tickerMs := updatePeriodSeconds * 1000 / len(refSnapshots)
+	minTickerMs := 1000 / maxDownloadPerSecond
+	if tickerMs < minTickerMs {
+		tickerMs = minTickerMs
 	}
-	nMax := updateCountOnShutdown * len(refSnapshots)
 	n := 0
-	ticker := time.NewTicker(time.Millisecond * time.Duration(tickerMillisecond))
+	ticker := time.NewTicker(time.Millisecond * time.Duration(tickerMs))
 
-updateTick:
-	for range ticker.C {
+updateLoop:
+	for {
 		i := n % len(refSnapshots)
 
 		tick := report.Tick()
@@ -95,21 +102,26 @@ updateTick:
 		}
 
 		n = n + 1
-		if n >= nMax {
-			break updateTick
+		select {
+		case <-ticker.C:
+		case <-shutdownC:
+			break updateLoop
 		}
 	}
 	ticker.Stop()
 
 	// validate log stream on shutdown if required
-	err = nil
 	if isValidating {
+		report.Drain()
 		expect := map[string]int{
 			"discovered.ok": VALIDATE_IS_PRESENT,
-			"updated.ok":    VALIDATE_IS_PRESENT, // TODO: updateCountOnShutdown * len(refSnapshots),
+			"updated.ok":    VALIDATE_IS_PRESENT,
 		}
-		time.Sleep(time.Second) // TODO: remove this! it allows log flush
-		err = validateLogStream(validateC, expect)
+		err := validateLogStream(logs, expect)
+		if err != nil {
+			return err
+		}
 	}
-	return err
+
+	return nil
 }

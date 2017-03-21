@@ -42,6 +42,7 @@ func run() error {
 	if err != nil {
 		shutdownDeadline = 7 * 24 * 60 * 60
 	}
+	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
@@ -57,7 +58,6 @@ func run() error {
 		"project_id":        projectId,
 		"pubsub_topic":      topicName,
 	})
-	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 
 	// discover EA gauging stations
 	refSnapshots, err := discover()
@@ -99,8 +99,8 @@ updateLoop:
 	ticker.Stop()
 
 	// validate log stream on shutdown if required
-	report.Drain()
 	if isValidating {
+		report.Drain()
 		expect := map[string]int{
 			"discovered.ok": VALIDATE_IS_PRESENT,
 			"updated.ok":    VALIDATE_IS_PRESENT,

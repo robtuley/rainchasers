@@ -40,9 +40,7 @@ ReadCSV:
 			return updates, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 		}
 
-		u := gauge.SnapshotUpdate{
-			MetricID: s.MetricID(),
-		}
+		u := gauge.SnapshotUpdate{}
 
 		u.DateTime, err = time.Parse("02/01/2006 15:04:05", r[0])
 		if err != nil {

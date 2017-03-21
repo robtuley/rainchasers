@@ -11,7 +11,7 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
-func discoverStations() ([]gauge.Snapshot, error) {
+func discover() ([]gauge.Snapshot, error) {
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
 	var snapshots []gauge.Snapshot
 
