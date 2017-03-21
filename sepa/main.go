@@ -10,7 +10,7 @@ import (
 const (
 	maxDownloadPerSecond = 1
 	maxPublishPerSecond  = 20
-	httpTimeoutInSeconds = 30
+	httpTimeoutInSeconds = 60
 	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
 )
 

@@ -3,24 +3,19 @@ package main
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"io"
-	"net/http"
 	"strconv"
 	"strings"
-
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func discover() ([]gauge.Snapshot, error) {
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
 	var snapshots []gauge.Snapshot
 
-	resp, err := http.Get(url)
+	resp, err := requestCSV(url)
 	if err != nil {
 		return snapshots, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return snapshots, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 

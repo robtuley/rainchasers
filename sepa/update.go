@@ -3,24 +3,19 @@ package main
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"io"
-	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func getReadings(s gauge.Snapshot) ([]gauge.SnapshotUpdate, error) {
 	var updates []gauge.SnapshotUpdate
 
-	resp, err := http.Get(s.DataURL)
+	resp, err := requestCSV(s.DataURL)
 	if err != nil {
 		return updates, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return updates, errors.New(s.DataURL + " status code " + strconv.Itoa(resp.StatusCode))
 	}
 	defer resp.Body.Close()
 
