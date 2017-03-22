@@ -88,19 +88,10 @@ func csvRecordToSnapshot(r []string) (gauge.Snapshot, error) {
 		return s, err
 	}
 
-	_, s.Unit = normaliseUnit(0.0, r[17])
+	s.Unit = r[17]
 
 	// no snapshot readings are available
 	// s.DateTime and s.Value left as defaults
 
 	return s, nil
-}
-
-func normaliseUnit(value float32, unit string) (float32, string) {
-	switch unit {
-	case "m":
-		return value, "metre"
-	}
-
-	return value, ""
 }
