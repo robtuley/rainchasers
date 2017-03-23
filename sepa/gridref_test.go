@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-const ε = 0.0001
-
 func TestParsingGridReference(t *testing.T) {
 	e, n, err := parseGridRef("NO1160525332")
 	if err != nil {
@@ -27,6 +25,8 @@ func TestParsingGridReference(t *testing.T) {
 }
 
 func TestGridReferenceConverstion(t *testing.T) {
+	const ε = 0.0001
+
 	lat, lg, err := gridRef2LatLg("NO1160525332")
 	if err != nil {
 		t.Error(err, lat, lg)

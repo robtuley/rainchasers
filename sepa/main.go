@@ -88,9 +88,9 @@ updateLoop:
 		i := n % len(refSnapshots)
 
 		tick := report.Tick()
-		readings, err := getReadings(refSnapshots[i])
+		readings, err := getReadings(refSnapshots[i].DataURL)
 		if err != nil {
-			report.Tock(tick, "updated.failed", report.Data{
+			report.Tock(tick, "updated.fail", report.Data{
 				"url":   refSnapshots[i].DataURL,
 				"error": err.Error(),
 			})

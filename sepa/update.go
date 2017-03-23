@@ -10,10 +10,10 @@ import (
 	"time"
 )
 
-func getReadings(s gauge.Snapshot) ([]gauge.SnapshotUpdate, error) {
+func getReadings(dataURL string) ([]gauge.SnapshotUpdate, error) {
 	var updates []gauge.SnapshotUpdate
 
-	resp, err := requestCSV(s.DataURL)
+	resp, err := requestCSV(dataURL)
 	if err != nil {
 		return updates, err
 	}
