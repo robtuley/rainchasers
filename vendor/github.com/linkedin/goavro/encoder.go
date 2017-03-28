@@ -24,11 +24,13 @@ import (
 	"math"
 )
 
+// ByteWriter is the interface implemented by any object that bytes can be written to.
 type ByteWriter interface {
 	Grow(int)
 	WriteByte(byte) error
 }
 
+// StringWriter is the interface implemented by any object that strings can be written to.
 type StringWriter interface {
 	WriteString(string) (int, error)
 }
@@ -151,7 +153,7 @@ func intEncoder(w io.Writer, datum interface{}) error {
 	if !ok {
 		return newEncoderError("int", "expected: int32; received: %T", datum)
 	}
-	encoded := uint64((someInt << 1) ^ (someInt >> downShift))
+	encoded := uint64((uint32(someInt) << 1) ^ uint32(someInt>>downShift))
 	const maxByteSize = 5
 	return writeInt(w, maxByteSize, encoded)
 }
@@ -162,7 +164,7 @@ func longEncoder(w io.Writer, datum interface{}) error {
 	if !ok {
 		return newEncoderError("long", "expected: int64; received: %T", datum)
 	}
-	encoded := uint64((someInt << 1) ^ (someInt >> downShift))
+	encoded := ((uint64(someInt) << 1) ^ uint64(someInt>>downShift))
 	const maxByteSize = 10
 	return writeInt(w, maxByteSize, encoded)
 }

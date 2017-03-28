@@ -13,7 +13,7 @@ func publish(
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
 	defer throttle.Stop()
 
-	_, err := gauge.NewPubSubContext(projectID, topicName)
+	_, err := gauge.NewTopic(projectID, topicName)
 	if err != nil {
 		return err
 	}

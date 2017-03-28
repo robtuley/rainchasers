@@ -149,7 +149,7 @@ func NewReader(setters ...ReaderSetter) (*Reader, error) {
 	}
 	// read in header information and use it to initialize Reader
 	magic := make([]byte, 4)
-	_, err = fr.r.Read(magic)
+	_, err = io.ReadFull(fr.r, magic)
 	if err != nil {
 		return nil, newReaderInitError("cannot read magic number", err)
 	}
@@ -162,7 +162,7 @@ func NewReader(setters ...ReaderSetter) (*Reader, error) {
 	}
 	fr.CompressionCodec, err = getHeaderString("avro.codec", meta)
 	if err != nil {
-		return nil, newReaderInitError("cannot read header metadata", err)
+		fr.CompressionCodec = CompressionNull
 	}
 	if !IsCompressionCodecSupported(fr.CompressionCodec) {
 		return nil, newReaderInitError("unsupported codec: %s", fr.CompressionCodec)
@@ -175,14 +175,14 @@ func NewReader(setters ...ReaderSetter) (*Reader, error) {
 		return nil, newReaderInitError("cannot compile schema", err)
 	}
 	fr.Sync = make([]byte, syncLength)
-	if _, err = fr.r.Read(fr.Sync); err != nil {
+	if _, err = io.ReadFull(fr.r, fr.Sync); err != nil {
 		return nil, newReaderInitError("cannot read sync marker", err)
 	}
 	// setup reading pipeline
 	toDecompress := make(chan *readerBlock)
 	toDecode := make(chan *readerBlock)
 	fr.deblocked = make(chan Datum)
-	go read(fr, toDecompress)
+	go read(fr, longCodec(), toDecompress)
 	go decompress(fr, toDecompress, toDecode)
 	go decode(fr, toDecode)
 	return fr, nil
@@ -261,48 +261,47 @@ func newReaderError(a ...interface{}) *ErrReader {
 	return &ErrReader{message, err}
 }
 
-func read(fr *Reader, toDecompress chan<- *readerBlock) {
+func read(fr *Reader, lCodec *codec, toDecompress chan<- *readerBlock) {
 	// NOTE: these variables created outside loop to reduce churn
-	var lr io.Reader
-	var bits []byte
 	sync := make([]byte, syncLength)
 
-	blockCount, blockSize, err := readBlockCountAndSize(fr.r)
+	blockCount, blockSize, err := readBlockCountAndSize(fr.r, lCodec)
 	if err != nil {
 		fr.err = err
 		blockCount = 0
 	}
 	for blockCount != 0 {
-		lr = io.LimitReader(fr.r, int64(blockSize))
-		if bits, err = ioutil.ReadAll(lr); err != nil {
-			err = newReaderError("cannot read block", err)
+		// Use a new buffer for every block because it will be shared with other goroutines
+		bits := make([]byte, blockSize)
+		if _, err = io.ReadFull(fr.r, bits); err != nil {
+			fr.err = newReaderError("cannot read block", err)
 			break
 		}
 		toDecompress <- &readerBlock{datumCount: blockCount, r: bytes.NewReader(bits)}
-		if _, fr.err = fr.r.Read(sync); fr.err != nil {
-			err = newReaderError("cannot read sync marker", fr.err)
+		if _, err := io.ReadFull(fr.r, sync); err != nil {
+			fr.err = newReaderError("cannot read sync marker", err)
 			break
 		}
 		if !bytes.Equal(fr.Sync, sync) {
 			fr.err = newReaderError(fmt.Sprintf("sync marker mismatch: %#v != %#v", sync, fr.Sync))
 			break
 		}
-		if blockCount, blockSize, fr.err = readBlockCountAndSize(fr.r); fr.err != nil {
+		if blockCount, blockSize, fr.err = readBlockCountAndSize(fr.r, lCodec); fr.err != nil {
 			break
 		}
 	}
 	close(toDecompress)
 }
 
-func readBlockCountAndSize(r io.Reader) (int, int, error) {
-	bc, err := longCodec.Decode(r)
+func readBlockCountAndSize(r io.Reader, lcodec *codec) (int, int, error) {
+	bc, err := lcodec.Decode(r)
 	if err != nil {
 		if ed, ok := err.(*ErrDecoder); ok && ed.Err == io.EOF {
 			return 0, 0, nil // we're done
 		}
 		return 0, 0, &ErrReaderBlockCount{err}
 	}
-	bs, err := longCodec.Decode(r)
+	bs, err := lcodec.Decode(r)
 	if err != nil {
 		return 0, 0, &ErrReaderBlockCount{err}
 	}
@@ -350,6 +349,11 @@ func decompress(fr *Reader, toDecompress <-chan *readerBlock, toDecode chan<- *r
 				toDecode <- block
 				continue
 			}
+			if len(src) < 4 {
+				block.err = newReaderError(fmt.Sprintf("too small of a block (%d bytes)", len(src)))
+				toDecode <- block
+				continue
+			}
 			index := len(src) - 4 // last 4 bytes is crc32 of decoded blob
 
 			dst, block.err = snappy.Decode(nil, src[:index])
@@ -382,13 +386,17 @@ func decompress(fr *Reader, toDecompress <-chan *readerBlock, toDecode chan<- *r
 func decode(fr *Reader, toDecode <-chan *readerBlock) {
 decodeLoop:
 	for block := range toDecode {
-		for i := 0; i < block.datumCount; i++ {
-			var datum Datum
-			datum.Value, datum.Err = fr.dataCodec.Decode(block.r)
-			if datum.Value == nil && datum.Err == nil {
-				break decodeLoop
+		if block.err != nil {
+			fr.deblocked <- Datum{Err: block.err}
+		} else {
+			for i := 0; i < block.datumCount; i++ {
+				var datum Datum
+				datum.Value, datum.Err = fr.dataCodec.Decode(block.r)
+				if datum.Value == nil && datum.Err == nil {
+					break decodeLoop
+				}
+				fr.deblocked <- datum
 			}
-			fr.deblocked <- datum
 		}
 	}
 	close(fr.deblocked)

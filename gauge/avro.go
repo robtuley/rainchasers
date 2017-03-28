@@ -136,7 +136,10 @@ func EncodeSnapshot(s Snapshot) (*bytes.Buffer, error) {
 	r.Set("river_name", s.RiverName)
 	r.Set("lat", s.Lat)
 	r.Set("lg", s.Lg)
-	r.Set("type", s.Type)
+	r.Set("type", goavro.Enum{
+		Name:  "typeValues",
+		Value: s.Type,
+	})
 	r.Set("unit", s.Unit)
 	r.Set("timestamp", s.DateTime.Unix())
 	r.Set("value", s.Value)
@@ -188,7 +191,7 @@ func DecodeSnapshot(bb *bytes.Buffer) (Snapshot, error) {
 		return s, err
 	}
 
-	typeStr, err := r.Get("type")
+	typeEnum, err := r.Get("type")
 	if err != nil {
 		return s, err
 	}
@@ -215,7 +218,7 @@ func DecodeSnapshot(bb *bytes.Buffer) (Snapshot, error) {
 		RiverName: riverName.(string),
 		Lat:       lat.(float32),
 		Lg:        lg.(float32),
-		Type:      typeStr.(string),
+		Type:      typeEnum.(goavro.Enum).Value,
 		Unit:      unit.(string),
 		DateTime:  time.Unix(timestamp.(int64), 0),
 		Value:     value.(float32),

@@ -42,7 +42,7 @@ func (e ErrNoSuchField) Error() string {
 // library's Decode method will return a Record initialized to the
 // record's values read from the io.Reader. Likewise, when using
 // Encode to convert data to an Avro record, it is necessary to create
-// and send a Record instance to the Encoder method.
+// and send a Record instance to the Encode method.
 type Record struct {
 	Name      string
 	Fields    []*recordField
@@ -236,12 +236,10 @@ func RecordSchema(recordSchemaJSON string) RecordSetter {
 	}
 
 	return func(r *Record) error {
-		if err != nil {
-			return err
-		} else {
+		if err == nil {
 			r.schemaMap = schema
-			return nil
 		}
+		return err
 	}
 }
 
@@ -313,6 +311,14 @@ func newRecordField(schema interface{}, setters ...recordFieldSetter) (*recordFi
 	if typeName == "null" {
 		rf.defval = nil
 		rf.hasDefault = true
+	}
+
+	// Nullable fields ( {"type": ["null", "string"], ...} ) have a default of nil
+	if typeSlice, ok := typeName.([]interface{}); ok {
+		if typeSlice[0] == "null" {
+			rf.defval = nil
+			rf.hasDefault = true
+		}
 	}
 
 	// fields optional to the avro spec
