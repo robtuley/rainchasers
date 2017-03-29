@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type Snapshot struct {
+type Station struct {
 	DataURL   string
 	HumanURL  string
 	Name      string
@@ -17,33 +17,26 @@ type Snapshot struct {
 	Lg        float32
 	Type      string
 	Unit      string
-	DateTime  time.Time
-	Value     float32
 }
 
-type SnapshotUpdate struct {
+type Reading struct {
 	DateTime time.Time
 	Value    float32
 }
 
-func (s Snapshot) Apply(u SnapshotUpdate) Snapshot {
-	s.DateTime = u.DateTime
-	s.Value = u.Value
-	return s
+type Snapshot struct {
+	Station  Station
+	Readings []Reading
 }
 
-func (s Snapshot) InsertID() string {
+func InsertID(s Station, r Reading) string {
 	h := sha256.New()
-	io.WriteString(h, s.DateTime.Format(time.RFC822)+strings.ToLower(s.DataURL))
+	io.WriteString(h, r.DateTime.Format(time.RFC822)+strings.ToLower(s.DataURL))
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-func CalculateMetricID(dataURL string) string {
+func MetricID(dataURL string) string {
 	h := sha256.New()
 	io.WriteString(h, strings.ToLower(dataURL))
 	return hex.EncodeToString(h.Sum(nil))
-}
-
-func (s Snapshot) MetricID() string {
-	return CalculateMetricID(s.DataURL)
 }

@@ -2,20 +2,21 @@ package main
 
 import (
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"testing"
 )
 
 func TestUpdatingStations(t *testing.T) {
-	updates, err := update()
+	readings, err := update()
 
 	if err != nil {
 		t.Error("Update stations error", err)
 	}
-	if len(updates) < 4000 {
-		t.Error("Not enough readings found", len(updates))
+	if len(readings) < 4000 {
+		t.Error("Not enough readings found", len(readings))
 	}
 
-	for url, u := range updates {
+	for url, u := range readings {
 		if len(url) < 32 {
 			t.Error("Too short data URL", url)
 		}
@@ -26,31 +27,33 @@ func TestUpdatingStations(t *testing.T) {
 }
 
 func TestUpdatesAreForDiscoveredStations(t *testing.T) {
-	updates, err := update()
+	readings, err := update()
 	if err != nil {
 		t.Error("Update stations error", err)
 	}
 
-	snapshots, err := discover()
+	stations, err := discover()
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}
 
 	nSkippedMetrics := 0
-	for id, u := range updates {
-		ref, ok := snapshots[id]
+	for id, r := range readings {
+		s, ok := stations[id]
 		if !ok {
 			nSkippedMetrics += 1
 			continue
 		}
 
-		s := ref.Apply(u)
-		_, err := gauge.EncodeSnapshot(s)
+		_, err := queue.Encode(&gauge.Snapshot{
+			Station:  s,
+			Readings: []gauge.Reading{r},
+		})
 		if err != nil {
 			t.Error("encoding snapshot error", err)
 		}
 	}
-	if nSkippedMetrics > len(updates)/4 {
-		t.Error("Too many skipped updates", nSkippedMetrics, len(updates))
+	if nSkippedMetrics > len(readings)/4 {
+		t.Error("Too many skipped updates", nSkippedMetrics, len(readings))
 	}
 }

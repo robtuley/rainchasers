@@ -29,13 +29,13 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-func discover() (map[string]gauge.Snapshot, error) {
+func discover() (map[string]gauge.Station, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
-	snapshots := make(map[string]gauge.Snapshot)
+	stations := make(map[string]gauge.Station)
 
 	resp, err := doJsonRequest(url)
 	if err != nil {
-		return snapshots, err
+		return stations, err
 	}
 	defer resp.Body.Close()
 
@@ -43,10 +43,10 @@ func discover() (map[string]gauge.Snapshot, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&list)
 	if err != nil {
-		return snapshots, err
+		return stations, err
 	}
 	if err != nil {
-		return snapshots, err
+		return stations, err
 	}
 
 	for _, s := range list.Stations {
@@ -68,7 +68,7 @@ func discover() (map[string]gauge.Snapshot, error) {
 			// no snapshot readings are available
 			// s.DateTime and s.Value left as defaults
 
-			snap := gauge.Snapshot{
+			station := gauge.Station{
 				DataURL:   m.Url,
 				HumanURL:  s.Url,
 				Name:      s.Name,
@@ -78,9 +78,9 @@ func discover() (map[string]gauge.Snapshot, error) {
 				Type:      m.Type,
 				Unit:      m.Unit,
 			}
-			snapshots[m.Url] = snap
+			stations[m.Url] = station
 		}
 	}
 
-	return snapshots, nil
+	return stations, nil
 }

@@ -60,12 +60,12 @@ func run() error {
 	})
 
 	// discover EA gauging stations
-	refSnapshots, err := discover()
+	stations, err := discover()
 	if err != nil {
 		report.Action("discovered.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	report.Info("discovered.ok", report.Data{"count": len(refSnapshots)})
+	report.Info("discovered.ok", report.Data{"count": len(stations)})
 
 	// periodically get latest updates
 	ticker := time.NewTicker(time.Second * time.Duration(updatePeriodSeconds))
@@ -82,7 +82,7 @@ updateLoop:
 
 		if !isValidating {
 			tick = report.Tick()
-			err = publish(projectId, topicName, updates, refSnapshots)
+			err = publish(projectId, topicName, updates, stations)
 			if err != nil {
 				report.Action("published.fail", report.Data{"error": err.Error()})
 				return err

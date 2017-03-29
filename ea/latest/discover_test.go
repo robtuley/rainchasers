@@ -8,20 +8,20 @@ import (
 const ε = 0.0001
 
 func TestDiscoveringStations(t *testing.T) {
-	snapshots, err := discover()
+	stations, err := discover()
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}
 
-	if len(snapshots) < 4000 {
-		t.Error("Not enough stations found", len(snapshots))
+	if len(stations) < 4000 {
+		t.Error("Not enough stations found", len(stations))
 	}
 
 	nMissingNames := 0
 	nMissingRiverNames := 0
 	nMissingLat := 0
 	nMissingLg := 0
-	for id, s := range snapshots {
+	for id, s := range stations {
 		if id != s.DataURL {
 			t.Error("Data URL not mapped", id, s.DataURL)
 		}
@@ -52,16 +52,16 @@ func TestDiscoveringStations(t *testing.T) {
 
 	}
 
-	if nMissingNames > len(snapshots)/4 {
-		t.Error("Too many missing names", nMissingNames, len(snapshots))
+	if nMissingNames > len(stations)/4 {
+		t.Error("Too many missing names", nMissingNames, len(stations))
 	}
-	if nMissingRiverNames > 3*len(snapshots)/4 {
-		t.Error("Too many missing river names", nMissingRiverNames, len(snapshots))
+	if nMissingRiverNames > 3*len(stations)/4 {
+		t.Error("Too many missing river names", nMissingRiverNames, len(stations))
 	}
-	if nMissingLat > len(snapshots)/4 {
-		t.Error("Too many missing lat", nMissingLat, len(snapshots))
+	if nMissingLat > len(stations)/4 {
+		t.Error("Too many missing lat", nMissingLat, len(stations))
 	}
-	if nMissingLg > len(snapshots)/4 {
-		t.Error("Too many missing lg", nMissingLg, len(snapshots))
+	if nMissingLg > len(stations)/4 {
+		t.Error("Too many missing lg", nMissingLg, len(stations))
 	}
 }

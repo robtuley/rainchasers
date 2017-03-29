@@ -14,13 +14,13 @@ type readingJson struct {
 	} `json:"items"`
 }
 
-func update() (map[string]gauge.SnapshotUpdate, error) {
+func update() (map[string]gauge.Reading, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
-	updates := make(map[string]gauge.SnapshotUpdate)
+	readings := make(map[string]gauge.Reading)
 
 	resp, err := doJsonRequest(url)
 	if err != nil {
-		return updates, err
+		return readings, err
 	}
 	defer resp.Body.Close()
 
@@ -28,7 +28,7 @@ func update() (map[string]gauge.SnapshotUpdate, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&r)
 	if err != nil {
-		return updates, err
+		return readings, err
 	}
 
 	for _, item := range r.Items {
@@ -39,11 +39,11 @@ func update() (map[string]gauge.SnapshotUpdate, error) {
 			continue
 		}
 
-		updates[item.Measure] = gauge.SnapshotUpdate{
+		readings[item.Measure] = gauge.Reading{
 			DateTime: item.DateTime,
 			Value:    value,
 		}
 	}
 
-	return updates, nil
+	return readings, nil
 }

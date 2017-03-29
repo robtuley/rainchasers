@@ -2,33 +2,38 @@ package main
 
 import (
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"time"
 )
 
 func publish(
 	projectID string,
 	topicName string,
-	updates map[string]gauge.SnapshotUpdate,
-	refSnapshots map[string]gauge.Snapshot,
+	readings map[string]gauge.Reading,
+	stations map[string]gauge.Station,
 ) error {
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
-	topic, err := gauge.NewTopic(projectID, topicName)
+	topic, err := queue.New(projectID, topicName)
 	if err != nil {
 		return err
 	}
 
-	for id, u := range updates {
-		s, ok := refSnapshots[id]
+	for id, r := range readings {
+		s, ok := stations[id]
 		if !ok {
 			continue
 		}
 
 		<-throttle.C
-		err := gauge.Publish(topic, s.Apply(u))
+		err := topic.Publish(&gauge.Snapshot{
+			Station:  s,
+			Readings: []gauge.Reading{r},
+		})
 		if err != nil {
 			return err
 		}
 	}
+
 	throttle.Stop()
 	topic.Stop()
 
