@@ -4,8 +4,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/util"
 	"io"
-	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -15,7 +15,7 @@ func download(day time.Time) (map[string][]gauge.Reading, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
 	snapshots := make(map[string][]gauge.Reading)
 
-	resp, err := doRequest(url)
+	resp, err := util.RequestCSV(url)
 	if err != nil {
 		return snapshots, err
 	}
@@ -46,7 +46,7 @@ ReadCSV:
 			continue
 		}
 
-		url, s, err := csvRecordToSnapshotUpdate(r)
+		url, s, err := csvRecordToReading(r)
 		if err != nil {
 			return snapshots, err
 		}
@@ -58,7 +58,7 @@ ReadCSV:
 }
 
 // 2016-01-30T00:00:00Z,http://environment.data.gov.uk/flood-monitoring/id/measures/0569TH-level-stage-i-15_min-mASD,3.430
-func csvRecordToSnapshotUpdate(r []string) (string, gauge.Reading, error) {
+func csvRecordToReading(r []string) (string, gauge.Reading, error) {
 	var s gauge.Reading
 	var err error
 
@@ -78,28 +78,4 @@ func csvRecordToSnapshotUpdate(r []string) (string, gauge.Reading, error) {
 	s.Value = float32(v)
 
 	return r[1], s, nil
-}
-
-func doRequest(url string) (*http.Response, error) {
-	client := &http.Client{
-		Timeout: httpTimeoutInSeconds * time.Second,
-	}
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Accept", "text/csv")
-	req.Header.Set("User-Agent", httpUserAgent)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return resp, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
-	}
-
-	return resp, nil
 }

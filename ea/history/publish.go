@@ -8,21 +8,17 @@ import (
 func publish(
 	projectID string,
 	topicName string,
-	updates map[string][]gauge.Reading,
+	readings map[string][]gauge.Reading,
 ) error {
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
 	defer throttle.Stop()
 
-	_, err := gauge.NewTopic(projectID, topicName)
-	if err != nil {
-		return err
-	}
+	_ = projectID
+	_ = topicName
 
-	for url, snaps := range updates {
-		_, err := gauge.EncodeSnapshotUpdates(url, snaps)
-		if err != nil {
-			return err
-		}
+	for url, data := range readings {
+		_ = url
+		_ = data
 		<-throttle.C
 	}
 

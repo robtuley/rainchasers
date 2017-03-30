@@ -6,11 +6,7 @@ import (
 	"time"
 )
 
-const (
-	maxPublishPerSecond  = 20
-	httpTimeoutInSeconds = 300
-	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
-)
+const maxPublishPerSecond = 20
 
 // Responds to environment variables:
 //   DATE (defaults to yesterday)
