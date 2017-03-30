@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/util"
 	"io"
 	"strconv"
 	"strings"
@@ -13,7 +14,7 @@ func discover() ([]gauge.Station, error) {
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
 	var stations []gauge.Station
 
-	resp, err := requestCSV(url)
+	resp, err := util.RequestCSV(url)
 	if err != nil {
 		return stations, err
 	}

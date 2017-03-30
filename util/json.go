@@ -1,11 +1,11 @@
-package main
+package util
 
 import (
 	"encoding/json"
 	"errors"
 )
 
-func parseFloatFromScalarOrArray(raw json.RawMessage) (float32, error) {
+func ParseJSONFloatFromScalarOrArray(raw json.RawMessage) (float32, error) {
 	var f float32
 	var a []float32
 
@@ -23,7 +23,7 @@ func parseFloatFromScalarOrArray(raw json.RawMessage) (float32, error) {
 	return f, err
 }
 
-func parseStringFromScalarOrArray(raw json.RawMessage) (string, error) {
+func ParseJSONStringFromScalarOrArray(raw json.RawMessage) (string, error) {
 	var s string
 	var a []string
 

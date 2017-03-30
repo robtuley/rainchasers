@@ -32,11 +32,11 @@ func TestEncodeDecode(t *testing.T) {
 		Station:  station,
 		Readings: readings,
 	}
-	bb, err := encode(&before)
+	bb, err := Encode(&before)
 	if err != nil {
 		t.Error(err)
 	}
-	after, err := decode(bb)
+	after, err := Decode(bb)
 	if err != nil {
 		t.Error(err)
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/util"
 	"time"
 )
 
@@ -18,7 +19,7 @@ func update() (map[string]gauge.Reading, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 	readings := make(map[string]gauge.Reading)
 
-	resp, err := doJsonRequest(url)
+	resp, err := util.RequestJSON(url)
 	if err != nil {
 		return readings, err
 	}
@@ -34,7 +35,7 @@ func update() (map[string]gauge.Reading, error) {
 	for _, item := range r.Items {
 		// the 'value' keys should be a float, but instances exist of arrays
 		// so we do a conditional parse and simply dump those that can't match.
-		value, err := parseFloatFromScalarOrArray(item.ValueRawJson)
+		value, err := util.ParseJSONFloatFromScalarOrArray(item.ValueRawJson)
 		if err != nil {
 			continue
 		}

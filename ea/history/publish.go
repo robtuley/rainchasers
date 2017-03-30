@@ -8,7 +8,7 @@ import (
 func publish(
 	projectID string,
 	topicName string,
-	updates map[string][]gauge.SnapshotUpdate,
+	updates map[string][]gauge.Reading,
 ) error {
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
 	defer throttle.Stop()

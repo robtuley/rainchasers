@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/util"
 	"io"
 	"strconv"
 	"strings"
@@ -13,7 +14,7 @@ import (
 func getReadings(dataURL string) ([]gauge.Reading, error) {
 	var readings []gauge.Reading
 
-	resp, err := requestCSV(dataURL)
+	resp, err := util.RequestCSV(dataURL)
 	if err != nil {
 		return readings, err
 	}

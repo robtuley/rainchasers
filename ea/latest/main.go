@@ -7,12 +7,6 @@ import (
 	"time"
 )
 
-const (
-	maxPublishPerSecond  = 20
-	httpTimeoutInSeconds = 30
-	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
-)
-
 // Responds to environment variables:
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   SHUTDOWN_AFTER_X_SECONDS (default 24*60*60)

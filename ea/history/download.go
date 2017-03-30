@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-func download(day time.Time) (map[string][]gauge.SnapshotUpdate, error) {
+func download(day time.Time) (map[string][]gauge.Reading, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
-	snapshots := make(map[string][]gauge.SnapshotUpdate)
+	snapshots := make(map[string][]gauge.Reading)
 
 	resp, err := doRequest(url)
 	if err != nil {
@@ -58,8 +58,8 @@ ReadCSV:
 }
 
 // 2016-01-30T00:00:00Z,http://environment.data.gov.uk/flood-monitoring/id/measures/0569TH-level-stage-i-15_min-mASD,3.430
-func csvRecordToSnapshotUpdate(r []string) (string, gauge.SnapshotUpdate, error) {
-	var s gauge.SnapshotUpdate
+func csvRecordToSnapshotUpdate(r []string) (string, gauge.Reading, error) {
+	var s gauge.Reading
 	var err error
 
 	if len(r) != 3 {
