@@ -9,13 +9,13 @@ import (
 	"strings"
 )
 
-func discover() ([]gauge.Snapshot, error) {
+func discover() ([]gauge.Station, error) {
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
-	var snapshots []gauge.Snapshot
+	var stations []gauge.Station
 
 	resp, err := requestCSV(url)
 	if err != nil {
-		return snapshots, err
+		return stations, err
 	}
 	defer resp.Body.Close()
 
@@ -30,7 +30,7 @@ ReadCSV:
 			break ReadCSV
 		}
 		if err != nil {
-			return snapshots, err
+			return stations, err
 		}
 		if isFirst {
 			isFirst = false
@@ -39,13 +39,13 @@ ReadCSV:
 
 		s, err := csvRecordToSnapshot(r)
 		if err != nil {
-			return snapshots, err
+			return stations, err
 		}
 
-		snapshots = append(snapshots, s)
+		stations = append(stations, s)
 	}
 
-	return snapshots, nil
+	return stations, nil
 }
 
 // 0:SEPA_HYDROLOGY_OFFICE
@@ -69,8 +69,8 @@ ReadCSV:
 // 18:WEB_MESSAGE
 // 19:NRFA_LINK e.g. http://www.ceh.ac.uk/data/nrfa/data/station.html?15042
 // Perth,Perth,10048,NO1160525132,---,Tay,2.08,4991.0,August 19,2017-02-20 12:45:00,58156010,0.0,0.168,4.928,3.493,4.928m @ 17/01/1993 19:30:00,0.894,m,,http://www.ceh.ac.uk/data/nrfa/data/station.html?15042
-func csvRecordToSnapshot(r []string) (gauge.Snapshot, error) {
-	var s gauge.Snapshot
+func csvRecordToSnapshot(r []string) (gauge.Station, error) {
+	var s gauge.Station
 
 	if len(r) != 20 {
 		return s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
@@ -89,9 +89,6 @@ func csvRecordToSnapshot(r []string) (gauge.Snapshot, error) {
 	}
 
 	s.Unit = r[17]
-
-	// no snapshot readings are available
-	// s.DateTime and s.Value left as defaults
 
 	return s, nil
 }

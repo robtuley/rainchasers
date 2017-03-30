@@ -10,12 +10,12 @@ import (
 	"time"
 )
 
-func getReadings(dataURL string) ([]gauge.SnapshotUpdate, error) {
-	var updates []gauge.SnapshotUpdate
+func getReadings(dataURL string) ([]gauge.Reading, error) {
+	var readings []gauge.Reading
 
 	resp, err := requestCSV(dataURL)
 	if err != nil {
-		return updates, err
+		return readings, err
 	}
 	defer resp.Body.Close()
 
@@ -29,13 +29,13 @@ ReadCSV:
 			break ReadCSV
 		}
 		if err != nil {
-			return updates, err
+			return readings, err
 		}
 		if len(r) != 2 {
-			return updates, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
+			return readings, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 		}
 
-		u := gauge.SnapshotUpdate{}
+		u := gauge.Reading{}
 
 		u.DateTime, err = time.Parse("02/01/2006 15:04:05", r[0])
 		if err != nil {
@@ -48,8 +48,8 @@ ReadCSV:
 		}
 		u.Value = float32(v)
 
-		updates = append(updates, u)
+		readings = append(readings, u)
 	}
 
-	return updates, nil
+	return readings, nil
 }

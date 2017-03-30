@@ -18,8 +18,7 @@ const (
 //   UPDATE_EVERY_X_SECONDS (default 15*60)
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default, blank for validation mode)
-//   LATEST_PUBSUB_TOPIC (no default, blank for validation mode)
-//   HISTORY_PUBSUB_TOPIC (no default, blank for validation mode)
+//   PUBSUB_TOPIC (no default, blank for validation mode)
 //
 func main() {
 	if err := run(); err != nil {
@@ -46,8 +45,7 @@ func run() error {
 	}
 	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 	projectId := os.Getenv("PROJECT_ID")
-	latestTopicName := os.Getenv("LATEST_PUBSUB_TOPIC")
-	historyTopicName := os.Getenv("HISTORY_PUBSUB_TOPIC")
+	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
@@ -56,26 +54,25 @@ func run() error {
 		logs = trackLogs()
 	}
 	report.Info("daemon.start", report.Data{
-		"update_period":        updatePeriodSeconds,
-		"shutdown_deadline":    shutdownDeadline,
-		"project_id":           projectId,
-		"latest_pubsub_topic":  latestTopicName,
-		"history_pubsub_topic": historyTopicName,
+		"update_period":     updatePeriodSeconds,
+		"shutdown_deadline": shutdownDeadline,
+		"project_id":        projectId,
+		"pubsub_topic":      topicName,
 	})
 
 	// discover SEPA gauging stations
-	refSnapshots, err := discover()
+	stations, err := discover()
 	if err != nil {
 		report.Action("discovered.failed", report.Data{"error": err.Error()})
 		return err
 	}
 	if isValidating {
-		refSnapshots = refSnapshots[0:5]
+		stations = stations[0:5]
 	}
-	report.Info("discovered.ok", report.Data{"count": len(refSnapshots)})
+	report.Info("discovered.ok", report.Data{"count": len(stations)})
 
 	// calculate tick rate and spawn individual gauge download CSVs
-	tickerMs := updatePeriodSeconds * 1000 / len(refSnapshots)
+	tickerMs := updatePeriodSeconds * 1000 / len(stations)
 	minTickerMs := 1000 / maxDownloadPerSecond
 	if tickerMs < minTickerMs {
 		tickerMs = minTickerMs
@@ -85,18 +82,18 @@ func run() error {
 
 updateLoop:
 	for {
-		i := n % len(refSnapshots)
+		i := n % len(stations)
 
 		tick := report.Tick()
-		readings, err := getReadings(refSnapshots[i].DataURL)
+		readings, err := getReadings(stations[i].DataURL)
 		if err != nil {
 			report.Tock(tick, "updated.fail", report.Data{
-				"url":   refSnapshots[i].DataURL,
+				"url":   stations[i].DataURL,
 				"error": err.Error(),
 			})
 		} else {
 			report.Tock(tick, "updated.ok", report.Data{
-				"url":   refSnapshots[i].DataURL,
+				"url":   stations[i].DataURL,
 				"count": len(readings),
 			})
 		}

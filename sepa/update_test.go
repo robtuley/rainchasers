@@ -5,16 +5,16 @@ import (
 )
 
 func TestUpdatingFromAStation(t *testing.T) {
-	updates, err := getReadings("http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
+	readings, err := getReadings("http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
 
 	if err != nil {
 		t.Error("Update stations error", err)
 	}
-	if len(updates) < 50 {
-		t.Error("Not enough readings found", len(updates))
+	if len(readings) < 50 {
+		t.Error("Not enough readings found", len(readings))
 	}
 
-	for i, u := range updates {
+	for i, u := range readings {
 		if u.DateTime.IsZero() {
 			t.Error("No DateTime", i)
 		}
