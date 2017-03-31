@@ -88,8 +88,8 @@ func run() error {
 	if isValidating {
 		report.Drain()
 		expect := map[string]int{
-			"discover.ok": VALIDATE_IS_PRESENT,
-			"download.ok": VALIDATE_IS_PRESENT,
+			"discovered.ok": VALIDATE_IS_PRESENT,
+			"download.ok":   VALIDATE_IS_PRESENT,
 		}
 		err := validateLogStream(logs, expect)
 		if err != nil {
