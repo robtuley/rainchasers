@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/util"
+	"github.com/rainchasers/com.rainchasers.gauge/request"
 )
 
 type stationListJson struct {
@@ -34,7 +34,7 @@ func discover() (map[string]gauge.Station, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
 	stations := make(map[string]gauge.Station)
 
-	resp, err := util.RequestJSON(url)
+	resp, err := request.JSON(url)
 	if err != nil {
 		return stations, err
 	}
@@ -53,10 +53,10 @@ func discover() (map[string]gauge.Station, error) {
 	for _, s := range list.Stations {
 		// a known inconsistency is that the API can provide Lat, Lg or label as an array
 		// so we use a defensive mechanism to parse these fields and let them be missing completely
-		s.Lat, _ = util.ParseJSONFloatFromScalarOrArray(s.LatRawJson)
-		s.Lg, _ = util.ParseJSONFloatFromScalarOrArray(s.LgRawJson)
-		s.Name, _ = util.ParseJSONStringFromScalarOrArray(s.NameRawJson)
-		s.RiverName, _ = util.ParseJSONStringFromScalarOrArray(s.RiverNameRawJson)
+		s.Lat, _ = request.ParseFloat(s.LatRawJson)
+		s.Lg, _ = request.ParseFloat(s.LgRawJson)
+		s.Name, _ = request.ParseString(s.NameRawJson)
+		s.RiverName, _ = request.ParseString(s.RiverNameRawJson)
 
 		for _, m := range s.Measures {
 

@@ -1,4 +1,4 @@
-package util
+package request
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ const (
 	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
 )
 
-func RequestJSON(url string) (*http.Response, error) {
+func JSON(url string) (*http.Response, error) {
 	client := &http.Client{
 		Timeout: httpTimeoutInSeconds * time.Second,
 	}
@@ -36,7 +36,7 @@ func RequestJSON(url string) (*http.Response, error) {
 	return resp, nil
 }
 
-func RequestCSV(url string) (*http.Response, error) {
+func CSV(url string) (*http.Response, error) {
 	client := &http.Client{
 		Timeout: httpTimeoutInSeconds * time.Second,
 	}

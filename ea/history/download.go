@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/util"
+	"github.com/rainchasers/com.rainchasers.gauge/request"
 	"io"
 	"strconv"
 	"strings"
@@ -15,7 +15,7 @@ func download(day time.Time) (map[string][]gauge.Reading, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
 	snapshots := make(map[string][]gauge.Reading)
 
-	resp, err := util.RequestCSV(url)
+	resp, err := request.CSV(url)
 	if err != nil {
 		return snapshots, err
 	}
