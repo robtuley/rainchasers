@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/report"
 	"os"
 	"time"
@@ -55,19 +56,27 @@ func run() error {
 		"pubsub_topic": topicName,
 	})
 
+	// discover EA gauging stations
+	stations, err := discover.Stations()
+	if err != nil {
+		report.Action("discovered.fail", report.Data{"error": err.Error()})
+		return err
+	}
+	report.Info("discovered.ok", report.Data{"count": len(stations)})
+
 	// download & parse CSV data
 	tick := report.Tick()
-	snapshots, err := download(day)
+	readings, err := download(day)
 	if err != nil {
 		report.Action("download.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	report.Tock(tick, "download.ok", report.Data{"count": len(snapshots)})
+	report.Tock(tick, "download.ok", report.Data{"count": len(readings)})
 
 	// publish historical data
 	if !isValidating {
 		tick := report.Tick()
-		err := publish(projectId, topicName, snapshots)
+		err := publish(projectId, topicName, stations, readings)
 		if err != nil {
 			report.Action("publish.fail", report.Data{"error": err.Error()})
 			return err
@@ -79,6 +88,7 @@ func run() error {
 	if isValidating {
 		report.Drain()
 		expect := map[string]int{
+			"discover.ok": VALIDATE_IS_PRESENT,
 			"download.ok": VALIDATE_IS_PRESENT,
 		}
 		err := validateLogStream(logs, expect)
