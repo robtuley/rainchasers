@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/report"
 	"os"
 	"strconv"
@@ -54,7 +55,7 @@ func run() error {
 	})
 
 	// discover EA gauging stations
-	stations, err := discover()
+	stations, err := discover.Stations()
 	if err != nil {
 		report.Action("discovered.fail", report.Data{"error": err.Error()})
 		return err

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"testing"
@@ -32,7 +33,7 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 		t.Error("Update stations error", err)
 	}
 
-	stations, err := discover()
+	stations, err := discover.Stations()
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}

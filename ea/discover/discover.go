@@ -1,4 +1,4 @@
-package main
+package discover
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-func discover() (map[string]gauge.Station, error) {
+func Stations() (map[string]gauge.Station, error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
 	stations := make(map[string]gauge.Station)
 
