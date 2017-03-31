@@ -20,7 +20,5 @@ spec:
           value: dns
         - name: PROJECT_ID
           value: tuleyprod
-        - name: LATEST_PUBSUB_TOPIC
-          value: com.rainchasers.gauge.latest
-        - name: HISTORY_PUBSUB_TOPIC
-          value: com.rainchasers.gauge.history
+        - name: PUBSUB_TOPIC
+          value: com.rainchasers.gauge

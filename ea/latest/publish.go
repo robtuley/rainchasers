@@ -15,10 +15,13 @@ func publish(
 	stations map[string]gauge.Station,
 ) error {
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
+	defer throttle.Stop()
+
 	topic, err := queue.New(projectID, topicName)
 	if err != nil {
 		return err
 	}
+	defer topic.Stop()
 
 	for id, r := range readings {
 		s, ok := stations[id]
@@ -35,9 +38,6 @@ func publish(
 			return err
 		}
 	}
-
-	throttle.Stop()
-	topic.Stop()
 
 	return nil
 }
