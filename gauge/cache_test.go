@@ -1,6 +1,7 @@
 package gauge
 
 import (
+	"context"
 	"reflect"
 	"testing"
 	"time"
@@ -87,5 +88,82 @@ func TestRemoveOlderThan(t *testing.T) {
 	removeOlderThan(timestamp, &result)
 	if !reflect.DeepEqual(result, []Reading{}) {
 		t.Error("removeOlderThan unexpected result #4", result)
+	}
+}
+
+func TestCacheAddAndGet(t *testing.T) {
+	timestamp := time.Now()
+
+	r1 := Reading{
+		DateTime: timestamp,
+		Value:    3.21,
+	}
+	r2 := Reading{
+		DateTime: timestamp.Add(-1 * time.Second),
+		Value:    2.13,
+	}
+	r3 := Reading{
+		DateTime: timestamp.Add(-2 * time.Second),
+		Value:    1.23,
+	}
+
+	stationA := Station{
+		DataURL: "http://example.com/A",
+	}
+	stationB := Station{
+		DataURL: "http://example.com/B",
+	}
+
+	stationAsnap1 := Snapshot{
+		Station:  stationA,
+		Readings: []Reading{r1, r3},
+	}
+
+	StationAsnap2 := Snapshot{
+		Station:  stationA,
+		Readings: []Reading{r1, r2, r3},
+	}
+
+	stationBsnap1 := Snapshot{
+		Station:  stationB,
+		Readings: []Reading{r1, r2, r3},
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	cache := NewCache(ctx, time.Hour)
+
+	cache.Add(stationAsnap1)
+	cache.Add(stationBsnap1)
+	cache.Add(StationAsnap2)
+
+	stationAresult, exists := cache.Get(stationA.UUID())
+	if !exists {
+		t.Error("Station A uncached", stationA.UUID())
+	} else {
+		if !reflect.DeepEqual(stationAresult.Station, stationA) {
+			t.Error("Station mismatch for A", stationAresult.Station)
+		}
+		if !reflect.DeepEqual(stationAresult.Readings, concat(stationAsnap1.Readings, StationAsnap2.Readings)) {
+			t.Error("Readings mismatch for A", stationAresult.Readings)
+		}
+		if !stationAresult.ModifiedAt.After(timestamp) {
+			t.Error("Incorrect Modified at for A", stationAresult.ModifiedAt)
+		}
+	}
+
+	stationBresult, exists := cache.Get(stationB.UUID())
+	if !exists {
+		t.Error("Station B uncached", stationB.UUID())
+	} else {
+		if !reflect.DeepEqual(stationBresult.Station, stationB) {
+			t.Error("Station mismatch for B", stationBresult.Station)
+		}
+		if !reflect.DeepEqual(stationBresult.Readings, stationBsnap1.Readings) {
+			t.Error("Readings mismatch for B", stationBresult.Readings)
+		}
+		if !stationBresult.ModifiedAt.After(timestamp) {
+			t.Error("Incorrect Modified at for B", stationBresult.ModifiedAt)
+		}
 	}
 }

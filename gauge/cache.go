@@ -35,18 +35,19 @@ func (rs readingSorter) Less(i, j int) bool {
 
 func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	cache := Cache{
+		snapMap:   make(map[string]*CachedSnapshot),
 		rwMutex:   &sync.RWMutex{},
 		retention: retention,
 	}
 
 	// spawn routine to regularly purge cache
 	go func() {
-		purgeInterval := time.Hour
-		if cache.retention < purgeInterval {
-			purgeInterval = cache.retention
+		interval := time.Hour
+		if cache.retention < interval {
+			interval = cache.retention
 		}
 
-		ticker := time.NewTicker(purgeInterval)
+		ticker := time.NewTicker(interval)
 	purgeThenWait:
 		for {
 			cache.purge()
@@ -64,19 +65,21 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 }
 
 func (c *Cache) Add(s Snapshot) {
+	uuid := s.Station.UUID()
+	removeOlderThan(time.Now().Add(-1*c.retention), &s.Readings)
+
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
-	if cached, exists := c.snapMap[s.Station.UUID()]; !exists {
-		c.snapMap[s.Station.DataURL] = &CachedSnapshot{
-			Station:    s.Station,
-			Readings:   s.Readings,
-			ModifiedAt: time.Now(),
+	item, exists := c.snapMap[uuid]
+	if !exists {
+		item = &CachedSnapshot{
+			Station: s.Station,
 		}
-	} else {
-		cached.Readings = concat(cached.Readings, s.Readings)
-		cached.ModifiedAt = time.Now()
+		c.snapMap[uuid] = item
 	}
+	item.Readings = concat(item.Readings, s.Readings)
+	item.ModifiedAt = time.Now()
 }
 
 func (c *Cache) Get(uuid string) (CachedSnapshot, bool) {
