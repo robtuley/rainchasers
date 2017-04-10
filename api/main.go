@@ -26,12 +26,6 @@ func main() {
 }
 
 func run() error {
-	// setup telemetry and logging
-	report.StdOut()
-	report.Global(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
-	report.RuntimeStatsEvery(30 * time.Second)
-	defer report.Drain()
-
 	// parse env vars
 	bootstrapURL := os.Getenv("BOOTSTRAP_URL")
 	projectId := os.Getenv("PROJECT_ID")
@@ -41,6 +35,12 @@ func run() error {
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
 	}
+
+	// setup telemetry and logging
+	report.StdOut()
+	report.Global(report.Data{"service": "api", "daemon": consumerName + time.Now().Format("v2006-01-02-15-04-05")})
+	report.RuntimeStatsEvery(30 * time.Second)
+	defer report.Drain()
 	report.Info("daemon.start", report.Data{
 		"bootstrap_url": bootstrapURL,
 		"project_id":    projectId,
