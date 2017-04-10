@@ -7,6 +7,7 @@ import (
 	"github.com/rainchasers/report"
 	"os"
 	"strconv"
+	"sync/atomic"
 	"time"
 )
 
@@ -46,29 +47,35 @@ func run() error {
 	})
 
 	// create daemon context
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
-	defer cancel()
+	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
+	defer shutdown()
 
 	// create gauge in-memory cache
 	cache := gauge.NewCache(ctx, 7*24*time.Hour)
 
 	// subscribe to gauge snapshot topic to populate gauge cache
-	topic, err := queue.New(projectId, topicName)
-	if err != nil {
-		report.Action("topic.failed", report.Data{"error": err.Error()})
-		return err
-	}
-	err = topic.Subscribe("api", func(s *gauge.Snapshot, err error) {
+	var counter uint64
+	go func() {
+		topic, err := queue.New(projectId, topicName)
 		if err != nil {
-			report.Action("msg.failed", report.Data{"error": err.Error()})
-		} else {
-			cache.Add(s)
+			report.Action("topic.failed", report.Data{"error": err.Error()})
+			shutdown()
+			return
 		}
-	})
-	if err != nil {
-		report.Action("subscribe.failed", report.Data{"error": err.Error()})
-		return err
-	}
+		err = topic.Subscribe(ctx, "api", func(s *gauge.Snapshot, err error) {
+			if err != nil {
+				report.Action("msg.failed", report.Data{"error": err.Error()})
+			} else {
+				atomic.AddUint64(&counter, 1)
+				cache.Add(s)
+			}
+		})
+		if err != nil {
+			report.Action("subscribe.failed", report.Data{"error": err.Error()})
+			shutdown()
+			return
+		}
+	}()
 
 	// log cache status every 30s
 	ticker := time.NewTicker(time.Second * 30)
@@ -81,7 +88,9 @@ logLoop:
 			"max_reading":     stat.MaxReadingCount,
 			"min_reading":     stat.MinReadingCount,
 			"max_age_seconds": stat.OldestReading.Seconds(),
+			"added":           atomic.LoadUint64(&counter),
 		})
+		atomic.StoreUint64(&counter, 0)
 
 		select {
 		case <-ticker.C:

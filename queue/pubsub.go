@@ -56,28 +56,28 @@ func (t *Topic) Publish(s *gauge.Snapshot) error {
 	return err
 }
 
-func (t *Topic) Subscribe(consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
+func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
 	const ackDeadline = time.Second * 10
 	subName := t.PubSub.ID() + "." + consumerGroup
 
-	client, err := pubsub.NewClient(context.Background(), t.ProjectID)
+	client, err := pubsub.NewClient(ctx, t.ProjectID)
 	if err != nil {
 		return err
 	}
 
 	sub := client.Subscription(subName)
-	exists, err := sub.Exists(context.Background())
+	exists, err := sub.Exists(ctx)
 	if err != nil {
 		return err
 	}
 	if !exists {
-		sub, err = client.CreateSubscription(context.Background(), subName, t.PubSub, ackDeadline, nil)
+		sub, err = client.CreateSubscription(ctx, subName, t.PubSub, ackDeadline, nil)
 		if err != nil {
 			return err
 		}
 	}
 
-	err = sub.Receive(context.Background(), func(ctx context.Context, m *pubsub.Message) {
+	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		s, err := Decode(bytes.NewBuffer(m.Data))
 		fn(s, err)
 		m.Ack()
