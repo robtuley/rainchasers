@@ -2,6 +2,7 @@ package gauge
 
 import (
 	"context"
+	"math"
 	"sort"
 	"sync"
 	"time"
@@ -17,6 +18,14 @@ type CachedSnapshot struct {
 	Station    Station
 	Readings   []Reading
 	ModifiedAt time.Time
+}
+
+type CacheStats struct {
+	StationCount    int
+	AllReadingCount int
+	MaxReadingCount int
+	MinReadingCount int
+	OldestReading   time.Duration
 }
 
 type readingSorter []Reading
@@ -64,7 +73,7 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	return &cache
 }
 
-func (c *Cache) Add(s Snapshot) {
+func (c *Cache) Add(s *Snapshot) {
 	uuid := s.Station.UUID()
 	removeOlderThan(time.Now().Add(-1*c.retention), &s.Readings)
 
@@ -88,6 +97,46 @@ func (c *Cache) Get(uuid string) (CachedSnapshot, bool) {
 
 	cached, exists := c.snapMap[uuid]
 	return *cached, exists
+}
+
+func (c *Cache) Stats() CacheStats {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+	var oldest time.Time
+	all := 0
+	max := 0
+	min := math.MaxInt64
+	for k := range c.snapMap {
+		len := len(c.snapMap[k].Readings)
+		all += len
+		if len > max {
+			max = len
+		}
+		if len < min {
+			min = len
+		}
+		if len > 0 {
+			last := c.snapMap[k].Readings[len-1]
+			if oldest.IsZero() || last.DateTime.Before(oldest) {
+				oldest = last.DateTime
+			}
+		}
+	}
+	if min == math.MaxInt64 {
+		min = 0
+	}
+	status := CacheStats{
+		StationCount:    len(c.snapMap),
+		AllReadingCount: all,
+		MaxReadingCount: max,
+		MinReadingCount: min,
+	}
+	if !oldest.IsZero() {
+		status.OldestReading = time.Now().Sub(oldest)
+	}
+
+	return status
 }
 
 func (c *Cache) purge() {

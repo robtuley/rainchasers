@@ -119,23 +119,31 @@ func TestCacheAddAndGet(t *testing.T) {
 		Readings: []Reading{r1, r3},
 	}
 
-	StationAsnap2 := Snapshot{
+	stationAsnap2 := Snapshot{
 		Station:  stationA,
 		Readings: []Reading{r1, r2, r3},
 	}
 
 	stationBsnap1 := Snapshot{
 		Station:  stationB,
-		Readings: []Reading{r1, r2, r3},
+		Readings: []Reading{r1, r2},
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	cache := NewCache(ctx, time.Hour)
 
-	cache.Add(stationAsnap1)
-	cache.Add(stationBsnap1)
-	cache.Add(StationAsnap2)
+	stat := cache.Stats()
+	if stat.StationCount != 0 || stat.MaxReadingCount != 0 || stat.MinReadingCount != 0 {
+		t.Error("Empty cache stat count mismatch", stat)
+	}
+	if stat.OldestReading.Seconds() != 0 {
+		t.Error("Empty cache oldest time mismatch", stat)
+	}
+
+	cache.Add(&stationAsnap1)
+	cache.Add(&stationBsnap1)
+	cache.Add(&stationAsnap2)
 
 	stationAresult, exists := cache.Get(stationA.UUID())
 	if !exists {
@@ -144,7 +152,7 @@ func TestCacheAddAndGet(t *testing.T) {
 		if !reflect.DeepEqual(stationAresult.Station, stationA) {
 			t.Error("Station mismatch for A", stationAresult.Station)
 		}
-		if !reflect.DeepEqual(stationAresult.Readings, concat(stationAsnap1.Readings, StationAsnap2.Readings)) {
+		if !reflect.DeepEqual(stationAresult.Readings, concat(stationAsnap1.Readings, stationAsnap2.Readings)) {
 			t.Error("Readings mismatch for A", stationAresult.Readings)
 		}
 		if !stationAresult.ModifiedAt.After(timestamp) {
@@ -165,5 +173,22 @@ func TestCacheAddAndGet(t *testing.T) {
 		if !stationBresult.ModifiedAt.After(timestamp) {
 			t.Error("Incorrect Modified at for B", stationBresult.ModifiedAt)
 		}
+	}
+
+	stat = cache.Stats()
+	if stat.StationCount != 2 {
+		t.Error("Cache stat station count mismatch", stat)
+	}
+	if stat.AllReadingCount != 5 {
+		t.Error("Cache stat all reading count mismatch", stat)
+	}
+	if stat.MaxReadingCount != 3 {
+		t.Error("Cache stat max reading count mismatch", stat)
+	}
+	if stat.MinReadingCount != 2 {
+		t.Error("Cache stat max reading count mismatch", stat)
+	}
+	if stat.OldestReading.Seconds() < 2 {
+		t.Error("Empty cache oldest time mismatch", stat)
 	}
 }
