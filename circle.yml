@@ -25,9 +25,11 @@ compile:
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea/latest && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM .
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./sepa && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM .
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./ea/history && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM .
+    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' ./api && docker build -t eu.gcr.io/tuleyprod/com.rainchasers.gauge/api:v$CIRCLE_BUILD_NUM .
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:latest
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:latest
     - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:latest
+    - docker tag eu.gcr.io/tuleyprod/com.rainchasers.gauge/api:v$CIRCLE_BUILD_NUM eu.gcr.io/tuleyprod/com.rainchasers.gauge/api:latest
 
 test:
   pre:
@@ -45,4 +47,5 @@ deployment:
       - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest
       - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa
       - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history
+      - gcloud --quiet docker -- push eu.gcr.io/tuleyprod/com.rainchasers.gauge/api
       - kubectl describe deployments
