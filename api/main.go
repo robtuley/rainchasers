@@ -16,6 +16,7 @@ import (
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default)
 //   PUBSUB_TOPIC (no default)
+//   CONSUMER_NAME (no default)
 //
 func main() {
 	if err := run(); err != nil {
@@ -35,6 +36,7 @@ func run() error {
 	bootstrapURL := os.Getenv("BOOTSTRAP_URL")
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
+	consumerName := os.Getenv("CONSUMER_NAME")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
@@ -43,6 +45,7 @@ func run() error {
 		"bootstrap_url": bootstrapURL,
 		"project_id":    projectId,
 		"pubsub_topic":  topicName,
+		"consumer_name": consumerName,
 		"timeout":       timeout,
 	})
 
@@ -62,7 +65,7 @@ func run() error {
 			shutdown()
 			return
 		}
-		err = topic.Subscribe(ctx, "api", func(s *gauge.Snapshot, err error) {
+		err = topic.Subscribe(ctx, consumerName, func(s *gauge.Snapshot, err error) {
 			if err != nil {
 				report.Action("msg.failed", report.Data{"error": err.Error()})
 			} else {
