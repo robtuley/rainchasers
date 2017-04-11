@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"time"
@@ -15,7 +16,7 @@ func publish(
 	throttle := time.NewTicker(time.Second / maxPublishPerSecond)
 	defer throttle.Stop()
 
-	topic, err := queue.New(projectID, topicName)
+	topic, err := queue.New(context.Background(), projectID, topicName)
 	if err != nil {
 		return err
 	}
@@ -28,7 +29,7 @@ func publish(
 		}
 
 		<-throttle.C
-		err := topic.Publish(&gauge.Snapshot{
+		err := topic.Publish(context.Background(), &gauge.Snapshot{
 			Station:  s,
 			Readings: r,
 		})
