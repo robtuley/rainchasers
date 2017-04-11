@@ -18,19 +18,19 @@ func (t *Topic) Stop() {
 	t.PubSub.Stop()
 }
 
-func New(projectId string, topicName string) (*Topic, error) {
-	client, err := pubsub.NewClient(context.Background(), projectId)
+func New(ctx context.Context, projectId string, topicName string) (*Topic, error) {
+	client, err := pubsub.NewClient(ctx, projectId)
 	if err != nil {
 		return nil, err
 	}
 
 	topic := client.Topic(topicName)
-	exists, err := topic.Exists(context.Background())
+	exists, err := topic.Exists(ctx)
 	if err != nil {
 		return nil, err
 	}
 	if !exists {
-		topic, err = client.CreateTopic(context.Background(), topicName)
+		topic, err = client.CreateTopic(ctx, topicName)
 		if err != nil {
 			return nil, err
 		}
@@ -42,22 +42,28 @@ func New(projectId string, topicName string) (*Topic, error) {
 	}, nil
 }
 
-func (t *Topic) Publish(s *gauge.Snapshot) error {
+func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 	bb, err := Encode(s)
 	if err != nil {
 		return err
 	}
 
-	result := t.PubSub.Publish(context.Background(), &pubsub.Message{
+	result := t.PubSub.Publish(ctx, &pubsub.Message{
 		Data: bb.Bytes(),
 	})
-	_, err = result.Get(context.Background())
+	_, err = result.Get(ctx)
 
 	return err
 }
 
+// a zero length consumerGroup means auto-generate and delete once done
 func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
 	const ackDeadline = time.Second * 10
+
+	deleteSubOnComplete := len(consumerGroup) == 0
+	if deleteSubOnComplete {
+		consumerGroup = time.Now().Format("v2006-01-02-15-04-05.999999")
+	}
 	subName := t.PubSub.ID() + "." + consumerGroup
 
 	client, err := pubsub.NewClient(ctx, t.ProjectID)
@@ -75,6 +81,9 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 		if err != nil {
 			return err
 		}
+	}
+	if deleteSubOnComplete {
+		defer sub.Delete(context.Background())
 	}
 
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {

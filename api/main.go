@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"sync"
 	"sync/atomic"
 	"syscall"
 	"time"
@@ -32,7 +33,6 @@ func run() error {
 	bootstrapURL := os.Getenv("BOOTSTRAP_URL")
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
-	consumerName := os.Getenv("CONSUMER_NAME")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
@@ -40,18 +40,18 @@ func run() error {
 
 	// setup telemetry and logging
 	report.StdOut()
-	report.Global(report.Data{"service": "api", "daemon": consumerName + time.Now().Format("v2006-01-02-15-04-05")})
+	report.Global(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05.9999")})
 	report.RuntimeStatsEvery(30 * time.Second)
 	defer report.Drain()
 	report.Info("daemon.start", report.Data{
 		"bootstrap_url": bootstrapURL,
 		"project_id":    projectId,
 		"pubsub_topic":  topicName,
-		"consumer_name": consumerName,
 		"timeout":       timeout,
 	})
 
 	// create daemon context
+	var wg sync.WaitGroup
 	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
 	defer shutdown()
 	sigC := make(chan os.Signal, 1)
@@ -60,10 +60,15 @@ func run() error {
 		syscall.SIGINT,
 		syscall.SIGTERM,
 		syscall.SIGQUIT)
+	wg.Add(1)
 	go func() {
-		<-sigC
-		report.Info("daemon.interrupt", report.Data{})
-		shutdown()
+		select {
+		case <-sigC:
+			report.Info("daemon.interrupt", report.Data{})
+			shutdown()
+		case <-ctx.Done():
+		}
+		wg.Done()
 	}()
 
 	// create gauge in-memory cache
@@ -71,14 +76,15 @@ func run() error {
 
 	// subscribe to gauge snapshot topic to populate gauge cache
 	var counter uint64
+	wg.Add(1)
 	go func() {
-		topic, err := queue.New(projectId, topicName)
+		topic, err := queue.New(ctx, projectId, topicName)
 		if err != nil {
 			report.Action("topic.failed", report.Data{"error": err.Error()})
 			shutdown()
 			return
 		}
-		err = topic.Subscribe(ctx, consumerName, func(s *gauge.Snapshot, err error) {
+		err = topic.Subscribe(ctx, "", func(s *gauge.Snapshot, err error) {
 			if err != nil {
 				report.Action("msg.failed", report.Data{"error": err.Error()})
 			} else {
@@ -86,11 +92,13 @@ func run() error {
 				cache.Add(s)
 			}
 		})
+		topic.Stop()
 		if err != nil {
 			report.Action("subscribe.failed", report.Data{"error": err.Error()})
 			shutdown()
 			return
 		}
+		wg.Done()
 	}()
 
 	// log cache status every 30s
@@ -115,6 +123,18 @@ logLoop:
 		}
 	}
 	ticker.Stop()
+
+	// wait for goroutine completion, or timeout
+	c := make(chan bool)
+	go func() {
+		defer close(c)
+		wg.Wait()
+	}()
+	select {
+	case <-c:
+	case <-time.After(20 * time.Second):
+		report.Action("daemon.timeout", report.Data{})
+	}
 
 	return nil
 }
