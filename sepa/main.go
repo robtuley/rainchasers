@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"github.com/rainchasers/report"
 	"os"
 	"os/signal"
@@ -12,7 +14,6 @@ import (
 
 const (
 	maxDownloadPerSecond = 1
-	maxPublishPerSecond  = 20
 )
 
 // Responds to environment variables:
@@ -38,7 +39,7 @@ func run() error {
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
 	}
-	projectId := os.Getenv("PROJECT_ID")
+	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry and logging
@@ -49,12 +50,12 @@ func run() error {
 	report.Info("daemon.start", report.Data{
 		"update_period": updatePeriodSeconds,
 		"timeout":       timeout,
-		"project_id":    projectId,
+		"project_id":    projectID,
 		"pubsub_topic":  topicName,
 	})
 
 	// decision on whether validating logs
-	isValidating := projectId == ""
+	isValidating := projectID == ""
 	var logs *LogBuffer
 	if isValidating {
 		logs = trackLogs()
@@ -97,6 +98,19 @@ func run() error {
 	}
 	n := 0
 	ticker := time.NewTicker(time.Millisecond * time.Duration(tickerMs))
+	defer ticker.Stop()
+
+	// open connection to publish topic
+	var topic *queue.Topic
+	nPubErr := 0
+	if !isValidating {
+		topic, err = queue.New(ctx, projectID, topicName)
+		if err != nil {
+			return err
+		} else {
+			defer topic.Stop()
+		}
+	}
 
 updateLoop:
 	for {
@@ -116,14 +130,30 @@ updateLoop:
 			})
 		}
 
-		n = n + 1
+		if !isValidating {
+			err = topic.Publish(context.Background(), &gauge.Snapshot{
+				Station:  stations[i],
+				Readings: readings,
+			})
+			if err != nil {
+				report.Action("publish.fail", report.Data{
+					"url":   stations[i].DataURL,
+					"error": err.Error(),
+				})
+				nPubErr += 1
+			}
+		}
+		if nPubErr > 100 {
+			shutdown()
+		}
+
+		n += 1
 		select {
 		case <-ticker.C:
 		case <-ctx.Done():
 			break updateLoop
 		}
 	}
-	ticker.Stop()
 
 	// validate log stream on shutdown if required
 	if isValidating {
