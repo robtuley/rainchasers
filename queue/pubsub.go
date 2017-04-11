@@ -10,15 +10,21 @@ import (
 
 type Topic struct {
 	ProjectID string
-	PubSub    *pubsub.Topic
+	pubSub    *pubsub.Topic
 }
 
 // defer topic.Stop()
 func (t *Topic) Stop() {
-	t.PubSub.Stop()
+	if t.pubSub != nil {
+		t.pubSub.Stop()
+	}
 }
 
 func New(ctx context.Context, projectId string, topicName string) (*Topic, error) {
+	if len(projectId) == 0 {
+		return &Topic{}, nil
+	}
+
 	client, err := pubsub.NewClient(ctx, projectId)
 	if err != nil {
 		return nil, err
@@ -38,7 +44,7 @@ func New(ctx context.Context, projectId string, topicName string) (*Topic, error
 
 	return &Topic{
 		ProjectID: projectId,
-		PubSub:    topic,
+		pubSub:    topic,
 	}, nil
 }
 
@@ -48,7 +54,11 @@ func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 		return err
 	}
 
-	result := t.PubSub.Publish(ctx, &pubsub.Message{
+	if t.pubSub == nil {
+		return nil
+	}
+
+	result := t.pubSub.Publish(ctx, &pubsub.Message{
 		Data: bb.Bytes(),
 	})
 	_, err = result.Get(ctx)
@@ -64,7 +74,7 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 	if deleteSubOnComplete {
 		consumerGroup = time.Now().Format("v2006-01-02-15-04-05.999999")
 	}
-	subName := t.PubSub.ID() + "." + consumerGroup
+	subName := t.pubSub.ID() + "." + consumerGroup
 
 	client, err := pubsub.NewClient(ctx, t.ProjectID)
 	if err != nil {
@@ -77,7 +87,7 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 		return err
 	}
 	if !exists {
-		sub, err = client.CreateSubscription(ctx, subName, t.PubSub, ackDeadline, nil)
+		sub, err = client.CreateSubscription(ctx, subName, t.pubSub, ackDeadline, nil)
 		if err != nil {
 			return err
 		}

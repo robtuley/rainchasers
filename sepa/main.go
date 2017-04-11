@@ -100,17 +100,14 @@ func run() error {
 	ticker := time.NewTicker(time.Millisecond * time.Duration(tickerMs))
 	defer ticker.Stop()
 
-	// open connection to publish topic
-	var topic *queue.Topic
-	nPubErr := 0
-	if !isValidating {
-		topic, err = queue.New(ctx, projectID, topicName)
-		if err != nil {
-			return err
-		} else {
-			defer topic.Stop()
-		}
+	// open connection to pubsub
+	topic, err := queue.New(ctx, projectID, topicName)
+	if err != nil {
+		return err
+	} else {
+		defer topic.Stop()
 	}
+	nPubErr := 0
 
 updateLoop:
 	for {
@@ -130,18 +127,16 @@ updateLoop:
 			})
 		}
 
-		if !isValidating {
-			err = topic.Publish(context.Background(), &gauge.Snapshot{
-				Station:  stations[i],
-				Readings: readings,
+		err = topic.Publish(context.Background(), &gauge.Snapshot{
+			Station:  stations[i],
+			Readings: readings,
+		})
+		if err != nil {
+			report.Action("publish.fail", report.Data{
+				"url":   stations[i].DataURL,
+				"error": err.Error(),
 			})
-			if err != nil {
-				report.Action("publish.fail", report.Data{
-					"url":   stations[i].DataURL,
-					"error": err.Error(),
-				})
-				nPubErr += 1
-			}
+			nPubErr += 1
 		}
 		if nPubErr > 100 {
 			shutdown()
