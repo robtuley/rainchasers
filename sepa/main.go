@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"github.com/rainchasers/report"
 	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 	"time"
 )
 
@@ -26,24 +29,29 @@ func main() {
 }
 
 func run() error {
-	// setup telemetry and logging
-	report.StdOut()
-	report.Global(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
-	report.RuntimeStatsEvery(30 * time.Second)
-	defer report.Drain()
-
 	// parse env vars
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
 		updatePeriodSeconds = 15 * 60
 	}
-	shutdownDeadline, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
+	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
-		shutdownDeadline = 7 * 24 * 60 * 60
+		timeout = 7 * 24 * 60 * 60
 	}
-	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
+
+	// setup telemetry and logging
+	report.StdOut()
+	report.Global(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	report.RuntimeStatsEvery(30 * time.Second)
+	defer report.Drain()
+	report.Info("daemon.start", report.Data{
+		"update_period": updatePeriodSeconds,
+		"timeout":       timeout,
+		"project_id":    projectId,
+		"pubsub_topic":  topicName,
+	})
 
 	// decision on whether validating logs
 	isValidating := projectId == ""
@@ -51,12 +59,24 @@ func run() error {
 	if isValidating {
 		logs = trackLogs()
 	}
-	report.Info("daemon.start", report.Data{
-		"update_period":     updatePeriodSeconds,
-		"shutdown_deadline": shutdownDeadline,
-		"project_id":        projectId,
-		"pubsub_topic":      topicName,
-	})
+
+	// create daemon context
+	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
+	defer shutdown()
+	sigC := make(chan os.Signal, 1)
+	signal.Notify(sigC,
+		syscall.SIGHUP,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		syscall.SIGQUIT)
+	go func() {
+		select {
+		case <-sigC:
+			report.Info("daemon.interrupt", report.Data{})
+			shutdown()
+		case <-ctx.Done():
+		}
+	}()
 
 	// discover SEPA gauging stations
 	stations, err := discover()
@@ -99,7 +119,7 @@ updateLoop:
 		n = n + 1
 		select {
 		case <-ticker.C:
-		case <-shutdownC:
+		case <-ctx.Done():
 			break updateLoop
 		}
 	}
