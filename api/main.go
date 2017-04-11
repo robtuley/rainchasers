@@ -6,8 +6,10 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"github.com/rainchasers/report"
 	"os"
+	"os/signal"
 	"strconv"
 	"sync/atomic"
+	"syscall"
 	"time"
 )
 
@@ -52,6 +54,17 @@ func run() error {
 	// create daemon context
 	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
 	defer shutdown()
+	sigC := make(chan os.Signal, 1)
+	signal.Notify(sigC,
+		syscall.SIGHUP,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		syscall.SIGQUIT)
+	go func() {
+		<-sigC
+		report.Info("daemon.interrupt", report.Data{})
+		shutdown()
+	}()
 
 	// create gauge in-memory cache
 	cache := gauge.NewCache(ctx, 7*24*time.Hour)
