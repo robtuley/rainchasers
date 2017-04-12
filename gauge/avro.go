@@ -1,14 +1,13 @@
-package queue
+package gauge
 
 import (
 	"bytes"
 	"fmt"
 	"github.com/linkedin/goavro"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"time"
 )
 
-const readingSchemaJSON = `
+const ReadingSchema = `
 {
   "namespace": "com.rainchasers.gauge",
   "type": "record",
@@ -29,12 +28,12 @@ const readingSchemaJSON = `
 `
 
 var (
-	snapshotSchemaJSON string
-	snapshotCodec      goavro.Codec
+	SnapshotSchema string
+	snapshotCodec  goavro.Codec
 )
 
 func init() {
-	snapshotSchemaJSON = fmt.Sprintf(`
+	SnapshotSchema = fmt.Sprintf(`
 {
   "namespace": "com.rainchasers.gauge",
   "type": "record",
@@ -83,22 +82,22 @@ func init() {
     }
   ]
 }
-`, readingSchemaJSON)
+`, ReadingSchema)
 
 	var err error
 
-	snapshotCodec, err = goavro.NewCodec(snapshotSchemaJSON)
+	snapshotCodec, err = goavro.NewCodec(SnapshotSchema)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func Encode(s *gauge.Snapshot) (*bytes.Buffer, error) {
+func (s *Snapshot) Encode() (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 	var innerRecords []interface{}
 
 	for _, u := range s.Readings {
-		m, err := goavro.NewRecord(goavro.RecordSchema(readingSchemaJSON))
+		m, err := goavro.NewRecord(goavro.RecordSchema(ReadingSchema))
 		if err != nil {
 			return bb, err
 		}
@@ -108,7 +107,7 @@ func Encode(s *gauge.Snapshot) (*bytes.Buffer, error) {
 		innerRecords = append(innerRecords, m)
 	}
 
-	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(snapshotSchemaJSON))
+	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(SnapshotSchema))
 	if err != nil {
 		return bb, nil
 	}
@@ -131,57 +130,55 @@ func Encode(s *gauge.Snapshot) (*bytes.Buffer, error) {
 	return bb, nil
 }
 
-func Decode(bb *bytes.Buffer) (*gauge.Snapshot, error) {
-	var s gauge.Snapshot
-
+func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 	decoded, err := snapshotCodec.Decode(bb)
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	r := decoded.(*goavro.Record)
 
 	dataURL, err := r.Get("data_url")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	humanURL, err := r.Get("human_url")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	name, err := r.Get("name")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	riverName, err := r.Get("river_name")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	lat, err := r.Get("lat")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	lg, err := r.Get("lg")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	typeEnum, err := r.Get("type")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
 	unit, err := r.Get("unit")
 	if err != nil {
-		return &s, err
+		return err
 	}
 
-	s.Station = gauge.Station{
+	s.Station = Station{
 		DataURL:   dataURL.(string),
 		HumanURL:  humanURL.(string),
 		Name:      name.(string),
@@ -194,7 +191,7 @@ func Decode(bb *bytes.Buffer) (*gauge.Snapshot, error) {
 
 	data, err := r.Get("data")
 	if err != nil {
-		return &s, err
+		return err
 	}
 	innerRecords := data.([]interface{})
 	for _, a := range innerRecords {
@@ -202,19 +199,19 @@ func Decode(bb *bytes.Buffer) (*gauge.Snapshot, error) {
 
 		timestamp, err := u.Get("timestamp")
 		if err != nil {
-			return &s, err
+			return err
 		}
 
 		value, err := u.Get("value")
 		if err != nil {
-			return &s, err
+			return err
 		}
 
-		s.Readings = append(s.Readings, gauge.Reading{
+		s.Readings = append(s.Readings, Reading{
 			DateTime: time.Unix(timestamp.(int64), 0),
 			Value:    value.(float32),
 		})
 	}
 
-	return &s, nil
+	return nil
 }

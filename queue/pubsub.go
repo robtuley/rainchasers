@@ -50,7 +50,7 @@ func New(ctx context.Context, projectId string, topicName string) (*Topic, error
 }
 
 func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
-	bb, err := Encode(s)
+	bb, err := s.Encode()
 	if err != nil {
 		return err
 	}
@@ -102,8 +102,9 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 	}
 
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
-		s, err := Decode(bytes.NewBuffer(m.Data))
-		fn(s, err)
+		s := gauge.Snapshot{}
+		err := s.Decode(bytes.NewBuffer(m.Data))
+		fn(&s, err)
 		m.Ack()
 	})
 	if err != nil {

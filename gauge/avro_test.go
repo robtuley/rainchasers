@@ -1,13 +1,12 @@
-package queue
+package gauge
 
 import (
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"testing"
 	"time"
 )
 
 func TestEncodeDecode(t *testing.T) {
-	station := gauge.Station{
+	station := Station{
 		DataURL:   "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
 		HumanURL:  "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
 		Name:      "Bourton Dickler",
@@ -18,25 +17,26 @@ func TestEncodeDecode(t *testing.T) {
 		Unit:      "metre",
 	}
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
-	var readings []gauge.Reading
-	readings = append(readings, gauge.Reading{
+	var readings []Reading
+	readings = append(readings, Reading{
 		DateTime: timestamp.Add(time.Second),
 		Value:    1.23,
 	})
-	readings = append(readings, gauge.Reading{
+	readings = append(readings, Reading{
 		DateTime: timestamp.Add(time.Second * 10),
 		Value:    4.56,
 	})
 
-	before := gauge.Snapshot{
+	before := Snapshot{
 		Station:  station,
 		Readings: readings,
 	}
-	bb, err := Encode(&before)
+	bb, err := before.Encode()
 	if err != nil {
 		t.Error(err)
 	}
-	after, err := Decode(bb)
+	after := Snapshot{}
+	err = after.Decode(bb)
 	if err != nil {
 		t.Error(err)
 	}
