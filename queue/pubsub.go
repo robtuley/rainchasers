@@ -3,6 +3,7 @@ package queue
 import (
 	"bytes"
 	"cloud.google.com/go/pubsub"
+	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"golang.org/x/net/context"
 	"time"
@@ -69,6 +70,10 @@ func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 // a zero length consumerGroup means auto-generate and delete once done
 func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
 	const ackDeadline = time.Second * 10
+
+	if t.pubSub == nil {
+		return errors.New("Topic has no project ID")
+	}
 
 	deleteSubOnComplete := len(consumerGroup) == 0
 	if deleteSubOnComplete {
