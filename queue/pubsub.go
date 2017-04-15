@@ -69,7 +69,7 @@ func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 
 // a zero length consumerGroup means auto-generate and delete once done
 func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
-	const ackDeadline = time.Second * 10
+	const ackDeadline = time.Second * 20
 
 	if t.pubSub == nil {
 		return errors.New("Topic has no project ID")
