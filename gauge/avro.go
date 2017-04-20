@@ -134,7 +134,7 @@ func readingToRecord(r *Reading) (*goavro.Record, error) {
 func snapshotToRecord(s *Snapshot) (*goavro.Record, error) {
 	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(SnapshotSchema))
 	if err != nil {
-		return outerRecord, nil
+		return outerRecord, err
 	}
 	outerRecord.Set("data_url", s.Station.DataURL)
 	outerRecord.Set("human_url", s.Station.HumanURL)
@@ -171,6 +171,34 @@ func (s *Snapshot) Encode() (*bytes.Buffer, error) {
 	}
 
 	if err = snapshotCodec.Encode(bb, record); err != nil {
+		return bb, err
+	}
+
+	return bb, nil
+}
+
+func (c *Cache) Encode() (*bytes.Buffer, error) {
+	bb := new(bytes.Buffer)
+
+	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(CacheSchema))
+	if err != nil {
+		return bb, err
+	}
+
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+	var innerRecords []interface{}
+	for i := range c.snapMap {
+		s, err := snapshotToRecord(c.snapMap[i])
+		if err != nil {
+			return bb, err
+		}
+		innerRecords = append(innerRecords, s)
+	}
+	outerRecord.Set("snapshots", innerRecords)
+
+	if err = snapshotCodec.Encode(bb, outerRecord); err != nil {
 		return bb, err
 	}
 
