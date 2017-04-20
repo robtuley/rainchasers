@@ -20,8 +20,8 @@ func TestDownloadCSVParse(t *testing.T) {
 			t.Error("Bad Data URL", id)
 		}
 		for i, s := range snaps {
-			if s.DateTime.IsZero() {
-				t.Error("No DateTime", id, i, s)
+			if s.EventTime.IsZero() {
+				t.Error("No EventTime", id, i, s)
 			}
 		}
 	}

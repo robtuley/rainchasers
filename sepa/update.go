@@ -38,7 +38,7 @@ ReadCSV:
 
 		u := gauge.Reading{}
 
-		u.DateTime, err = time.Parse("02/01/2006 15:04:05", r[0])
+		u.EventTime, err = time.Parse("02/01/2006 15:04:05", r[0])
 		if err != nil {
 			continue
 		}

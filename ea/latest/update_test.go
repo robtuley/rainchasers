@@ -20,8 +20,8 @@ func TestUpdatingStations(t *testing.T) {
 		if len(url) < 32 {
 			t.Error("Too short data URL", url)
 		}
-		if u.DateTime.IsZero() {
-			t.Error("No DateTime", url)
+		if u.EventTime.IsZero() {
+			t.Error("No EventTime", url)
 		}
 	}
 }

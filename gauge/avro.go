@@ -15,9 +15,9 @@ const ReadingSchema = `
   "doc:": "Gauge measurement information",
   "fields": [
     {
-      "doc": "Unix epoch time in seconds for measurement",
+      "doc": "Unix epoch time in seconds for measurement event time",
       "type": "long",
-      "name": "timestamp"
+      "name": "event_time"
     },{
       "doc": "Measurement value",
       "type": "float",
@@ -30,9 +30,13 @@ const ReadingSchema = `
 var (
 	SnapshotSchema string
 	snapshotCodec  goavro.Codec
+	CacheSchema    string
+	cacheCodec     goavro.Codec
 )
 
 func init() {
+	var err error
+
 	SnapshotSchema = fmt.Sprintf(`
 {
   "namespace": "com.rainchasers.gauge",
@@ -78,38 +82,59 @@ func init() {
         "items": %s,
         "type": "array"
       },
-      "name": "data"
+      "name": "readings"
+    },{
+      "doc": "Unix epoch time in seconds for measurement processing time",
+      "type": "long",
+      "name": "processing_time"
     }
   ]
 }
 `, ReadingSchema)
 
-	var err error
-
 	snapshotCodec, err = goavro.NewCodec(SnapshotSchema)
+	if err != nil {
+		panic(err)
+	}
+
+	CacheSchema = fmt.Sprintf(`
+{
+  "namespace": "com.rainchasers.gauge",
+  "type": "record",
+  "name": "cache",
+  "doc:": "Gauge measurement station and reading cache",
+  "fields": [
+    {
+      "type": {
+        "items": %s,
+        "type": "array"
+      },
+      "name": "snapshots"
+    }
+  ]
+}
+`, SnapshotSchema)
+
+	cacheCodec, err = goavro.NewCodec(CacheSchema)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func (s *Snapshot) Encode() (*bytes.Buffer, error) {
-	bb := new(bytes.Buffer)
-	var innerRecords []interface{}
-
-	for _, u := range s.Readings {
-		m, err := goavro.NewRecord(goavro.RecordSchema(ReadingSchema))
-		if err != nil {
-			return bb, err
-		}
-
-		m.Set("timestamp", u.DateTime.Unix())
-		m.Set("value", u.Value)
-		innerRecords = append(innerRecords, m)
+func readingToRecord(r *Reading) (*goavro.Record, error) {
+	record, err := goavro.NewRecord(goavro.RecordSchema(ReadingSchema))
+	if err != nil {
+		return record, err
 	}
+	record.Set("event_time", r.EventTime.Unix())
+	record.Set("value", r.Value)
+	return record, nil
+}
 
+func snapshotToRecord(s *Snapshot) (*goavro.Record, error) {
 	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(SnapshotSchema))
 	if err != nil {
-		return bb, nil
+		return outerRecord, nil
 	}
 	outerRecord.Set("data_url", s.Station.DataURL)
 	outerRecord.Set("human_url", s.Station.HumanURL)
@@ -122,8 +147,30 @@ func (s *Snapshot) Encode() (*bytes.Buffer, error) {
 		Value: s.Station.Type,
 	})
 	outerRecord.Set("unit", s.Station.Unit)
-	outerRecord.Set("data", innerRecords)
-	if err = snapshotCodec.Encode(bb, outerRecord); err != nil {
+
+	var innerRecords []interface{}
+	for i := range s.Readings {
+		m, err := readingToRecord(&s.Readings[i])
+		if err != nil {
+			return outerRecord, err
+		}
+		innerRecords = append(innerRecords, m)
+	}
+	outerRecord.Set("readings", innerRecords)
+	outerRecord.Set("processing_time", s.ProcessingTime.Unix())
+
+	return outerRecord, nil
+}
+
+func (s *Snapshot) Encode() (*bytes.Buffer, error) {
+	bb := new(bytes.Buffer)
+
+	record, err := snapshotToRecord(s)
+	if err != nil {
+		return bb, err
+	}
+
+	if err = snapshotCodec.Encode(bb, record); err != nil {
 		return bb, err
 	}
 
@@ -189,7 +236,7 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 		Unit:      unit.(string),
 	}
 
-	data, err := r.Get("data")
+	data, err := r.Get("readings")
 	if err != nil {
 		return err
 	}
@@ -197,7 +244,7 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 	for _, a := range innerRecords {
 		u := a.(*goavro.Record)
 
-		timestamp, err := u.Get("timestamp")
+		event_time, err := u.Get("event_time")
 		if err != nil {
 			return err
 		}
@@ -208,8 +255,8 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 		}
 
 		s.Readings = append(s.Readings, Reading{
-			DateTime: time.Unix(timestamp.(int64), 0),
-			Value:    value.(float32),
+			EventTime: time.Unix(event_time.(int64), 0),
+			Value:     value.(float32),
 		})
 	}
 

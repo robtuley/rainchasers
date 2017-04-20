@@ -19,12 +19,12 @@ func TestEncodeDecode(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 	var readings []Reading
 	readings = append(readings, Reading{
-		DateTime: timestamp.Add(time.Second),
-		Value:    1.23,
+		EventTime: timestamp.Add(time.Second),
+		Value:     1.23,
 	})
 	readings = append(readings, Reading{
-		DateTime: timestamp.Add(time.Second * 10),
-		Value:    4.56,
+		EventTime: timestamp.Add(time.Second * 10),
+		Value:     4.56,
 	})
 
 	before := Snapshot{
@@ -75,8 +75,8 @@ func TestEncodeDecode(t *testing.T) {
 
 	for i, b := range before.Readings {
 		a := after.Readings[i]
-		if b.DateTime.Unix() != a.DateTime.Unix() {
-			t.Error("Timestamp mis-match", i, b.DateTime.Unix(), a.DateTime.Unix())
+		if b.EventTime.Unix() != a.EventTime.Unix() {
+			t.Error("Timestamp mis-match", i, b.EventTime.Unix(), a.EventTime.Unix())
 		}
 		if b.Value != a.Value {
 			t.Error("Value mis-match", i, b.Value, a.Value)

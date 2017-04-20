@@ -10,16 +10,16 @@ import (
 func TestConcatDeDuplicatesAndOrdersByTime(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 	r3 := Reading{
-		DateTime: timestamp,
-		Value:    3.21,
+		EventTime: timestamp,
+		Value:     3.21,
 	}
 	r2 := Reading{
-		DateTime: timestamp.Add(time.Second),
-		Value:    2.13,
+		EventTime: timestamp.Add(time.Second),
+		Value:     2.13,
 	}
 	r1 := Reading{
-		DateTime: timestamp.Add(time.Second * 10),
-		Value:    1.23,
+		EventTime: timestamp.Add(time.Second * 10),
+		Value:     1.23,
 	}
 
 	var result []Reading
@@ -48,20 +48,20 @@ func TestConcatDeDuplicatesAndOrdersByTime(t *testing.T) {
 func TestRemoveOlderThan(t *testing.T) {
 	timestamp, _ := time.Parse(time.RFC3339, "2016-01-01T10:30:00Z")
 	r1 := Reading{
-		DateTime: timestamp,
-		Value:    1.0,
+		EventTime: timestamp,
+		Value:     1.0,
 	}
 	r2 := Reading{
-		DateTime: timestamp.Add(time.Second),
-		Value:    2.0,
+		EventTime: timestamp.Add(time.Second),
+		Value:     2.0,
 	}
 	r3 := Reading{
-		DateTime: timestamp.Add(10 * time.Second),
-		Value:    3.0,
+		EventTime: timestamp.Add(10 * time.Second),
+		Value:     3.0,
 	}
 	r4 := Reading{
-		DateTime: timestamp.Add(-1 * time.Second),
-		Value:    4.0,
+		EventTime: timestamp.Add(-1 * time.Second),
+		Value:     4.0,
 	}
 
 	var result []Reading
@@ -95,16 +95,16 @@ func TestCacheAddAndGet(t *testing.T) {
 	timestamp := time.Now()
 
 	r1 := Reading{
-		DateTime: timestamp,
-		Value:    3.21,
+		EventTime: timestamp,
+		Value:     3.21,
 	}
 	r2 := Reading{
-		DateTime: timestamp.Add(-1 * time.Second),
-		Value:    2.13,
+		EventTime: timestamp.Add(-1 * time.Second),
+		Value:     2.13,
 	}
 	r3 := Reading{
-		DateTime: timestamp.Add(-2 * time.Second),
-		Value:    1.23,
+		EventTime: timestamp.Add(-2 * time.Second),
+		Value:     1.23,
 	}
 
 	stationA := Station{
@@ -155,8 +155,8 @@ func TestCacheAddAndGet(t *testing.T) {
 		if !reflect.DeepEqual(stationAresult.Readings, concat(stationAsnap1.Readings, stationAsnap2.Readings)) {
 			t.Error("Readings mismatch for A", stationAresult.Readings)
 		}
-		if !stationAresult.ModifiedAt.After(timestamp) {
-			t.Error("Incorrect Modified at for A", stationAresult.ModifiedAt)
+		if !stationAresult.ProcessingTime.After(timestamp) {
+			t.Error("Incorrect Modified at for A", stationAresult.ProcessingTime)
 		}
 	}
 
@@ -170,8 +170,8 @@ func TestCacheAddAndGet(t *testing.T) {
 		if !reflect.DeepEqual(stationBresult.Readings, stationBsnap1.Readings) {
 			t.Error("Readings mismatch for B", stationBresult.Readings)
 		}
-		if !stationBresult.ModifiedAt.After(timestamp) {
-			t.Error("Incorrect Modified at for B", stationBresult.ModifiedAt)
+		if !stationBresult.ProcessingTime.After(timestamp) {
+			t.Error("Incorrect Modified at for B", stationBresult.ProcessingTime)
 		}
 	}
 

@@ -41,8 +41,8 @@ func update() (map[string]gauge.Reading, error) {
 		}
 
 		readings[item.Measure] = gauge.Reading{
-			DateTime: item.DateTime,
-			Value:    value,
+			EventTime: item.DateTime,
+			Value:     value,
 		}
 	}
 

@@ -9,15 +9,9 @@ import (
 )
 
 type Cache struct {
-	snapMap   map[string]*CachedSnapshot
+	snapMap   map[string]*Snapshot
 	rwMutex   *sync.RWMutex
 	retention time.Duration
-}
-
-type CachedSnapshot struct {
-	Station    Station
-	Readings   []Reading
-	ModifiedAt time.Time
 }
 
 type CacheStats struct {
@@ -39,12 +33,12 @@ func (rs readingSorter) Swap(i, j int) {
 }
 
 func (rs readingSorter) Less(i, j int) bool {
-	return rs[i].DateTime.After(rs[j].DateTime)
+	return rs[i].EventTime.After(rs[j].EventTime)
 }
 
 func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	cache := Cache{
-		snapMap:   make(map[string]*CachedSnapshot),
+		snapMap:   make(map[string]*Snapshot),
 		rwMutex:   &sync.RWMutex{},
 		retention: retention,
 	}
@@ -82,16 +76,16 @@ func (c *Cache) Add(s *Snapshot) {
 
 	item, exists := c.snapMap[uuid]
 	if !exists {
-		item = &CachedSnapshot{
+		item = &Snapshot{
 			Station: s.Station,
 		}
 		c.snapMap[uuid] = item
 	}
 	item.Readings = concat(item.Readings, s.Readings)
-	item.ModifiedAt = time.Now()
+	item.ProcessingTime = time.Now()
 }
 
-func (c *Cache) Get(uuid string) (CachedSnapshot, bool) {
+func (c *Cache) Get(uuid string) (Snapshot, bool) {
 	c.rwMutex.RLock()
 	defer c.rwMutex.RUnlock()
 
@@ -118,8 +112,8 @@ func (c *Cache) Stats() CacheStats {
 		}
 		if len > 0 {
 			last := c.snapMap[k].Readings[len-1]
-			if oldest.IsZero() || last.DateTime.Before(oldest) {
-				oldest = last.DateTime
+			if oldest.IsZero() || last.EventTime.Before(oldest) {
+				oldest = last.EventTime
 			}
 		}
 	}
@@ -159,8 +153,8 @@ func removeDuplicates(xs *[]Reading) {
 	found := make(map[time.Time]bool)
 	j := 0
 	for i, x := range *xs {
-		if !found[x.DateTime] {
-			found[x.DateTime] = true
+		if !found[x.EventTime] {
+			found[x.EventTime] = true
 			(*xs)[j] = (*xs)[i]
 			j++
 		}
@@ -171,7 +165,7 @@ func removeDuplicates(xs *[]Reading) {
 func removeOlderThan(keepSince time.Time, xs *[]Reading) {
 	j := 0
 	for i, x := range *xs {
-		if keepSince.Before(x.DateTime) {
+		if keepSince.Before(x.EventTime) {
 			(*xs)[j] = (*xs)[i]
 			j++
 		}

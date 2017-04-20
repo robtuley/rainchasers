@@ -66,7 +66,7 @@ func csvRecordToReading(r []string) (string, gauge.Reading, error) {
 		return "", s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 	}
 
-	s.DateTime, err = time.Parse(time.RFC3339, r[0])
+	s.EventTime, err = time.Parse(time.RFC3339, r[0])
 	if err != nil {
 		return "", s, errors.New(r[0] + " is not RFC3339")
 	}

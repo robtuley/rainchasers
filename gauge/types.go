@@ -26,11 +26,12 @@ func (s *Station) UUID() string {
 }
 
 type Reading struct {
-	DateTime time.Time
-	Value    float32
+	EventTime time.Time
+	Value     float32
 }
 
 type Snapshot struct {
-	Station  Station
-	Readings []Reading
+	Station        Station
+	Readings       []Reading
+	ProcessingTime time.Time
 }

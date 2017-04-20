@@ -15,8 +15,8 @@ func TestUpdatingFromAStation(t *testing.T) {
 	}
 
 	for i, u := range readings {
-		if u.DateTime.IsZero() {
-			t.Error("No DateTime", i)
+		if u.EventTime.IsZero() {
+			t.Error("No EventTime", i)
 		}
 	}
 }
