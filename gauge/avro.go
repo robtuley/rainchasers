@@ -258,6 +258,23 @@ func recordToStation(r *goavro.Record) (Station, error) {
 	}, nil
 }
 
+func recordToReading(r *goavro.Record) (Reading, error) {
+	event_time, err := r.Get("event_time")
+	if err != nil {
+		return Reading{}, err
+	}
+
+	value, err := r.Get("value")
+	if err != nil {
+		return Reading{}, err
+	}
+
+	return Reading{
+		EventTime: time.Unix(event_time.(int64), 0),
+		Value:     value.(float32),
+	}, nil
+}
+
 func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 	decoded, err := snapshotCodec.Decode(bb)
 	if err != nil {
@@ -274,21 +291,12 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 	innerRecords := data.([]interface{})
 	for _, a := range innerRecords {
 		u := a.(*goavro.Record)
-
-		event_time, err := u.Get("event_time")
+		r, err := recordToReading(u)
 		if err != nil {
 			return err
 		}
 
-		value, err := u.Get("value")
-		if err != nil {
-			return err
-		}
-
-		s.Readings = append(s.Readings, Reading{
-			EventTime: time.Unix(event_time.(int64), 0),
-			Value:     value.(float32),
-		})
+		s.Readings = append(s.Readings, r)
 	}
 
 	return nil
