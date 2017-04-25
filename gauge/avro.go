@@ -205,55 +205,48 @@ func (c *Cache) Encode() (*bytes.Buffer, error) {
 	return bb, nil
 }
 
-func (s *Snapshot) Decode(bb *bytes.Buffer) error {
-	decoded, err := snapshotCodec.Decode(bb)
-	if err != nil {
-		return err
-	}
-
-	r := decoded.(*goavro.Record)
-
+func recordToStation(r *goavro.Record) (Station, error) {
 	dataURL, err := r.Get("data_url")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	humanURL, err := r.Get("human_url")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	name, err := r.Get("name")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	riverName, err := r.Get("river_name")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	lat, err := r.Get("lat")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	lg, err := r.Get("lg")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	typeEnum, err := r.Get("type")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
 	unit, err := r.Get("unit")
 	if err != nil {
-		return err
+		return Station{}, err
 	}
 
-	s.Station = Station{
+	return Station{
 		DataURL:   dataURL.(string),
 		HumanURL:  humanURL.(string),
 		Name:      name.(string),
@@ -262,7 +255,17 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 		Lg:        lg.(float32),
 		Type:      typeEnum.(goavro.Enum).Value,
 		Unit:      unit.(string),
+	}, nil
+}
+
+func (s *Snapshot) Decode(bb *bytes.Buffer) error {
+	decoded, err := snapshotCodec.Decode(bb)
+	if err != nil {
+		return err
 	}
+
+	r := decoded.(*goavro.Record)
+	s.Station, err = recordToStation(r)
 
 	data, err := r.Get("readings")
 	if err != nil {
