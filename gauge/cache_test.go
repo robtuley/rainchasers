@@ -91,7 +91,7 @@ func TestRemoveOlderThan(t *testing.T) {
 	}
 }
 
-func TestCacheAddAndGet(t *testing.T) {
+func TestCacheAddGetEncodeDecode(t *testing.T) {
 	timestamp := time.Now()
 
 	r1 := Reading{
@@ -109,9 +109,11 @@ func TestCacheAddAndGet(t *testing.T) {
 
 	stationA := Station{
 		DataURL: "http://example.com/A",
+		Type:    "level",
 	}
 	stationB := Station{
 		DataURL: "http://example.com/B",
+		Type:    "level",
 	}
 
 	stationAsnap1 := Snapshot{
@@ -190,5 +192,20 @@ func TestCacheAddAndGet(t *testing.T) {
 	}
 	if stat.OldestReading.Seconds() < 2 {
 		t.Error("Empty cache oldest time mismatch", stat)
+	}
+
+	bb, err := cache.Encode()
+	if err != nil {
+		t.Error(err.Error())
+	}
+	cacheDecoded := NewCache(ctx, time.Hour)
+	err = cacheDecoded.Decode(bb)
+	if err != nil {
+		t.Error(err.Error())
+	}
+	statDecoded := cacheDecoded.Stats()
+	statDecoded.OldestReading = stat.OldestReading
+	if !reflect.DeepEqual(stat, statDecoded) {
+		t.Error("Decoded cache mismatch", stat, statDecoded)
 	}
 }

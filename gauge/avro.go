@@ -198,7 +198,7 @@ func (c *Cache) Encode() (*bytes.Buffer, error) {
 	}
 	outerRecord.Set("snapshots", innerRecords)
 
-	if err = snapshotCodec.Encode(bb, outerRecord); err != nil {
+	if err = cacheCodec.Encode(bb, outerRecord); err != nil {
 		return bb, err
 	}
 
@@ -283,6 +283,9 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 
 	r := decoded.(*goavro.Record)
 	s.Station, err = recordToStation(r)
+	if err != nil {
+		return err
+	}
 
 	data, err := r.Get("readings")
 	if err != nil {
@@ -297,6 +300,50 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 		}
 
 		s.Readings = append(s.Readings, r)
+	}
+
+	return nil
+}
+
+func (c *Cache) Decode(bb *bytes.Buffer) error {
+	decoded, err := cacheCodec.Decode(bb)
+	if err != nil {
+		return err
+	}
+	outerRecord := decoded.(*goavro.Record)
+	data, err := outerRecord.Get("snapshots")
+	if err != nil {
+		return err
+	}
+
+	snapRecords := data.([]interface{})
+	for _, a := range snapRecords {
+		r := a.(*goavro.Record)
+		s := Snapshot{
+			ProcessingTime: time.Now(),
+		}
+
+		s.Station, err = recordToStation(r)
+		if err != nil {
+			return err
+		}
+
+		data, err := r.Get("readings")
+		if err != nil {
+			return err
+		}
+		innerRecords := data.([]interface{})
+		for _, a := range innerRecords {
+			u := a.(*goavro.Record)
+			r, err := recordToReading(u)
+			if err != nil {
+				return err
+			}
+
+			s.Readings = append(s.Readings, r)
+		}
+
+		c.Add(&s)
 	}
 
 	return nil
