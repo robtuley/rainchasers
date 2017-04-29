@@ -100,29 +100,34 @@ func run() error {
 	}()
 
 	// log cache status every 30s
-	ticker := time.NewTicker(time.Second * 30)
-logLoop:
-	for {
-		stat := cache.Stats()
-		log.Info("cache.counts", report.Data{
-			"station":         stat.StationCount,
-			"all_reading":     stat.AllReadingCount,
-			"max_reading":     stat.MaxReadingCount,
-			"min_reading":     stat.MinReadingCount,
-			"max_age_seconds": stat.OldestReading.Seconds(),
-			"added":           atomic.LoadUint64(&counter),
-		})
-		atomic.StoreUint64(&counter, 0)
+	wg.Add(1)
+	go func() {
+		ticker := time.NewTicker(time.Second * 30)
+	logLoop:
+		for {
+			stat := cache.Stats()
+			log.Info("cache.counts", report.Data{
+				"station":         stat.StationCount,
+				"all_reading":     stat.AllReadingCount,
+				"max_reading":     stat.MaxReadingCount,
+				"min_reading":     stat.MinReadingCount,
+				"max_age_seconds": stat.OldestReading.Seconds(),
+				"added":           atomic.LoadUint64(&counter),
+			})
+			atomic.StoreUint64(&counter, 0)
 
-		select {
-		case <-ticker.C:
-		case <-ctx.Done():
-			break logLoop
+			select {
+			case <-ticker.C:
+			case <-ctx.Done():
+				break logLoop
+			}
 		}
-	}
-	ticker.Stop()
+		ticker.Stop()
+		wg.Done()
+	}()
 
-	// wait for goroutine completion, or timeout
+	// After shutdown, wait for up to 20s for go-routines to close cleanly
+	<-ctx.Done()
 	c := make(chan bool)
 	go func() {
 		defer close(c)
@@ -131,7 +136,7 @@ logLoop:
 	select {
 	case <-c:
 	case <-time.After(20 * time.Second):
-		log.Action("daemon.timeout", report.Data{})
+		<-log.Action("daemon.timeout", report.Data{})
 	}
 
 	return nil
