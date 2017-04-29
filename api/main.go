@@ -19,7 +19,6 @@ import (
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default)
 //   PUBSUB_TOPIC (no default)
-//   CONSUMER_NAME (no default)
 //
 func main() {
 	if err := run(); err != nil {
@@ -39,11 +38,10 @@ func run() error {
 	}
 
 	// setup telemetry and logging
-	report.StdOut()
-	report.Global(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05.9999")})
-	report.RuntimeStatsEvery(30 * time.Second)
-	defer report.Drain()
-	report.Info("daemon.start", report.Data{
+	log := report.New(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05.9999")})
+	log.RuntimeStatEvery("runtime", 5*time.Minute)
+	defer log.Stop()
+	log.Info("daemon.start", report.Data{
 		"bootstrap_url": bootstrapURL,
 		"project_id":    projectId,
 		"pubsub_topic":  topicName,
@@ -64,7 +62,7 @@ func run() error {
 	go func() {
 		select {
 		case <-sigC:
-			report.Info("daemon.interrupt", report.Data{})
+			<-log.Info("daemon.interrupt", report.Data{})
 			shutdown()
 		case <-ctx.Done():
 		}
@@ -80,13 +78,13 @@ func run() error {
 	go func() {
 		topic, err := queue.New(ctx, projectId, topicName)
 		if err != nil {
-			report.Action("topic.failed", report.Data{"error": err.Error()})
+			<-log.Action("topic.failed", report.Data{"error": err.Error()})
 			shutdown()
 			return
 		}
 		err = topic.Subscribe(ctx, "", func(s *gauge.Snapshot, err error) {
 			if err != nil {
-				report.Action("msg.failed", report.Data{"error": err.Error()})
+				log.Action("msg.failed", report.Data{"error": err.Error()})
 			} else {
 				atomic.AddUint64(&counter, 1)
 				cache.Add(s)
@@ -94,7 +92,7 @@ func run() error {
 		})
 		topic.Stop()
 		if err != nil {
-			report.Action("subscribe.failed", report.Data{"error": err.Error()})
+			<-log.Action("subscribe.failed", report.Data{"error": err.Error()})
 			shutdown()
 			return
 		}
@@ -106,7 +104,7 @@ func run() error {
 logLoop:
 	for {
 		stat := cache.Stats()
-		report.Info("cache.counts", report.Data{
+		log.Info("cache.counts", report.Data{
 			"station":         stat.StationCount,
 			"all_reading":     stat.AllReadingCount,
 			"max_reading":     stat.MaxReadingCount,
@@ -133,7 +131,7 @@ logLoop:
 	select {
 	case <-c:
 	case <-time.After(20 * time.Second):
-		report.Action("daemon.timeout", report.Data{})
+		log.Action("daemon.timeout", report.Data{})
 	}
 
 	return nil

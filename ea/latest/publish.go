@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const maxPublishPerSecond = 20
+const maxPublishPerSecond = 30
 
 func publish(
 	projectID string,

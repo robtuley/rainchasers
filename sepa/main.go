@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"github.com/rainchasers/report"
@@ -40,26 +41,19 @@ func run() error {
 		timeout = 7 * 24 * 60 * 60
 	}
 	projectID := os.Getenv("PROJECT_ID")
+	isValidating := projectID == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry and logging
-	report.StdOut()
-	report.Global(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
-	report.RuntimeStatsEvery(30 * time.Second)
-	defer report.Drain()
-	report.Info("daemon.start", report.Data{
+	log := report.New(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log.RuntimeStatEvery("runtime", 5*time.Minute)
+	defer log.Stop()
+	log.Info("daemon.start", report.Data{
 		"update_period": updatePeriodSeconds,
 		"timeout":       timeout,
 		"project_id":    projectID,
 		"pubsub_topic":  topicName,
 	})
-
-	// decision on whether validating logs
-	isValidating := projectID == ""
-	var logs *LogBuffer
-	if isValidating {
-		logs = trackLogs()
-	}
 
 	// create daemon context
 	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
@@ -73,7 +67,7 @@ func run() error {
 	go func() {
 		select {
 		case <-sigC:
-			report.Info("daemon.interrupt", report.Data{})
+			log.Info("daemon.interrupt", report.Data{})
 			shutdown()
 		case <-ctx.Done():
 		}
@@ -82,13 +76,13 @@ func run() error {
 	// discover SEPA gauging stations
 	stations, err := discover()
 	if err != nil {
-		report.Action("discovered.failed", report.Data{"error": err.Error()})
+		<-log.Action("discovered.failed", report.Data{"error": err.Error()})
 		return err
 	}
 	if isValidating {
 		stations = stations[0:5]
 	}
-	report.Info("discovered.ok", report.Data{"count": len(stations)})
+	log.Info("discovered.ok", report.Data{"count": len(stations)})
 
 	// calculate tick rate and spawn individual gauge download CSVs
 	tickerMs := updatePeriodSeconds * 1000 / len(stations)
@@ -113,15 +107,15 @@ updateLoop:
 	for {
 		i := n % len(stations)
 
-		tick := report.Tick()
+		tick := log.Tick()
 		readings, err := getReadings(stations[i].DataURL)
 		if err != nil {
-			report.Tock(tick, "updated.fail", report.Data{
+			log.Tock(tick, "updated.fail", report.Data{
 				"url":   stations[i].DataURL,
 				"error": err.Error(),
 			})
 		} else {
-			report.Tock(tick, "updated.ok", report.Data{
+			log.Tock(tick, "updated.ok", report.Data{
 				"url":   stations[i].DataURL,
 				"count": len(readings),
 			})
@@ -132,7 +126,7 @@ updateLoop:
 			Readings: readings,
 		})
 		if err != nil {
-			report.Action("publish.fail", report.Data{
+			<-log.Action("publish.fail", report.Data{
 				"url":   stations[i].DataURL,
 				"error": err.Error(),
 			})
@@ -152,14 +146,11 @@ updateLoop:
 
 	// validate log stream on shutdown if required
 	if isValidating {
-		report.Drain()
-		expect := map[string]int{
-			"discovered.ok": VALIDATE_IS_PRESENT,
-			"updated.ok":    VALIDATE_IS_PRESENT,
+		if log.Count("discovered.ok") != 1 {
+			return errors.New("discovered.ok event expected but not present")
 		}
-		err := validateLogStream(logs, expect)
-		if err != nil {
-			return err
+		if log.Count("updated.ok") < 1 {
+			return errors.New("updated.ok event expected but not present")
 		}
 	}
 

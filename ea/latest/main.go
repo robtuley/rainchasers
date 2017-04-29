@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/report"
 	"os"
@@ -22,12 +23,6 @@ func main() {
 }
 
 func run() error {
-	// setup telemetry and golang defaults
-	report.StdOut()
-	report.Global(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
-	report.RuntimeStatsEvery(30 * time.Second)
-	defer report.Drain()
-
 	// parse env vars
 	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
 	if err != nil {
@@ -39,15 +34,14 @@ func run() error {
 	}
 	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
 	projectId := os.Getenv("PROJECT_ID")
+	isValidating := projectId == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
-	// decision on whether validating
-	isValidating := projectId == ""
-	var logs *LogBuffer
-	if isValidating {
-		logs = trackLogs()
-	}
-	report.Info("daemon.start", report.Data{
+	// setup telemetry
+	log := report.New(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log.RuntimeStatEvery("runtime", 5*time.Minute)
+	defer log.Stop()
+	log.Info("daemon.start", report.Data{
 		"update_period":     updatePeriodSeconds,
 		"shutdown_deadline": shutdownDeadline,
 		"project_id":        projectId,
@@ -57,32 +51,32 @@ func run() error {
 	// discover EA gauging stations
 	stations, err := discover.Stations()
 	if err != nil {
-		report.Action("discovered.fail", report.Data{"error": err.Error()})
+		<-log.Action("discovered.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	report.Info("discovered.ok", report.Data{"count": len(stations)})
+	log.Info("discovered.ok", report.Data{"count": len(stations)})
 
 	// periodically get latest updates
 	ticker := time.NewTicker(time.Second * time.Duration(updatePeriodSeconds))
 
 updateLoop:
 	for {
-		tick := report.Tick()
+		tick := log.Tick()
 		updates, err := update()
 		if err != nil {
-			report.Action("updated.fail", report.Data{"error": err.Error()})
+			<-log.Action("updated.fail", report.Data{"error": err.Error()})
 			return err
 		}
-		report.Tock(tick, "updated.ok", report.Data{"count": len(updates)})
+		log.Tock(tick, "updated.ok", report.Data{"count": len(updates)})
 
 		if !isValidating {
-			tick = report.Tick()
+			tick = log.Tick()
 			err = publish(projectId, topicName, updates, stations)
 			if err != nil {
-				report.Action("published.fail", report.Data{"error": err.Error()})
+				<-log.Action("published.fail", report.Data{"error": err.Error()})
 				return err
 			}
-			report.Tock(tick, "published.ok", report.Data{"count": len(updates)})
+			log.Tock(tick, "published.ok", report.Data{"count": len(updates)})
 		}
 
 		select {
@@ -95,14 +89,11 @@ updateLoop:
 
 	// validate log stream on shutdown if required
 	if isValidating {
-		report.Drain()
-		expect := map[string]int{
-			"discovered.ok": VALIDATE_IS_PRESENT,
-			"updated.ok":    VALIDATE_IS_PRESENT,
+		if log.Count("discovered.ok") != 1 {
+			return errors.New("discovered.ok event expected but not present")
 		}
-		err := validateLogStream(logs, expect)
-		if err != nil {
-			return err
+		if log.Count("updated.ok") < 1 {
+			return errors.New("updated.ok event expected but not present")
 		}
 	}
 
