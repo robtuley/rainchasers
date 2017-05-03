@@ -147,7 +147,7 @@ func run() error {
 		Handler: mux8081,
 	}
 	go func() {
-		if err := server8081.ListenAndServe(); err != nil {
+		if err := server8081.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Action("http.error", report.Data{
 				"port":  8081,
 				"error": err.Error(),
