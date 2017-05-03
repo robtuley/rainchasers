@@ -32,6 +32,8 @@ func main() {
 func run() error {
 	// parse env vars
 	bootstrapURL := os.Getenv("BOOTSTRAP_URL")
+	sslKeyFilename := os.Getenv("SSL_KEY_FILE")
+	sslCertFilename := os.Getenv("SSL_CERT_FILE")
 	projectId := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
@@ -157,12 +159,49 @@ func run() error {
 
 	//  HTTP server :8080 for http public API
 	//              :8443 for https public API
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("ok"))
+	})
+	server8080 := &http.Server{
+		Addr:    ":8080",
+		Handler: mux,
+	}
+	go func() {
+		if err := server8080.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Action("http.error", report.Data{
+				"port":  8080,
+				"error": err.Error(),
+			})
+		}
+	}()
+	var server8443 *http.Server
+	if sslKeyFilename != "" {
+		server8443 = &http.Server{
+			Addr:    ":8443",
+			Handler: mux,
+		}
+		go func() {
+			err := server8443.ListenAndServeTLS(sslCertFilename, sslKeyFilename)
+			if err != nil && err != http.ErrServerClosed {
+				log.Action("http.error", report.Data{
+					"port":  8443,
+					"error": err.Error(),
+				})
+			}
+		}()
+	}
 
 	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
 	<-ctx.Done()
 	terminationContext, _ := context.WithTimeout(context.Background(), 20*time.Second)
 	wg.Add(1)
 	go func() {
+		if server8443 != nil {
+			server8443.Shutdown(terminationContext)
+		}
+		server8080.Shutdown(terminationContext)
 		server8081.Shutdown(terminationContext)
 		wg.Done()
 	}()
