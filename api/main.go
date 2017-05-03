@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/queue"
 	"github.com/rainchasers/report"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
@@ -126,8 +128,44 @@ func run() error {
 		wg.Done()
 	}()
 
-	// After shutdown, wait for up to 20s for go-routines to close cleanly
+	// HTTP server :8081 for k8s status checks (readiness & liveness) and internal avro dumps
+	started := time.Now()
+
+	mux8081 := http.NewServeMux()
+	mux8081.HandleFunc("/k8s/", func(w http.ResponseWriter, r *http.Request) {
+		duration := time.Now().Sub(started)
+		if duration.Seconds() <= 10 {
+			w.WriteHeader(500)
+			w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
+		} else {
+			w.WriteHeader(200)
+			w.Write([]byte("ok"))
+		}
+	})
+	server8081 := &http.Server{
+		Addr:    ":8081",
+		Handler: mux8081,
+	}
+	go func() {
+		if err := server8081.ListenAndServe(); err != nil {
+			log.Action("http.error", report.Data{
+				"port":  8081,
+				"error": err.Error(),
+			})
+		}
+	}()
+
+	//  HTTP server :8080 for http public API
+	//              :8443 for https public API
+
+	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
 	<-ctx.Done()
+	terminationContext, _ := context.WithTimeout(context.Background(), 20*time.Second)
+	wg.Add(1)
+	go func() {
+		server8081.Shutdown(terminationContext)
+		wg.Done()
+	}()
 	c := make(chan bool)
 	go func() {
 		defer close(c)
@@ -135,8 +173,9 @@ func run() error {
 	}()
 	select {
 	case <-c:
-	case <-time.After(20 * time.Second):
-		<-log.Action("daemon.timeout", report.Data{})
+		<-log.Info("daemon.stopped", report.Data{})
+	case <-terminationContext.Done():
+		<-log.Action("daemon.stopped.timeout", report.Data{})
 	}
 
 	return nil
