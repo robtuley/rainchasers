@@ -195,14 +195,14 @@ func run() error {
 
 	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
 	<-ctx.Done()
-	terminationContext, _ := context.WithTimeout(context.Background(), 20*time.Second)
+	tContext, tCancel := context.WithTimeout(context.Background(), 20*time.Second)
 	wg.Add(1)
 	go func() {
 		if server8443 != nil {
-			server8443.Shutdown(terminationContext)
+			server8443.Shutdown(tContext)
 		}
-		server8080.Shutdown(terminationContext)
-		server8081.Shutdown(terminationContext)
+		server8080.Shutdown(tContext)
+		server8081.Shutdown(tContext)
 		wg.Done()
 	}()
 	c := make(chan bool)
@@ -213,9 +213,10 @@ func run() error {
 	select {
 	case <-c:
 		<-log.Info("daemon.stopped", report.Data{})
-	case <-terminationContext.Done():
+	case <-tContext.Done():
 		<-log.Action("daemon.stopped.timeout", report.Data{})
 	}
+	tCancel()
 
 	return nil
 }
