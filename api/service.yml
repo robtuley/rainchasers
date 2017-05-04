@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: com-rainchasers-api
+  labels:
+    name: com-rainchasers-api
+spec:
+  type: LoadBalancer
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8443
+  selector:
+    name: rainchasers-api

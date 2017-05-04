@@ -12,6 +12,7 @@ spec:
       labels:
         name: rainchasers-api
     spec:
+      terminationGracePeriodSeconds: 40
       containers:
       - name: rainchasers-api
         image: eu.gcr.io/tuleyprod/com.rainchasers.gauge/api:latest
@@ -38,7 +39,6 @@ spec:
         - name: cert
           mountPath: /cert
           readOnly: true
-        terminationGracePeriodSeconds: 40
         readinessProbe:
           httpGet:
             path: /k8s/readiness
