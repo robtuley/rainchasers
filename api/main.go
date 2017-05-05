@@ -137,12 +137,22 @@ func run() error {
 	mux8081.HandleFunc("/k8s/", func(w http.ResponseWriter, r *http.Request) {
 		duration := time.Now().Sub(started)
 		if duration.Seconds() <= 10 {
-			w.WriteHeader(500)
+			w.WriteHeader(http.StatusServiceUnavailable)
 			w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
 		} else {
-			w.WriteHeader(200)
+			w.WriteHeader(http.StatusOK)
 			w.Write([]byte("ok"))
 		}
+	})
+	mux8081.HandleFunc("/snapshots", func(w http.ResponseWriter, r *http.Request) {
+		bb, err := cache.Encode()
+		if err != nil {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			w.Write([]byte(err.Error()))
+		}
+		w.Header().Set("Content-Type", "avro/binary")
+		w.WriteHeader(http.StatusOK)
+		bb.WriteTo(w)
 	})
 	server8081 := &http.Server{
 		Addr:    ":8081",
@@ -161,7 +171,7 @@ func run() error {
 	//              :8443 for https public API
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
+		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("ok"))
 	})
 	server8080 := &http.Server{
