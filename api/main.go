@@ -31,7 +31,7 @@ func main() {
 
 func run() error {
 	// parse env vars
-	bootstrapURL := os.Getenv("BOOTSTRAP_URL")
+	bootstrapHost := os.Getenv("BOOTSTRAP_HOST")
 	sslKeyFilename := os.Getenv("SSL_KEY_FILE")
 	sslCertFilename := os.Getenv("SSL_CERT_FILE")
 	projectId := os.Getenv("PROJECT_ID")
@@ -41,15 +41,17 @@ func run() error {
 		timeout = 7 * 24 * 60 * 60
 	}
 
-	// setup telemetry and logging
+	// telemetry and logging
 	log := report.New(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05.9999")})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
-		"bootstrap_url": bootstrapURL,
-		"project_id":    projectId,
-		"pubsub_topic":  topicName,
-		"timeout":       timeout,
+		"bootstrap_host": bootstrapHost,
+		"project_id":     projectId,
+		"pubsub_topic":   topicName,
+		"timeout":        timeout,
+		"ssl_key_path":   sslKeyFilename,
+		"ssl_cert_path":  sslCertFilename,
 	})
 
 	// create daemon context
@@ -201,6 +203,25 @@ func run() error {
 				})
 			}
 		}()
+	}
+
+	// bootstrap gauge cache from existing daemons
+	if len(bootstrapHost) > 0 {
+		url := "http://" + bootstrapHost + "/snapshots"
+		tick := log.Tick()
+		bb, err := bootstrapSnapshots(url)
+		if err != nil {
+			log.Action("cache.bootstap.downloaded.fail", report.Data{})
+		} else {
+			log.Tock(tick, "cache.bootstrap.downloaded.ok", report.Data{"url": url})
+			if err := cache.Decode(bb); err != nil {
+				log.Action("cache.bootstap.decoded.fail", report.Data{})
+			} else {
+				log.Tock(tick, "cache.bootstrap.decoded.ok", report.Data{"url": url})
+			}
+		}
+	} else {
+		log.Info("cache.bootstap.skipped", report.Data{})
 	}
 
 	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
