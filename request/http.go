@@ -30,7 +30,7 @@ func JSON(url string) (*http.Response, error) {
 		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return resp, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+		return resp, errors.New("Status code " + strconv.Itoa(resp.StatusCode) + " for " + url)
 	}
 
 	return resp, nil
