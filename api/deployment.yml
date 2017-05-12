@@ -23,13 +23,13 @@ spec:
           value: tuleyprod
         - name: PUBSUB_TOPIC
           value: com.rainchasers.gauge
-        - name: CONSUMER_NAME
+        - name: DAEMON_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
         - name: SSL_KEY_FILE
           value: /cert/rainchasers.com.key
-        - name: SSL_CRT_FILE
+        - name: SSL_CERT_FILE
           value: /cert/rainchasers.com.crt
         ports:
         - containerPort: 8080

@@ -17,7 +17,8 @@ import (
 )
 
 // Responds to environment variables:
-//   BOOTSTRAP_URL (no default)
+//   BOOTSTRAP_HOST (no default)
+//   DAEMON_NAME (defaults to a timebased stamp to label the daemon)
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default)
 //   PUBSUB_TOPIC (no default)
@@ -32,6 +33,10 @@ func main() {
 func run() error {
 	// parse env vars
 	bootstrapHost := os.Getenv("BOOTSTRAP_HOST")
+	daemonName := os.Getenv("DAEMON_NAME")
+	if len(daemonName) == 0 {
+		daemonName = time.Now().Format("v2006-01-02-15-04-05.9999")
+	}
 	sslKeyFilename := os.Getenv("SSL_KEY_FILE")
 	sslCertFilename := os.Getenv("SSL_CERT_FILE")
 	projectId := os.Getenv("PROJECT_ID")
@@ -42,7 +47,7 @@ func run() error {
 	}
 
 	// telemetry and logging
-	log := report.New(report.Data{"service": "api", "daemon": time.Now().Format("v2006-01-02-15-04-05.9999")})
+	log := report.New(report.Data{"service": "api", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
