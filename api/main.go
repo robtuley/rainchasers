@@ -32,7 +32,12 @@ func main() {
 
 func run() error {
 	// parse env vars
-	bootstrapHost := os.Getenv("BOOTSTRAP_HOST")
+	var bootstrapURL string
+	host := os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_HOST")
+	port, err := strconv.Atoi(os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_PORT"))
+	if err == nil && len(host) > 0 {
+		bootstrapURL = "http://" + host + ":" + strconv.Itoa(port) + "/snapshots"
+	}
 	daemonName := os.Getenv("DAEMON_NAME")
 	if len(daemonName) == 0 {
 		daemonName = time.Now().Format("v2006-01-02-15-04-05.9999")
@@ -51,12 +56,12 @@ func run() error {
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
-		"bootstrap_host": bootstrapHost,
-		"project_id":     projectId,
-		"pubsub_topic":   topicName,
-		"timeout":        timeout,
-		"ssl_key_path":   sslKeyFilename,
-		"ssl_cert_path":  sslCertFilename,
+		"bootstrap_url": bootstrapURL,
+		"project_id":    projectId,
+		"pubsub_topic":  topicName,
+		"timeout":       timeout,
+		"ssl_key_path":  sslKeyFilename,
+		"ssl_cert_path": sslCertFilename,
 	})
 
 	// create daemon context
@@ -211,18 +216,17 @@ func run() error {
 	}
 
 	// bootstrap gauge cache from existing daemons
-	if len(bootstrapHost) > 0 {
-		url := "http://" + bootstrapHost + "/snapshots"
+	if len(bootstrapURL) > 0 {
 		tick := log.Tick()
-		bb, err := bootstrapSnapshots(url)
+		bb, err := bootstrapSnapshots(bootstrapURL)
 		if err != nil {
 			log.Action("cache.bootstap.downloaded.fail", report.Data{})
 		} else {
-			log.Tock(tick, "cache.bootstrap.downloaded.ok", report.Data{"url": url})
+			log.Tock(tick, "cache.bootstrap.downloaded.ok", report.Data{"url": bootstrapURL})
 			if err := cache.Decode(bb); err != nil {
 				log.Action("cache.bootstap.decoded.fail", report.Data{})
 			} else {
-				log.Tock(tick, "cache.bootstrap.decoded.ok", report.Data{"url": url})
+				log.Tock(tick, "cache.bootstrap.decoded.ok", report.Data{"url": bootstrapURL})
 			}
 		}
 	} else {
