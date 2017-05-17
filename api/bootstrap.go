@@ -31,5 +31,5 @@ func bootstrapSnapshots(url string) (*bytes.Buffer, error) {
 	bb := bytes.NewBuffer(make([]byte, 0, resp.ContentLength))
 	_, err = bb.ReadFrom(resp.Body)
 
-	return bb, nil
+	return bb, err
 }
