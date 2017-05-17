@@ -1,6 +1,7 @@
 package gauge
 
 import (
+	"bytes"
 	"context"
 	"reflect"
 	"testing"
@@ -193,8 +194,8 @@ func TestCacheAddGetEncodeDecode(t *testing.T) {
 	if stat.OldestReading.Seconds() < 2 {
 		t.Error("Empty cache oldest time mismatch", stat)
 	}
-
-	bb, err := cache.Encode()
+	bb := bytes.NewBuffer([]byte{})
+	err := cache.Encode(bb)
 	if err != nil {
 		t.Error(err.Error())
 	}

@@ -1,6 +1,7 @@
 package gauge
 
 import (
+	"bytes"
 	"testing"
 	"time"
 )
@@ -31,7 +32,8 @@ func TestEncodeDecode(t *testing.T) {
 		Station:  station,
 		Readings: readings,
 	}
-	bb, err := before.Encode()
+	bb := bytes.NewBuffer([]byte{})
+	err := before.Encode(bb)
 	if err != nil {
 		t.Error(err)
 	}

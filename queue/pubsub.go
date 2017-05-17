@@ -50,7 +50,9 @@ func New(ctx context.Context, projectId string, topicName string) (*Topic, error
 }
 
 func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
-	bb, err := s.Encode()
+	bb := bytes.NewBuffer([]byte{})
+
+	err := s.Encode(bb)
 	if err != nil {
 		return err
 	}

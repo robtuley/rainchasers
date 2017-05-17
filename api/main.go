@@ -160,14 +160,10 @@ func run() error {
 		}
 	})
 	mux8081.HandleFunc("/snapshots", func(w http.ResponseWriter, r *http.Request) {
-		bb, err := cache.Encode()
-		if err != nil {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte(err.Error()))
-		}
 		w.Header().Set("Content-Type", "avro/binary")
-		w.WriteHeader(http.StatusOK)
-		bb.WriteTo(w)
+		if err := cache.Encode(w); err != nil {
+			log.Action("response.cache", report.Data{"error": err.Error()})
+		}
 	})
 	server8081 := &http.Server{
 		Addr:    ":8081",

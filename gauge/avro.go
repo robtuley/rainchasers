@@ -1,9 +1,9 @@
 package gauge
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/linkedin/goavro"
+	"io"
 	"time"
 )
 
@@ -162,27 +162,23 @@ func snapshotToRecord(s *Snapshot) (*goavro.Record, error) {
 	return outerRecord, nil
 }
 
-func (s *Snapshot) Encode() (*bytes.Buffer, error) {
-	bb := new(bytes.Buffer)
-
+func (s *Snapshot) Encode(writer io.Writer) error {
 	record, err := snapshotToRecord(s)
 	if err != nil {
-		return bb, err
+		return err
 	}
 
-	if err = snapshotCodec.Encode(bb, record); err != nil {
-		return bb, err
+	if err = snapshotCodec.Encode(writer, record); err != nil {
+		return err
 	}
 
-	return bb, nil
+	return nil
 }
 
-func (c *Cache) Encode() (*bytes.Buffer, error) {
-	bb := new(bytes.Buffer)
-
+func (c *Cache) Encode(writer io.Writer) error {
 	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(CacheSchema))
 	if err != nil {
-		return bb, err
+		return err
 	}
 
 	c.rwMutex.RLock()
@@ -192,17 +188,17 @@ func (c *Cache) Encode() (*bytes.Buffer, error) {
 	for i := range c.snapMap {
 		s, err := snapshotToRecord(c.snapMap[i])
 		if err != nil {
-			return bb, err
+			return err
 		}
 		innerRecords = append(innerRecords, s)
 	}
 	outerRecord.Set("snapshots", innerRecords)
 
-	if err = cacheCodec.Encode(bb, outerRecord); err != nil {
-		return bb, err
+	if err = cacheCodec.Encode(writer, outerRecord); err != nil {
+		return err
 	}
 
-	return bb, nil
+	return nil
 }
 
 func recordToStation(r *goavro.Record) (Station, error) {
@@ -275,8 +271,8 @@ func recordToReading(r *goavro.Record) (Reading, error) {
 	}, nil
 }
 
-func (s *Snapshot) Decode(bb *bytes.Buffer) error {
-	decoded, err := snapshotCodec.Decode(bb)
+func (s *Snapshot) Decode(reader io.Reader) error {
+	decoded, err := snapshotCodec.Decode(reader)
 	if err != nil {
 		return err
 	}
@@ -305,8 +301,8 @@ func (s *Snapshot) Decode(bb *bytes.Buffer) error {
 	return nil
 }
 
-func (c *Cache) Decode(bb *bytes.Buffer) error {
-	decoded, err := cacheCodec.Decode(bb)
+func (c *Cache) Decode(reader io.Reader) error {
+	decoded, err := cacheCodec.Decode(reader)
 	if err != nil {
 		return err
 	}

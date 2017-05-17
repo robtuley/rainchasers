@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"io/ioutil"
 	"testing"
 )
 
@@ -49,7 +50,7 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 			Station:  s,
 			Readings: []gauge.Reading{r},
 		}
-		_, err := snap.Encode()
+		err := snap.Encode(ioutil.Discard)
 		if err != nil {
 			t.Error("encoding snapshot error", err)
 		}
