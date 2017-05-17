@@ -24,7 +24,7 @@ func attemptBootstrap(url string, cache *gauge.Cache, log *report.Logger) {
 		<-log.Action("bootstrap.failed", report.Data{
 			"url":   url,
 			"error": err.Error(),
-			"step":  "download.setup",
+			"step":  "setup",
 		})
 		return
 	}
@@ -34,7 +34,7 @@ func attemptBootstrap(url string, cache *gauge.Cache, log *report.Logger) {
 		<-log.Action("bootstrap.failed", report.Data{
 			"url":   url,
 			"error": err.Error(),
-			"step":  "download.request",
+			"step":  "request",
 		})
 		return
 	}
@@ -43,7 +43,7 @@ func attemptBootstrap(url string, cache *gauge.Cache, log *report.Logger) {
 		<-log.Action("bootstrap.failed", report.Data{
 			"url":   url,
 			"error": "Status code " + strconv.Itoa(resp.StatusCode),
-			"step":  "download.request",
+			"step":  "request",
 		})
 		return
 	}
@@ -52,5 +52,13 @@ func attemptBootstrap(url string, cache *gauge.Cache, log *report.Logger) {
 		"len": resp.ContentLength,
 	})
 
-	_ = cache
+	if err := cache.Decode(resp.Body); err != nil {
+		<-log.Action("bootstrap.failed", report.Data{
+			"url":   url,
+			"error": err.Error(),
+			"step":  "decode",
+		})
+		return
+	}
+	log.Tock(tick, "bootstrap.complete", report.Data{"url": url})
 }
