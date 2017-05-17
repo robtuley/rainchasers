@@ -220,17 +220,20 @@ func run() error {
 		tick := log.Tick()
 		bb, err := bootstrapSnapshots(bootstrapURL)
 		if err != nil {
-			log.Action("cache.bootstap.downloaded.fail", report.Data{})
+			log.Action("bootstap.downloaded.fail", report.Data{
+				"url":   bootstrapURL,
+				"error": err.Error(),
+			})
 		} else {
-			log.Tock(tick, "cache.bootstrap.downloaded.ok", report.Data{"url": bootstrapURL})
+			log.Tock(tick, "bootstrap.downloaded.ok", report.Data{"url": bootstrapURL})
 			if err := cache.Decode(bb); err != nil {
-				log.Action("cache.bootstap.decoded.fail", report.Data{})
+				log.Action("bootstap.decoded.fail", report.Data{"error": err.Error()})
 			} else {
-				log.Tock(tick, "cache.bootstrap.decoded.ok", report.Data{"url": bootstrapURL})
+				log.Tock(tick, "bootstrap.decoded.ok", report.Data{"url": bootstrapURL})
 			}
 		}
 	} else {
-		log.Info("cache.bootstap.skipped", report.Data{})
+		log.Info("bootstap.skipped", report.Data{})
 	}
 
 	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
