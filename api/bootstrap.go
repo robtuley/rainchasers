@@ -1,35 +1,56 @@
 package main
 
 import (
-	"bytes"
-	"errors"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/report"
 	"net/http"
 	"strconv"
 	"time"
 )
 
-func bootstrapSnapshots(url string) (*bytes.Buffer, error) {
+func attemptBootstrap(url string, cache *gauge.Cache, log *report.Logger) {
+	if len(url) == 0 {
+		log.Info("bootstrap.skipped", report.Data{})
+		return
+	}
+
+	tick := log.Tick()
 	client := &http.Client{
 		Timeout: 15 * time.Second,
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return new(bytes.Buffer), err
+		<-log.Action("bootstrap.failed", report.Data{
+			"url":   url,
+			"error": err.Error(),
+			"step":  "download.setup",
+		})
+		return
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return new(bytes.Buffer), err
+		<-log.Action("bootstrap.failed", report.Data{
+			"url":   url,
+			"error": err.Error(),
+			"step":  "download.request",
+		})
+		return
 	}
 	defer resp.Body.Close()
-
 	if resp.StatusCode != http.StatusOK {
-		return new(bytes.Buffer), errors.New("Status code " + strconv.Itoa(resp.StatusCode) + " for " + url)
+		<-log.Action("bootstrap.failed", report.Data{
+			"url":   url,
+			"error": "Status code " + strconv.Itoa(resp.StatusCode),
+			"step":  "download.request",
+		})
+		return
 	}
+	log.Tock(tick, "bootstrap.downloaded", report.Data{
+		"url": url,
+		"len": resp.ContentLength,
+	})
 
-	bb := bytes.NewBuffer(make([]byte, 0, resp.ContentLength))
-	_, err = bb.ReadFrom(resp.Body)
-
-	return bb, err
+	_ = cache
 }

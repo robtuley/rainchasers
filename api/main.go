@@ -115,6 +115,9 @@ func run() error {
 		wg.Done()
 	}()
 
+	// bootstrap gauge cache from existing daemons
+	go attemptBootstrap(bootstrapURL, cache, log)
+
 	// log cache status every 30s
 	wg.Add(1)
 	go func() {
@@ -213,27 +216,6 @@ func run() error {
 				})
 			}
 		}()
-	}
-
-	// bootstrap gauge cache from existing daemons
-	if len(bootstrapURL) > 0 {
-		tick := log.Tick()
-		bb, err := bootstrapSnapshots(bootstrapURL)
-		if err != nil {
-			log.Action("bootstap.downloaded.fail", report.Data{
-				"url":   bootstrapURL,
-				"error": err.Error(),
-			})
-		} else {
-			log.Tock(tick, "bootstrap.downloaded.ok", report.Data{"url": bootstrapURL})
-			if err := cache.Decode(bb); err != nil {
-				log.Action("bootstap.decoded.fail", report.Data{"error": err.Error()})
-			} else {
-				log.Tock(tick, "bootstrap.decoded.ok", report.Data{"url": bootstrapURL})
-			}
-		}
-	} else {
-		log.Info("bootstap.skipped", report.Data{})
 	}
 
 	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
