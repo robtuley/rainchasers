@@ -2,31 +2,34 @@ package queue
 
 import (
 	"bytes"
-	"cloud.google.com/go/pubsub"
 	"errors"
+	"time"
+
+	"cloud.google.com/go/pubsub"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"golang.org/x/net/context"
-	"time"
 )
 
+// Topic encapsulates the message queue topic
 type Topic struct {
 	ProjectID string
 	pubSub    *pubsub.Topic
 }
 
-// defer topic.Stop()
+// Stop cleanly closes the topic
 func (t *Topic) Stop() {
 	if t.pubSub != nil {
 		t.pubSub.Stop()
 	}
 }
 
-func New(ctx context.Context, projectId string, topicName string) (*Topic, error) {
-	if len(projectId) == 0 {
+// New creates a message queue topic
+func New(ctx context.Context, projectID string, topicName string) (*Topic, error) {
+	if len(projectID) == 0 {
 		return &Topic{}, nil
 	}
 
-	client, err := pubsub.NewClient(ctx, projectId)
+	client, err := pubsub.NewClient(ctx, projectID)
 	if err != nil {
 		return nil, err
 	}
@@ -44,11 +47,12 @@ func New(ctx context.Context, projectId string, topicName string) (*Topic, error
 	}
 
 	return &Topic{
-		ProjectID: projectId,
+		ProjectID: projectID,
 		pubSub:    topic,
 	}, nil
 }
 
+// Publish writes an AVRO encoded Snapshot to the topic
 func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 	bb := bytes.NewBuffer([]byte{})
 
@@ -69,7 +73,10 @@ func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
 	return err
 }
 
-// a zero length consumerGroup means auto-generate and delete once done
+// Subscribe reads AVRO encoded snapshots from the topic and decodes them
+//
+// Note a zero length consumerGroup means auto-generate the pubsub subscription
+// string and delete once done.
 func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
 	const ackDeadline = time.Second * 20
 
