@@ -44,7 +44,7 @@ func run() error {
 	}
 	sslKeyFilename := os.Getenv("SSL_KEY_FILE")
 	sslCertFilename := os.Getenv("SSL_CERT_FILE")
-	projectId := os.Getenv("PROJECT_ID")
+	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
@@ -57,7 +57,7 @@ func run() error {
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
 		"bootstrap_url": bootstrapURL,
-		"project_id":    projectId,
+		"project_id":    projectID,
 		"pubsub_topic":  topicName,
 		"timeout":       timeout,
 		"ssl_key_path":  sslKeyFilename,
@@ -92,7 +92,7 @@ func run() error {
 	var counter uint64
 	wg.Add(1)
 	go func() {
-		topic, err := queue.New(ctx, projectId, topicName)
+		topic, err := queue.New(ctx, projectID, topicName)
 		if err != nil {
 			<-log.Action("topic.failed", report.Data{"error": err.Error()})
 			shutdown()
@@ -163,6 +163,7 @@ func run() error {
 		w.Header().Set("Content-Type", "avro/binary")
 		if err := cache.Encode(w); err != nil {
 			log.Action("response.cache", report.Data{"error": err.Error()})
+			return
 		}
 	})
 	server8081 := &http.Server{
@@ -175,6 +176,7 @@ func run() error {
 				"port":  8081,
 				"error": err.Error(),
 			})
+			return
 		}
 	}()
 

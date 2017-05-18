@@ -2,11 +2,13 @@ package gauge
 
 import (
 	"fmt"
-	"github.com/linkedin/goavro"
 	"io"
 	"time"
+
+	"github.com/linkedin/goavro"
 )
 
+// ReadingSchema is the AVRO schema for a Reading
 const ReadingSchema = `
 {
   "namespace": "com.rainchasers.gauge",
@@ -28,10 +30,12 @@ const ReadingSchema = `
 `
 
 var (
+	// SnapshotSchema is the AVRO schema for a Snapshot
 	SnapshotSchema string
 	snapshotCodec  goavro.Codec
-	CacheSchema    string
-	cacheCodec     goavro.Codec
+	// CacheSchema is the AVRO schema for a Cache
+	CacheSchema string
+	cacheCodec  goavro.Codec
 )
 
 func init() {
@@ -162,19 +166,21 @@ func snapshotToRecord(s *Snapshot) (*goavro.Record, error) {
 	return outerRecord, nil
 }
 
+// Encode writes out the Snapshot in AVRO binary format
 func (s *Snapshot) Encode(writer io.Writer) error {
 	record, err := snapshotToRecord(s)
 	if err != nil {
 		return err
 	}
 
-	if err = snapshotCodec.Encode(writer, record); err != nil {
+	if err := snapshotCodec.Encode(writer, record); err != nil {
 		return err
 	}
 
 	return nil
 }
 
+// Encode writes out the Cache in AVRO binary format
 func (c *Cache) Encode(writer io.Writer) error {
 	outerRecord, err := goavro.NewRecord(goavro.RecordSchema(CacheSchema))
 	if err != nil {
@@ -255,7 +261,7 @@ func recordToStation(r *goavro.Record) (Station, error) {
 }
 
 func recordToReading(r *goavro.Record) (Reading, error) {
-	event_time, err := r.Get("event_time")
+	eventTime, err := r.Get("event_time")
 	if err != nil {
 		return Reading{}, err
 	}
@@ -266,11 +272,12 @@ func recordToReading(r *goavro.Record) (Reading, error) {
 	}
 
 	return Reading{
-		EventTime: time.Unix(event_time.(int64), 0),
+		EventTime: time.Unix(eventTime.(int64), 0),
 		Value:     value.(float32),
 	}, nil
 }
 
+// Decode reads a Snapshot from AVRO binary format
 func (s *Snapshot) Decode(reader io.Reader) error {
 	decoded, err := snapshotCodec.Decode(reader)
 	if err != nil {
@@ -301,6 +308,7 @@ func (s *Snapshot) Decode(reader io.Reader) error {
 	return nil
 }
 
+// Decode reads a Cache from AVRO binary format
 func (c *Cache) Decode(reader io.Reader) error {
 	decoded, err := cacheCodec.Decode(reader)
 	if err != nil {

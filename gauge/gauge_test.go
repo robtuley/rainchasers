@@ -5,7 +5,6 @@ import (
 )
 
 func TestIdGeneration(t *testing.T) {
-
 	s1 := Station{
 		DataURL: "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
 	}

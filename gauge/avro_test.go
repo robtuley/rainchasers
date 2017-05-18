@@ -32,13 +32,13 @@ func TestEncodeDecode(t *testing.T) {
 		Station:  station,
 		Readings: readings,
 	}
-	bb := bytes.NewBuffer([]byte{})
-	err := before.Encode(bb)
+	var bb bytes.Buffer
+	err := before.Encode(&bb)
 	if err != nil {
 		t.Error(err)
 	}
 	after := Snapshot{}
-	err = after.Decode(bb)
+	err = after.Decode(&bb)
 	if err != nil {
 		t.Error(err)
 	}

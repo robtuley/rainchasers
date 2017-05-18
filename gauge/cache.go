@@ -8,12 +8,14 @@ import (
 	"time"
 )
 
+// Cache is an in-memory cache of gauge stations and recent measurements
 type Cache struct {
 	snapMap   map[string]*Snapshot
 	rwMutex   *sync.RWMutex
 	retention time.Duration
 }
 
+// CacheStats is a collection of cache counts for monitoring telemetry
 type CacheStats struct {
 	StationCount    int
 	AllReadingCount int
@@ -36,6 +38,7 @@ func (rs readingSorter) Less(i, j int) bool {
 	return rs[i].EventTime.After(rs[j].EventTime)
 }
 
+// NewCache creates a new (empty) Cache
 func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	cache := Cache{
 		snapMap:   make(map[string]*Snapshot),
@@ -67,6 +70,7 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	return &cache
 }
 
+// Add includes the provided Snapshot in the cached dataset
 func (c *Cache) Add(s *Snapshot) {
 	uuid := s.Station.UUID()
 	removeOlderThan(time.Now().Add(-1*c.retention), &s.Readings)
@@ -85,6 +89,7 @@ func (c *Cache) Add(s *Snapshot) {
 	item.ProcessingTime = time.Now()
 }
 
+// Get retrieves the cached Snapshot of a particular station if available
 func (c *Cache) Get(uuid string) (Snapshot, bool) {
 	c.rwMutex.RLock()
 	defer c.rwMutex.RUnlock()
@@ -93,6 +98,7 @@ func (c *Cache) Get(uuid string) (Snapshot, bool) {
 	return *cached, exists
 }
 
+// Stats returns a collection of cache counts for monitoring telemetry
 func (c *Cache) Stats() CacheStats {
 	c.rwMutex.RLock()
 	defer c.rwMutex.RUnlock()
