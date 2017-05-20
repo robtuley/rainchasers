@@ -2,10 +2,11 @@ package main
 
 import (
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/report"
 	"os"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
+	"github.com/rainchasers/report"
 )
 
 const maxPublishPerSecond = 20
@@ -36,8 +37,8 @@ func run() error {
 			return err
 		}
 	}
-	projectId := os.Getenv("PROJECT_ID")
-	isValidating := projectId == ""
+	projectID := os.Getenv("PROJECT_ID")
+	isValidating := projectID == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry
@@ -46,7 +47,7 @@ func run() error {
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
 		"day":          day.Format("2006-01-02"),
-		"project_id":   projectId,
+		"project_id":   projectID,
 		"pubsub_topic": topicName,
 	})
 
@@ -70,7 +71,7 @@ func run() error {
 	// publish historical data
 	if !isValidating {
 		tick := log.Tick()
-		err := publish(projectId, topicName, stations, readings)
+		err := publish(projectID, topicName, stations, readings)
 		if err != nil {
 			<-log.Action("publish.fail", report.Data{"error": err.Error()})
 			return err
