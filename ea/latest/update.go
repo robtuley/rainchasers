@@ -2,16 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"time"
+
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/request"
-	"time"
 )
 
-type readingJson struct {
+type readingJSON struct {
 	Items []struct {
 		Measure      string          `json:"measure"`
 		DateTime     time.Time       `json:"dateTime"`
-		ValueRawJson json.RawMessage `json:"value"`
+		ValueRawJSON json.RawMessage `json:"value"`
 	} `json:"items"`
 }
 
@@ -25,7 +26,7 @@ func update() (map[string]gauge.Reading, error) {
 	}
 	defer resp.Body.Close()
 
-	r := readingJson{}
+	r := readingJSON{}
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&r)
 	if err != nil {
@@ -35,7 +36,7 @@ func update() (map[string]gauge.Reading, error) {
 	for _, item := range r.Items {
 		// the 'value' keys should be a float, but instances exist of arrays
 		// so we do a conditional parse and simply dump those that can't match.
-		value, err := request.ParseFloat(item.ValueRawJson)
+		value, err := request.ParseFloat(item.ValueRawJSON)
 		if err != nil {
 			continue
 		}

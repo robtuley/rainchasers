@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"io/ioutil"
 	"testing"
+
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func TestUpdatingStations(t *testing.T) {
@@ -42,7 +43,7 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 	for id, r := range readings {
 		s, ok := stations[id]
 		if !ok {
-			nSkippedMetrics += 1
+			nSkippedMetrics++
 			continue
 		}
 

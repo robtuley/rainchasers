@@ -2,11 +2,12 @@ package main
 
 import (
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/report"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
+	"github.com/rainchasers/report"
 )
 
 // Responds to environment variables:
@@ -33,8 +34,8 @@ func run() error {
 		shutdownDeadline = 7 * 24 * 60 * 60
 	}
 	shutdownC := time.NewTimer(time.Second * time.Duration(shutdownDeadline)).C
-	projectId := os.Getenv("PROJECT_ID")
-	isValidating := projectId == ""
+	projectID := os.Getenv("PROJECT_ID")
+	isValidating := projectID == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry
@@ -44,7 +45,7 @@ func run() error {
 	log.Info("daemon.start", report.Data{
 		"update_period":     updatePeriodSeconds,
 		"shutdown_deadline": shutdownDeadline,
-		"project_id":        projectId,
+		"project_id":        projectID,
 		"pubsub_topic":      topicName,
 	})
 
@@ -71,7 +72,7 @@ updateLoop:
 
 		if !isValidating {
 			tick = log.Tick()
-			err = publish(projectId, topicName, updates, stations)
+			err = publish(projectID, topicName, updates, stations)
 			if err != nil {
 				<-log.Action("published.fail", report.Data{"error": err.Error()})
 				return err
