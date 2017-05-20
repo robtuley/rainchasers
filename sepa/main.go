@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/queue"
-	"github.com/rainchasers/report"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
+	"github.com/rainchasers/report"
 )
 
 const (
@@ -98,9 +99,8 @@ func run() error {
 	topic, err := queue.New(ctx, projectID, topicName)
 	if err != nil {
 		return err
-	} else {
-		defer topic.Stop()
 	}
+	defer topic.Stop()
 	nPubErr := 0
 
 updateLoop:
@@ -130,13 +130,13 @@ updateLoop:
 				"url":   stations[i].DataURL,
 				"error": err.Error(),
 			})
-			nPubErr += 1
+			nPubErr++
 		}
 		if nPubErr > 100 {
 			shutdown()
 		}
 
-		n += 1
+		n++
 		select {
 		case <-ticker.C:
 		case <-ctx.Done():

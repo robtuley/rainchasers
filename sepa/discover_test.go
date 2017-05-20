@@ -35,16 +35,16 @@ func TestDiscoveringStations(t *testing.T) {
 			t.Error("No units", i, s)
 		}
 		if len(s.Name) < 3 {
-			nMissingNames += 1
+			nMissingNames++
 		}
 		if len(s.RiverName) < 3 {
-			nMissingRiverNames += 1
+			nMissingRiverNames++
 		}
 		if δ := math.Abs(float64(s.Lat)); δ < ε {
-			nMissingLat += 1
+			nMissingLat++
 		}
 		if δ := math.Abs(float64(s.Lg)); δ < ε {
-			nMissingLg += 1
+			nMissingLg++
 		}
 
 	}
