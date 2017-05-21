@@ -36,8 +36,8 @@ test:
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go vet $(go list ./... | grep -v /vendor/ | grep -v /bigquery)
   override:
     - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go test $(go list ./... | grep -v /vendor/ | grep -v /bigquery)
-    - docker run -e "SHUTDOWN_AFTER_X_SECONDS=30" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM
-    - docker run -e "SHUTDOWN_AFTER_X_SECONDS=30" -e "UPDATE_EVERY_X_SECONDS=10" eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM
+    - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM
+    - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM
     - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM
 
 deployment:

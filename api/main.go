@@ -3,9 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/queue"
-	"github.com/rainchasers/report"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,6 +11,10 @@ import (
 	"sync/atomic"
 	"syscall"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
+	"github.com/rainchasers/report"
 )
 
 // Responds to environment variables:
@@ -52,7 +53,7 @@ func run() error {
 	}
 
 	// telemetry and logging
-	log := report.New(report.Data{"service": "api", "daemon": daemonName})
+	log := report.New(os.Stdout, report.Data{"service": "api", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{

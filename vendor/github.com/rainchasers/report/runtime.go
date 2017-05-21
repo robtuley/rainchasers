@@ -10,9 +10,9 @@ func runtimeData() Data {
 	m := &runtime.MemStats{}
 	runtime.ReadMemStats(m)
 
-	data["memory.mb"] = float64(m.Sys) / float64(1024*1024)
+	data["stack.mb"] = float64(m.StackSys) / float64(1024*1024)
 	data["heap.mb"] = float64(m.HeapAlloc) / float64(1024*1024)
-	data["go.routine.count"] = float64(runtime.NumGoroutine())
+	data["goroutine.count"] = runtime.NumGoroutine()
 	data["gc.pause.ns"] = m.PauseNs[(m.NumGC+255)%256]
 
 	return data

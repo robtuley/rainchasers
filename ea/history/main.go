@@ -15,7 +15,6 @@ const maxPublishPerSecond = 20
 //   DATE (defaults to yesterday)
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
-//
 func main() {
 	if err := run(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -38,11 +37,10 @@ func run() error {
 		}
 	}
 	projectID := os.Getenv("PROJECT_ID")
-	isValidating := projectID == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry
-	log := report.New(report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log := report.New(os.Stdout, report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 10*time.Second)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
@@ -57,6 +55,15 @@ func run() error {
 		<-log.Action("discovered.fail", report.Data{"error": err.Error()})
 		return err
 	}
+	if projectID == "" { // limit map size to 5 stations for validation
+		n := 0
+		for k := range stations {
+			if n >= 5 {
+				delete(stations, k)
+			}
+			n++
+		}
+	}
 	log.Info("discovered.ok", report.Data{"count": len(stations)})
 
 	// download & parse CSV data
@@ -69,24 +76,22 @@ func run() error {
 	log.Tock(tick, "download.ok", report.Data{"count": len(readings)})
 
 	// publish historical data
-	if !isValidating {
-		tick := log.Tick()
-		err := publish(projectID, topicName, stations, readings)
-		if err != nil {
-			<-log.Action("publish.fail", report.Data{"error": err.Error()})
-			return err
-		}
-		log.Tock(tick, "publish.ok", report.Data{})
+	tick = log.Tick()
+	if err := publish(projectID, topicName, stations, readings); err != nil {
+		<-log.Action("publish.fail", report.Data{"error": err.Error()})
+		return err
 	}
+	log.Tock(tick, "publish.ok", report.Data{})
 
 	// validate log stream on shutdown if required
-	if isValidating {
-		if log.Count("discovered.ok") != 1 {
-			return errors.New("discovered.ok event expected but not present")
-		}
-		if log.Count("download.ok") != 1 {
-			return errors.New("updated.ok event expected but not present")
-		}
+	if log.Count("discovered.ok") != 1 {
+		return errors.New("discovered.ok event expected but not present")
+	}
+	if log.Count("download.ok") != 1 {
+		return errors.New("download.ok event expected but not present")
+	}
+	if err := log.LastError(); err != nil {
+		return err
 	}
 
 	return nil

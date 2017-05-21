@@ -5,7 +5,6 @@ import (
 	"errors"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
@@ -19,11 +18,8 @@ const (
 )
 
 // Responds to environment variables:
-//   UPDATE_EVERY_X_SECONDS (default 15*60)
-//   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
-//
 func main() {
 	if err := run(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -33,31 +29,28 @@ func main() {
 
 func run() error {
 	// parse env vars
-	updatePeriodSeconds, err := strconv.Atoi(os.Getenv("UPDATE_EVERY_X_SECONDS"))
-	if err != nil {
-		updatePeriodSeconds = 15 * 60
-	}
-	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
-	if err != nil {
-		timeout = 7 * 24 * 60 * 60
-	}
 	projectID := os.Getenv("PROJECT_ID")
-	isValidating := projectID == ""
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
+	// blank project ID switches to validation run
+	updatePeriodSeconds := 15 * 60
+	timeout := 7 * 24 * time.Hour
+	if projectID == "" {
+		updatePeriodSeconds = 10
+		timeout = 30 * time.Second
+	}
+
 	// setup telemetry and logging
-	log := report.New(report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log := report.New(os.Stdout, report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
-		"update_period": updatePeriodSeconds,
-		"timeout":       timeout,
-		"project_id":    projectID,
-		"pubsub_topic":  topicName,
+		"project_id":   projectID,
+		"pubsub_topic": topicName,
 	})
 
 	// create daemon context
-	ctx, shutdown := context.WithTimeout(context.Background(), time.Second*time.Duration(timeout))
+	ctx, shutdown := context.WithTimeout(context.Background(), timeout)
 	defer shutdown()
 	sigC := make(chan os.Signal, 1)
 	signal.Notify(sigC,
@@ -80,7 +73,7 @@ func run() error {
 		<-log.Action("discovered.failed", report.Data{"error": err.Error()})
 		return err
 	}
-	if isValidating {
+	if projectID == "" {
 		stations = stations[0:5]
 	}
 	log.Info("discovered.ok", report.Data{"count": len(stations)})
@@ -144,14 +137,15 @@ updateLoop:
 		}
 	}
 
-	// validate log stream on shutdown if required
-	if isValidating {
-		if log.Count("discovered.ok") != 1 {
-			return errors.New("discovered.ok event expected but not present")
-		}
-		if log.Count("updated.ok") < 1 {
-			return errors.New("updated.ok event expected but not present")
-		}
+	// validate log stream on shutdown
+	if log.Count("discovered.ok") != 1 {
+		return errors.New("discovered.ok event expected but not present")
+	}
+	if log.Count("updated.ok") < 1 {
+		return errors.New("updated.ok event expected but not present")
+	}
+	if err := log.LastError(); err != nil {
+		return err
 	}
 
 	return nil

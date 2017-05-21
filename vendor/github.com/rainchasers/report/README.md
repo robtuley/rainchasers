@@ -1,7 +1,7 @@
 Logging Utility for Go
 ======================
 
-An opinonated telemetry & logging utility for Go. 
+An opinonated logging utility for Go. 
 
 [![GoDoc](https://godoc.org/github.com/rainchasers/report?status.png)](https://godoc.org/github.com/rainchasers/report)
 
@@ -9,6 +9,6 @@ An opinonated telemetry & logging utility for Go.
 
 [![Issue Count](https://codeclimate.com/github/rainchasers/report/badges/issue_count.svg)](https://codeclimate.com/github/rainchasers/report)
 
-+ logs to stdout as JSON data events 
++ logs to specified `io.Writer` as JSON data events 
 + timer utility methods available
-+ count and stats functions available to test log output
++ count and action error history functions available to test log output
