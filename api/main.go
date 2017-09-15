@@ -87,7 +87,7 @@ func run() error {
 	}()
 
 	// create gauge in-memory cache
-	cache := gauge.NewCache(ctx, 7*24*time.Hour)
+	cache := gauge.NewCache(ctx, 36*time.Hour)
 
 	// subscribe to gauge snapshot topic to populate gauge cache
 	var counter uint64
