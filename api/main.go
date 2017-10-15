@@ -17,10 +17,22 @@ import (
 	"github.com/rainchasers/report"
 )
 
-// Responds to environment variables:
-//   BOOTSTRAP_HOST (no default)
+// Environment Vars
+// ================
+//
+// Internal API to bootstrap from:
+//   COM_RAINCHASERS_API_INTERNAL_SERVICE_HOST (no default)
+//   COM_RAINCHASERS_API_INTERNAL_SERVICE_PORT (no default)
+//
+// SSL cert configs:
+//   SSL_KEY_FILE (no default)
+//   SSL_CERT_FILE (no default)
+//
+// General config:
 //   DAEMON_NAME (defaults to a timebased stamp to label the daemon)
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
+//
+// Google PubSub subscription:
 //   PROJECT_ID (no default)
 //   PUBSUB_TOPIC (no default)
 //
