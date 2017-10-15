@@ -48,7 +48,7 @@ func run() error {
 	host := os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_HOST")
 	port, err := strconv.Atoi(os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_PORT"))
 	if err == nil && len(host) > 0 {
-		bootstrapURL = "http://" + host + ":" + strconv.Itoa(port) + "/snapshots"
+		bootstrapURL = "http://" + host + ":" + strconv.Itoa(port) + "/export"
 	}
 	daemonName := os.Getenv("DAEMON_NAME")
 	if len(daemonName) == 0 {
