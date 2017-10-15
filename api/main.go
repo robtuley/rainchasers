@@ -53,7 +53,7 @@ func run() error {
 	}
 
 	// telemetry and logging
-	log := report.New(os.Stdout, report.Data{"service": "api", "daemon": daemonName})
+	log := report.New(os.Stdout, report.Data{"service": "rc.api", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
