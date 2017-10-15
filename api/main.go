@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -128,9 +127,6 @@ func run() error {
 		wg.Done()
 	}()
 
-	// bootstrap gauge cache from existing daemons
-	go attemptBootstrap(bootstrapURL, cache, log)
-
 	// log cache status every 30s
 	wg.Add(1)
 	go func() {
@@ -158,37 +154,35 @@ func run() error {
 		wg.Done()
 	}()
 
-	// HTTP server :8081 for k8s status checks (readiness & liveness) and internal avro dumps
-	started := time.Now()
+	// setup request handler & perform startup actions
+	h := Handler{
+		Log:           log,
+		Cache:         cache,
+		IsReady:       false,
+		ClientTimeout: 10 * time.Second,
+	}
+	go func() {
+		c := bootstrap(bootstrapURL, cache, log)
+		<-c
+		h.IsReady = true
+	}()
 
+	// HTTP server :8081 for k8s status checks + avro dumps
 	mux8081 := http.NewServeMux()
-	mux8081.HandleFunc("/k8s/", func(w http.ResponseWriter, r *http.Request) {
-		duration := time.Now().Sub(started)
-		if duration.Seconds() <= 10 {
-			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
-		} else {
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("ok"))
-		}
-	})
-	mux8081.HandleFunc("/snapshots", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "avro/binary")
-		if err := cache.Encode(w); err != nil {
-			log.Action("response.cache", report.Data{"error": err.Error()})
-			return
-		}
-	})
+	mux8081.HandleFunc("/k8s/", h.Readiness)
+	mux8081.HandleFunc("/export", h.Export)
 	server8081 := &http.Server{
 		Addr:    ":8081",
 		Handler: mux8081,
 	}
 	go func() {
-		if err := server8081.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Action("http.error", report.Data{
+		err := server8081.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			<-log.Action("http.error", report.Data{
 				"port":  8081,
 				"error": err.Error(),
 			})
+			shutdown()
 			return
 		}
 	}()
@@ -196,20 +190,20 @@ func run() error {
 	//  HTTP server :8080 for http public API
 	//              :8443 for https public API
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("ok"))
-	})
+	mux.HandleFunc("/", h.API)
 	server8080 := &http.Server{
 		Addr:    ":8080",
 		Handler: mux,
 	}
 	go func() {
-		if err := server8080.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Action("http.error", report.Data{
+		err := server8080.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			<-log.Action("http.error", report.Data{
 				"port":  8080,
 				"error": err.Error(),
 			})
+			shutdown()
+			return
 		}
 	}()
 	var server8443 *http.Server
@@ -221,15 +215,18 @@ func run() error {
 		go func() {
 			err := server8443.ListenAndServeTLS(sslCertFilename, sslKeyFilename)
 			if err != nil && err != http.ErrServerClosed {
-				log.Action("http.error", report.Data{
+				<-log.Action("http.error", report.Data{
 					"port":  8443,
 					"error": err.Error(),
 				})
+				shutdown()
+				return
 			}
 		}()
 	}
 
-	// On shutdown signal, wait for up to 20s for go-routines & HTTP servers to close cleanly
+	// On shutdown signal, wait for up to 20s for go-routines
+	// and HTTP servers to close cleanly
 	<-ctx.Done()
 	tContext, tCancel := context.WithTimeout(context.Background(), 20*time.Second)
 	wg.Add(1)
