@@ -155,7 +155,7 @@ func run() error {
 	}()
 
 	// setup request handler & perform startup actions
-	h := Handler{
+	h := &Handler{
 		Log:           log,
 		Cache:         cache,
 		IsReady:       false,

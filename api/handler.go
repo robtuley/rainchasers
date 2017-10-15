@@ -18,7 +18,7 @@ type Handler struct {
 }
 
 // Readiness handles internal k8s readiness probes
-func (h Handler) Readiness(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Readiness(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if h.IsReady {
 		w.WriteHeader(http.StatusOK)
@@ -28,7 +28,7 @@ func (h Handler) Readiness(w http.ResponseWriter, r *http.Request) {
 }
 
 // Export exports cache state as an avro document
-func (h Handler) Export(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Export(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "avro/binary")
 	if err := h.Cache.Encode(w); err != nil {
@@ -38,7 +38,7 @@ func (h Handler) Export(w http.ResponseWriter, r *http.Request) {
 }
 
 // API handles public data API requests
-func (h Handler) API(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) API(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 
