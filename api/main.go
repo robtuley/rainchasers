@@ -44,11 +44,11 @@ func main() {
 
 func run() error {
 	// parse env vars
-	var bootstrapURL string
+	var selfURL string
 	host := os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_HOST")
 	port, err := strconv.Atoi(os.Getenv("COM_RAINCHASERS_API_INTERNAL_SERVICE_PORT"))
 	if err == nil && len(host) > 0 {
-		bootstrapURL = "http://" + host + ":" + strconv.Itoa(port) + "/export"
+		selfURL = "http://" + host + ":" + strconv.Itoa(port) + "/export"
 	}
 	daemonName := os.Getenv("DAEMON_NAME")
 	if len(daemonName) == 0 {
@@ -68,7 +68,7 @@ func run() error {
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
-		"bootstrap_url": bootstrapURL,
+		"bootstrap_url": selfURL,
 		"project_id":    projectID,
 		"pubsub_topic":  topicName,
 		"timeout":       timeout,
@@ -98,7 +98,7 @@ func run() error {
 	}()
 
 	// create gauge in-memory cache
-	cache := gauge.NewCache(ctx, 36*time.Hour)
+	gaugeCache := gauge.NewCache(ctx, 36*time.Hour)
 
 	// subscribe to gauge snapshot topic to populate gauge cache
 	var counter uint64
@@ -115,7 +115,7 @@ func run() error {
 				log.Action("msg.failed", report.Data{"error": err.Error()})
 			} else {
 				atomic.AddUint64(&counter, 1)
-				cache.Add(s)
+				gaugeCache.Add(s)
 			}
 		})
 		topic.Stop()
@@ -133,7 +133,7 @@ func run() error {
 		ticker := time.NewTicker(time.Second * 30)
 	logLoop:
 		for {
-			stat := cache.Stats()
+			stat := gaugeCache.Stats()
 			log.Info("cache.counts", report.Data{
 				"station":         stat.StationCount,
 				"all_reading":     stat.AllReadingCount,
@@ -157,12 +157,12 @@ func run() error {
 	// setup request handler & perform startup actions
 	h := &Handler{
 		Log:           log,
-		Cache:         cache,
+		Gauge:         gaugeCache,
 		IsReady:       false,
 		ClientTimeout: 10 * time.Second,
 	}
 	go func() {
-		c := bootstrap(bootstrapURL, cache, log)
+		c := bootstrapGaugeCache(selfURL, gaugeCache, log)
 		<-c
 		h.IsReady = true
 	}()

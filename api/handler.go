@@ -12,7 +12,7 @@ import (
 // Handler has methods to handle internal and external API requests
 type Handler struct {
 	Log           *report.Logger
-	Cache         *gauge.Cache
+	Gauge         *gauge.Cache
 	IsReady       bool
 	ClientTimeout time.Duration
 }
@@ -31,7 +31,7 @@ func (h *Handler) Readiness(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) Export(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "avro/binary")
-	if err := h.Cache.Encode(w); err != nil {
+	if err := h.Gauge.Encode(w); err != nil {
 		<-h.Log.Action("response.cache.error", report.Data{"error": err.Error()})
 		return
 	}

@@ -9,11 +9,11 @@ import (
 	"github.com/rainchasers/report"
 )
 
-func bootstrap(url string, cache *gauge.Cache, log *report.Logger) <-chan struct{} {
+func bootstrapGaugeCache(url string, cache *gauge.Cache, log *report.Logger) <-chan struct{} {
 	doneC := make(chan struct{})
 
 	if len(url) == 0 {
-		log.Info("bootstrap.skipped", report.Data{})
+		log.Info("bootstrap.gauge.skipped", report.Data{})
 		close(doneC)
 	}
 
@@ -27,7 +27,7 @@ func bootstrap(url string, cache *gauge.Cache, log *report.Logger) <-chan struct
 
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
-			<-log.Action("bootstrap.failed", report.Data{
+			<-log.Action("bootstrap.gauge.failed", report.Data{
 				"url":   url,
 				"error": err.Error(),
 				"step":  "setup",
@@ -37,7 +37,7 @@ func bootstrap(url string, cache *gauge.Cache, log *report.Logger) <-chan struct
 
 		resp, err := client.Do(req)
 		if err != nil {
-			<-log.Action("bootstrap.failed", report.Data{
+			<-log.Action("bootstrap.gauge.failed", report.Data{
 				"url":   url,
 				"error": err.Error(),
 				"step":  "request",
@@ -46,27 +46,27 @@ func bootstrap(url string, cache *gauge.Cache, log *report.Logger) <-chan struct
 		}
 		defer resp.Body.Close()
 		if resp.StatusCode != http.StatusOK {
-			<-log.Action("bootstrap.failed", report.Data{
+			<-log.Action("bootstrap.gauge.failed", report.Data{
 				"url":   url,
 				"error": "Status code " + strconv.Itoa(resp.StatusCode),
 				"step":  "request",
 			})
 			return
 		}
-		log.Tock(tick, "bootstrap.downloaded", report.Data{
+		log.Tock(tick, "bootstrap.gauge.downloaded", report.Data{
 			"url": url,
 			"len": resp.ContentLength,
 		})
 
 		if err := cache.Decode(resp.Body); err != nil {
-			<-log.Action("bootstrap.failed", report.Data{
+			<-log.Action("bootstrap.gauge.failed", report.Data{
 				"url":   url,
 				"error": err.Error(),
 				"step":  "decode",
 			})
 			return
 		}
-		log.Tock(tick, "bootstrap.complete", report.Data{"url": url})
+		log.Tock(tick, "bootstrap.gauge.complete", report.Data{"url": url})
 	}()
 
 	return doneC
