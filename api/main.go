@@ -228,6 +228,7 @@ func run() error {
 	// On shutdown signal, wait for up to 20s for go-routines
 	// and HTTP servers to close cleanly
 	<-ctx.Done()
+	h.IsReady = false
 	tContext, tCancel := context.WithTimeout(context.Background(), 20*time.Second)
 	wg.Add(1)
 	go func() {
