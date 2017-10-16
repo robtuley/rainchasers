@@ -162,8 +162,20 @@ func run() error {
 		ClientTimeout: 10 * time.Second,
 	}
 	go func() {
-		c := bootstrapGaugeCache(selfURL, gaugeCache, log)
-		<-c
+		doneC := bootstrapGaugeCache(selfURL, gaugeCache, log)
+
+		var err error
+		url := "https://app.rainchasers.com/catalogue.json"
+		h.Rivers, err = NewRiverCache(ctx, url, log)
+		if err != nil {
+			<-log.Action("daemon.stopped.rivercache", report.Data{
+				"error": err.Error(),
+			})
+			shutdown()
+			return
+		}
+
+		<-doneC
 		h.IsReady = true
 	}()
 
@@ -246,7 +258,7 @@ func run() error {
 	}()
 	select {
 	case <-c:
-		<-log.Info("daemon.stopped", report.Data{})
+		<-log.Info("daemon.stopped.ok", report.Data{})
 	case <-tContext.Done():
 		<-log.Action("daemon.stopped.timeout", report.Data{})
 	}

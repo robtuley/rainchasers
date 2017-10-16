@@ -13,6 +13,7 @@ import (
 type Handler struct {
 	Log           *report.Logger
 	Gauge         *gauge.Cache
+	Rivers        *RiverCache
 	IsReady       bool
 	ClientTimeout time.Duration
 }
