@@ -104,6 +104,8 @@ func run() error {
 	var counter uint64
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
+
 		topic, err := queue.New(ctx, projectID, topicName)
 		if err != nil {
 			<-log.Action("topic.failed", report.Data{"error": err.Error()})
@@ -124,12 +126,13 @@ func run() error {
 			shutdown()
 			return
 		}
-		wg.Done()
 	}()
 
 	// log cache status every 30s
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
+
 		ticker := time.NewTicker(time.Second * 30)
 	logLoop:
 		for {
@@ -151,7 +154,6 @@ func run() error {
 			}
 		}
 		ticker.Stop()
-		wg.Done()
 	}()
 
 	// setup request handler & perform startup actions
