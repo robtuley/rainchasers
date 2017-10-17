@@ -15,6 +15,7 @@ func bootstrapGaugeCache(url string, cache *gauge.Cache, log *report.Logger) <-c
 	if len(url) == 0 {
 		log.Info("bootstrap.gauge.skipped", report.Data{})
 		close(doneC)
+		return doneC
 	}
 
 	go func() {
