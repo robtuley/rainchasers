@@ -106,6 +106,11 @@ func run() error {
 	go func() {
 		defer wg.Done()
 
+		if len(projectID) == 0 {
+			// running in local test mode
+			return
+		}
+
 		topic, err := queue.New(ctx, projectID, topicName)
 		if err != nil {
 			<-log.Action("topic.failed", report.Data{"error": err.Error()})
