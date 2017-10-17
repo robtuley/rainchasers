@@ -141,6 +141,12 @@ func run() error {
 		ticker := time.NewTicker(time.Second * 30)
 	logLoop:
 		for {
+			select {
+			case <-ticker.C:
+			case <-ctx.Done():
+				break logLoop
+			}
+
 			stat := gaugeCache.Stats()
 			log.Info("cache.counts", report.Data{
 				"station":         stat.StationCount,
@@ -151,12 +157,6 @@ func run() error {
 				"added":           atomic.LoadUint64(&counter),
 			})
 			atomic.StoreUint64(&counter, 0)
-
-			select {
-			case <-ticker.C:
-			case <-ctx.Done():
-				break logLoop
-			}
 		}
 		ticker.Stop()
 	}()

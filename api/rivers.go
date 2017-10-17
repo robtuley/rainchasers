@@ -160,13 +160,13 @@ func NewRiverCache(ctx context.Context, URL string, log *report.Logger) (*RiverC
 		ticker := time.NewTicker(60 * time.Second)
 	updateThenWait:
 		for {
-			cache.Update()
-
 			select {
 			case <-ticker.C:
 			case <-ctx.Done():
 				break updateThenWait
 			}
+
+			cache.Update()
 		}
 		ticker.Stop()
 	}()
