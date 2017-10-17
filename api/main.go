@@ -156,10 +156,9 @@ func run() error {
 
 	// setup request handler & perform startup actions
 	h := &Handler{
-		Log:           log,
-		Gauge:         gaugeCache,
-		IsReady:       false,
-		ClientTimeout: 10 * time.Second,
+		Log:     log,
+		Gauge:   gaugeCache,
+		IsReady: false,
 	}
 	go func() {
 		doneC := bootstrapGaugeCache(selfURL, gaugeCache, log)
