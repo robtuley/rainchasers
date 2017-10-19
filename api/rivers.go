@@ -69,6 +69,15 @@ type RiverCache struct {
 	rwMutex    *sync.RWMutex
 }
 
+// Load a section from the cache if it exists
+func (c *RiverCache) Load(uuid string) (Section, bool) {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+	s, ok := c.sectionMap[uuid]
+	return s, ok
+}
+
 // Update polls for updated content version data
 func (c *RiverCache) Update() error {
 	tick := c.log.Tick()
@@ -172,4 +181,25 @@ func NewRiverCache(ctx context.Context, URL string, log *report.Logger) (*RiverC
 	}()
 
 	return cache, nil
+}
+
+// Each calls f sequentially for each section. If f returns false, each stops the iteration.
+func (c *RiverCache) Each(f func(s Section) bool) {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+rangeLoop:
+	for _, s := range c.sectionMap {
+		if !f(s) {
+			break rangeLoop
+		}
+	}
+}
+
+// Count returns the number of sections available
+func (c *RiverCache) Count() int {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+	return len(c.sectionMap)
 }
