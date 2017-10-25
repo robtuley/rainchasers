@@ -143,6 +143,9 @@ func TestCacheAddGetEncodeDecode(t *testing.T) {
 	if stat.OldestReading.Seconds() != 0 {
 		t.Error("Empty cache oldest time mismatch", stat)
 	}
+	if cache.Count() != 0 {
+		t.Error("cache count expect 0 is ", cache.Count())
+	}
 
 	cache.Add(&stationAsnap1)
 	cache.Add(&stationBsnap1)
@@ -178,6 +181,9 @@ func TestCacheAddGetEncodeDecode(t *testing.T) {
 		}
 	}
 
+	if cache.Count() != 2 {
+		t.Error("cache count expect 0 is ", cache.Count())
+	}
 	stat = cache.Stats()
 	if stat.StationCount != 2 {
 		t.Error("Cache stat station count mismatch", stat)

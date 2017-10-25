@@ -98,6 +98,14 @@ func (c *Cache) Get(uuid string) (Snapshot, bool) {
 	return *cached, exists
 }
 
+// Count returns the number of stations
+func (c *Cache) Count() int {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+	return len(c.snapMap)
+}
+
 // Stats returns a collection of cache counts for monitoring telemetry
 func (c *Cache) Stats() CacheStats {
 	c.rwMutex.RLock()
