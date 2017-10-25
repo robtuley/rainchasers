@@ -29,10 +29,18 @@ const mapPostHTML = `
 			var item = RainchasersCatalogue[i];
 			var ll = new Microsoft.Maps.Location(item.lat, item.lng)
 			var pp = new Microsoft.Maps.Pushpin(ll, { 
+				color: (item.type=='R'?'red':'blue'),
 				text: item.type, 
-				title: item.name, 
-				subTitle: item.url });
+				title: item.name });
+			pp.url = item.url
+			Microsoft.Maps.Events.addHandler(pp, 'click', pushpinClicked);
 			map.entities.push(pp);
+		}
+
+		function pushpinClicked(e) {
+			if (e.target.url) {
+				window.open(e.target.url, '_blank');
+			}
 		}
 	}
 	</script>
