@@ -39,9 +39,7 @@ func (h *Handler) Export(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) API(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.URL.Path == "/":
-		h.Docs(w, r)
-	case r.URL.Path == "/catalogue":
-		h.Catalogue(w, r)
+		h.Explore(w, r)
 	case r.URL.Path == "/events":
 		w.Write([]byte("event stream"))
 	default:
@@ -49,17 +47,10 @@ func (h *Handler) API(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Docs handles public data API documentation
-func (h *Handler) Docs(w http.ResponseWriter, r *http.Request) {
+// Explore handles public data API documentation
+func (h *Handler) Explore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(`
-<html>
-<head>
- <title>Rainchasers Data</title>
-</head>
-<body>
- <p>This is the documentation/explore area		
-	`))
+	writeCatalogueHTML(h, w)
 }
 
 // UUID responds with a single entity
@@ -72,31 +63,4 @@ func (h *Handler) UUID(uuid string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	enc := json.NewEncoder(w)
 	enc.Encode(s)
-}
-
-// Catalogue responds with full point catalogue
-func (h *Handler) Catalogue(w http.ResponseWriter, r *http.Request) {
-	type point struct {
-		UUID string  `json:"uuid"`
-		Name string  `json:"name"`
-		URL  string  `json:"url"`
-		Lat  float32 `json:"lat"`
-		Lng  float32 `json:"lng"`
-	}
-
-	pts := make([]point, 0, h.Rivers.Count())
-	h.Rivers.Each(func(s Section) bool {
-		pts = append(pts, point{
-			UUID: s.UUID,
-			Name: s.SectionName + ", " + s.RiverName,
-			URL:  "todo",
-			Lat:  s.Putin.Lat,
-			Lng:  s.Putin.Lng,
-		})
-		return true
-	})
-
-	w.Header().Set("Content-Type", "application/json")
-	enc := json.NewEncoder(w)
-	enc.Encode(pts)
 }
