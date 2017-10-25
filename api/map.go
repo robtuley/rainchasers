@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"io"
+
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 const mapPreHTML = `<!DOCTYPE html>
@@ -27,7 +29,7 @@ const mapPostHTML = `
 			var item = RainchasersCatalogue[i];
 			var ll = new Microsoft.Maps.Location(item.lat, item.lng)
 			var pp = new Microsoft.Maps.Pushpin(ll, { 
-				text: 'R', 
+				text: item.type, 
 				title: item.name, 
 				subTitle: item.url });
 			map.entities.push(pp);
@@ -42,6 +44,7 @@ func writeCatalogueHTML(h *Handler, w io.Writer) error {
 	w.Write([]byte(mapPreHTML))
 
 	type point struct {
+		Type string  `json:"type"`
 		UUID string  `json:"uuid"`
 		Name string  `json:"name"`
 		URL  string  `json:"url"`
@@ -49,14 +52,26 @@ func writeCatalogueHTML(h *Handler, w io.Writer) error {
 		Lng  float32 `json:"lng"`
 	}
 
-	pts := make([]point, 0, h.Rivers.Count())
+	pts := make([]point, 0, h.Rivers.Count()+h.Gauge.Count())
 	h.Rivers.Each(func(s Section) bool {
 		pts = append(pts, point{
+			Type: "R",
 			UUID: s.UUID,
 			Name: s.SectionName + ", " + s.RiverName,
 			URL:  "todo",
 			Lat:  s.Putin.Lat,
 			Lng:  s.Putin.Lng,
+		})
+		return true
+	})
+	h.Gauge.Each(func(s *gauge.Snapshot) bool {
+		pts = append(pts, point{
+			Type: "G",
+			UUID: s.Station.UUID(),
+			Name: s.Station.Name,
+			URL:  s.Station.HumanURL,
+			Lat:  s.Station.Lat,
+			Lng:  s.Station.Lg,
 		})
 		return true
 	})

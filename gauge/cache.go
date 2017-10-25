@@ -106,6 +106,19 @@ func (c *Cache) Count() int {
 	return len(c.snapMap)
 }
 
+// Each calls f sequentially for each snapshot. If f returns false, each stops the iteration.
+func (c *Cache) Each(f func(s *Snapshot) bool) {
+	c.rwMutex.RLock()
+	defer c.rwMutex.RUnlock()
+
+rangeLoop:
+	for _, s := range c.snapMap {
+		if !f(s) {
+			break rangeLoop
+		}
+	}
+}
+
 // Stats returns a collection of cache counts for monitoring telemetry
 func (c *Cache) Stats() CacheStats {
 	c.rwMutex.RLock()
