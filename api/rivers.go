@@ -40,20 +40,33 @@ type Grade struct {
 	Max     *float32 `json:"max"`
 }
 
-// Section is a paddleable river section
-type Section struct {
-	UUID        string  `json:"uuid"`
-	SectionName string  `json:"section"`
-	RiverName   string  `json:"river"`
-	KM          float32 `json:"km"`
-	Grade       Grade   `json:"grade"`
-	Putin       LatLng  `json:"putin"`
-	Takeout     LatLng  `json:"takeout"`
-	Description string  `json:"desc"`
-	Directions  string  `json:"directions"`
+// Calibration is a referenced gauge related to a section
+type Calibration struct {
+	Reference   string   `json:"ref"`
+	Description string   `json:"desc"`
+	Scrape      *float64 `json:"scrape"`
+	Low         *float64 `json:"low"`
+	Medium      *float64 `json:"medium"`
+	High        *float64 `json:"high"`
+	Huge        *float64 `json:"huge"`
+	TooHigh     *float64 `json:"toohigh"`
 }
 
-// CatalogueJSON is the JSOn format to download the river catalogue
+// Section is a paddleable river section
+type Section struct {
+	UUID        string        `json:"uuid"`
+	SectionName string        `json:"section"`
+	RiverName   string        `json:"river"`
+	KM          float32       `json:"km"`
+	Grade       Grade         `json:"grade"`
+	Putin       LatLng        `json:"putin"`
+	Takeout     LatLng        `json:"takeout"`
+	Description string        `json:"desc"`
+	Directions  string        `json:"directions"`
+	Gauges      []Calibration `json:"gauge"`
+}
+
+// CatalogueJSON is the JSON format to download the river catalogue
 type CatalogueJSON struct {
 	Version  string    `json:"version"`
 	Sections []Section `json:"rivers"`
