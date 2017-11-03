@@ -98,7 +98,7 @@ func run() error {
 	}()
 
 	// create gauge in-memory cache
-	gaugeCache := gauge.NewCache(ctx, 36*time.Hour)
+	gaugeCache := gauge.NewCache(ctx, 12*time.Hour)
 
 	// subscribe to gauge snapshot topic to populate gauge cache
 	var counter uint64
@@ -168,8 +168,6 @@ func run() error {
 		IsReady: false,
 	}
 	go func() {
-		doneC := bootstrapGaugeCache(selfURL, gaugeCache, log)
-
 		var err error
 		url := "https://app.rainchasers.com/catalogue.json"
 		h.Rivers, err = NewRiverCache(ctx, url, log)
@@ -181,7 +179,15 @@ func run() error {
 			return
 		}
 
-		<-doneC
+		h.Rivers.Each(func(s Section) bool {
+			for _, c := range s.Gauges {
+				uuid := gauge.Station{DataURL: c.Reference}.UUID()
+				gaugeCache.ChangeRetention(uuid, 3*24*time.Hour)
+			}
+			return true
+		})
+
+		<-bootstrapGaugeCache(selfURL, gaugeCache, log)
 		h.IsReady = true
 	}()
 

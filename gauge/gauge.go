@@ -19,7 +19,7 @@ type Station struct {
 }
 
 // UUID provides a deterministic valid version 4 UUID based on the data URL
-func (s *Station) UUID() string {
+func (s Station) UUID() string {
 	b := sha1.Sum([]byte(s.DataURL))
 	b[6] = (b[6] & 0x0f) | 0x40
 	b[8] = (b[8] & 0x3f) | 0x80
