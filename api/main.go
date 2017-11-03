@@ -187,7 +187,7 @@ func run() error {
 			return true
 		})
 
-		<-bootstrapGaugeCache(selfURL, gaugeCache, log)
+		bootstrapGaugeCache(selfURL, gaugeCache, log)
 		h.IsReady = true
 	}()
 
