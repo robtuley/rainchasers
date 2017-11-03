@@ -37,19 +37,19 @@ type LatLng struct {
 type Grade struct {
 	Human   string   `json:"text"`
 	Average float32  `json:"value"`
-	Max     *float32 `json:"max"`
+	Max     *float32 `json:"max,omitempty"`
 }
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
 	Reference   string   `json:"ref"`
 	Description string   `json:"desc"`
-	Scrape      *float64 `json:"scrape"`
-	Low         *float64 `json:"low"`
-	Medium      *float64 `json:"medium"`
-	High        *float64 `json:"high"`
-	Huge        *float64 `json:"huge"`
-	TooHigh     *float64 `json:"toohigh"`
+	Scrape      *float64 `json:"scrape,omitempty"`
+	Low         *float64 `json:"low,omitempty"`
+	Medium      *float64 `json:"medium,omitempty"`
+	High        *float64 `json:"high,omitempty"`
+	Huge        *float64 `json:"huge,omitempty"`
+	TooHigh     *float64 `json:"toohigh,omitempty"`
 }
 
 // Section is a paddleable river section
