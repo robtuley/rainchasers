@@ -42,14 +42,14 @@ type Grade struct {
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	Reference   string   `json:"ref"`
+	DataURL     string   `json:"data_url"`
 	Description string   `json:"desc"`
-	Scrape      *float64 `json:"scrape,omitempty"`
-	Low         *float64 `json:"low,omitempty"`
-	Medium      *float64 `json:"medium,omitempty"`
-	High        *float64 `json:"high,omitempty"`
-	Huge        *float64 `json:"huge,omitempty"`
-	TooHigh     *float64 `json:"toohigh,omitempty"`
+	Scrape      *float32 `json:"scrape,omitempty"`
+	Low         *float32 `json:"low,omitempty"`
+	Medium      *float32 `json:"medium,omitempty"`
+	High        *float32 `json:"high,omitempty"`
+	Huge        *float32 `json:"huge,omitempty"`
+	TooHigh     *float32 `json:"toohigh,omitempty"`
 }
 
 // Section is a paddleable river section
@@ -63,7 +63,7 @@ type Section struct {
 	Takeout     LatLng        `json:"takeout"`
 	Description string        `json:"desc"`
 	Directions  string        `json:"directions"`
-	Gauges      []Calibration `json:"gauge"`
+	Measures    []Calibration `json:"measures"`
 }
 
 // CatalogueJSON is the JSON format to download the river catalogue

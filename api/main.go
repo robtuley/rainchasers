@@ -180,9 +180,8 @@ func run() error {
 		}
 
 		h.Rivers.Each(func(s Section) bool {
-			for _, c := range s.Gauges {
-				uuid := gauge.Station{DataURL: c.Reference}.UUID()
-				gaugeCache.ChangeRetention(uuid, 3*24*time.Hour)
+			for _, c := range s.Measures {
+				gaugeCache.ChangeRetention(c.DataURL, 3*24*time.Hour)
 			}
 			return true
 		})

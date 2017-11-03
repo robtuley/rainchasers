@@ -73,17 +73,17 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 }
 
 // ChangeRetention changes the retention period for a particular station
-func (c *Cache) ChangeRetention(uuid string, retention time.Duration) {
+func (c *Cache) ChangeRetention(dataURL string, retention time.Duration) {
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
-	c.customRetention[uuid] = retention
+	c.customRetention[dataURL] = retention
 	return
 }
 
 // retentionInLock is a helper method to get configured retention once in a locked state
-func (c *Cache) retentionInLock(uuid string) time.Duration {
-	r, ok := c.customRetention[uuid]
+func (c *Cache) retentionInLock(dataURL string) time.Duration {
+	r, ok := c.customRetention[dataURL]
 	if !ok {
 		return c.defaultRetention
 	}
@@ -97,7 +97,8 @@ func (c *Cache) Add(s *Snapshot) {
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
-	removeOlderThan(time.Now().Add(-1*c.retentionInLock(uuid)), &s.Readings)
+	retention := c.retentionInLock(s.Station.DataURL)
+	removeOlderThan(time.Now().Add(-1*retention), &s.Readings)
 	item, exists := c.snapMap[uuid]
 	if !exists {
 		item = &Snapshot{
@@ -185,7 +186,7 @@ func (c *Cache) purge() {
 	defer c.rwMutex.Unlock()
 
 	for k := range c.snapMap {
-		r := c.retentionInLock(c.snapMap[k].Station.UUID())
+		r := c.retentionInLock(c.snapMap[k].Station.DataURL)
 		removeOlderThan(time.Now().Add(-1*r), &c.snapMap[k].Readings)
 	}
 }
