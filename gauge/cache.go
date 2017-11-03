@@ -10,9 +10,10 @@ import (
 
 // Cache is an in-memory cache of gauge stations and recent measurements
 type Cache struct {
-	snapMap   map[string]*Snapshot
-	rwMutex   *sync.RWMutex
-	retention time.Duration
+	snapMap          map[string]*Snapshot
+	rwMutex          *sync.RWMutex
+	defaultRetention time.Duration
+	customRetention  map[string]time.Duration
 }
 
 // CacheStats is a collection of cache counts for monitoring telemetry
@@ -41,16 +42,17 @@ func (rs readingSorter) Less(i, j int) bool {
 // NewCache creates a new (empty) Cache
 func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	cache := Cache{
-		snapMap:   make(map[string]*Snapshot),
-		rwMutex:   &sync.RWMutex{},
-		retention: retention,
+		snapMap:          make(map[string]*Snapshot),
+		rwMutex:          &sync.RWMutex{},
+		defaultRetention: retention,
+		customRetention:  make(map[string]time.Duration),
 	}
 
 	// spawn routine to regularly purge cache
 	go func() {
 		interval := time.Hour
-		if cache.retention < interval {
-			interval = cache.retention
+		if cache.defaultRetention < interval {
+			interval = cache.defaultRetention
 		}
 
 		ticker := time.NewTicker(interval)
@@ -70,14 +72,32 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	return &cache
 }
 
+// ChangeRetention changes the retention period for a particular station
+func (c *Cache) ChangeRetention(uuid string, retention time.Duration) {
+	c.rwMutex.Lock()
+	defer c.rwMutex.Unlock()
+
+	c.customRetention[uuid] = retention
+	return
+}
+
+// retentionInLock is a helper method to get configured retention once in a locked state
+func (c *Cache) retentionInLock(uuid string) time.Duration {
+	r, ok := c.customRetention[uuid]
+	if !ok {
+		return c.defaultRetention
+	}
+	return r
+}
+
 // Add includes the provided Snapshot in the cached dataset
 func (c *Cache) Add(s *Snapshot) {
 	uuid := s.Station.UUID()
-	removeOlderThan(time.Now().Add(-1*c.retention), &s.Readings)
 
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
+	removeOlderThan(time.Now().Add(-1*c.retentionInLock(uuid)), &s.Readings)
 	item, exists := c.snapMap[uuid]
 	if !exists {
 		item = &Snapshot{
@@ -165,7 +185,8 @@ func (c *Cache) purge() {
 	defer c.rwMutex.Unlock()
 
 	for k := range c.snapMap {
-		removeOlderThan(time.Now().Add(-1*c.retention), &c.snapMap[k].Readings)
+		r := c.retentionInLock(c.snapMap[k].Station.UUID())
+		removeOlderThan(time.Now().Add(-1*r), &c.snapMap[k].Readings)
 	}
 }
 
