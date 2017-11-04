@@ -43,7 +43,7 @@ func (h *Handler) API(w http.ResponseWriter, r *http.Request) {
 	case r.URL.Path == "/events":
 		w.Write([]byte("event stream"))
 	default:
-		h.UUID(strings.Trim(r.URL.Path, "/"), w, r)
+		h.UUID(w, r)
 	}
 }
 
@@ -54,7 +54,9 @@ func (h *Handler) Explore(w http.ResponseWriter, r *http.Request) {
 }
 
 // UUID responds with a single entity
-func (h *Handler) UUID(uuid string, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UUID(w http.ResponseWriter, r *http.Request) {
+	uuid := strings.Trim(r.URL.Path, "/")
+
 	s, ok := h.Rivers.Load(uuid)
 	if !ok {
 		http.NotFound(w, r)

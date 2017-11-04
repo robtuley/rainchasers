@@ -116,7 +116,10 @@ func (c *Cache) Load(dataURL string) (Snapshot, bool) {
 	defer c.rwMutex.RUnlock()
 
 	cached, exists := c.snapMap[dataURL]
-	return *cached, exists
+	if exists {
+		return *cached, exists
+	}
+	return Snapshot{}, false
 }
 
 // Count returns the number of stations
