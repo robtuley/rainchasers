@@ -92,7 +92,7 @@ func TestRemoveOlderThan(t *testing.T) {
 	}
 }
 
-func TestCacheAddGetEncodeDecode(t *testing.T) {
+func TestCacheAddLoadEncodeDecode(t *testing.T) {
 	timestamp := time.Now()
 
 	r1 := Reading{
@@ -151,9 +151,9 @@ func TestCacheAddGetEncodeDecode(t *testing.T) {
 	cache.Add(&stationBsnap1)
 	cache.Add(&stationAsnap2)
 
-	stationAresult, exists := cache.Get(stationA.UUID())
+	stationAresult, exists := cache.Load(stationA.DataURL)
 	if !exists {
-		t.Error("Station A uncached", stationA.UUID())
+		t.Error("Station A uncached", stationA.DataURL)
 	} else {
 		if !reflect.DeepEqual(stationAresult.Station, stationA) {
 			t.Error("Station mismatch for A", stationAresult.Station)
@@ -166,9 +166,9 @@ func TestCacheAddGetEncodeDecode(t *testing.T) {
 		}
 	}
 
-	stationBresult, exists := cache.Get(stationB.UUID())
+	stationBresult, exists := cache.Load(stationB.DataURL)
 	if !exists {
-		t.Error("Station B uncached", stationB.UUID())
+		t.Error("Station B uncached", stationB.DataURL)
 	} else {
 		if !reflect.DeepEqual(stationBresult.Station, stationB) {
 			t.Error("Station mismatch for B", stationBresult.Station)

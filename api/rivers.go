@@ -9,23 +9,12 @@ import (
 	"sync"
 	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+
 	"github.com/rainchasers/report"
 )
 
-//  Catalogue from https://app.rainchasers.com/catalogue.json like:
-//  { version: "v138",
-//    rivers: [ {
-//	    uuid: "14be0011-a293-4e0d-89df-c0216cf9fe5e",
-//	    river: "Aeron",
-//	    section: "Cilau Aeron to Aberaeron",
-//	    km: 9,
-//	    grade: {"text":"2/3","value":2.5,"max":null},
-//	    putin: {"lat":52.2151638,"lng":-4.197429},
-//	    takeout: {"lat":52.2436576,"lng":-4.2644627},
-//	    desc: "Good training run ...",
-//	    directions: "The takeout is at ..."
-//    }, { ... etc ... } ]
-//  }
+//  Catalogue from https://app.rainchasers.com/catalogue.json
 
 // LatLng is a geographic location
 type LatLng struct {
@@ -42,14 +31,15 @@ type Grade struct {
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	DataURL     string   `json:"data_url"`
-	Description string   `json:"desc"`
-	Scrape      *float32 `json:"scrape,omitempty"`
-	Low         *float32 `json:"low,omitempty"`
-	Medium      *float32 `json:"medium,omitempty"`
-	High        *float32 `json:"high,omitempty"`
-	Huge        *float32 `json:"huge,omitempty"`
-	TooHigh     *float32 `json:"toohigh,omitempty"`
+	DataURL     string          `json:"data_url"`
+	Description string          `json:"desc"`
+	Scrape      *float32        `json:"scrape,omitempty"`
+	Low         *float32        `json:"low,omitempty"`
+	Medium      *float32        `json:"medium,omitempty"`
+	High        *float32        `json:"high,omitempty"`
+	Huge        *float32        `json:"huge,omitempty"`
+	TooHigh     *float32        `json:"toohigh,omitempty"`
+	Snapshot    *gauge.Snapshot `json:"gauge,omitempty"`
 }
 
 // Section is a paddleable river section

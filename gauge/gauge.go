@@ -8,14 +8,14 @@ import (
 
 // Station is a specific location that can measure one or more metrics
 type Station struct {
-	DataURL   string
-	HumanURL  string
-	Name      string
-	RiverName string
-	Lat       float32
-	Lg        float32
-	Type      string
-	Unit      string
+	DataURL   string  `json:"data_url"`
+	HumanURL  string  `json:"human_url"`
+	Name      string  `json:"name"`
+	RiverName string  `json:"river"`
+	Lat       float32 `json:"lat"`
+	Lg        float32 `json:"lng"`
+	Type      string  `json:"type"`
+	Unit      string  `json:"unit"`
 }
 
 // UUID provides a deterministic valid version 4 UUID based on the data URL
@@ -28,13 +28,13 @@ func (s Station) UUID() string {
 
 // Reading is a point-in-time river gauge metric measurement
 type Reading struct {
-	EventTime time.Time
-	Value     float32
+	EventTime time.Time `json:"time"`
+	Value     float32   `json:"value"`
 }
 
 // Snapshot is a set of measurements for a particular gauge station
 type Snapshot struct {
-	Station        Station
-	Readings       []Reading
-	ProcessingTime time.Time
+	Station        Station   `json:"station"`
+	Readings       []Reading `json:"readings"`
+	ProcessingTime time.Time `json:"processed_time"`
 }

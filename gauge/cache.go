@@ -92,30 +92,30 @@ func (c *Cache) retentionInLock(dataURL string) time.Duration {
 
 // Add includes the provided Snapshot in the cached dataset
 func (c *Cache) Add(s *Snapshot) {
-	uuid := s.Station.UUID()
+	key := s.Station.DataURL
 
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
 	retention := c.retentionInLock(s.Station.DataURL)
 	removeOlderThan(time.Now().Add(-1*retention), &s.Readings)
-	item, exists := c.snapMap[uuid]
+	item, exists := c.snapMap[key]
 	if !exists {
 		item = &Snapshot{
 			Station: s.Station,
 		}
-		c.snapMap[uuid] = item
+		c.snapMap[key] = item
 	}
 	item.Readings = concat(item.Readings, s.Readings)
 	item.ProcessingTime = time.Now()
 }
 
-// Get retrieves the cached Snapshot of a particular station if available
-func (c *Cache) Get(uuid string) (Snapshot, bool) {
+// Load retrieves the cached Snapshot of a particular station if available
+func (c *Cache) Load(dataURL string) (Snapshot, bool) {
 	c.rwMutex.RLock()
 	defer c.rwMutex.RUnlock()
 
-	cached, exists := c.snapMap[uuid]
+	cached, exists := c.snapMap[dataURL]
 	return *cached, exists
 }
 

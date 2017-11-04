@@ -60,6 +60,14 @@ func (h *Handler) UUID(uuid string, w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+
+	for k := range s.Measures {
+		g, ok := h.Gauge.Load(s.Measures[k].DataURL)
+		if ok {
+			s.Measures[k].Snapshot = &g
+		}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	enc := json.NewEncoder(w)
 	enc.Encode(s)
