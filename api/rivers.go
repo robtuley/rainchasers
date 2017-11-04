@@ -53,7 +53,7 @@ type Section struct {
 	Takeout     LatLng        `json:"takeout"`
 	Description string        `json:"desc"`
 	Directions  string        `json:"directions"`
-	Measures    []Calibration `json:"measures"`
+	Measures    []Calibration `json:"measures,omitempty"`
 }
 
 // CatalogueJSON is the JSON format to download the river catalogue

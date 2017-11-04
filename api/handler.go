@@ -69,6 +69,8 @@ func (h *Handler) UUID(uuid string, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	enc := json.NewEncoder(w)
-	enc.Encode(s)
+	err := json.NewEncoder(w).Encode(s)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
 }
