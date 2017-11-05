@@ -67,6 +67,11 @@ func (h *Handler) UUID(w http.ResponseWriter, r *http.Request) {
 		g, ok := h.Gauge.Load(s.Measures[k].DataURL)
 		if ok {
 			s.Measures[k].Snapshot = &g
+		} else {
+			h.Log.Action("gauge.cache.miss", report.Data{
+				"river_uuid": uuid,
+				"data_url":   s.Measures[k].DataURL,
+			})
 		}
 	}
 
