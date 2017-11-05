@@ -77,7 +77,7 @@ func writeCatalogueHTML(h *Handler, w io.Writer) error {
 			Type: "G",
 			UUID: s.Station.UUID(),
 			Name: s.Station.Name,
-			URL:  s.Station.HumanURL,
+			URL:  s.Station.DataURL,
 			Lat:  s.Station.Lat,
 			Lng:  s.Station.Lg,
 		})
