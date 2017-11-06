@@ -33,9 +33,9 @@ compile:
 
 test:
   pre:
-    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go vet $(go list ./... | grep -v /vendor/ | grep -v /bigquery)
+    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go vet $(go list ./... | grep -v /vendor/)
   override:
-    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go test $(go list ./... | grep -v /vendor/ | grep -v /bigquery)
+    - cd $HOME/.go_workspace/src/github.com/rainchasers/com.rainchasers.gauge && go test $(go list ./... | grep -v /vendor/)
     - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/latest:v$CIRCLE_BUILD_NUM
     - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/sepa:v$CIRCLE_BUILD_NUM
     - docker run eu.gcr.io/tuleyprod/com.rainchasers.gauge/ea/history:v$CIRCLE_BUILD_NUM
