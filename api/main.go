@@ -169,9 +169,10 @@ func run() error {
 		IsReady: false,
 	}
 	go func() {
+		// load river catalogue
 		var err error
 		url := "https://app.rainchasers.com/catalogue.json"
-		h.Rivers, err = NewRiverCache(ctx, url, log)
+		h.Rivers, err = NewRiverCache(ctx, url)
 		if err != nil {
 			<-log.Action("daemon.stopped.rivercache", report.Data{
 				"error": err.Error(),
@@ -179,14 +180,41 @@ func run() error {
 			shutdown()
 			return
 		}
-
-		h.Rivers.Each(func(s Section) bool {
+		extendRetention := func(s Section) bool {
 			for _, c := range s.Measures {
 				gaugeCache.ChangeRetention(c.DataURL, 3*24*time.Hour)
 			}
 			return true
-		})
+		}
+		h.Rivers.Each(extendRetention)
 
+		// poll for river content updates
+		go func() {
+			ticker := time.NewTicker(60 * time.Second)
+		updateThenWait:
+			for {
+				select {
+				case <-ticker.C:
+				case <-ctx.Done():
+					break updateThenWait
+				}
+
+				isChanged, err := h.Rivers.Update()
+				if err != nil {
+					log.Action("river.cache.error", report.Data{"error": err.Error()})
+					continue
+				}
+				if isChanged {
+					log.Action("river.cache.changed", report.Data{
+						"version": h.Rivers.Version,
+					})
+					h.Rivers.Each(extendRetention)
+				}
+			}
+			ticker.Stop()
+		}()
+
+		// download gauge cache from another running process
 		bootstrapGaugeCache(selfURL, gaugeCache, log)
 		h.IsReady = true
 	}()

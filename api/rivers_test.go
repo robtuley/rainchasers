@@ -3,19 +3,15 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
 	"testing"
-
-	"github.com/rainchasers/report"
 )
 
 func TestRiverCacheCreationFromCatalogueURL(t *testing.T) {
 	url := "https://app.rainchasers.com/catalogue.json"
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	log := report.New(ioutil.Discard, report.Data{})
 
-	cache, err := NewRiverCache(ctx, url, log)
+	cache, err := NewRiverCache(ctx, url)
 	if err != nil {
 		if e, ok := err.(*json.SyntaxError); ok {
 			t.Log("syntax error at byte offset", e.Offset)
@@ -29,7 +25,7 @@ func TestRiverCacheCreationFromCatalogueURL(t *testing.T) {
 		t.Fatal("No sections!")
 	}
 
-	_, err = NewRiverCache(ctx, "https://app.rainchasers.com/a404.json", log)
+	_, err = NewRiverCache(ctx, "https://app.rainchasers.com/a404.json")
 	if err == nil {
 		t.Fatal("No error despite 404 URL")
 	}

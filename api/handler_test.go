@@ -16,8 +16,7 @@ func TestUUIDHandlerRespondsWithSectionAndMeasures(t *testing.T) {
 	url := "https://app.rainchasers.com/catalogue.json"
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	log := report.New(ioutil.Discard, report.Data{})
-	riverCache, err := NewRiverCache(ctx, url, log)
+	riverCache, err := NewRiverCache(ctx, url)
 	if err != nil {
 		t.Fatal(err)
 	}
