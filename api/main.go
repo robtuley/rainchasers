@@ -150,6 +150,7 @@ func run() error {
 			stat := gaugeCache.Stats()
 			log.Info("cache.counts", report.Data{
 				"station":         stat.StationCount,
+				"station_active":  stat.CustomRetentionCount,
 				"all_reading":     stat.AllReadingCount,
 				"max_reading":     stat.MaxReadingCount,
 				"min_reading":     stat.MinReadingCount,

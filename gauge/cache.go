@@ -18,11 +18,12 @@ type Cache struct {
 
 // CacheStats is a collection of cache counts for monitoring telemetry
 type CacheStats struct {
-	StationCount    int
-	AllReadingCount int
-	MaxReadingCount int
-	MinReadingCount int
-	OldestReading   time.Duration
+	StationCount         int
+	CustomRetentionCount int
+	AllReadingCount      int
+	MaxReadingCount      int
+	MinReadingCount      int
+	OldestReading        time.Duration
 }
 
 type readingSorter []Reading
@@ -172,10 +173,11 @@ func (c *Cache) Stats() CacheStats {
 		min = 0
 	}
 	status := CacheStats{
-		StationCount:    len(c.snapMap),
-		AllReadingCount: all,
-		MaxReadingCount: max,
-		MinReadingCount: min,
+		StationCount:         len(c.snapMap),
+		CustomRetentionCount: len(c.customRetention),
+		AllReadingCount:      all,
+		MaxReadingCount:      max,
+		MinReadingCount:      min,
 	}
 	if !oldest.IsZero() {
 		status.OldestReading = time.Now().Sub(oldest)
