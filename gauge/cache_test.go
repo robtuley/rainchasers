@@ -92,7 +92,7 @@ func TestRemoveOlderThan(t *testing.T) {
 	}
 }
 
-func TestCacheAddLoadEncodeDecode(t *testing.T) {
+func TestCacheAddLoadObserveEncodeDecode(t *testing.T) {
 	timestamp := time.Now()
 
 	r1 := Reading{
@@ -135,6 +135,7 @@ func TestCacheAddLoadEncodeDecode(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	cache := NewCache(ctx, time.Hour)
+	snapC := cache.Observe(stationA.DataURL, 2*time.Hour)
 
 	stat := cache.Stats()
 	if stat.StationCount != 0 || stat.MaxReadingCount != 0 || stat.MinReadingCount != 0 {
@@ -148,6 +149,14 @@ func TestCacheAddLoadEncodeDecode(t *testing.T) {
 	}
 
 	cache.Add(&stationAsnap1)
+	observedStationASnap1 := <-snapC
+	if !reflect.DeepEqual(observedStationASnap1.Station, stationAsnap1.Station) {
+		t.Fatal("Mismatched observed and input station", observedStationASnap1.Station)
+	}
+	if !reflect.DeepEqual(observedStationASnap1.Readings, stationAsnap1.Readings) {
+		t.Fatal("Mismatched observed and input readings", observedStationASnap1.Readings)
+	}
+
 	cache.Add(&stationBsnap1)
 	cache.Add(&stationAsnap2)
 
@@ -188,6 +197,9 @@ func TestCacheAddLoadEncodeDecode(t *testing.T) {
 	if stat.StationCount != 2 {
 		t.Error("Cache stat station count mismatch", stat)
 	}
+	if stat.ObservedStationCount != 1 {
+		t.Error("Cache stat observed station mis-match", stat)
+	}
 	if stat.AllReadingCount != 5 {
 		t.Error("Cache stat all reading count mismatch", stat)
 	}
@@ -211,6 +223,7 @@ func TestCacheAddLoadEncodeDecode(t *testing.T) {
 		t.Error(err.Error())
 	}
 	statDecoded := cacheDecoded.Stats()
+	statDecoded.ObservedStationCount = stat.ObservedStationCount
 	statDecoded.OldestReading = stat.OldestReading
 	if !reflect.DeepEqual(stat, statDecoded) {
 		t.Error("Decoded cache mismatch", stat, statDecoded)

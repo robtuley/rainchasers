@@ -149,13 +149,13 @@ func run() error {
 
 			stat := gaugeCache.Stats()
 			log.Info("cache.counts", report.Data{
-				"station":         stat.StationCount,
-				"station_active":  stat.CustomRetentionCount,
-				"all_reading":     stat.AllReadingCount,
-				"max_reading":     stat.MaxReadingCount,
-				"min_reading":     stat.MinReadingCount,
-				"max_age_seconds": stat.OldestReading.Seconds(),
-				"added":           atomic.LoadUint64(&counter),
+				"station":          stat.StationCount,
+				"station_observed": stat.ObservedStationCount,
+				"all_reading":      stat.AllReadingCount,
+				"max_reading":      stat.MaxReadingCount,
+				"min_reading":      stat.MinReadingCount,
+				"max_age_seconds":  stat.OldestReading.Seconds(),
+				"added":            atomic.LoadUint64(&counter),
 			})
 			atomic.StoreUint64(&counter, 0)
 		}
@@ -180,13 +180,13 @@ func run() error {
 			shutdown()
 			return
 		}
-		extendRetention := func(s Section) bool {
+		observeGauges := func(s Section) bool {
 			for _, c := range s.Measures {
-				gaugeCache.ChangeRetention(c.DataURL, 3*24*time.Hour)
+				gaugeCache.Observe(c.DataURL, 3*24*time.Hour)
 			}
 			return true
 		}
-		h.Rivers.Each(extendRetention)
+		h.Rivers.Each(observeGauges)
 
 		// poll for river content updates
 		go func() {
@@ -208,7 +208,7 @@ func run() error {
 					log.Action("river.cache.changed", report.Data{
 						"version": h.Rivers.Version,
 					})
-					h.Rivers.Each(extendRetention)
+					h.Rivers.Each(observeGauges)
 				}
 			}
 			ticker.Stop()

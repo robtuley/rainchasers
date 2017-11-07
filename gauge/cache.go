@@ -14,12 +14,13 @@ type Cache struct {
 	rwMutex          *sync.RWMutex
 	defaultRetention time.Duration
 	customRetention  map[string]time.Duration
+	observers        map[string][]chan Snapshot
 }
 
 // CacheStats is a collection of cache counts for monitoring telemetry
 type CacheStats struct {
 	StationCount         int
-	CustomRetentionCount int
+	ObservedStationCount int
 	AllReadingCount      int
 	MaxReadingCount      int
 	MinReadingCount      int
@@ -47,6 +48,7 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 		rwMutex:          &sync.RWMutex{},
 		defaultRetention: retention,
 		customRetention:  make(map[string]time.Duration),
+		observers:        make(map[string][]chan Snapshot),
 	}
 
 	// spawn routine to regularly purge cache
@@ -73,13 +75,26 @@ func NewCache(ctx context.Context, retention time.Duration) *Cache {
 	return &cache
 }
 
-// ChangeRetention changes the retention period for a particular station
-func (c *Cache) ChangeRetention(dataURL string, retention time.Duration) {
+// Observe creates a channel to observe gauge changes with a minimum retention
+func (c *Cache) Observe(dataURL string, minRetention time.Duration) <-chan Snapshot {
+	snapC := make(chan Snapshot, 1)
+
 	c.rwMutex.Lock()
 	defer c.rwMutex.Unlock()
 
-	c.customRetention[dataURL] = retention
-	return
+	r := c.retentionInLock(dataURL)
+	if r < minRetention {
+		c.customRetention[dataURL] = minRetention
+	}
+
+	o, exists := c.observers[dataURL]
+	if !exists {
+		c.observers[dataURL] = []chan Snapshot{snapC}
+	} else {
+		c.observers[dataURL] = append(o, snapC)
+	}
+
+	return snapC
 }
 
 // retentionInLock is a helper method to get configured retention once in a locked state
@@ -93,22 +108,46 @@ func (c *Cache) retentionInLock(dataURL string) time.Duration {
 
 // Add includes the provided Snapshot in the cached dataset
 func (c *Cache) Add(s *Snapshot) {
-	key := s.Station.DataURL
+	dataURL := s.Station.DataURL
+	var isObserved bool
+	var observableSnap Snapshot
 
 	c.rwMutex.Lock()
-	defer c.rwMutex.Unlock()
+	{
+		retention := c.retentionInLock(dataURL)
+		removeOlderThan(time.Now().Add(-1*retention), &s.Readings)
 
-	retention := c.retentionInLock(s.Station.DataURL)
-	removeOlderThan(time.Now().Add(-1*retention), &s.Readings)
-	item, exists := c.snapMap[key]
-	if !exists {
-		item = &Snapshot{
-			Station: s.Station,
+		item, exists := c.snapMap[dataURL]
+		if !exists {
+			item = &Snapshot{
+				Station: s.Station,
+			}
+			c.snapMap[dataURL] = item
 		}
-		c.snapMap[key] = item
+		item.Readings = concat(item.Readings, s.Readings)
+		item.ProcessingTime = time.Now()
+
+		_, isObserved = c.observers[dataURL]
+		if isObserved {
+			observableSnap = *item
+		}
 	}
-	item.Readings = concat(item.Readings, s.Readings)
-	item.ProcessingTime = time.Now()
+	c.rwMutex.Unlock()
+
+	if !isObserved {
+		return
+	}
+
+	c.rwMutex.RLock()
+	{
+		for _, snapC := range c.observers[dataURL] {
+			select {
+			case snapC <- observableSnap:
+			default:
+			}
+		}
+	}
+	c.rwMutex.RUnlock()
 }
 
 // Load retrieves the cached Snapshot of a particular station if available
@@ -174,7 +213,7 @@ func (c *Cache) Stats() CacheStats {
 	}
 	status := CacheStats{
 		StationCount:         len(c.snapMap),
-		CustomRetentionCount: len(c.customRetention),
+		ObservedStationCount: len(c.observers),
 		AllReadingCount:      all,
 		MaxReadingCount:      max,
 		MinReadingCount:      min,
