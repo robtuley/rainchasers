@@ -1,3 +1,5 @@
+# requires a substite variable of _DIR to specify the app to build
+# e.g. ea/latest
 steps:
   - name: "gcr.io/cloud-builders/go"
     args: ["vet", "./..."]
@@ -6,15 +8,10 @@ steps:
     args: ["test", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   - name: "gcr.io/cloud-builders/go"
-    args: ["build", "-o", "./deamon", "./ea/latest"]
+    args: ["build", "-o", "./deamon", "./${_DIR}"]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   - name: "gcr.io/cloud-builders/docker"
     args:
-      [
-        "build",
-        "-t",
-        "eu.gcr.io/$PROJECT_ID/gauge/ea/latest:${COMMIT_SHA}",
-        ".",
-      ]
+      ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
 images:
-  - "eu.gcr.io/$PROJECT_ID/gauge/ea/latest:${COMMIT_SHA}"
+  - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
