@@ -1,0 +1,7 @@
+steps:
+  - name: "gcr.io/cloud-builders/go"
+    args: ["vet", "./..."]
+    env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
+  - name: "gcr.io/cloud-builders/go"
+    args: ["test", "./..."]
+    env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
