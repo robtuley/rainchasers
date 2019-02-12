@@ -5,3 +5,16 @@ steps:
   - name: "gcr.io/cloud-builders/go"
     args: ["test", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
+  - name: "gcr.io/cloud-builders/go"
+    args: ["build", "-o", "./deamon", "./ea/latest"]
+    env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "eu.gcr.io/$PROJECT_ID/gauge/ea/latest:${COMMIT_SHA}",
+        ".",
+      ]
+images:
+  - "eu.gcr.io/$PROJECT_ID/gauge/ea/latest:${COMMIT_SHA}"
