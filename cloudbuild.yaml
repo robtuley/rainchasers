@@ -1,17 +1,22 @@
 # requires a substite variable of _DIR to specify the app to build
-# e.g. ea/latest
+# (e.g. ea/latest) and _DEPLOY for the actual k8s deployment name
 steps:
+  # code unit tests and linting
   - name: "gcr.io/cloud-builders/go"
     args: ["vet", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   - name: "gcr.io/cloud-builders/go"
     args: ["test", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
+  # compile static binary into lightweight docker container
   - name: "gcr.io/cloud-builders/go"
     args: ["build", "-o", "./deamon", "./${_DIR}"]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   - name: "gcr.io/cloud-builders/docker"
     args:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
+  # run with empty env vars the app is coded to perform a self-test
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["run", "-it", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
 images:
   - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
