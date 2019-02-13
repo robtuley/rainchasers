@@ -7,8 +7,7 @@ FROM scratch
 # SSL HTTP connections, import from latest alpine
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-# requires statically linked go binary:
-# CGO_ENABLED=0 go build -o ./deamon -a -installsuffix cgo -ldflags '-s' .
+# requires statically linked go binary
 COPY deamon /deamon
 
 ENTRYPOINT ["/deamon"]
