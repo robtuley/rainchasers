@@ -17,7 +17,7 @@ steps:
         "-tags",
         "netgo",
         "-ldflags",
-        "'-extldflags "-static"'",
+        '''-extldflags "-static"''',
         "-o",
         "./deamon",
         "./${_DIR}",
