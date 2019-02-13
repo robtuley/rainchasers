@@ -17,6 +17,6 @@ steps:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
   # run with empty env vars the app is coded to perform a self-test
   - name: "gcr.io/cloud-builders/docker"
-    args: ["run", "-it", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
+    args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
 images:
   - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
