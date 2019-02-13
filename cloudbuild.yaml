@@ -17,7 +17,7 @@ steps:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
   # app is coded to perform a self-test (check binary & docker file)
   - name: "alpine"
-    args: ["/workspace/deamon"]
+    args: ["./deamon"]
   - name: "gcr.io/cloud-builders/docker"
     args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
 images:
