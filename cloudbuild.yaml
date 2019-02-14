@@ -40,7 +40,7 @@ steps:
         "set",
         "image",
         "deployment/${_DEPLOY}",
-        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
+        "${_DEPLOY}=eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
       ]
     env:
       ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
