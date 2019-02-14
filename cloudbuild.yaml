@@ -10,8 +10,23 @@ steps:
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   # compile static binary into lightweight docker container
   - name: "gcr.io/cloud-builders/go"
-    args: ["install", "-o", "./deamon", "./${_DIR}"]
-    env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
+    args:
+      [
+        "install",
+        "-a",
+        "-tags",
+        "netgo",
+        "-ldflags",
+        "'-d -s -w'",
+        "-o",
+        "./deamon",
+        "./${_DIR}",
+      ]
+    env:
+      [
+        "PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge",
+        "CGO_ENABLED=0",
+      ]
   - name: "gcr.io/cloud-builders/docker"
     args:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
