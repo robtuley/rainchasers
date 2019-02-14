@@ -34,6 +34,8 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
   # update k8s deployment to rollout new image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
   - name: gcr.io/cloud-builders/kubectl
     args:
       [
