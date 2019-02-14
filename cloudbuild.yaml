@@ -1,14 +1,14 @@
 # requires a substite variable of _DIR to specify the app to build
 # (e.g. ea/latest) and _DEPLOY for the actual k8s deployment name
 steps:
-  # code unit tests and linting
+  # code lint and tests
   - name: "gcr.io/cloud-builders/go"
     args: ["vet", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
   - name: "gcr.io/cloud-builders/go"
     args: ["test", "./..."]
     env: ["PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge"]
-  # compile static binary into lightweight docker container
+  # compile binary into docker container
   - name: "gcr.io/cloud-builders/go"
     args:
       [
@@ -30,10 +30,19 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
-  # app is coded to perform a self-test (check binary file & docker image)
-  - name: "alpine"
-    args: ["./deamon"]
+  # perform app self-test in docker artefact
   - name: "gcr.io/cloud-builders/docker"
     args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
+  # update k8s deployment to rollout new image
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      [
+        "set",
+        "image",
+        "deployment/${_DEPLOY}",
+        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
+      ]
+    env:
+      ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
 images:
   - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
