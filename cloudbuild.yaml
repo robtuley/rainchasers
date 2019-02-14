@@ -12,12 +12,12 @@ steps:
   - name: "gcr.io/cloud-builders/go"
     args:
       [
-        "install",
+        "build",
         "-a",
         "-tags",
         "netgo",
-        "-ldflags",
-        "'-d -s -w'",
+        "-installsuffix",
+        "netgo",
         "-o",
         "./deamon",
         "./${_DIR}",
