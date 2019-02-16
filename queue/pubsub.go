@@ -2,12 +2,12 @@ package queue
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"time"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"golang.org/x/net/context"
 )
 
 // Topic encapsulates the message queue topic
@@ -101,7 +101,11 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 		return err
 	}
 	if !exists {
-		sub, err = client.CreateSubscription(ctx, subName, t.pubSub, ackDeadline, nil)
+		cfg := pubsub.SubscriptionConfig{
+			Topic:       t.pubSub,
+			AckDeadline: ackDeadline,
+		}
+		sub, err = client.CreateSubscription(ctx, subName, cfg)
 		if err != nil {
 			return err
 		}
