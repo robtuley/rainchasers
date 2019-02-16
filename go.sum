@@ -1,5 +1,7 @@
 cloud.google.com/go v0.0.0-20170328100221-83632a8c9ac1 h1:l7G3c7VbxM0A5eFApgYDgAElJKdtbcyA6Yxn7DZ/njc=
 cloud.google.com/go v0.0.0-20170328100221-83632a8c9ac1/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
+github.com/actgardner/gogen-avro v5.2.3+incompatible h1:f7s0H8XyZiUMAm6J2F9fdpw0vQTF2djKy4nQq1rgnBM=
+github.com/actgardner/gogen-avro v5.2.3+incompatible/go.mod h1:N2PzqZtS+5w9xxGp2daeykhWdTL0lBiRhbbvkVj4Yd8=
 github.com/golang/protobuf v0.0.0-20170307001533-c9c7427a2a70 h1:WKo1/VPcI3cbJwnIHISxazgDxbw+UIrktU3zNxzcp4c=
 github.com/golang/protobuf v0.0.0-20170307001533-c9c7427a2a70/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/snappy v0.0.0-20170215233205-553a64147049 h1:K9KHZbXKpGydfDN0aZrsoHpLJlZsBrGMFWbgLDGnPZk=
@@ -26,3 +28,5 @@ google.golang.org/genproto v0.0.0-20170317111829-de9f5e90fe9b h1:QotRTpCKdcHr4PD
 google.golang.org/genproto v0.0.0-20170317111829-de9f5e90fe9b/go.mod h1:JiN7NxoALGmiZfu7CAH4rXhgtRTLTxftemlI0sWmxmc=
 google.golang.org/grpc v0.0.0-20170328191054-7fc29d0caa40 h1:3F+9AQqLPDgsjQtNo27IJyfqLcN1Wljr4NCf7BX6wHU=
 google.golang.org/grpc v0.0.0-20170328191054-7fc29d0caa40/go.mod h1:yo6s7OP7yaDglbqo1J04qKzAhqBH6lvTonzMVmEdcZw=
+gopkg.in/actgardner/gogen-avro.v5 v5.2.3 h1:nGAh5KTyiGcmRJSpG2wcT6Ix9n4AkFY/LpKTEvfW41o=
+gopkg.in/actgardner/gogen-avro.v5 v5.2.3/go.mod h1:+B2uD+rGOOAnHfw4HBetXTaDr4ElnbojngRWtz8MDvE=

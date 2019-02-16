@@ -2,6 +2,7 @@ module github.com/rainchasers/com.rainchasers.gauge
 
 require (
 	cloud.google.com/go v0.0.0-20170328100221-83632a8c9ac1
+	github.com/actgardner/gogen-avro v5.2.3+incompatible // indirect
 	github.com/golang/protobuf v0.0.0-20170307001533-c9c7427a2a70
 	github.com/golang/snappy v0.0.0-20170215233205-553a64147049
 	github.com/googleapis/gax-go v0.0.0-20170321005343-9af46dd5a171
@@ -15,4 +16,5 @@ require (
 	google.golang.org/api v0.0.0-20170327174102-48e49d1645e2
 	google.golang.org/genproto v0.0.0-20170317111829-de9f5e90fe9b
 	google.golang.org/grpc v0.0.0-20170328191054-7fc29d0caa40
+	gopkg.in/actgardner/gogen-avro.v5 v5.2.3 // indirect
 )

@@ -1,0 +1,84 @@
+[
+  {
+    "namespace": "com.rainchasers.gauge",
+    "type": "record",
+    "name": "measure",
+    "doc:": "Gauge measurement information",
+    "fields": [
+      {
+        "doc": "Unix epoch time in seconds for measurement event time",
+        "type": "long",
+        "name": "event_time"
+      },
+      {
+        "doc": "Measurement value",
+        "type": "float",
+        "name": "value"
+      }
+    ]
+  },
+  {
+    "namespace": "com.rainchasers.gauge",
+    "type": "record",
+    "name": "snapshot",
+    "doc:": "Gauge measurement record information and reading snapshot",
+    "fields": [
+      {
+        "doc": "Data URL for the gauge measurement",
+        "type": "string",
+        "name": "data_url"
+      },
+      {
+        "doc": "Human linkable URL for the station",
+        "type": "string",
+        "name": "human_url"
+      },
+      {
+        "doc": "Human-readable name of the measurement",
+        "type": "string",
+        "name": "name"
+      },
+      {
+        "doc": "Name of the river measured",
+        "type": "string",
+        "name": "river_name"
+      },
+      {
+        "doc": "Location latitude",
+        "type": "float",
+        "name": "lat"
+      },
+      {
+        "doc": "Location longitude",
+        "type": "float",
+        "name": "lg"
+      },
+      {
+        "doc": "Measurement unit",
+        "type": "string",
+        "name": "unit"
+      },
+      {
+        "doc": "Measurement type",
+        "type": {
+          "type": "enum",
+          "name": "typeValues",
+          "symbols": ["level", "flow", "temperature", "rainfall"]
+        },
+        "name": "type"
+      },
+      {
+        "type": {
+          "items": "com.rainchasers.gauge.measure",
+          "type": "array"
+        },
+        "name": "readings"
+      },
+      {
+        "doc": "Unix epoch time in seconds for measurement processing time",
+        "type": "long",
+        "name": "processing_time"
+      }
+    ]
+  }
+]
