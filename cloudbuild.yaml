@@ -3,15 +3,16 @@
 steps:
   # code lint and tests
   - name: "golang"
-    args: ["vet", "./..."]
+    args: ["go", "vet", "./..."]
     env: ["GO111MODULE=on"]
   - name: "golang"
-    args: ["test", "./..."]
+    args: ["go", "test", "./..."]
     env: ["GO111MODULE=on"]
   # compile binary into docker container
   - name: "golang"
     args:
       [
+        "go",
         "build",
         "-a",
         "-tags",
