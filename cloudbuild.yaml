@@ -2,22 +2,14 @@
 # (e.g. ea/latest) and _DEPLOY for the actual k8s deployment name
 steps:
   # code lint and tests
-  - name: "gcr.io/cloud-builders/go"
+  - name: "golang"
     args: ["vet", "./..."]
-    env:
-      [
-        "PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge",
-        "GO111MODULE=on",
-      ]
-  - name: "gcr.io/cloud-builders/go"
+    env: ["GO111MODULE=on"]
+  - name: "golang"
     args: ["test", "./..."]
-    env:
-      [
-        "PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge",
-        "GO111MODULE=on",
-      ]
+    env: ["GO111MODULE=on"]
   # compile binary into docker container
-  - name: "gcr.io/cloud-builders/go"
+  - name: "golang"
     args:
       [
         "build",
@@ -30,12 +22,7 @@ steps:
         "./deamon",
         "./${_DIR}",
       ]
-    env:
-      [
-        "PROJECT_ROOT=github.com/rainchasers/com.rainchasers.gauge",
-        "CGO_ENABLED=0",
-        "GO111MODULE=on",
-      ]
+    env: ["CGO_ENABLED=0", "GO111MODULE=on"]
   - name: "gcr.io/cloud-builders/docker"
     args:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
