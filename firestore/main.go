@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 	"os/signal"
 	"strconv"
@@ -51,6 +52,9 @@ func run() error {
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
 	}
+	if projectID == "" {
+		timeout = 15
+	}
 
 	// telemetry and logging
 	log := report.New(os.Stdout, report.Data{"service": "rc.firebase", "daemon": daemonName})
@@ -95,6 +99,9 @@ func run() error {
 		shutdown()
 		return err
 	}
+	log.Info("river.cache.created", report.Data{
+		"count": rivers.Count(),
+	})
 	// TODO: update firebase rivers here
 
 	// poll for river content updates
@@ -195,6 +202,14 @@ func run() error {
 		<-log.Action("daemon.stopped.timeout", report.Data{})
 	}
 	tCancel()
+
+	// validate log stream on shutdown
+	if log.Count("river.cache.created") != 1 {
+		return errors.New("river.cache.created event expected but not present")
+	}
+	if err := log.LastError(); err != nil {
+		return err
+	}
 
 	return nil
 }
