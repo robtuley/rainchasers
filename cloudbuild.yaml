@@ -27,6 +27,13 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
       ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "tag",
+        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
+        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:latest",
+      ]
   # perform app self-test in docker artefact
   - name: "gcr.io/cloud-builders/docker"
     args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
@@ -45,3 +52,4 @@ steps:
       ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
 images:
   - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
+  - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:latest"

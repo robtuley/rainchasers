@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rainchasers-ea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: rainchasers-ea
+  template:
+    metadata:
+      labels:
+        name: rainchasers-ea
+    spec:
+      containers:
+        - name: rainchasers-ea
+          image: eu.gcr.io/tuleyprod/gauge/ea/latest:latest
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns
+            - name: PROJECT_ID
+              value: tuleyprod
+            - name: PUBSUB_TOPIC
+              value: com.rainchasers.gauge

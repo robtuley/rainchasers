@@ -19,10 +19,6 @@ import (
 // Environment Vars
 // ================
 //
-// SSL cert configs:
-//   SSL_KEY_FILE (no default)
-//   SSL_CERT_FILE (no default)
-//
 // General config:
 //   DAEMON_NAME (defaults to a timebased stamp to label the daemon)
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
@@ -44,8 +40,6 @@ func run() error {
 	if len(daemonName) == 0 {
 		daemonName = time.Now().Format("v2006-01-02-15-04-05.9999")
 	}
-	sslKeyFilename := os.Getenv("SSL_KEY_FILE")
-	sslCertFilename := os.Getenv("SSL_CERT_FILE")
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
@@ -61,11 +55,9 @@ func run() error {
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
-		"project_id":    projectID,
-		"pubsub_topic":  topicName,
-		"timeout":       timeout,
-		"ssl_key_path":  sslKeyFilename,
-		"ssl_cert_path": sslCertFilename,
+		"project_id":   projectID,
+		"pubsub_topic": topicName,
+		"timeout":      timeout,
 	})
 
 	// create daemon context
