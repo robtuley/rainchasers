@@ -26,7 +26,7 @@ steps:
         "set",
         "image",
         "deployment/rainchasers-${_APP}",
-        "${_DEPLOY}=eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
+        "rainchasers-${_APP}=eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
       ]
     env:
       ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
