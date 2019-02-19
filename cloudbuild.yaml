@@ -1,7 +1,7 @@
 # requires a substite variable of _APP to
 # specify ea, sepa or firestore to build
 steps:
-  # compile binary using make
+  # compile binary using make, then dockerise
   - name: "golang"
     args: ["make", "${_APP}"]
   - name: "gcr.io/cloud-builders/docker"
