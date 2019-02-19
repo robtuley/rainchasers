@@ -1,55 +1,35 @@
-# requires a substite variable of _DIR to specify the app to build
-# (e.g. ea/latest) and _DEPLOY for the actual k8s deployment name
+# requires a substite variable of _APP to
+# specify ea, sepa or firestore to build
 steps:
-  # code lint and tests
+  # compile binary using make
   - name: "golang"
-    args: ["go", "vet", "./..."]
-    env: ["GO111MODULE=on"]
-  - name: "golang"
-    args: ["go", "test", "./..."]
-    env: ["GO111MODULE=on"]
-  # compile binary into docker container
-  - name: "golang"
-    args:
-      [
-        "go",
-        "build",
-        "-a",
-        "-tags",
-        "netgo",
-        "-installsuffix",
-        "netgo",
-        "-o",
-        "./deamon",
-        "./${_DIR}",
-      ]
-    env: ["CGO_ENABLED=0", "GO111MODULE=on"]
+    args: ["make", "${_APP}"]
   - name: "gcr.io/cloud-builders/docker"
     args:
-      ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}", "."]
+      ["build", "-t", "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}", "."]
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "tag",
-        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
-        "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:latest",
+        "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
+        "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:latest",
       ]
   # perform app self-test in docker artefact
   - name: "gcr.io/cloud-builders/docker"
-    args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
+    args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"]
   # update k8s deployment to rollout new image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"]
+    args: ["push", "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"]
   - name: gcr.io/cloud-builders/kubectl
     args:
       [
         "set",
         "image",
-        "deployment/${_DEPLOY}",
-        "${_DEPLOY}=eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}",
+        "deployment/rainchasers-${_APP}",
+        "${_DEPLOY}=eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
       ]
     env:
       ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
 images:
-  - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:${COMMIT_SHA}"
-  - "eu.gcr.io/$PROJECT_ID/gauge/${_DIR}:latest"
+  - "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"
+  - "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:latest"

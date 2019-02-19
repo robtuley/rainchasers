@@ -8,6 +8,6 @@ FROM scratch
 COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 # requires statically linked go binary
-COPY ./deamon /deamon
+COPY ./app /app
 
-ENTRYPOINT ["/deamon"]
+ENTRYPOINT ["/app"]

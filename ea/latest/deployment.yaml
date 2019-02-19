@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: rainchasers-ea
-          image: eu.gcr.io/tuleyprod/gauge/ea/latest:latest
+          image: eu.gcr.io/tuleyprod/gauge/ea:latest
           env:
             - name: GET_HOSTS_FROM
               value: dns
