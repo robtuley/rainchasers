@@ -20,6 +20,7 @@ const (
 // Responds to environment variables:
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
+//   HONEYCOMB_API_KEY (no default, blank to skip honeycomb events)
 func main() {
 	if err := run(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -31,6 +32,7 @@ func run() error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
+	honeycombKey := os.Getenv("HONEYCOMB_API_KEY")
 
 	// blank project ID switches to validation run
 	updatePeriodSeconds := 15 * 60
@@ -41,7 +43,11 @@ func run() error {
 	}
 
 	// setup telemetry and logging
-	log := report.New(report.StdOutJSON(), report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	w := report.StdOutJSON()
+	if len(honeycombKey) > 0 {
+		w = w.And(report.Honeycomb(honeycombKey, "firestore"))
+	}
+	log := report.New(w, report.Data{"service": "sepa", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{

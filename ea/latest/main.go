@@ -12,6 +12,7 @@ import (
 // Responds to environment variables:
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
+//   HONEYCOMB_API_KEY (no default, blank to skip honeycomb events)
 func main() {
 	if err := run(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -23,6 +24,7 @@ func run() error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
+	honeycombKey := os.Getenv("HONEYCOMB_API_KEY")
 
 	// setup config, blank project ID switches to validation run
 	updatePeriod := 15 * 60 * time.Second
@@ -34,7 +36,11 @@ func run() error {
 	shutdownC := time.NewTimer(shutdownDeadline).C
 
 	// setup telemetry
-	log := report.New(report.StdOutJSON(), report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	w := report.StdOutJSON()
+	if len(honeycombKey) > 0 {
+		w = w.And(report.Honeycomb(honeycombKey, "ea"))
+	}
+	log := report.New(w, report.Data{"service": "ea", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{

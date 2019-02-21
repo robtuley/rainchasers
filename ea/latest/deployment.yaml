@@ -22,3 +22,8 @@ spec:
               value: tuleyprod
             - name: PUBSUB_TOPIC
               value: com.rainchasers.gauge
+            - name: HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: honeycomb-writekey
+                  key: key

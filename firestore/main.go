@@ -16,16 +16,13 @@ import (
 	"github.com/rainchasers/report"
 )
 
-// Environment Vars
-// ================
+// Env:
 //
-// General config:
 //   DAEMON_NAME (defaults to a timebased stamp to label the daemon)
 //   SHUTDOWN_AFTER_X_SECONDS (default 7*24*60*60)
-//
-// Google PubSub subscription:
-//   PROJECT_ID (no default)
+//   PROJECT_ID (no default, blank indicates self-test mode)
 //   PUBSUB_TOPIC (no default)
+//   HONEYCOMB_API_KEY (no default, blank to skip honeycomb events)
 //
 func main() {
 	if err := run(); err != nil {
@@ -54,7 +51,7 @@ func run() error {
 	// telemetry and logging
 	w := report.StdOutJSON()
 	if len(honeycombKey) > 0 {
-		w.And(report.Honeycomb(honeycombKey, "firestore"))
+		w = w.And(report.Honeycomb(honeycombKey, "firestore"))
 	}
 	log := report.New(w, report.Data{"service": "firestore", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
