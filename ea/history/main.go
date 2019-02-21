@@ -40,7 +40,7 @@ func run() error {
 	topicName := os.Getenv("PUBSUB_TOPIC")
 
 	// setup telemetry
-	log := report.New(os.Stdout, report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log := report.New(report.StdOutJSON(), report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 10*time.Second)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{

@@ -34,7 +34,7 @@ func run() error {
 	shutdownC := time.NewTimer(shutdownDeadline).C
 
 	// setup telemetry
-	log := report.New(os.Stdout, report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
+	log := report.New(report.StdOutJSON(), report.Data{"service": "ea.latest", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{

@@ -42,6 +42,7 @@ func run() error {
 	}
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
+	honeycombKey := os.Getenv("HONEYCOMB_API_KEY")
 	timeout, err := strconv.Atoi(os.Getenv("SHUTDOWN_AFTER_X_SECONDS"))
 	if err != nil {
 		timeout = 7 * 24 * 60 * 60
@@ -51,7 +52,11 @@ func run() error {
 	}
 
 	// telemetry and logging
-	log := report.New(os.Stdout, report.Data{"service": "rc.firebase", "daemon": daemonName})
+	w := report.StdOutJSON()
+	if len(honeycombKey) > 0 {
+		w.And(report.Honeycomb(honeycombKey, "firestore"))
+	}
+	log := report.New(w, report.Data{"service": "firestore", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
 	defer log.Stop()
 	log.Info("daemon.start", report.Data{
