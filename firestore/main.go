@@ -51,7 +51,7 @@ func run() error {
 	// telemetry and logging
 	w := report.StdOutJSON()
 	if len(honeycombKey) > 0 {
-		w = w.And(report.Honeycomb(honeycombKey, "firestore"))
+		w = w.And(report.Honeycomb(honeycombKey, "gauges"))
 	}
 	log := report.New(w, report.Data{"service": "firestore", "daemon": daemonName})
 	log.RuntimeStatEvery("runtime", 5*time.Minute)
