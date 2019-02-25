@@ -1,20 +1,33 @@
 package main
 
 import (
+	"context"
 	"encoding/csv"
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
 	"io"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/report"
 )
 
-func discover() ([]gauge.Station, error) {
-	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
-	var stations []gauge.Station
+func discover(d *daemon.Supervisor) (stations []gauge.Station, err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
+	ctx = d.Log.StartSpan(ctx, "station.discovered")
+	defer func() {
+		d.Log.EndSpan(ctx, err, report.Data{
+			"count": len(stations),
+		})
+		cancel()
+	}()
 
-	resp, err := request.CSV(url)
+	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
+
+	resp, err := request.CSV(ctx, url)
 	if err != nil {
 		return stations, err
 	}

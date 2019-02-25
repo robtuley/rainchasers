@@ -1,20 +1,32 @@
 package main
 
 import (
+	"context"
 	"encoding/csv"
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
 	"io"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/report"
 )
 
-func getReadings(dataURL string) ([]gauge.Reading, error) {
-	var readings []gauge.Reading
+func getReadings(d *daemon.Supervisor, dataURL string) (readings []gauge.Reading, err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
+	ctx = d.Log.StartSpan(ctx, "station.http")
+	defer func() {
+		d.Log.EndSpan(ctx, err, report.Data{
+			"url":   dataURL,
+			"count": len(readings),
+		})
+		cancel()
+	}()
 
-	resp, err := request.CSV(dataURL)
+	resp, err := request.CSV(ctx, dataURL)
 	if err != nil {
 		return readings, err
 	}

@@ -7,7 +7,9 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/report"
 )
 
 // Topic encapsulates the message queue topic
@@ -24,7 +26,17 @@ func (t *Topic) Stop() {
 }
 
 // New creates a message queue topic
-func New(ctx context.Context, projectID string, topicName string) (*Topic, error) {
+func New(d *daemon.Supervisor, projectID string, topicName string) (t *Topic, err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 40*time.Second)
+	ctx = d.Log.StartSpan(ctx, "queue.connected")
+	defer func() {
+		d.Log.EndSpan(ctx, err, report.Data{
+			"project_id": projectID,
+			"topic_name": topicName,
+		})
+		cancel()
+	}()
+
 	if len(projectID) == 0 {
 		return &Topic{}, nil
 	}
@@ -53,10 +65,20 @@ func New(ctx context.Context, projectID string, topicName string) (*Topic, error
 }
 
 // Publish writes an AVRO encoded Snapshot to the topic
-func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) error {
+func (t *Topic) Publish(d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 20*time.Second)
+	ctx = d.Log.StartSpan(ctx, "queue.published")
+	defer func() {
+		d.Log.EndSpan(ctx, err, report.Data{
+			"station": s.Station.UUID,
+			"count":   len(s.Readings),
+		})
+		cancel()
+	}()
+
 	bb := bytes.NewBuffer([]byte{})
 
-	err := s.Encode(bb)
+	err = s.Encode(bb)
 	if err != nil {
 		return err
 	}

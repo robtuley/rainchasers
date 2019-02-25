@@ -1,31 +1,27 @@
 package request
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 const (
-	httpTimeoutInSeconds = 60
-	httpUserAgent        = "Rainchaser Bot <hello@rainchasers.com>"
+	httpUserAgent = "Rainchaser Bot <hello@rainchasers.com>"
 )
 
-func JSON(url string) (*http.Response, error) {
-	client := &http.Client{
-		Timeout: httpTimeoutInSeconds * time.Second,
-	}
-
+// JSON makes a request for JSON data
+func JSON(ctx context.Context, url string) (*http.Response, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
-
+	req.WithContext(ctx)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Set("User-Agent", httpUserAgent)
 
-	resp, err := client.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -36,19 +32,16 @@ func JSON(url string) (*http.Response, error) {
 	return resp, nil
 }
 
-func CSV(url string) (*http.Response, error) {
-	client := &http.Client{
-		Timeout: httpTimeoutInSeconds * time.Second,
-	}
-
+// CSV makes a request for a CSV file content
+func CSV(ctx context.Context, url string) (*http.Response, error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
-
+	req = req.WithContext(ctx)
 	req.Header.Set("User-Agent", httpUserAgent)
 
-	resp, err := client.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
