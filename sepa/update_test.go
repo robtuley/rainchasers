@@ -2,10 +2,14 @@ package main
 
 import (
 	"testing"
+	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 )
 
 func TestUpdatingFromAStation(t *testing.T) {
-	readings, err := getReadings("http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
+	d := daemon.New("test", time.Second*60)
+	readings, err := getReadings(d, "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
 
 	if err != nil {
 		t.Error("Update stations error", err)
