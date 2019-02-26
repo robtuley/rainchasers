@@ -73,9 +73,12 @@ updateLoop:
 			ctx, cancel := context.WithCancel(d.Context)
 			ctx = d.Log.StartSpan(ctx, "station.updated")
 			defer func() {
-				d.Log.EndSpan(ctx, err, report.Data{
-					"station": stations[i].UUID,
-				})
+				if d.Context.Err() == nil {
+					// end span only when not interrupted by shutdown
+					d.Log.EndSpan(ctx, err, report.Data{
+						"station": stations[i].UUID,
+					})
+				}
 				cancel()
 			}()
 

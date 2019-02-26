@@ -19,10 +19,13 @@ func getReadings(d *daemon.Supervisor, dataURL string) (readings []gauge.Reading
 	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
 	ctx = d.Log.StartSpan(ctx, "station.http")
 	defer func() {
-		d.Log.EndSpan(ctx, err, report.Data{
-			"url":   dataURL,
-			"count": len(readings),
-		})
+		if d.Context.Err() == nil {
+			// end span only if not interrupted by shutdown
+			d.Log.EndSpan(ctx, err, report.Data{
+				"url":   dataURL,
+				"count": len(readings),
+			})
+		}
 		cancel()
 	}()
 

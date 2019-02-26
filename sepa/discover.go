@@ -19,9 +19,12 @@ func discover(d *daemon.Supervisor) (stations []gauge.Station, err error) {
 	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
 	ctx = d.Log.StartSpan(ctx, "station.discovered")
 	defer func() {
-		d.Log.EndSpan(ctx, err, report.Data{
-			"count": len(stations),
-		})
+		if d.Context.Err() == nil {
+			// end span only if not interrupted by shutdown
+			d.Log.EndSpan(ctx, err, report.Data{
+				"count": len(stations),
+			})
+		}
 		cancel()
 	}()
 

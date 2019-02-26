@@ -69,10 +69,13 @@ func (t *Topic) Publish(d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
 	ctx, cancel := context.WithTimeout(d.Context, 20*time.Second)
 	ctx = d.Log.StartSpan(ctx, "queue.published")
 	defer func() {
-		d.Log.EndSpan(ctx, err, report.Data{
-			"station": s.Station.UUID,
-			"count":   len(s.Readings),
-		})
+		if d.Context.Err() == nil {
+			// end span only if not interrupted by shutdown
+			d.Log.EndSpan(ctx, err, report.Data{
+				"station": s.Station.UUID,
+				"count":   len(s.Readings),
+			})
+		}
 		cancel()
 	}()
 
