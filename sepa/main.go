@@ -76,7 +76,7 @@ updateLoop:
 				if d.Context.Err() == nil {
 					// end span only when not interrupted by shutdown
 					d.Log.EndSpan(ctx, err, report.Data{
-						"station": stations[i].UUID,
+						"station": stations[i].UUID(),
 					})
 				}
 				cancel()

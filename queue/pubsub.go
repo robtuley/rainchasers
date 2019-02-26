@@ -72,7 +72,7 @@ func (t *Topic) Publish(d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
 		if d.Context.Err() == nil {
 			// end span only if not interrupted by shutdown
 			d.Log.EndSpan(ctx, err, report.Data{
-				"station": s.Station.UUID,
+				"station": s.Station.UUID(),
 				"count":   len(s.Readings),
 			})
 		}
