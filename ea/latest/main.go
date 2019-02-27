@@ -5,104 +5,138 @@ import (
 	"os"
 	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/report"
+	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/queue"
 )
 
 // Responds to environment variables:
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
-//   HONEYCOMB_API_KEY (no default, blank to skip honeycomb events)
 func main() {
-	if err := run(); err != nil {
+	d := daemon.New("ea", 24*time.Hour)
+	d.Run(run)
+	d.Shutdown()
+
+	if err := d.Err(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
 		os.Exit(1)
 	}
 }
 
-func run() error {
+func run(d *daemon.Supervisor) error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
-	honeycombKey := os.Getenv("HONEYCOMB_API_KEY")
-
-	// setup config, blank project ID switches to validation run
-	updatePeriod := 15 * 60 * time.Second
-	shutdownDeadline := 7 * 24 * time.Hour
-	if projectID == "" {
-		updatePeriod = 5 * time.Second
-		shutdownDeadline = 15 * time.Second
-	}
-	shutdownC := time.NewTimer(shutdownDeadline).C
-
-	// setup telemetry
-	w := report.StdOutJSON()
-	if len(honeycombKey) > 0 {
-		w = w.And(report.Honeycomb(honeycombKey, "gauges"))
-	}
-	log := report.New(w, report.Data{"service": "ea", "daemon": time.Now().Format("v2006-01-02-15-04-05")})
-	log.RuntimeStatEvery("runtime", 5*time.Minute)
-	defer log.Stop()
-	log.Info("daemon.start", report.Data{
-		"project_id":   projectID,
-		"pubsub_topic": topicName,
-	})
+	isDryRun := projectID == ""
+	refreshPeriodInSeconds := 5 * 60
 
 	// discover EA gauging stations
-	stations, err := discover.Stations()
+	stations, err := discover.Stations(d)
 	if err != nil {
-		<-log.Action("discovered.fail", report.Data{"error": err.Error()})
 		return err
 	}
-	if projectID == "" { // limit map size to 5 stations for validation
+
+	// if dry run, shorten running model
+	if isDryRun {
 		n := 0
 		for k := range stations {
-			if n >= 5 {
+			if n >= 3 {
 				delete(stations, k)
 			}
 			n++
 		}
+		go func() {
+			<-time.After(10 * time.Second)
+			d.Shutdown()
+		}()
+		refreshPeriodInSeconds = 3
 	}
-	log.Info("discovered.ok", report.Data{"count": len(stations)})
 
-	// periodically get latest updates
-	ticker := time.NewTicker(updatePeriod)
-
+	nConsecutiveErr := 0
 updateLoop:
 	for {
-		tick := log.Tick()
-		updates, err := update()
+		err := func() error {
+			// get all recent readings
+			readings, err := update(d)
+			if err != nil {
+				return err
+			}
+
+			// open connection to pubsub
+			topic, err := queue.New(d, projectID, topicName)
+			if err != nil {
+				return err
+			}
+			defer topic.Stop()
+
+			// calculate tick rate to spread readings publish over
+			// the refresh period
+			every := calculateRate(len(readings), refreshPeriodInSeconds)
+			ticker := time.NewTicker(every)
+			defer ticker.Stop()
+
+			// publish readings
+			for id, r := range readings {
+				s, ok := stations[id]
+				if !ok {
+					continue
+				}
+
+				err := topic.Publish(d, &gauge.Snapshot{
+					Station:  s,
+					Readings: []gauge.Reading{r},
+				})
+				if err != nil {
+					return err
+				}
+
+				select {
+				case <-ticker.C:
+				case <-d.Context.Done():
+					// exit early on shutdown
+					return nil
+				}
+			}
+
+			return nil
+		}()
+
 		if err != nil {
-			<-log.Action("updated.fail", report.Data{"error": err.Error()})
-			return err
+			nConsecutiveErr++
+			if nConsecutiveErr > 3 {
+				// ignore a few isolated errors, but if
+				// many consecutive bubble up to restart
+				return err
+			}
+		} else {
+			nConsecutiveErr = 0
 		}
-		log.Tock(tick, "updated.ok", report.Data{"count": len(updates)})
 
-		tick = log.Tick()
-		if err = publish(projectID, topicName, updates, stations); err != nil {
-			<-log.Action("published.fail", report.Data{"error": err.Error()})
-			return err
-		}
-		log.Tock(tick, "published.ok", report.Data{"count": len(updates)})
-
-		select {
-		case <-ticker.C:
-		case <-shutdownC:
+		// break loop on shutdown signal
+		if d.Context.Err() != nil {
 			break updateLoop
 		}
 	}
-	ticker.Stop()
 
-	// validate log stream on shutdown if required
-	if log.Count("discovered.ok") != 1 {
-		return errors.New("discovered.ok event expected but not present")
+	// validate log stream on shutdown
+	if d.Log.Count("snapshot.published") < 1 {
+		return errors.New("No snapshot.published events")
 	}
-	if log.Count("updated.ok") < 1 {
-		return errors.New("updated.ok event expected but not present")
-	}
-	if err := log.LastError(); err != nil {
+	if err := d.Log.Err(); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func calculateRate(n int, seconds int) time.Duration {
+	maxPerSecond := 50
+	ms := seconds * 1000 / n
+	min := 1000 / maxPerSecond
+	if ms < min {
+		ms = min
+	}
+	return time.Millisecond * time.Duration(ms)
 }

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/report"
 )
 
 type readingJSON struct {
@@ -16,11 +19,25 @@ type readingJSON struct {
 	} `json:"items"`
 }
 
-func update() (map[string]gauge.Reading, error) {
-	url := "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
+const recentReadingURL = "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
+
+func update(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
+	ctx = d.Log.StartSpan(ctx, "recent.readings")
+	defer func() {
+		if d.Context.Err() == nil {
+			// end span only if not interrupted by shutdown
+			d.Log.EndSpan(ctx, err, report.Data{
+				"count": len(rd),
+				"url":   recentReadingURL,
+			})
+		}
+		cancel()
+	}()
+
 	readings := make(map[string]gauge.Reading)
 
-	resp, err := request.JSON(url)
+	resp, err := request.JSON(ctx, recentReadingURL)
 	if err != nil {
 		return readings, err
 	}

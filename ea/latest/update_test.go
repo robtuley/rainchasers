@@ -3,13 +3,16 @@ package main
 import (
 	"io/ioutil"
 	"testing"
+	"time"
 
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 )
 
 func TestUpdatingStations(t *testing.T) {
-	readings, err := update()
+	d := daemon.New("example", 2*time.Minute)
+	readings, err := update(d)
 
 	if err != nil {
 		t.Error("Update stations error", err)
@@ -29,7 +32,8 @@ func TestUpdatingStations(t *testing.T) {
 }
 
 func TestUpdatesAreForDiscoveredStations(t *testing.T) {
-	readings, err := update()
+	d := daemon.New("example", 2*time.Minute)
+	readings, err := update(d)
 	if err != nil {
 		t.Error("Update stations error", err)
 	}

@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: Deployment
 metadata:
   name: rainchasers-ea
@@ -16,8 +16,6 @@ spec:
         - name: rainchasers-ea
           image: eu.gcr.io/tuleyprod/gauge/ea:latest
           env:
-            - name: GET_HOSTS_FROM
-              value: dns
             - name: PROJECT_ID
               value: tuleyprod
             - name: PUBSUB_TOPIC
@@ -27,3 +25,11 @@ spec:
                 secretKeyRef:
                   name: honeycomb-writekey
                   key: key
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName

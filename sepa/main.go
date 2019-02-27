@@ -123,12 +123,12 @@ updateLoop:
 	return nil
 }
 
-func calculateRate(nStations int, nSeconds int) time.Duration {
-	maxDownloadPerSecond := 1
-	tickerMs := nSeconds * 1000 / nStations
-	minTickerMs := 1000 / maxDownloadPerSecond
-	if tickerMs < minTickerMs {
-		tickerMs = minTickerMs
+func calculateRate(n int, seconds int) time.Duration {
+	maxPerSecond := 1
+	ms := seconds * 1000 / n
+	min := 1000 / maxPerSecond
+	if ms < min {
+		ms = min
 	}
-	return time.Millisecond * time.Duration(tickerMs)
+	return time.Millisecond * time.Duration(ms)
 }

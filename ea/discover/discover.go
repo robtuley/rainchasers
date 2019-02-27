@@ -1,9 +1,14 @@
 package discover
 
 import (
+	"context"
 	"encoding/json"
+	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/report"
 )
 
 type stationListJson struct {
@@ -30,11 +35,24 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-func Stations() (map[string]gauge.Station, error) {
-	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
-	stations := make(map[string]gauge.Station)
+// Stations discovers all the available EA stations
+func Stations(d *daemon.Supervisor) (stations map[string]gauge.Station, err error) {
+	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
+	ctx = d.Log.StartSpan(ctx, "ea.discovered")
+	defer func() {
+		if d.Context.Err() == nil {
+			// end span only if not interrupted by shutdown
+			d.Log.EndSpan(ctx, err, report.Data{
+				"count": len(stations),
+			})
+		}
+		cancel()
+	}()
 
-	resp, err := request.JSON(url)
+	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
+	stations = make(map[string]gauge.Station)
+
+	resp, err := request.JSON(ctx, url)
 	if err != nil {
 		return stations, err
 	}

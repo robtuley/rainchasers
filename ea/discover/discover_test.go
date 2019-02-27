@@ -3,12 +3,16 @@ package discover
 import (
 	"math"
 	"testing"
+	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/daemon"
 )
 
 func TestDiscoveringStations(t *testing.T) {
 	const ε = 0.0001
+	d := daemon.New("example", 3*time.Minute)
 
-	stations, err := Stations()
+	stations, err := Stations(d)
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}
