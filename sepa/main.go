@@ -70,7 +70,7 @@ updateLoop:
 		i := n % len(stations)
 
 		err := func() (err error) {
-			ctx, cancel := context.WithCancel(d.Context)
+			ctx, cancel := context.WithCancel(d.Log.Trace(d.Context))
 			ctx = d.Log.StartSpan(ctx, "station.updated")
 			defer func() {
 				if d.Context.Err() == nil {
@@ -82,11 +82,13 @@ updateLoop:
 				cancel()
 			}()
 
+			// TODO: parent span ctx not propagated
 			readings, err := getReadings(d, stations[i].DataURL)
 			if err != nil {
 				return err
 			}
 
+			// TODO: parent span ctx not propagated
 			return topic.Publish(d, &gauge.Snapshot{
 				Station:  stations[i],
 				Readings: readings,

@@ -2,7 +2,7 @@ module github.com/rainchasers/com.rainchasers.gauge
 
 require (
 	cloud.google.com/go v0.36.0
-	github.com/rainchasers/report v0.0.0-20190226230626-17e02ca9e6db
+	github.com/rainchasers/report v0.0.0-20190228180656-0f94ed43690d
 	github.com/thingful/osgridconverter v0.0.0-20170127114542-06789ac2e515
 	go.opencensus.io v0.19.0 // indirect
 	golang.org/x/net v0.0.0-20190213061140-3a22650c66bd // indirect
