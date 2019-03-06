@@ -5,9 +5,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
 
@@ -34,7 +33,7 @@ func update(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
 
 	readings := make(map[string]gauge.Reading)
 
-	resp, err := request.JSON(ctx, recentReadingURL)
+	resp, err := daemon.JSON(ctx, recentReadingURL)
 	if err != nil {
 		return readings, err
 	}
@@ -50,7 +49,7 @@ func update(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
 	for _, item := range r.Items {
 		// the 'value' keys should be a float, but instances exist of arrays
 		// so we do a conditional parse and simply dump those that can't match.
-		value, err := request.ParseFloat(item.ValueRawJSON)
+		value, err := daemon.ParseFloat(item.ValueRawJSON)
 		if err != nil {
 			continue
 		}

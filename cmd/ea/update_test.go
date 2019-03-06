@@ -5,9 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 )
 
 func TestUpdatingStations(t *testing.T) {
@@ -38,7 +37,7 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 		t.Error("Update stations error", err)
 	}
 
-	stations, err := discover.Stations(d)
+	stations, err := Discover(d)
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}

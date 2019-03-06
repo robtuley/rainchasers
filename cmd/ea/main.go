@@ -5,10 +5,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/ea/discover"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/queue"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
 )
 
 // Responds to environment variables:
@@ -33,7 +32,7 @@ func run(d *daemon.Supervisor) error {
 	refreshPeriodInSeconds := 5 * 60
 
 	// discover EA gauging stations
-	stations, err := discover.Stations(d)
+	stations, err := Discover(d)
 	if err != nil {
 		return err
 	}

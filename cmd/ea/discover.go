@@ -1,13 +1,12 @@
-package discover
+package main
 
 import (
 	"context"
 	"encoding/json"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
 
@@ -35,8 +34,8 @@ type measureJson struct {
 	Unit string `json:"unitName"`
 }
 
-// Stations discovers all the available EA stations
-func Stations(d *daemon.Supervisor) (stations map[string]gauge.Station, err error) {
+// Discover finds all the available EA stations
+func Discover(d *daemon.Supervisor) (stations map[string]gauge.Station, err error) {
 	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
 	ctx = d.StartSpan(ctx, "ea.discovered")
 	defer func() {
@@ -49,7 +48,7 @@ func Stations(d *daemon.Supervisor) (stations map[string]gauge.Station, err erro
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
 	stations = make(map[string]gauge.Station)
 
-	resp, err := request.JSON(ctx, url)
+	resp, err := daemon.JSON(ctx, url)
 	if err != nil {
 		return stations, err
 	}
@@ -68,10 +67,10 @@ func Stations(d *daemon.Supervisor) (stations map[string]gauge.Station, err erro
 	for _, s := range list.Stations {
 		// a known inconsistency is that the API can provide Lat, Lg or label as an array
 		// so we use a defensive mechanism to parse these fields and let them be missing completely
-		s.Lat, _ = request.ParseFloat(s.LatRawJson)
-		s.Lg, _ = request.ParseFloat(s.LgRawJson)
-		s.Name, _ = request.ParseString(s.NameRawJson)
-		s.RiverName, _ = request.ParseString(s.RiverNameRawJson)
+		s.Lat, _ = daemon.ParseFloat(s.LatRawJson)
+		s.Lg, _ = daemon.ParseFloat(s.LgRawJson)
+		s.Name, _ = daemon.ParseString(s.NameRawJson)
+		s.RiverName, _ = daemon.ParseString(s.RiverNameRawJson)
 
 		for _, m := range s.Measures {
 
