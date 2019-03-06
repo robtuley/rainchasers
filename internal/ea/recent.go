@@ -1,4 +1,4 @@
-package main
+package ea
 
 import (
 	"context"
@@ -20,9 +20,10 @@ type readingJSON struct {
 
 const recentReadingURL = "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 
-func update(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
+// Recent fetches recent EA readings
+func Recent(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
 	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
-	ctx = d.StartSpan(ctx, "recent.readings")
+	ctx = d.StartSpan(ctx, "ea.recent")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
 			"count": len(rd),

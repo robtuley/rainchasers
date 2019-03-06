@@ -1,21 +1,40 @@
-package main
+package ea
 
 import (
+	"context"
 	"encoding/csv"
 	"errors"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
 	"io"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/report"
 )
 
-func download(day time.Time) (map[string][]gauge.Reading, error) {
+// Day downloads all the measurements on specified day
+func Day(d *daemon.Supervisor, day time.Time) (rd map[string][]gauge.Reading, err error) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
 	snapshots := make(map[string][]gauge.Reading)
 
-	resp, err := request.CSV(url)
+	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
+	ctx = d.StartSpan(ctx, "ea.day")
+	defer func() {
+		n := 0
+		for _, r := range rd {
+			n += len(r)
+		}
+		d.EndSpan(ctx, err, report.Data{
+			"count_stations": len(rd),
+			"count_readings": n,
+			"url":            url,
+		})
+		cancel()
+	}()
+
+	resp, err := daemon.CSV(ctx, url)
 	if err != nil {
 		return snapshots, err
 	}

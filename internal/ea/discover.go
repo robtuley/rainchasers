@@ -1,4 +1,4 @@
-package main
+package ea
 
 import (
 	"context"
@@ -37,7 +37,7 @@ type measureJson struct {
 // Discover finds all the available EA stations
 func Discover(d *daemon.Supervisor) (stations map[string]gauge.Station, err error) {
 	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
-	ctx = d.StartSpan(ctx, "ea.discovered")
+	ctx = d.StartSpan(ctx, "ea.discover")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
 			"count": len(stations),

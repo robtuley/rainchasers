@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/ea"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
 )
@@ -32,7 +33,7 @@ func run(d *daemon.Supervisor) error {
 	refreshPeriodInSeconds := 5 * 60
 
 	// discover EA gauging stations
-	stations, err := Discover(d)
+	stations, err := ea.Discover(d)
 	if err != nil {
 		return err
 	}
@@ -58,7 +59,7 @@ updateLoop:
 	for {
 		err := func() error {
 			// get all recent readings
-			readings, err := update(d)
+			readings, err := ea.Recent(d)
 			if err != nil {
 				return err
 			}

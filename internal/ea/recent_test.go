@@ -1,4 +1,4 @@
-package main
+package ea
 
 import (
 	"io/ioutil"
@@ -9,9 +9,9 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 )
 
-func TestUpdatingStations(t *testing.T) {
+func TestRecentReadings(t *testing.T) {
 	d := daemon.New("example", 2*time.Minute)
-	readings, err := update(d)
+	readings, err := Recent(d)
 
 	if err != nil {
 		t.Error("Update stations error", err)
@@ -32,7 +32,7 @@ func TestUpdatingStations(t *testing.T) {
 
 func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 	d := daemon.New("example", 2*time.Minute)
-	readings, err := update(d)
+	readings, err := Recent(d)
 	if err != nil {
 		t.Error("Update stations error", err)
 	}

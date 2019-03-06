@@ -1,13 +1,17 @@
-package main
+package ea
 
 import (
 	"testing"
 	"time"
+
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 )
 
-func TestDownloadCSVParse(t *testing.T) {
+func TestDayCSVParse(t *testing.T) {
+	d := daemon.New("example", 2*time.Minute)
+
 	twoDaysAgo := time.Now().AddDate(0, 0, -2)
-	snapshots, err := download(twoDaysAgo)
+	snapshots, err := Day(d, twoDaysAgo)
 	if err != nil {
 		t.Error("download error", err)
 	}

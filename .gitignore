@@ -1,4 +1,4 @@
-cmd/ea/history/history
+cmd/eaday/eaday
 cmd/ea/ea
 cmd/sepa/sepa
 cmd/firestore/firestore
