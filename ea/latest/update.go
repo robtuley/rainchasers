@@ -22,16 +22,13 @@ type readingJSON struct {
 const recentReadingURL = "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 
 func update(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
-	ctx, cancel := context.WithTimeout(d.Context, 60*time.Second)
-	ctx = d.Log.StartSpan(ctx, "recent.readings")
+	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
+	ctx = d.StartSpan(ctx, "recent.readings")
 	defer func() {
-		if d.Context.Err() == nil {
-			// end span only if not interrupted by shutdown
-			d.Log.EndSpan(ctx, err, report.Data{
-				"count": len(rd),
-				"url":   recentReadingURL,
-			})
-		}
+		d.EndSpan(ctx, err, report.Data{
+			"count": len(rd),
+			"url":   recentReadingURL,
+		})
 		cancel()
 	}()
 

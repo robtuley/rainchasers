@@ -27,10 +27,10 @@ func (t *Topic) Stop() {
 
 // New creates a message queue topic
 func New(d *daemon.Supervisor, projectID string, topicName string) (t *Topic, err error) {
-	ctx, cancel := context.WithTimeout(d.Context, 40*time.Second)
-	ctx = d.Log.StartSpan(ctx, "topic.connected")
+	ctx, cancel := context.WithTimeout(d.Context(), 40*time.Second)
+	ctx = d.StartSpan(ctx, "topic.connected")
 	defer func() {
-		d.Log.EndSpan(ctx, err, report.Data{
+		d.EndSpan(ctx, err, report.Data{
 			"project_id": projectID,
 			"topic_name": topicName,
 		})
@@ -66,16 +66,13 @@ func New(d *daemon.Supervisor, projectID string, topicName string) (t *Topic, er
 
 // Publish writes an AVRO encoded Snapshot to the topic
 func (t *Topic) Publish(d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
-	ctx, cancel := context.WithTimeout(d.Context, 20*time.Second)
-	ctx = d.Log.StartSpan(ctx, "snapshot.published")
+	ctx, cancel := context.WithTimeout(d.Context(), 20*time.Second)
+	ctx = d.StartSpan(ctx, "snapshot.published")
 	defer func() {
-		if d.Context.Err() == nil {
-			// end span only if not interrupted by shutdown
-			d.Log.EndSpan(ctx, err, report.Data{
-				"station": s.Station.UUID(),
-				"count":   len(s.Readings),
-			})
-		}
+		d.EndSpan(ctx, err, report.Data{
+			"station": s.Station.UUID(),
+			"count":   len(s.Readings),
+		})
 		cancel()
 	}()
 

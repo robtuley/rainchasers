@@ -18,7 +18,7 @@ import (
 func main() {
 	d := daemon.New("sepa", 7*24*time.Hour)
 	d.Run(run)
-	d.Shutdown()
+	d.Close()
 
 	if err := d.Err(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -49,7 +49,7 @@ func run(d *daemon.Supervisor) error {
 		stations = stations[0:5]
 		go func() {
 			<-time.After(30 * time.Second)
-			d.Shutdown()
+			d.Close()
 		}()
 		ticker = time.NewTicker(time.Second)
 		defer ticker.Stop()
@@ -70,15 +70,12 @@ updateLoop:
 		i := n % len(stations)
 
 		err := func() (err error) {
-			ctx, cancel := context.WithCancel(d.Log.Trace(d.Context))
-			ctx = d.Log.StartSpan(ctx, "station.updated")
+			ctx, cancel := context.WithCancel(d.Trace(d.Context()))
+			ctx = d.StartSpan(ctx, "station.updated")
 			defer func() {
-				if d.Context.Err() == nil {
-					// end span only when not interrupted by shutdown
-					d.Log.EndSpan(ctx, err, report.Data{
-						"station": stations[i].UUID(),
-					})
-				}
+				d.EndSpan(ctx, err, report.Data{
+					"station": stations[i].UUID(),
+				})
 				cancel()
 			}()
 
@@ -109,16 +106,16 @@ updateLoop:
 		n++
 		select {
 		case <-ticker.C:
-		case <-d.Context.Done():
+		case <-d.Context().Done():
 			break updateLoop
 		}
 	}
 
 	// validate log stream
-	if d.Log.Count("station.discovered") != 1 {
+	if d.Count("station.discovered") != 1 {
 		return errors.New("discovered event expected but not present")
 	}
-	if d.Log.Count("station.updated") < 1 {
+	if d.Count("station.updated") < 1 {
 		return errors.New("station.updated event expected but not present")
 	}
 

@@ -38,7 +38,7 @@ func TestUpdatesAreForDiscoveredStations(t *testing.T) {
 		t.Error("Update stations error", err)
 	}
 
-	stations, err := discover.Stations()
+	stations, err := discover.Stations(d)
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}

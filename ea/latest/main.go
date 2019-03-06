@@ -17,7 +17,7 @@ import (
 func main() {
 	d := daemon.New("ea", 24*time.Hour)
 	d.Run(run)
-	d.Shutdown()
+	d.Close()
 
 	if err := d.Err(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
@@ -49,7 +49,7 @@ func run(d *daemon.Supervisor) error {
 		}
 		go func() {
 			<-time.After(10 * time.Second)
-			d.Shutdown()
+			d.Close()
 		}()
 		refreshPeriodInSeconds = 3
 	}
@@ -94,7 +94,7 @@ updateLoop:
 
 				select {
 				case <-ticker.C:
-				case <-d.Context.Done():
+				case <-d.Context().Done():
 					// exit early on shutdown
 					return nil
 				}
@@ -115,16 +115,16 @@ updateLoop:
 		}
 
 		// break loop on shutdown signal
-		if d.Context.Err() != nil {
+		if d.Context().Err() != nil {
 			break updateLoop
 		}
 	}
 
 	// validate log stream on shutdown
-	if d.Log.Count("snapshot.published") < 1 {
+	if d.Count("snapshot.published") < 1 {
 		return errors.New("No snapshot.published events")
 	}
-	if err := d.Log.Err(); err != nil {
+	if err := d.Err(); err != nil {
 		return err
 	}
 
