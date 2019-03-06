@@ -1,5 +1,5 @@
-ea/history/history
-ea/latest/latest
-sepa/sepa
-firestore/firestore
+cmd/ea/history/history
+cmd/ea/ea
+cmd/sepa/sepa
+cmd/firestore/firestore
 app

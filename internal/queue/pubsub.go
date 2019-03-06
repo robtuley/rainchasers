@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
 

@@ -4,7 +4,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/gauge/avro"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge/avro"
 )
 
 func typeToValue(t string) avro.TypeValues {
