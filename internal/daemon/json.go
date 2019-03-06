@@ -1,10 +1,11 @@
-package request
+package daemon
 
 import (
 	"encoding/json"
 	"errors"
 )
 
+// ParseFloat defensively parses a raw json field into a float
 func ParseFloat(raw json.RawMessage) (float32, error) {
 	var f float32
 	var a []float32
@@ -23,6 +24,7 @@ func ParseFloat(raw json.RawMessage) (float32, error) {
 	return f, err
 }
 
+// ParseString defensively parses a raw json field into a string
 func ParseString(raw json.RawMessage) (string, error) {
 	var s string
 	var a []string

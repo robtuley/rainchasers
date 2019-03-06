@@ -9,9 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
 
@@ -26,7 +25,7 @@ func getReadings(d *daemon.Supervisor, dataURL string) (readings []gauge.Reading
 		cancel()
 	}()
 
-	resp, err := request.CSV(ctx, dataURL)
+	resp, err := daemon.CSV(ctx, dataURL)
 	if err != nil {
 		return readings, err
 	}

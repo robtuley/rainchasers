@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 )
 
 func TestDiscoveringStations(t *testing.T) {

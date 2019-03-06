@@ -9,9 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/request"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
 
@@ -27,7 +26,7 @@ func discover(d *daemon.Supervisor) (stations []gauge.Station, err error) {
 
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
 
-	resp, err := request.CSV(ctx, url)
+	resp, err := daemon.CSV(ctx, url)
 	if err != nil {
 		return stations, err
 	}

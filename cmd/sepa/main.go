@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/queue"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
 	"github.com/rainchasers/report"
 )
 
