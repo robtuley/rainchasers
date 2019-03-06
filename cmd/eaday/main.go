@@ -18,7 +18,7 @@ const maxPublishPerSecond = 20
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
-	d := daemon.New("ea", 24*time.Hour)
+	d := daemon.New("eaday", 24*time.Hour)
 	d.Run(run)
 	d.Close()
 
