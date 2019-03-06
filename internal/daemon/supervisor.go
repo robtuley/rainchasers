@@ -104,7 +104,7 @@ func (d *Supervisor) Close() {
 		cancel()
 
 		// flush logs and close logger
-		d.Close()
+		d.Logger.Close()
 	})
 }
 
