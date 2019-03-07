@@ -15,61 +15,49 @@ import (
 type Supervisor struct {
 	*report.Logger
 
-	ctx       context.Context
-	cancelCtx func()
-	wg        sync.WaitGroup
-	closeOnce sync.Once
+	doneC  chan struct{}
+	doneFn chan func()
+	wg     sync.WaitGroup
 }
 
 // New creates a new daemon
-func New(name string, timeout time.Duration) *Supervisor {
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+func New(name string) *Supervisor {
+	doneFn := make(chan func())
+
+	// cache done functions until channel closed
+	// then execute them all
+	go func() {
+		fns := make([]func(), 0)
+		for f := range doneFn {
+			fns = append(fns, f)
+		}
+		for _, f := range fns {
+			f()
+		}
+	}()
 
 	s := &Supervisor{
-		Logger:    createLogger(name),
-		ctx:       ctx,
-		cancelCtx: cancel,
+		Logger: createLogger(name),
+		doneC:  make(chan struct{}),
+		doneFn: doneFn,
 	}
 
-	s.Supervise(listenForTerminationSignal)
+	go s.Run(context.Background(), listenForTerminationSignal)
 
 	return s
 }
 
-// Context provides the timeout context of the daemon
-func (d *Supervisor) Context() context.Context {
-	return d.ctx
-}
-
-// Supervise executes a background func (non-blocking)
+// Run executes a job function
 //
-// If the function passed returns an error the full daemon will
-// be shutdown as the error is regarded as unhandled.
-func (d *Supervisor) Supervise(fn func(d *Supervisor) error) {
-	d.wg.Add(1)
-	go func() {
-		err := fn(d)
-		d.wg.Done()
-		if err != nil {
-			d.Action("daemon.interrupt", report.Data{
-				"reason": "supervised process unhandled error",
-				"error":  err.Error(),
-			})
-			d.Close()
-		}
-	}()
-}
+// The daemon will shutdown if the function returns an unhandled error.
+func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Supervisor) error) {
+	ctx = d.cancelOnClose(ctx)
 
-// Run executes the primary daemon function
-//
-// The daemon will shutdown if the function returns an
-// unhandled error.
-func (d *Supervisor) Run(fn func(d *Supervisor) error) {
 	d.wg.Add(1)
-	err := fn(d)
+	err := fn(ctx, d)
 	d.wg.Done()
 
-	if err != nil {
+	if ctx.Err() == nil && err != nil {
 		d.Action("daemon.interrupt", report.Data{
 			"reason": "run process unhandled error",
 			"error":  err.Error(),
@@ -78,49 +66,66 @@ func (d *Supervisor) Run(fn func(d *Supervisor) error) {
 	}
 }
 
-// Close invokes a full blocking deamon shutdown
-//
-// Be careful not to invoke a WG deadlock. If you are inside the
-// a main runner, don't block execution completion of the runner
-// as shutdown will wait for it to complete
+// Done signals daemon shutdown
+func (d *Supervisor) Done() <-chan struct{} {
+	return d.doneC
+}
+
+// Close invokes a deamon shutdown
 func (d *Supervisor) Close() {
-	d.closeOnce.Do(func() {
-		// invoke daemon context cancellation
-		d.cancelCtx()
+	if d.isClosing() {
+		return // execute once only
+	}
 
-		// wait for 10 seconds for routines to close down cleanly
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		c := make(chan bool)
-		go func() {
-			defer close(c)
-			d.wg.Wait()
-		}()
-		select {
-		case <-c:
-			<-d.Info("daemon.stopped.ok", report.Data{})
-		case <-ctx.Done():
-			<-d.Action("daemon.stopped.timeout", report.Data{})
-		}
-		cancel()
+	// send close signals
+	close(d.doneC)
+	close(d.doneFn)
 
-		// flush logs and close logger
-		d.Logger.Close()
-	})
+	// wait for go-routines to exit cleanly (with timeout)
+	c := make(chan struct{})
+	go func() {
+		defer close(c)
+		d.wg.Wait()
+	}()
+	select {
+	case <-c:
+		<-d.Info("closed.ok", report.Data{})
+	case <-time.After(10 * time.Second):
+		<-d.Action("closed.timeout", report.Data{})
+	}
+
+	// flush logs
+	d.Logger.Close()
 }
 
 // EndSpan writes the data from a completed trace span
 func (d *Supervisor) EndSpan(ctx context.Context, err error, payload report.Data) <-chan int {
-	if d.ctx.Err() == nil {
-		// end span only if not interrupted by shutdown
-		return d.Logger.EndSpan(ctx, err, payload)
+	if d.isClosing() {
+		// do not end span if interrupted by closing
+		ch := make(chan int)
+		close(ch)
+		return ch
 	}
 
-	ch := make(chan int)
-	close(ch)
-	return ch
+	return d.Logger.EndSpan(ctx, err, payload)
 }
 
-func listenForTerminationSignal(d *Supervisor) error {
+func (d *Supervisor) isClosing() bool {
+	select {
+	case <-d.doneC:
+		return true
+	default:
+	}
+	return false
+}
+
+func (d *Supervisor) cancelOnClose(ctx context.Context) context.Context {
+	ctx, cancel := context.WithCancel(ctx)
+	d.doneFn <- cancel
+	return ctx
+}
+
+func listenForTerminationSignal(ctx context.Context, d *Supervisor) error {
 	sigC := make(chan os.Signal, 1)
 	signal.Notify(sigC,
 		syscall.SIGHUP,
@@ -135,7 +140,7 @@ func listenForTerminationSignal(d *Supervisor) error {
 			"signal": s,
 		})
 		d.Close()
-	case <-d.ctx.Done():
+	case <-ctx.Done():
 	}
 
 	return nil
