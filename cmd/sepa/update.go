@@ -14,9 +14,9 @@ import (
 	"github.com/rainchasers/report"
 )
 
-func getReadings(d *daemon.Supervisor, dataURL string) (readings []gauge.Reading, err error) {
-	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
-	ctx = d.StartSpan(ctx, "station.http")
+func getReadings(ctx context.Context, d *daemon.Supervisor, dataURL string) (readings []gauge.Reading, err error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	ctx = d.StartSpan(ctx, "sepa.readings")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
 			"url":   dataURL,

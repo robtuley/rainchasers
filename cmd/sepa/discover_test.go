@@ -1,18 +1,18 @@
 package main
 
 import (
+	"context"
 	"math"
 	"testing"
-	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 )
 
 func TestDiscoveringStations(t *testing.T) {
 	const ε = 0.0001
-	d := daemon.New("test", time.Second*60)
+	d := daemon.New("test")
 
-	stations, err := discover(d)
+	stations, err := discover(context.Background(), d)
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}

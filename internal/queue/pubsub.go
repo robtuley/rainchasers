@@ -26,8 +26,8 @@ func (t *Topic) Stop() {
 }
 
 // New creates a message queue topic
-func New(d *daemon.Supervisor, projectID string, topicName string) (t *Topic, err error) {
-	ctx, cancel := context.WithTimeout(d.Context(), 40*time.Second)
+func New(ctx context.Context, d *daemon.Supervisor, projectID string, topicName string) (t *Topic, err error) {
+	ctx, cancel := context.WithTimeout(ctx, 40*time.Second)
 	ctx = d.StartSpan(ctx, "topic.connected")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
@@ -65,8 +65,8 @@ func New(d *daemon.Supervisor, projectID string, topicName string) (t *Topic, er
 }
 
 // Publish writes an AVRO encoded Snapshot to the topic
-func (t *Topic) Publish(d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
-	ctx, cancel := context.WithTimeout(d.Context(), 20*time.Second)
+func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
+	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
 	ctx = d.StartSpan(ctx, "snapshot.published")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{

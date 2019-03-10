@@ -15,9 +15,10 @@ import (
 type Supervisor struct {
 	*report.Logger
 
-	doneC  chan struct{}
-	doneFn chan func()
-	wg     sync.WaitGroup
+	doneC   chan struct{}
+	doneFn  chan func()
+	closedC chan struct{}
+	wg      sync.WaitGroup
 }
 
 // New creates a new daemon
@@ -37,9 +38,10 @@ func New(name string) *Supervisor {
 	}()
 
 	s := &Supervisor{
-		Logger: createLogger(name),
-		doneC:  make(chan struct{}),
-		doneFn: doneFn,
+		Logger:  createLogger(name),
+		doneC:   make(chan struct{}),
+		doneFn:  doneFn,
+		closedC: make(chan struct{}),
 	}
 
 	go s.Run(context.Background(), listenForTerminationSignal)
@@ -74,7 +76,9 @@ func (d *Supervisor) Done() <-chan struct{} {
 // Close invokes a deamon shutdown
 func (d *Supervisor) Close() {
 	if d.isClosing() {
-		return // execute once only
+		// already closing, wait till complete
+		<-d.closedC
+		return
 	}
 
 	// send close signals
@@ -96,6 +100,7 @@ func (d *Supervisor) Close() {
 
 	// flush logs
 	d.Logger.Close()
+	close(d.closedC)
 }
 
 // EndSpan writes the data from a completed trace span

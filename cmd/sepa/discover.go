@@ -14,9 +14,9 @@ import (
 	"github.com/rainchasers/report"
 )
 
-func discover(d *daemon.Supervisor) (stations []gauge.Station, err error) {
-	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
-	ctx = d.StartSpan(ctx, "station.discovered")
+func discover(ctx context.Context, d *daemon.Supervisor) (stations []gauge.Station, err error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	ctx = d.StartSpan(ctx, "sepa.discover")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
 			"count": len(stations),

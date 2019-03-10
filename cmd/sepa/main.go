@@ -16,8 +16,13 @@ import (
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
-	d := daemon.New("sepa", 7*24*time.Hour)
-	d.Run(run)
+	d := daemon.New("sepa")
+	go d.Run(context.Background(), run)
+
+	select {
+	case <-time.After(24 * time.Hour):
+	case <-d.Done():
+	}
 	d.Close()
 
 	if err := d.Err(); err != nil {
@@ -26,14 +31,14 @@ func main() {
 	}
 }
 
-func run(d *daemon.Supervisor) error {
+func run(ctx context.Context, d *daemon.Supervisor) error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 	isDryRun := projectID == ""
 
 	// discover SEPA gauging stations
-	stations, err := discover(d)
+	stations, err := discover(ctx, d)
 	if err != nil {
 		return err
 	}
@@ -46,9 +51,9 @@ func run(d *daemon.Supervisor) error {
 
 	// if dry run, shorten running model
 	if isDryRun {
-		stations = stations[0:5]
+		stations = stations[0:3]
 		go func() {
-			<-time.After(30 * time.Second)
+			<-time.After(10 * time.Second)
 			d.Close()
 		}()
 		ticker = time.NewTicker(time.Second)
@@ -56,7 +61,7 @@ func run(d *daemon.Supervisor) error {
 	}
 
 	// open connection to pubsub
-	topic, err := queue.New(d, projectID, topicName)
+	topic, err := queue.New(ctx, d, projectID, topicName)
 	if err != nil {
 		return err
 	}
@@ -69,28 +74,25 @@ updateLoop:
 	for {
 		i := n % len(stations)
 
-		err := func() (err error) {
-			ctx, cancel := context.WithCancel(d.Trace(d.Context()))
-			ctx = d.StartSpan(ctx, "station.updated")
+		err := func(ctx context.Context) (err error) {
+			ctx = d.Trace(ctx)
+			ctx = d.StartSpan(ctx, "sepa.updated")
 			defer func() {
 				d.EndSpan(ctx, err, report.Data{
 					"station": stations[i].UUID(),
 				})
-				cancel()
 			}()
 
-			// TODO: parent span ctx not propagated
-			readings, err := getReadings(d, stations[i].DataURL)
+			readings, err := getReadings(ctx, d, stations[i].DataURL)
 			if err != nil {
 				return err
 			}
 
-			// TODO: parent span ctx not propagated
-			return topic.Publish(d, &gauge.Snapshot{
+			return topic.Publish(ctx, d, &gauge.Snapshot{
 				Station:  stations[i],
 				Readings: readings,
 			})
-		}()
+		}(ctx)
 
 		if err != nil {
 			nConsecutiveErr++
@@ -106,17 +108,17 @@ updateLoop:
 		n++
 		select {
 		case <-ticker.C:
-		case <-d.Context().Done():
+		case <-d.Done():
 			break updateLoop
 		}
 	}
 
 	// validate log stream
-	if d.Count("station.discovered") != 1 {
-		return errors.New("discovered event expected but not present")
+	if d.Count("sepa.discover") != 1 {
+		return errors.New("sepa.discover event expected but not present")
 	}
-	if d.Count("station.updated") < 1 {
-		return errors.New("station.updated event expected but not present")
+	if d.Count("sepa.updated") < 1 {
+		return errors.New("sepa.updated event expected but not present")
 	}
 
 	return nil
