@@ -1,17 +1,17 @@
 package ea
 
 import (
+	"context"
 	"io/ioutil"
 	"testing"
-	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 )
 
 func TestRecentReadings(t *testing.T) {
-	d := daemon.New("example", 2*time.Minute)
-	readings, err := Recent(d)
+	d := daemon.New("example")
+	readings, err := Recent(context.Background(), d)
 
 	if err != nil {
 		t.Error("Update stations error", err)
@@ -31,13 +31,13 @@ func TestRecentReadings(t *testing.T) {
 }
 
 func TestUpdatesAreForDiscoveredStations(t *testing.T) {
-	d := daemon.New("example", 2*time.Minute)
-	readings, err := Recent(d)
+	d := daemon.New("example")
+	readings, err := Recent(context.Background(), d)
 	if err != nil {
 		t.Error("Update stations error", err)
 	}
 
-	stations, err := Discover(d)
+	stations, err := Discover(context.Background(), d)
 	if err != nil {
 		t.Error("Discover stations error", err)
 	}

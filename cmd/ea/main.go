@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"os"
 	"time"
@@ -15,17 +16,17 @@ import (
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
-	d := daemon.New("ea", 24*time.Hour)
-	d.Run(run)
-	d.Close()
+	d := daemon.New("ea")
+	go d.Run(context.Background(), run)
 
-	if err := d.Err(); err != nil {
-		os.Stderr.WriteString(err.Error() + "\n")
-		os.Exit(1)
+	select {
+	case <-time.After(24 * time.Hour):
+	case <-d.Done():
 	}
+	d.Close()
 }
 
-func run(d *daemon.Supervisor) error {
+func run(ctx context.Context, d *daemon.Supervisor) error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
@@ -33,7 +34,7 @@ func run(d *daemon.Supervisor) error {
 	refreshPeriodInSeconds := 5 * 60
 
 	// discover EA gauging stations
-	stations, err := ea.Discover(d)
+	stations, err := ea.Discover(ctx, d)
 	if err != nil {
 		return err
 	}
@@ -57,15 +58,15 @@ func run(d *daemon.Supervisor) error {
 	nConsecutiveErr := 0
 updateLoop:
 	for {
-		err := func() error {
+		err := func(ctx context.Context) error {
 			// get all recent readings
-			readings, err := ea.Recent(d)
+			readings, err := ea.Recent(ctx, d)
 			if err != nil {
 				return err
 			}
 
 			// open connection to pubsub
-			topic, err := queue.New(d, projectID, topicName)
+			topic, err := queue.New(ctx, d, projectID, topicName)
 			if err != nil {
 				return err
 			}
@@ -84,7 +85,7 @@ updateLoop:
 					continue
 				}
 
-				err := topic.Publish(d, &gauge.Snapshot{
+				err := topic.Publish(ctx, d, &gauge.Snapshot{
 					Station:  s,
 					Readings: []gauge.Reading{r},
 				})
@@ -94,14 +95,14 @@ updateLoop:
 
 				select {
 				case <-ticker.C:
-				case <-d.Context().Done():
+				case <-ctx.Done():
 					// exit early on shutdown
 					return nil
 				}
 			}
 
 			return nil
-		}()
+		}(ctx)
 
 		if err != nil {
 			nConsecutiveErr++
@@ -115,8 +116,10 @@ updateLoop:
 		}
 
 		// break loop on shutdown signal
-		if d.Context().Err() != nil {
+		select {
+		case <-d.Done():
 			break updateLoop
+		default:
 		}
 	}
 

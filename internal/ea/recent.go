@@ -21,8 +21,8 @@ type readingJSON struct {
 const recentReadingURL = "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 
 // Recent fetches recent EA readings
-func Recent(d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
-	ctx, cancel := context.WithTimeout(d.Context(), 60*time.Second)
+func Recent(ctx context.Context, d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
 	ctx = d.StartSpan(ctx, "ea.recent")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{

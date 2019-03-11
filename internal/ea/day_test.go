@@ -1,6 +1,7 @@
 package ea
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -8,10 +9,10 @@ import (
 )
 
 func TestDayCSVParse(t *testing.T) {
-	d := daemon.New("example", 2*time.Minute)
+	d := daemon.New("example")
 
 	twoDaysAgo := time.Now().AddDate(0, 0, -2)
-	snapshots, err := Day(d, twoDaysAgo)
+	snapshots, err := Day(context.Background(), d, twoDaysAgo)
 	if err != nil {
 		t.Error("download error", err)
 	}
