@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"os"
 	"time"
@@ -18,8 +19,8 @@ const maxPublishPerSecond = 20
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
-	d := daemon.New("eaday", 24*time.Hour)
-	d.Run(run)
+	d := daemon.New("eaday")
+	d.Run(context.Background(), run)
 	d.Close()
 
 	if err := d.Err(); err != nil {
@@ -28,7 +29,7 @@ func main() {
 	}
 }
 
-func run(d *daemon.Supervisor) error {
+func run(ctx context.Context, d *daemon.Supervisor) error {
 	// parse env vars
 	requestedDay := os.Getenv("DATE")
 	var day time.Time
@@ -46,7 +47,7 @@ func run(d *daemon.Supervisor) error {
 	isDryRun := projectID == ""
 
 	// discover EA gauging stations
-	stations, err := ea.Discover(d)
+	stations, err := ea.Discover(ctx, d)
 	if err != nil {
 		return err
 	}
@@ -63,13 +64,13 @@ func run(d *daemon.Supervisor) error {
 	}
 
 	// get all readings on requested day
-	readings, err := ea.Day(d, day)
+	readings, err := ea.Day(ctx, d, day)
 	if err != nil {
 		return err
 	}
 
 	// open connection to pubsub
-	topic, err := queue.New(d, projectID, topicName)
+	topic, err := queue.New(ctx, d, projectID, topicName)
 	if err != nil {
 		return err
 	}
@@ -84,7 +85,7 @@ func run(d *daemon.Supervisor) error {
 			continue
 		}
 
-		err := topic.Publish(d, &gauge.Snapshot{
+		err := topic.Publish(ctx, d, &gauge.Snapshot{
 			Station:  s,
 			Readings: r,
 		})
@@ -94,7 +95,7 @@ func run(d *daemon.Supervisor) error {
 
 		select {
 		case <-ticker.C:
-		case <-d.Context().Done():
+		case <-d.Done():
 			// exit early on shutdown
 			return nil
 		}
@@ -103,9 +104,6 @@ func run(d *daemon.Supervisor) error {
 	// validate log stream on shutdown
 	if d.Count("snapshot.published") < 1 {
 		return errors.New("No snapshot.published events")
-	}
-	if err := d.Err(); err != nil {
-		return err
 	}
 
 	return nil

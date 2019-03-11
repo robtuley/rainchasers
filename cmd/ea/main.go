@@ -24,6 +24,11 @@ func main() {
 	case <-d.Done():
 	}
 	d.Close()
+
+	if err := d.Err(); err != nil {
+		os.Stderr.WriteString(err.Error() + "\n")
+		os.Exit(1)
+	}
 }
 
 func run(ctx context.Context, d *daemon.Supervisor) error {
@@ -126,9 +131,6 @@ updateLoop:
 	// validate log stream on shutdown
 	if d.Count("snapshot.published") < 1 {
 		return errors.New("No snapshot.published events")
-	}
-	if err := d.Err(); err != nil {
-		return err
 	}
 
 	return nil
