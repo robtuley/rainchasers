@@ -1,14 +1,17 @@
 COMMIT_HASH=$(shell git rev-parse HEAD)
 GO_BUILD=go build -ldflags "-s -w -X main.build=$(COMMIT_HASH)" -a -installsuffix netgo -tags netgo -o ./app
 
+eaday: vet test
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/eaday
+
 ea: vet test
-	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./ea/latest 
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/ea
 
 sepa: vet test
-	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./sepa 
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/sepa 
 
 firestore: vet test
-	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./firestore 
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/firestore 
 
 check: test vet lint errcheck
 
@@ -25,4 +28,4 @@ errcheck:
 	go get -u github.com/kisielk/errcheck
 	CGO_ENABLED=0 errcheck ./...
 
-.PHONY: check vet test lint errcheck ea sepa firestore
+.PHONY: check vet test lint errcheck eaday ea sepa firestore

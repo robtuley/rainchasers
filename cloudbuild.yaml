@@ -1,5 +1,5 @@
 # requires a substite variable of _APP to
-# specify ea, sepa or firestore to build
+# specify ea, eaday, sepa or firestore to build
 steps:
   # compile binary using make, then dockerise
   - name: "golang"
