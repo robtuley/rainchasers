@@ -125,9 +125,8 @@ updateLoop:
 }
 
 func calculateRate(n int, seconds int) time.Duration {
-	maxPerSecond := 1
 	ms := seconds * 1000 / n
-	min := 1000 / maxPerSecond
+	min := 1500 // SEPA rate limiter ~ 1 req/per second
 	if ms < min {
 		ms = min
 	}
