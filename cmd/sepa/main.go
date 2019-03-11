@@ -56,7 +56,7 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 			<-time.After(10 * time.Second)
 			d.Close()
 		}()
-		ticker = time.NewTicker(time.Second)
+		ticker = time.NewTicker(2 * time.Second)
 		defer ticker.Stop()
 	}
 
