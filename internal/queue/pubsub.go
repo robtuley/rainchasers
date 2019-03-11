@@ -99,7 +99,7 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 //
 // Note a zero length consumerGroup means auto-generate the pubsub subscription
 // string and delete once done.
-func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *gauge.Snapshot, err error)) error {
+func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGroup string, fn func(d *daemon.Supervisor, s *gauge.Snapshot, err error)) error {
 	const ackDeadline = time.Second * 20
 
 	if t.pubSub == nil {
@@ -139,7 +139,7 @@ func (t *Topic) Subscribe(ctx context.Context, consumerGroup string, fn func(s *
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		s := gauge.Snapshot{}
 		err := s.Decode(bytes.NewBuffer(m.Data))
-		fn(&s, err)
+		fn(d, &s, err)
 		m.Ack()
 	})
 	if err != nil {

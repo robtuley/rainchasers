@@ -9,7 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/gauge"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
+	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/report"
 )
 
 //  Catalogue from https://app.rainchasers.com/catalogue.json
@@ -79,17 +81,25 @@ func (c *RiverCache) Load(uuid string) (Section, bool) {
 }
 
 // Update polls for updated content version data
-func (c *RiverCache) Update() (bool, error) {
-	client := &http.Client{
-		Timeout: 20 * time.Second,
-	}
+func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChanged bool, err error) {
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	ctx = d.StartSpan(ctx, "rivers.update")
+	defer func() {
+		d.EndSpan(ctx, err, report.Data{
+			"url":     c.URL,
+			"version": c.Version,
+			"count":   c.Count(),
+		})
+		cancel()
+	}()
 
 	req, err := http.NewRequest("GET", c.URL, nil)
 	if err != nil {
 		return false, err
 	}
+	req = req.WithContext(ctx)
 
-	resp, err := client.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return false, err
 	}
@@ -121,14 +131,14 @@ func (c *RiverCache) Update() (bool, error) {
 }
 
 // NewRiverCache creates a cache and populates it
-func NewRiverCache(ctx context.Context, URL string) (*RiverCache, error) {
+func NewRiverCache(ctx context.Context, d *daemon.Supervisor, URL string) (*RiverCache, error) {
 	cache := &RiverCache{
 		URL:        URL,
 		sectionMap: make(map[string]Section),
 		rwMutex:    &sync.RWMutex{},
 	}
 
-	_, err := cache.Update()
+	_, err := cache.Update(ctx, d)
 	return cache, err
 }
 
