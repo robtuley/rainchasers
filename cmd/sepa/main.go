@@ -51,9 +51,9 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 
 	// if dry run, shorten running model
 	if isDryRun {
-		stations = stations[0:3]
+		stations = stations[0:1]
 		go func() {
-			<-time.After(10 * time.Second)
+			<-time.After(7 * time.Second)
 			d.Close()
 		}()
 		ticker = time.NewTicker(2 * time.Second)
