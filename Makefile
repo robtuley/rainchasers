@@ -10,6 +10,9 @@ ea: vet test
 sepa: vet test
 	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/sepa 
 
+nrw: vet test
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/nrw 
+
 firestore: vet test
 	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/firestore 
 

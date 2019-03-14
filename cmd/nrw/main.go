@@ -15,7 +15,7 @@ import (
 // Responds to environment variables:
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
-//   API_KEY (no default)
+//   NRW_API_KEY (no default)
 func main() {
 	d := daemon.New("nrw")
 	go d.Run(context.Background(), run)
@@ -36,7 +36,7 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	// parse env vars
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
-	apiKey := os.Getenv("API_KEY")
+	apiKey := os.Getenv("NRW_API_KEY")
 	isDryRun := projectID == ""
 	if !isDryRun && apiKey == "" {
 		return errors.New("No API_KEY env var provided")
