@@ -144,7 +144,7 @@ func listenForTerminationSignal(ctx context.Context, d *Supervisor) error {
 			"reason": "user terminated",
 			"signal": s,
 		})
-		d.Close()
+		go d.Close()
 	case <-ctx.Done():
 	}
 
