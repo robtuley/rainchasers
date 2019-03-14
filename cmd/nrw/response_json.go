@@ -1,6 +1,6 @@
 package main
 
-const jsonResponseFromApi = `
+const jsonResponseFromAPI = `
 {
   "type" : "FeatureCollection", 
   "crs" : 

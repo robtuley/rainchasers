@@ -6,7 +6,7 @@ import (
 )
 
 func TestRecentParse(t *testing.T) {
-	b := bytes.NewBufferString(jsonResponseFromApi)
+	b := bytes.NewBufferString(jsonResponseFromAPI)
 	snaps, err := parseRecent(b)
 	if err != nil {
 		t.Fatal(err)

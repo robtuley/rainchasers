@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"os"
@@ -10,8 +11,6 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
 )
-
-const refreshPeriodInSeconds = 15 * 60
 
 // Responds to environment variables:
 //   PROJECT_ID (no default, blank for validation mode)
@@ -42,6 +41,16 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	if !isDryRun && apiKey == "" {
 		return errors.New("No API_KEY env var provided")
 	}
+	refreshPeriodInSeconds := 15 * 60
+
+	// for dry run shorten running model
+	if isDryRun {
+		refreshPeriodInSeconds = 20
+		go func() {
+			<-time.After(7 * time.Second)
+			d.Close()
+		}()
+	}
 
 	// open connection to pubsub
 	topic, err := queue.New(ctx, d, projectID, topicName)
@@ -51,17 +60,26 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	defer topic.Stop()
 
 	nConsecutiveErr := 0
+pollLoop:
 	for {
-		err := func(ctx context.Context) error {
+		err := func() error {
 			// get recent stations & readings
-			snapshots := make([]gauge.Snapshot, 0)
+			var snapshots []gauge.Snapshot
+			var err error
+			if isDryRun {
+				snapshots, err = parseRecent(bytes.NewBufferString(jsonResponseFromAPI))
+			} else {
+				snapshots, err = recent(ctx, d, apiKey)
+			}
+			if err != nil {
+				return err
+			}
 
 			// calculate update rate to refresh on schedule
 			every := calculateRate(len(snapshots), refreshPeriodInSeconds)
 			ticker := time.NewTicker(every)
 			defer ticker.Stop()
 
-		pubLoop:
 			for _, s := range snapshots {
 				err := topic.Publish(ctx, d, &s)
 				if err != nil {
@@ -71,13 +89,25 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 				select {
 				case <-ticker.C:
 				case <-ctx.Done():
-					break pubLoop
+					return nil
+				case <-d.Done():
+					return nil
 				}
 			}
 
 			return nil
-		}(ctx)
+		}()
 
+		// exit loop if shutdown
+		select {
+		case <-ctx.Done():
+			break pollLoop
+		case <-d.Done():
+			break pollLoop
+		default:
+		}
+
+		// track consecutive errors
 		if err != nil {
 			nConsecutiveErr++
 			if nConsecutiveErr > 2 {
@@ -91,11 +121,8 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	}
 
 	// validate log stream
-	if d.Count("sepa.discover") != 1 {
-		return errors.New("sepa.discover event expected but not present")
-	}
-	if d.Count("sepa.updated") < 1 {
-		return errors.New("sepa.updated event expected but not present")
+	if d.Count("snapshot.published") < 1 {
+		return errors.New("snapshot.published event expected but not present")
 	}
 
 	return nil
