@@ -13,7 +13,13 @@ The [EA Hydrology API](https://environment.data.gov.uk/hydrology/doc/reference) 
 
 ## [NRW Levels API](https://api-portal.naturalresources.wales/docs/services/577521aed81b570928363e10/operations/577521e0d81b570928363e11)
 
-This is not yet used.
+* Recent levels polled in `/cmd/nrw`
+* Station identifier is `RLOIid`
+
+This is an authenticated API and requires an API key to be stored in k8s:
+
+    kubectl create secret generic -n default nrw-apikey \
+    --from-literal=key=<your API Key>
 
 ## [SEPA CSV Data](http://apps.sepa.org.uk/waterlevels/)
 
