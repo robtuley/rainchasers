@@ -27,3 +27,11 @@ spec:
                 secretKeyRef:
                   name: honeycomb-writekey
                   key: key
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
