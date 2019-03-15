@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"os"
 	"time"
 
@@ -111,14 +110,6 @@ updateLoop:
 		case <-d.Done():
 			break updateLoop
 		}
-	}
-
-	// validate log stream
-	if d.Count("sepa.discover") != 1 {
-		return errors.New("sepa.discover event expected but not present")
-	}
-	if d.Count("sepa.updated") < 1 {
-		return errors.New("sepa.updated event expected but not present")
 	}
 
 	return nil

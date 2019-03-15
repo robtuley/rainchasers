@@ -23,26 +23,26 @@ type Supervisor struct {
 
 // New creates a new daemon
 func New(name string) *Supervisor {
-	doneFn := make(chan func())
+	s := &Supervisor{
+		Logger:  createLogger(name),
+		doneC:   make(chan struct{}),
+		doneFn:  make(chan func()),
+		closedC: make(chan struct{}),
+	}
 
 	// cache done functions until channel closed
-	// then execute them all
+	// then execute them all, use wg to ensure cleanup
+	s.wg.Add(1)
 	go func() {
 		fns := make([]func(), 0)
-		for f := range doneFn {
+		for f := range s.doneFn {
 			fns = append(fns, f)
 		}
 		for _, f := range fns {
 			f()
 		}
+		s.wg.Done()
 	}()
-
-	s := &Supervisor{
-		Logger:  createLogger(name),
-		doneC:   make(chan struct{}),
-		doneFn:  doneFn,
-		closedC: make(chan struct{}),
-	}
 
 	go s.Run(context.Background(), listenForTerminationSignal)
 

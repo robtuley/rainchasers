@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"os"
 	"time"
 
@@ -126,11 +125,6 @@ updateLoop:
 			break updateLoop
 		default:
 		}
-	}
-
-	// validate log stream on shutdown
-	if d.Count("snapshot.published") < 1 {
-		return errors.New("No snapshot.published events")
 	}
 
 	return nil
