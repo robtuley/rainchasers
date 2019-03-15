@@ -5,10 +5,14 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"time"
 )
 
-const (
-	httpUserAgent = "Rainchaser Bot <hello@rainchasers.com>"
+var (
+	httpUserAgent     = "Rainchaser Bot <hello@rainchasers.com>"
+	httpDefaultClient = &http.Client{
+		Timeout: time.Second * 60,
+	}
 )
 
 // JSON makes a request for JSON data
@@ -21,7 +25,7 @@ func JSON(ctx context.Context, url string) (*http.Response, error) {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Set("User-Agent", httpUserAgent)
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := httpDefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +45,7 @@ func CSV(ctx context.Context, url string) (*http.Response, error) {
 	req = req.WithContext(ctx)
 	req.Header.Set("User-Agent", httpUserAgent)
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := httpDefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

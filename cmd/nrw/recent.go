@@ -85,7 +85,10 @@ func recent(ctx context.Context, d *daemon.Supervisor, apiKey string) (snaps []g
 	req.Header.Add("Accept", "application/json")
 	req.Header.Set(recentKeyHeader, apiKey)
 
-	resp, err := http.DefaultClient.Do(req)
+	client := &http.Client{
+		Timeout: time.Second * 60,
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}

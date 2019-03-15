@@ -99,7 +99,10 @@ func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChange
 	}
 	req = req.WithContext(ctx)
 
-	resp, err := http.DefaultClient.Do(req)
+	client := &http.Client{
+		Timeout: time.Second * 60,
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		return false, err
 	}
