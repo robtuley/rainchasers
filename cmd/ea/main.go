@@ -28,7 +28,7 @@ func main() {
 
 	go d.Run(context.Background(), cfg.run)
 	select {
-	case <-time.After(24 * time.Hour):
+	case <-time.After(4 * time.Hour):
 	case <-d.Done():
 	}
 	d.Close()
