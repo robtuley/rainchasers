@@ -14,9 +14,6 @@ steps:
         "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
         "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:latest",
       ]
-  # perform app self-test in docker artefact
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["run", "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"]
   # update k8s deployment to rollout new image
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"]
