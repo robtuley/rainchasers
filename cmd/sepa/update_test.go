@@ -9,6 +9,8 @@ import (
 
 func TestUpdatingFromAStation(t *testing.T) {
 	d := daemon.New("test")
+	defer d.Close()
+
 	readings, err := getReadings(context.Background(), d, "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
 
 	if err != nil {

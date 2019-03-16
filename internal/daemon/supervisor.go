@@ -16,7 +16,6 @@ type Supervisor struct {
 	*report.Logger
 
 	doneC   chan struct{}
-	doneFn  chan func()
 	closedC chan struct{}
 	wg      sync.WaitGroup
 }
@@ -26,23 +25,8 @@ func New(name string) *Supervisor {
 	s := &Supervisor{
 		Logger:  createLogger(name),
 		doneC:   make(chan struct{}),
-		doneFn:  make(chan func()),
 		closedC: make(chan struct{}),
 	}
-
-	// cache done functions until channel closed
-	// then execute them all, use wg to ensure cleanup
-	s.wg.Add(1)
-	go func() {
-		fns := make([]func(), 0)
-		for f := range s.doneFn {
-			fns = append(fns, f)
-		}
-		for _, f := range fns {
-			f()
-		}
-		s.wg.Done()
-	}()
 
 	go s.Run(context.Background(), listenForTerminationSignal)
 
@@ -83,7 +67,6 @@ func (d *Supervisor) Close() {
 
 	// send close signals
 	close(d.doneC)
-	close(d.doneFn)
 
 	// wait for go-routines to exit cleanly (with timeout)
 	c := make(chan struct{})
@@ -126,7 +109,12 @@ func (d *Supervisor) isClosing() bool {
 
 func (d *Supervisor) cancelOnClose(ctx context.Context) context.Context {
 	ctx, cancel := context.WithCancel(ctx)
-	d.doneFn <- cancel
+	d.wg.Add(1)
+	go func() {
+		<-d.doneC
+		cancel()
+		d.wg.Done()
+	}()
 	return ctx
 }
 
