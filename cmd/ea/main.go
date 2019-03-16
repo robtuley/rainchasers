@@ -16,7 +16,17 @@ import (
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
 	d := daemon.New("ea")
-	go d.Run(context.Background(), run)
+
+	// parse env vars
+	cfg := config{
+		ProjectID:                   os.Getenv("PROJECT_ID"),
+		TopicName:                   os.Getenv("PUBSUB_TOPIC"),
+		RefreshPeriodInSeconds:      15 * 60,
+		MaxPublishPerSecond:         30,
+		RestartAfterXConsecutiveErr: 3,
+	}
+
+	go d.Run(context.Background(), cfg.run)
 
 	select {
 	case <-time.After(24 * time.Hour):
@@ -30,33 +40,19 @@ func main() {
 	}
 }
 
-func run(ctx context.Context, d *daemon.Supervisor) error {
-	// parse env vars
-	projectID := os.Getenv("PROJECT_ID")
-	topicName := os.Getenv("PUBSUB_TOPIC")
-	isDryRun := projectID == ""
-	refreshPeriodInSeconds := 15 * 60
+type config struct {
+	ProjectID                   string
+	TopicName                   string
+	RefreshPeriodInSeconds      int
+	MaxPublishPerSecond         int
+	RestartAfterXConsecutiveErr int
+}
 
+func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// discover EA gauging stations
 	stations, err := ea.Discover(ctx, d)
 	if err != nil {
 		return err
-	}
-
-	// if dry run, shorten running model
-	if isDryRun {
-		n := 0
-		for k := range stations {
-			if n >= 3 {
-				delete(stations, k)
-			}
-			n++
-		}
-		go func() {
-			<-time.After(10 * time.Second)
-			d.Close()
-		}()
-		refreshPeriodInSeconds = 3
 	}
 
 	nConsecutiveErr := 0
@@ -70,15 +66,14 @@ updateLoop:
 			}
 
 			// open connection to pubsub
-			topic, err := queue.New(ctx, d, projectID, topicName)
+			topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
 			if err != nil {
 				return err
 			}
 			defer topic.Stop()
 
-			// calculate tick rate to spread readings publish over
-			// the refresh period
-			every := calculateRate(len(readings), refreshPeriodInSeconds)
+			// ticker to spread readings publish over the full refresh period
+			every := cfg.durationBetweenPublish(len(readings))
 			ticker := time.NewTicker(every)
 			defer ticker.Stop()
 
@@ -110,7 +105,7 @@ updateLoop:
 
 		if err != nil {
 			nConsecutiveErr++
-			if nConsecutiveErr > 3 {
+			if nConsecutiveErr >= cfg.RestartAfterXConsecutiveErr {
 				// ignore a few isolated errors, but if
 				// many consecutive bubble up to restart
 				return err
@@ -121,7 +116,7 @@ updateLoop:
 
 		// break loop on shutdown signal
 		select {
-		case <-d.Done():
+		case <-ctx.Done():
 			break updateLoop
 		default:
 		}
@@ -130,10 +125,12 @@ updateLoop:
 	return nil
 }
 
-func calculateRate(n int, seconds int) time.Duration {
-	maxPerSecond := 50
-	ms := seconds * 1000 / n
-	min := 1000 / maxPerSecond
+func (cfg config) durationBetweenPublish(total int) time.Duration {
+	ms := cfg.RefreshPeriodInSeconds * 1000 / total
+	min := 1
+	if cfg.MaxPublishPerSecond > 0 {
+		min = 1000 / cfg.MaxPublishPerSecond
+	}
 	if ms < min {
 		ms = min
 	}

@@ -68,7 +68,7 @@ func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Su
 	}
 }
 
-// Done signals daemon shutdown
+// Done signals daemon shutdown TODO:deprecate should use ctx
 func (d *Supervisor) Done() <-chan struct{} {
 	return d.doneC
 }
