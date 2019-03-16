@@ -24,7 +24,7 @@ func main() {
 	}
 
 	d := daemon.New("ea")
-	go d.Run(context.Background(), cfg.run)
+	d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(4 * time.Hour):
 	case <-d.Done():

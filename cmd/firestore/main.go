@@ -22,7 +22,7 @@ func main() {
 	}
 
 	d := daemon.New("firestore")
-	go d.Run(context.Background(), cfg.run)
+	d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(24 * time.Hour):
 	case <-d.Done():
@@ -50,7 +50,7 @@ func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// TODO: update firebase rivers here
 
 	// poll for river content updates
-	go d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
+	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
 		ticker := time.NewTicker(5 * time.Minute)
 		defer ticker.Stop()
 
@@ -73,7 +73,7 @@ func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 
 	// subscribe to gauge snapshot topic to populate firebase
 	var counter uint64
-	go d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
+	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
 		if cfg.ProjectID == "" {
 			return nil
 		}
@@ -95,7 +95,7 @@ func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	})
 
 	// log updates received ok every 30s
-	go d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
+	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
 		ticker := time.NewTicker(time.Second * 30)
 		defer ticker.Stop()
 

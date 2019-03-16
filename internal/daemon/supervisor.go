@@ -28,28 +28,31 @@ func New(name string) *Supervisor {
 		closedC: make(chan struct{}),
 	}
 
-	go s.Run(context.Background(), listenForTerminationSignal)
-
+	s.Run(context.Background(), listenForTerminationSignal)
 	return s
 }
 
-// Run executes a job function
+// Run executes an async job function
 //
 // The daemon will shutdown if the function returns an unhandled error.
 func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Supervisor) error) {
 	ctx = d.cancelOnClose(ctx)
 
 	d.wg.Add(1)
-	err := fn(ctx, d)
-	d.wg.Done()
+	go func() {
+		err := fn(ctx, d)
+		d.wg.Done()
+		// TODO fix the fact this is here ahead of the d.Close because
+		// d.Close blocks. Introduce a Wait().
 
-	if ctx.Err() == nil && err != nil {
-		d.Action("daemon.interrupt", report.Data{
-			"reason": "run process unhandled error",
-			"error":  err.Error(),
-		})
-		d.Close()
-	}
+		if ctx.Err() == nil && err != nil {
+			d.Action("daemon.interrupt", report.Data{
+				"reason": "run process unhandled error",
+				"error":  err.Error(),
+			})
+			d.Close()
+		}
+	}()
 }
 
 // Done signals daemon shutdown TODO:deprecate should use ctx
