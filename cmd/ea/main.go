@@ -35,7 +35,7 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	projectID := os.Getenv("PROJECT_ID")
 	topicName := os.Getenv("PUBSUB_TOPIC")
 	isDryRun := projectID == ""
-	refreshPeriodInSeconds := 5 * 60
+	refreshPeriodInSeconds := 15 * 60
 
 	// discover EA gauging stations
 	stations, err := ea.Discover(ctx, d)
