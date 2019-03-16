@@ -15,9 +15,6 @@ import (
 //   PROJECT_ID (no default, blank skips publish)
 //   PUBSUB_TOPIC (no default)
 func main() {
-	d := daemon.New("ea")
-
-	// parse env vars
 	cfg := config{
 		ProjectID:                os.Getenv("PROJECT_ID"),
 		TopicName:                os.Getenv("PUBSUB_TOPIC"),
@@ -26,6 +23,7 @@ func main() {
 		ExitAfterXConsecutiveErr: 3,
 	}
 
+	d := daemon.New("ea")
 	go d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(4 * time.Hour):

@@ -15,9 +15,6 @@ import (
 //   PROJECT_ID (no default, blank for validation mode)
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
-	d := daemon.New("sepa")
-
-	// parse env vars
 	cfg := config{
 		ProjectID:                os.Getenv("PROJECT_ID"),
 		TopicName:                os.Getenv("PUBSUB_TOPIC"),
@@ -25,6 +22,7 @@ func main() {
 		ExitAfterXConsecutiveErr: 3,
 	}
 
+	d := daemon.New("sepa")
 	go d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(24 * time.Hour):
