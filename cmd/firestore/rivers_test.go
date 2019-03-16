@@ -11,6 +11,7 @@ import (
 func TestRiverCacheCreationFromCatalogueURL(t *testing.T) {
 	url := "https://app.rainchasers.com/catalogue.json"
 	d := daemon.New("example")
+	defer d.Close()
 
 	cache, err := NewRiverCache(context.Background(), d, url)
 	if err != nil {

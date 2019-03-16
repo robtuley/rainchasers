@@ -16,9 +16,13 @@ import (
 //   PROJECT_ID (no default, blank indicates self-test mode)
 //   PUBSUB_TOPIC (no default)
 func main() {
-	d := daemon.New("firestore")
-	go d.Run(context.Background(), run)
+	cfg := config{
+		ProjectID: os.Getenv("PROJECT_ID"),
+		TopicName: os.Getenv("PUBSUB_TOPIC"),
+	}
 
+	d := daemon.New("firestore")
+	go d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(24 * time.Hour):
 	case <-d.Done():
@@ -31,20 +35,12 @@ func main() {
 	}
 }
 
-func run(ctx context.Context, d *daemon.Supervisor) error {
-	// parse env vars
-	projectID := os.Getenv("PROJECT_ID")
-	topicName := os.Getenv("PUBSUB_TOPIC")
-	isDryRun := projectID == ""
+type config struct {
+	ProjectID string
+	TopicName string
+}
 
-	// if dry run, shorten running model
-	if isDryRun {
-		go func() {
-			<-time.After(10 * time.Second)
-			d.Close()
-		}()
-	}
-
+func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// load river catalogue
 	url := "https://app.rainchasers.com/catalogue.json"
 	rivers, err := NewRiverCache(ctx, d, url)
@@ -78,11 +74,11 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	// subscribe to gauge snapshot topic to populate firebase
 	var counter uint64
 	go d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
-		if isDryRun {
+		if cfg.ProjectID == "" {
 			return nil
 		}
 
-		topic, err := queue.New(ctx, d, projectID, topicName)
+		topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
 		if err != nil {
 			return err
 		}
