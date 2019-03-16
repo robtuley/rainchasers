@@ -12,22 +12,21 @@ import (
 )
 
 // Responds to environment variables:
-//   PROJECT_ID (no default, blank for validation mode)
-//   PUBSUB_TOPIC (no default, blank for validation mode)
+//   PROJECT_ID (no default, blank skips publish)
+//   PUBSUB_TOPIC (no default)
 func main() {
 	d := daemon.New("ea")
 
 	// parse env vars
 	cfg := config{
-		ProjectID:                   os.Getenv("PROJECT_ID"),
-		TopicName:                   os.Getenv("PUBSUB_TOPIC"),
-		RefreshPeriodInSeconds:      15 * 60,
-		MaxPublishPerSecond:         30,
-		RestartAfterXConsecutiveErr: 3,
+		ProjectID:                os.Getenv("PROJECT_ID"),
+		TopicName:                os.Getenv("PUBSUB_TOPIC"),
+		RefreshPeriodInSeconds:   15 * 60,
+		MaxPublishPerSecond:      30,
+		ExitAfterXConsecutiveErr: 3,
 	}
 
 	go d.Run(context.Background(), cfg.run)
-
 	select {
 	case <-time.After(24 * time.Hour):
 	case <-d.Done():
@@ -41,11 +40,11 @@ func main() {
 }
 
 type config struct {
-	ProjectID                   string
-	TopicName                   string
-	RefreshPeriodInSeconds      int
-	MaxPublishPerSecond         int
-	RestartAfterXConsecutiveErr int
+	ProjectID                string
+	TopicName                string
+	RefreshPeriodInSeconds   int
+	MaxPublishPerSecond      int
+	ExitAfterXConsecutiveErr int
 }
 
 func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
@@ -105,7 +104,7 @@ updateLoop:
 
 		if err != nil {
 			nConsecutiveErr++
-			if nConsecutiveErr >= cfg.RestartAfterXConsecutiveErr {
+			if nConsecutiveErr >= cfg.ExitAfterXConsecutiveErr {
 				// ignore a few isolated errors, but if
 				// many consecutive bubble up to restart
 				return err

@@ -16,8 +16,16 @@ import (
 //   PUBSUB_TOPIC (no default, blank for validation mode)
 func main() {
 	d := daemon.New("sepa")
-	go d.Run(context.Background(), run)
 
+	// parse env vars
+	cfg := config{
+		ProjectID:                os.Getenv("PROJECT_ID"),
+		TopicName:                os.Getenv("PUBSUB_TOPIC"),
+		RefreshPeriodInSeconds:   15 * 60,
+		ExitAfterXConsecutiveErr: 3,
+	}
+
+	go d.Run(context.Background(), cfg.run)
 	select {
 	case <-time.After(24 * time.Hour):
 	case <-d.Done():
@@ -30,12 +38,14 @@ func main() {
 	}
 }
 
-func run(ctx context.Context, d *daemon.Supervisor) error {
-	// parse env vars
-	projectID := os.Getenv("PROJECT_ID")
-	topicName := os.Getenv("PUBSUB_TOPIC")
-	isDryRun := projectID == ""
+type config struct {
+	ProjectID                string
+	TopicName                string
+	RefreshPeriodInSeconds   int
+	ExitAfterXConsecutiveErr int
+}
 
+func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// discover SEPA gauging stations
 	stations, err := discover(ctx, d)
 	if err != nil {
@@ -43,24 +53,12 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	}
 
 	// calculate update rate to refresh on schedule
-	refreshPeriodInSeconds := 15 * 60
-	every := calculateRate(len(stations), refreshPeriodInSeconds)
+	every := cfg.durationBetweenPublish(len(stations))
 	ticker := time.NewTicker(every)
 	defer ticker.Stop()
 
-	// if dry run, shorten running model
-	if isDryRun {
-		stations = stations[0:1]
-		go func() {
-			<-time.After(7 * time.Second)
-			d.Close()
-		}()
-		ticker = time.NewTicker(2 * time.Second)
-		defer ticker.Stop()
-	}
-
 	// open connection to pubsub
-	topic, err := queue.New(ctx, d, projectID, topicName)
+	topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
 	if err != nil {
 		return err
 	}
@@ -95,7 +93,7 @@ updateLoop:
 
 		if err != nil {
 			nConsecutiveErr++
-			if nConsecutiveErr > 5 {
+			if nConsecutiveErr >= cfg.ExitAfterXConsecutiveErr {
 				// ignore a few isolated errors, but if
 				// many consecutive bubble up to restart
 				return err
@@ -107,7 +105,7 @@ updateLoop:
 		n++
 		select {
 		case <-ticker.C:
-		case <-d.Done():
+		case <-ctx.Done():
 			break updateLoop
 		}
 	}
@@ -115,8 +113,8 @@ updateLoop:
 	return nil
 }
 
-func calculateRate(n int, seconds int) time.Duration {
-	ms := seconds * 1000 / n
+func (cfg config) durationBetweenPublish(total int) time.Duration {
+	ms := cfg.RefreshPeriodInSeconds * 1000 / total
 	min := 1500 // SEPA rate limiter ~ 1 req/per second
 	if ms < min {
 		ms = min

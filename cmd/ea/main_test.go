@@ -11,6 +11,7 @@ import (
 )
 
 func TestDryRun(t *testing.T) {
+	// verify no goroutine leaks
 	defer goleak.VerifyNoLeaks(t, goleak.IgnoreTopFunction("go.opencensus.io/stats/view.(*worker).start"))
 	defer http.DefaultTransport.(*http.Transport).CloseIdleConnections()
 
