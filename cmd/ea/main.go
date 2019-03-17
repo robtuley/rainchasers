@@ -25,12 +25,8 @@ func main() {
 
 	d := daemon.New("ea")
 	d.Run(context.Background(), cfg.run)
-	select {
-	case <-time.After(4 * time.Hour):
-	case <-d.Done():
-	}
-	d.Close()
-
+	d.CloseAfter(4 * time.Hour)
+	d.Wait()
 	if err := d.Err(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
 		os.Exit(1)

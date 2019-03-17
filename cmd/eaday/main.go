@@ -21,8 +21,8 @@ const maxPublishPerSecond = 20
 func main() {
 	d := daemon.New("eaday")
 	d.Run(context.Background(), run)
-	d.Close()
-
+	d.CloseAfter(4 * time.Hour)
+	d.Wait()
 	if err := d.Err(); err != nil {
 		os.Stderr.WriteString(err.Error() + "\n")
 		os.Exit(1)
@@ -95,7 +95,7 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 
 		select {
 		case <-ticker.C:
-		case <-d.Done():
+		case <-ctx.Done():
 			// exit early on shutdown
 			return nil
 		}

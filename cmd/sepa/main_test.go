@@ -41,5 +41,5 @@ func TestDryRun(t *testing.T) {
 	if err := d.Err(); err != nil {
 		t.Fatal(err)
 	}
-	d.Close()
+	d.CloseWait()
 }

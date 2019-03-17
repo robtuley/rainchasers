@@ -11,7 +11,7 @@ import (
 func TestDiscoveringStations(t *testing.T) {
 	const ε = 0.0001
 	d := daemon.New("test")
-	defer d.Close()
+	defer d.CloseWait()
 
 	stations, err := discover(context.Background(), d)
 	if err != nil {

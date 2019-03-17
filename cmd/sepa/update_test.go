@@ -9,7 +9,7 @@ import (
 
 func TestUpdatingFromAStation(t *testing.T) {
 	d := daemon.New("test")
-	defer d.Close()
+	defer d.CloseWait()
 
 	readings, err := getReadings(context.Background(), d, "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
 

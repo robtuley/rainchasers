@@ -15,24 +15,22 @@ import (
 type Supervisor struct {
 	*report.Logger
 
-	doneC   chan struct{}
-	closedC chan struct{}
-	wg      sync.WaitGroup
+	doneC chan struct{}
+	wg    sync.WaitGroup
 }
 
 // New creates a new daemon
 func New(name string) *Supervisor {
 	s := &Supervisor{
-		Logger:  createLogger(name),
-		doneC:   make(chan struct{}),
-		closedC: make(chan struct{}),
+		Logger: createLogger(name),
+		doneC:  make(chan struct{}),
 	}
 
 	s.Run(context.Background(), listenForTerminationSignal)
 	return s
 }
 
-// Run executes an async job function
+// Run executes a background function
 //
 // The daemon will shutdown if the function returns an unhandled error.
 func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Supervisor) error) {
@@ -40,11 +38,9 @@ func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Su
 
 	d.wg.Add(1)
 	go func() {
-		err := fn(ctx, d)
-		d.wg.Done()
-		// TODO fix the fact this is here ahead of the d.Close because
-		// d.Close blocks. Introduce a Wait().
+		defer d.wg.Done()
 
+		err := fn(ctx, d)
 		if ctx.Err() == nil && err != nil {
 			d.Action("daemon.interrupt", report.Data{
 				"reason": "run process unhandled error",
@@ -55,59 +51,74 @@ func (d *Supervisor) Run(ctx context.Context, fn func(ctx context.Context, d *Su
 	}()
 }
 
-// Done signals daemon shutdown TODO:deprecate should use ctx
-func (d *Supervisor) Done() <-chan struct{} {
-	return d.doneC
+// CloseAfter closes the daemon after the specified delay
+func (d *Supervisor) CloseAfter(duration time.Duration) {
+	d.Run(context.Background(), func(ctx context.Context, d *Supervisor) error {
+		timer := time.NewTimer(duration)
+		defer timer.Stop()
+
+		select {
+		case <-timer.C:
+			d.Close()
+		case <-ctx.Done():
+		}
+		return nil
+	})
 }
 
-// Close invokes a deamon shutdown
-func (d *Supervisor) Close() {
-	if d.isClosing() {
-		// already closing, wait till complete
-		<-d.closedC
-		return
-	}
+// Wait blocks until the daemon has shutdown
+func (d *Supervisor) Wait() {
+	<-d.doneC
 
-	// send close signals
-	close(d.doneC)
-
-	// wait for go-routines to exit cleanly (with timeout)
+	timeout := 10 * time.Second
 	c := make(chan struct{})
 	go func() {
 		defer close(c)
 		d.wg.Wait()
 	}()
+
+	timer := time.NewTimer(timeout)
+	defer timer.Stop()
 	select {
 	case <-c:
 		<-d.Info("closed.ok", report.Data{})
-	case <-time.After(10 * time.Second):
+	case <-timer.C:
 		<-d.Action("closed.timeout", report.Data{})
 	}
 
 	// flush logs
 	d.Logger.Close()
-	close(d.closedC)
+}
+
+// Close invokes a deamon shutdown
+func (d *Supervisor) Close() {
+	// return early if already closing
+	select {
+	case <-d.doneC:
+		return
+	default:
+	}
+
+	// send close signal
+	close(d.doneC)
+}
+
+// CloseWait invokes a deamon shutdown and blocks until complete
+func (d *Supervisor) CloseWait() {
+	d.Close()
+	d.Wait()
 }
 
 // EndSpan writes the data from a completed trace span
 func (d *Supervisor) EndSpan(ctx context.Context, err error, payload report.Data) <-chan int {
-	if d.isClosing() {
-		// do not end span if interrupted by closing
+	if ctx.Err() == context.Canceled {
+		// do not end span cancelling down the stack
 		ch := make(chan int)
 		close(ch)
 		return ch
 	}
 
 	return d.Logger.EndSpan(ctx, err, payload)
-}
-
-func (d *Supervisor) isClosing() bool {
-	select {
-	case <-d.doneC:
-		return true
-	default:
-	}
-	return false
 }
 
 func (d *Supervisor) cancelOnClose(ctx context.Context) context.Context {
@@ -135,7 +146,7 @@ func listenForTerminationSignal(ctx context.Context, d *Supervisor) error {
 			"reason": "user terminated",
 			"signal": s,
 		})
-		go d.Close()
+		d.Close()
 	case <-ctx.Done():
 	}
 
