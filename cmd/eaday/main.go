@@ -85,9 +85,12 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 			continue
 		}
 
-		err := topic.Publish(ctx, d, &gauge.Snapshot{
-			Station:  s,
-			Readings: r,
+		tctx, traceID := d.Trace(ctx)
+		err := topic.Publish(tctx, d, &gauge.Snapshot{
+			Station:        s,
+			Readings:       r,
+			TraceID:        traceID,
+			ProcessingTime: time.Now(),
 		})
 		if err != nil {
 			return err
