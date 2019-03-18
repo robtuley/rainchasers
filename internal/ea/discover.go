@@ -16,6 +16,8 @@ type stationListJson struct {
 
 type stationJson struct {
 	Url              string `json:"@id"`
+	RLOIid           string
+	RLOIidRawJson    json.RawMessage `json:"RLOIid"`
 	Name             string
 	NameRawJson      json.RawMessage `json:"label"`
 	RiverName        string
@@ -69,6 +71,7 @@ func Discover(ctx context.Context, d *daemon.Supervisor) (stations map[string]ga
 		// so we use a defensive mechanism to parse these fields and let them be missing completely
 		s.Lat, _ = daemon.ParseFloat(s.LatRawJson)
 		s.Lg, _ = daemon.ParseFloat(s.LgRawJson)
+		s.RLOIid, _ = daemon.ParseString(s.RLOIidRawJson)
 		s.Name, _ = daemon.ParseString(s.NameRawJson)
 		s.RiverName, _ = daemon.ParseString(s.RiverNameRawJson)
 
@@ -80,11 +83,20 @@ func Discover(ctx context.Context, d *daemon.Supervisor) (stations map[string]ga
 				continue
 			}
 
+			// if a RLOIid (river levels on internet ID) is
+			// available, use this as a AliasID otherwise use
+			// the measure URL
+			aliasURL := m.Url
+			if s.RLOIid != "" {
+				aliasURL = "rloi://" + s.RLOIid
+			}
+
 			// no snapshot readings are available
 			// s.DateTime and s.Value left as defaults
 
 			station := gauge.Station{
 				DataURL:   m.Url,
+				AliasURL:  aliasURL,
 				HumanURL:  s.Url,
 				Name:      s.Name,
 				RiverName: s.RiverName,

@@ -32,6 +32,9 @@ func TestDiscoveringStations(t *testing.T) {
 		if len(s.DataURL) < 5 {
 			t.Error("No data URL", id, s)
 		}
+		if len(s.AliasURL) < 5 {
+			t.Error("No alias URL", id, s)
+		}
 		if len(s.HumanURL) < 5 {
 			t.Error("No human URL", id, s)
 		}

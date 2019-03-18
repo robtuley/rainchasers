@@ -121,6 +121,7 @@ func parseRecent(r io.Reader) ([]gauge.Snapshot, error) {
 		p := feature.Properties
 		station := gauge.Station{
 			DataURL:   "rloi://" + p.ID,
+			AliasURL:  "rloi://" + p.ID,
 			HumanURL:  p.URL,
 			Name:      p.Title,
 			RiverName: "",  // not available
