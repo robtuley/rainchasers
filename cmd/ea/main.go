@@ -77,9 +77,12 @@ updateLoop:
 					continue
 				}
 
-				err := topic.Publish(ctx, d, &gauge.Snapshot{
-					Station:  s,
-					Readings: []gauge.Reading{r},
+				tctx, traceID := d.Trace(ctx)
+				err := topic.Publish(tctx, d, &gauge.Snapshot{
+					Station:        s,
+					Readings:       []gauge.Reading{r},
+					TraceID:        traceID,
+					ProcessingTime: time.Now(),
 				})
 				if err != nil {
 					return err

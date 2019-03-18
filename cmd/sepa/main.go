@@ -67,7 +67,7 @@ updateLoop:
 		i := n % len(stations)
 
 		err := func(ctx context.Context) (err error) {
-			ctx = d.Trace(ctx)
+			ctx, traceID := d.Trace(ctx)
 			ctx = d.StartSpan(ctx, "sepa.updated")
 			defer func() {
 				d.EndSpan(ctx, err, report.Data{
@@ -81,8 +81,10 @@ updateLoop:
 			}
 
 			return topic.Publish(ctx, d, &gauge.Snapshot{
-				Station:  stations[i],
-				Readings: readings,
+				Station:        stations[i],
+				Readings:       readings,
+				TraceID:        traceID,
+				ProcessingTime: time.Now(),
 			})
 		}(ctx)
 

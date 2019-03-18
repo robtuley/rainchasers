@@ -93,6 +93,10 @@ github.com/rainchasers/report v0.0.0-20190228180656-0f94ed43690d h1:CZeZeHKoaJOO
 github.com/rainchasers/report v0.0.0-20190228180656-0f94ed43690d/go.mod h1:SKWoe3cynbRXlMlOnrh66jzkVI3cuDL16cSFlDr41Qk=
 github.com/rainchasers/report v0.0.0-20190315162726-1e909d16745c h1:sBSf5vTrC0B0b/yWBZO5Cg/19mgX3kLw/Lz7iVDwoAs=
 github.com/rainchasers/report v0.0.0-20190315162726-1e909d16745c/go.mod h1:2e6GZYCmEkxhnQS83dRcdrAPD7F+qQFATTydxqBIO0c=
+github.com/rainchasers/report v0.0.0-20190318111203-95cdd248c0f9 h1:MB0lRLNyUspo2uno/D+SL7UKCeHzl/MX2WmQa5NC70s=
+github.com/rainchasers/report v0.0.0-20190318111203-95cdd248c0f9/go.mod h1:2e6GZYCmEkxhnQS83dRcdrAPD7F+qQFATTydxqBIO0c=
+github.com/rainchasers/report v0.0.0-20190318112222-2f99b3eed463 h1:CHwYcRb+HFpdQDUTlAoOXa9nE++mioY9gA2WuXOp7SY=
+github.com/rainchasers/report v0.0.0-20190318112222-2f99b3eed463/go.mod h1:2e6GZYCmEkxhnQS83dRcdrAPD7F+qQFATTydxqBIO0c=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/shurcooL/component v0.0.0-20170202220835-f88ec8f54cc4/go.mod h1:XhFIlyj5a1fBNx5aJTbKoIq0mNaPvOagO+HjB3EtxrY=

@@ -75,7 +75,11 @@ pollLoop:
 
 			// publish snapshots
 			for _, s := range snapshots {
-				err := topic.Publish(ctx, d, &s)
+				tctx, traceID := d.Trace(ctx)
+				s.TraceID = traceID
+				s.ProcessingTime = time.Now()
+
+				err := topic.Publish(tctx, d, &s)
 				if err != nil {
 					return err
 				}
