@@ -193,6 +193,10 @@ func readSnapshot(r io.Reader) (*Snapshot, error) {
 	if err != nil {
 		return nil, err
 	}
+	str.Alias_url, err = readString(r)
+	if err != nil {
+		return nil, err
+	}
 	str.Human_url, err = readString(r)
 	if err != nil {
 		return nil, err
@@ -222,6 +226,10 @@ func readSnapshot(r io.Reader) (*Snapshot, error) {
 		return nil, err
 	}
 	str.Readings, err = readArrayMeasure(r)
+	if err != nil {
+		return nil, err
+	}
+	str.Trace_id, err = readString(r)
 	if err != nil {
 		return nil, err
 	}
@@ -338,6 +346,10 @@ func writeSnapshot(r *Snapshot, w io.Writer) error {
 	if err != nil {
 		return err
 	}
+	err = writeString(r.Alias_url, w)
+	if err != nil {
+		return err
+	}
 	err = writeString(r.Human_url, w)
 	if err != nil {
 		return err
@@ -367,6 +379,10 @@ func writeSnapshot(r *Snapshot, w io.Writer) error {
 		return err
 	}
 	err = writeArrayMeasure(r.Readings, w)
+	if err != nil {
+		return err
+	}
+	err = writeString(r.Trace_id, w)
 	if err != nil {
 		return err
 	}

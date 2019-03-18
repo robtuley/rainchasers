@@ -31,6 +31,7 @@ func readingToAvro(r *Reading) *avro.Measure {
 func snapshotToAvro(s *Snapshot) *avro.Snapshot {
 	a := avro.NewSnapshot()
 	a.Data_url = s.Station.DataURL
+	a.Alias_url = s.Station.AliasURL
 	a.Human_url = s.Station.HumanURL
 	a.Name = s.Station.Name
 	a.River_name = s.Station.RiverName
@@ -38,6 +39,7 @@ func snapshotToAvro(s *Snapshot) *avro.Snapshot {
 	a.Lg = s.Station.Lg
 	a.Type = typeToValue(s.Station.Type)
 	a.Unit = s.Station.Unit
+	a.Trace_id = s.TraceID
 	a.Processing_time = s.ProcessingTime.Unix()
 
 	for i := range s.Readings {
@@ -61,6 +63,7 @@ func (s *Snapshot) Encode(w io.Writer) error {
 func avroToStation(a *avro.Snapshot) Station {
 	return Station{
 		DataURL:   a.Data_url,
+		AliasURL:  a.Alias_url,
 		HumanURL:  a.Human_url,
 		Name:      a.Name,
 		RiverName: a.River_name,
@@ -90,6 +93,7 @@ func (s *Snapshot) Decode(r io.Reader) error {
 		s.Readings = append(s.Readings, avroToReading(m))
 	}
 
+	s.TraceID = a.Trace_id
 	s.ProcessingTime = time.Unix(a.Processing_time, 0)
 
 	return nil

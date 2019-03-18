@@ -70,7 +70,7 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 	ctx = d.StartSpan(ctx, "snapshot.published")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
-			"station": s.Station.UUID(),
+			"station": s.Station.AliasURL,
 			"count":   len(s.Readings),
 		})
 		cancel()

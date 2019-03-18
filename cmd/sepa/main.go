@@ -71,7 +71,7 @@ updateLoop:
 			ctx = d.StartSpan(ctx, "sepa.updated")
 			defer func() {
 				d.EndSpan(ctx, err, report.Data{
-					"station": stations[i].UUID(),
+					"station": stations[i].AliasURL,
 				})
 			}()
 

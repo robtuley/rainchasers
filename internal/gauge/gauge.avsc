@@ -29,6 +29,11 @@
         "name": "data_url"
       },
       {
+        "doc": "Alias URL as a reference to this station",
+        "type": "string",
+        "name": "alias_url"
+      },
+      {
         "doc": "Human linkable URL for the station",
         "type": "string",
         "name": "human_url"
@@ -73,6 +78,11 @@
           "type": "array"
         },
         "name": "readings"
+      },
+      {
+        "doc": "Trace ID to generate thgis snapshot, used as a version number",
+        "type": "string",
+        "name": "trace_id"
       },
       {
         "doc": "Unix epoch time in seconds for measurement processing time",

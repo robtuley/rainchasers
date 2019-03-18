@@ -12,6 +12,7 @@ import (
 
 type Snapshot struct {
 	Data_url        string
+	Alias_url       string
 	Human_url       string
 	Name            string
 	River_name      string
@@ -20,6 +21,7 @@ type Snapshot struct {
 	Unit            string
 	Type            TypeValues
 	Readings        []*Measure
+	Trace_id        string
 	Processing_time int64
 }
 
@@ -36,7 +38,7 @@ func NewSnapshot() *Snapshot {
 }
 
 func (r *Snapshot) Schema() string {
-	return "{\"doc:\":\"Gauge measurement record information and reading snapshot\",\"fields\":[{\"doc\":\"Data URL for the gauge measurement\",\"name\":\"data_url\",\"type\":\"string\"},{\"doc\":\"Human linkable URL for the station\",\"name\":\"human_url\",\"type\":\"string\"},{\"doc\":\"Human-readable name of the measurement\",\"name\":\"name\",\"type\":\"string\"},{\"doc\":\"Name of the river measured\",\"name\":\"river_name\",\"type\":\"string\"},{\"doc\":\"Location latitude\",\"name\":\"lat\",\"type\":\"float\"},{\"doc\":\"Location longitude\",\"name\":\"lg\",\"type\":\"float\"},{\"doc\":\"Measurement unit\",\"name\":\"unit\",\"type\":\"string\"},{\"doc\":\"Measurement type\",\"name\":\"type\",\"type\":{\"name\":\"typeValues\",\"symbols\":[\"level\",\"flow\",\"temperature\",\"rainfall\"],\"type\":\"enum\"}},{\"name\":\"readings\",\"type\":{\"items\":{\"doc:\":\"Gauge measurement information\",\"fields\":[{\"doc\":\"Unix epoch time in seconds for measurement event time\",\"name\":\"event_time\",\"type\":\"long\"},{\"doc\":\"Measurement value\",\"name\":\"value\",\"type\":\"float\"}],\"name\":\"measure\",\"namespace\":\"com.rainchasers.gauge\",\"type\":\"record\"},\"type\":\"array\"}},{\"doc\":\"Unix epoch time in seconds for measurement processing time\",\"name\":\"processing_time\",\"type\":\"long\"}],\"name\":\"snapshot\",\"namespace\":\"com.rainchasers.gauge\",\"type\":\"record\"}"
+	return "{\"doc:\":\"Gauge measurement record information and reading snapshot\",\"fields\":[{\"doc\":\"Data URL for the gauge measurement\",\"name\":\"data_url\",\"type\":\"string\"},{\"doc\":\"Alias URL as a reference to this station\",\"name\":\"alias_url\",\"type\":\"string\"},{\"doc\":\"Human linkable URL for the station\",\"name\":\"human_url\",\"type\":\"string\"},{\"doc\":\"Human-readable name of the measurement\",\"name\":\"name\",\"type\":\"string\"},{\"doc\":\"Name of the river measured\",\"name\":\"river_name\",\"type\":\"string\"},{\"doc\":\"Location latitude\",\"name\":\"lat\",\"type\":\"float\"},{\"doc\":\"Location longitude\",\"name\":\"lg\",\"type\":\"float\"},{\"doc\":\"Measurement unit\",\"name\":\"unit\",\"type\":\"string\"},{\"doc\":\"Measurement type\",\"name\":\"type\",\"type\":{\"name\":\"typeValues\",\"symbols\":[\"level\",\"flow\",\"temperature\",\"rainfall\"],\"type\":\"enum\"}},{\"name\":\"readings\",\"type\":{\"items\":{\"doc:\":\"Gauge measurement information\",\"fields\":[{\"doc\":\"Unix epoch time in seconds for measurement event time\",\"name\":\"event_time\",\"type\":\"long\"},{\"doc\":\"Measurement value\",\"name\":\"value\",\"type\":\"float\"}],\"name\":\"measure\",\"namespace\":\"com.rainchasers.gauge\",\"type\":\"record\"},\"type\":\"array\"}},{\"doc\":\"Trace ID to generate thgis snapshot, used as a version number\",\"name\":\"trace_id\",\"type\":\"string\"},{\"doc\":\"Unix epoch time in seconds for measurement processing time\",\"name\":\"processing_time\",\"type\":\"long\"}],\"name\":\"snapshot\",\"namespace\":\"com.rainchasers.gauge\",\"type\":\"record\"}"
 }
 
 func (r *Snapshot) Serialize(w io.Writer) error {

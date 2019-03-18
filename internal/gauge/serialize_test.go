@@ -9,6 +9,7 @@ import (
 func TestEncodeDecode(t *testing.T) {
 	station := Station{
 		DataURL:   "http://environment.data.gov.uk/flood-monitoring/id/measures/1029TH-level-downstage-i-15_min-mASD",
+		AliasURL:  "rloi://1234",
 		HumanURL:  "http://environment.data.gov.uk/flood-monitoring/id/stations/1029TH",
 		Name:      "Bourton Dickler",
 		RiverName: "Dikler",
@@ -29,8 +30,10 @@ func TestEncodeDecode(t *testing.T) {
 	})
 
 	before := Snapshot{
-		Station:  station,
-		Readings: readings,
+		Station:        station,
+		Readings:       readings,
+		TraceID:        "ABCDE",
+		ProcessingTime: timestamp,
 	}
 	var bb bytes.Buffer
 	err := before.Encode(&bb)
@@ -46,6 +49,9 @@ func TestEncodeDecode(t *testing.T) {
 	// check fields individually (not using reflect.DeepEqual as
 	// some custom compare needed for the dates)
 	if before.Station.DataURL != after.Station.DataURL {
+		t.Error("Url mis-match", after)
+	}
+	if before.Station.AliasURL != after.Station.AliasURL {
 		t.Error("Url mis-match", after)
 	}
 	if before.Station.HumanURL != after.Station.HumanURL {
@@ -83,5 +89,12 @@ func TestEncodeDecode(t *testing.T) {
 		if b.Value != a.Value {
 			t.Error("Value mis-match", i, b.Value, a.Value)
 		}
+	}
+
+	if !before.ProcessingTime.Equal(after.ProcessingTime) {
+		t.Error("Processing time mis-match", after)
+	}
+	if before.TraceID != after.TraceID {
+		t.Error("Trace ID mis-match", after)
 	}
 }
