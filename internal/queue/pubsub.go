@@ -3,7 +3,6 @@ package queue
 import (
 	"bytes"
 	"context"
-	"errors"
 	"time"
 
 	"cloud.google.com/go/pubsub"
@@ -99,15 +98,18 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 //
 // Note a zero length consumerGroup means auto-generate the pubsub subscription
 // string and delete once done.
-func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGroup string, fn func(d *daemon.Supervisor, s *gauge.Snapshot, err error)) error {
+func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGroup string,
+	fn func(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) error) error {
 	const ackDeadline = time.Second * 20
 
 	if t.pubSub == nil {
-		return errors.New("Topic has no project ID")
+		// simulate a subscription i.e. wait for ctx cancel then return
+		<-ctx.Done()
+		return nil
 	}
 
-	deleteSubOnComplete := len(consumerGroup) == 0
-	if deleteSubOnComplete {
+	isDeleteSubOnComplete := (consumerGroup == "")
+	if isDeleteSubOnComplete {
 		consumerGroup = time.Now().Format("v2006-01-02-15-04-05.999999")
 	}
 	subName := t.pubSub.ID() + "." + consumerGroup
@@ -132,14 +134,29 @@ func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGro
 			return err
 		}
 	}
-	if deleteSubOnComplete {
+	if isDeleteSubOnComplete {
 		defer sub.Delete(context.Background())
 	}
 
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
+		ctx, cancel := context.WithTimeout(ctx, ackDeadline-time.Second)
+		defer cancel()
+
 		s := gauge.Snapshot{}
 		err := s.Decode(bytes.NewBuffer(m.Data))
-		fn(d, &s, err)
+		if err != nil {
+			m.Ack() // ack corrupted message to prevent redelivery
+			d.Action("snapshot.corrupted", report.Data{"error": err.Error()})
+			return
+		}
+
+		ctx = d.ContinueTrace(ctx, s.TraceID)
+		err = fn(ctx, d, &s)
+		if err != nil {
+			m.Nack() // speed up message redelivery
+			d.Action("snapshot.timeout", report.Data{"error": err.Error()})
+			return
+		}
 		m.Ack()
 	})
 	if err != nil {

@@ -12,17 +12,18 @@ import (
 	"github.com/rainchasers/report"
 )
 
-// Env:
-//   PROJECT_ID (no default, blank indicates self-test mode)
-//   PUBSUB_TOPIC (no default)
 func main() {
-	cfg := config{
+	url := "https://app.rainchasers.com/catalogue.json"
+	app := &cache{
 		ProjectID: os.Getenv("PROJECT_ID"),
 		TopicName: os.Getenv("PUBSUB_TOPIC"),
+		Rivers:    NewRiverCache(url),
 	}
 
 	d := daemon.New("firestore")
-	d.Run(context.Background(), cfg.run)
+	d.Run(context.Background(), app.PollForRiverCatalogueChanges)
+	d.Run(context.Background(), app.LogAndResetCountStats)
+	d.Run(context.Background(), app.SubscribeToSnapshotUpdates)
 	d.CloseAfter(24 * time.Hour)
 
 	d.Wait()
@@ -32,83 +33,74 @@ func main() {
 	}
 }
 
-type config struct {
+type cache struct {
 	ProjectID string
 	TopicName string
+	Rivers    *RiverCache
+	// CountReceived snapshots, access using sync.atomic
+	CountReceived uint64
 }
 
-func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
-	// load river catalogue
-	url := "https://app.rainchasers.com/catalogue.json"
-	rivers, err := NewRiverCache(ctx, d, url)
-	if err != nil {
-		return err
-	}
-	// TODO: update firebase rivers here
+func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supervisor) error {
+	ticker := time.NewTicker(5 * time.Minute)
+	defer ticker.Stop()
 
-	// poll for river content updates
-	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
-		ticker := time.NewTicker(5 * time.Minute)
-		defer ticker.Stop()
-
-		for {
-			select {
-			case <-ticker.C:
-			case <-ctx.Done():
-				return nil
-			}
-
-			isChanged, err := rivers.Update(ctx, d)
-			if err != nil {
-				return err
-			}
-			if isChanged {
-				// TODO: update firebase rivers here
-			}
-		}
-	})
-
-	// subscribe to gauge snapshot topic to populate firebase
-	var counter uint64
-	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
-		if cfg.ProjectID == "" {
+	for {
+		select {
+		case <-ticker.C:
+		case <-ctx.Done():
 			return nil
 		}
 
-		topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
+		isChanged, err := c.Rivers.Update(ctx, d)
 		if err != nil {
 			return err
 		}
-		defer topic.Stop()
-
-		return topic.Subscribe(ctx, d, "", func(d *daemon.Supervisor, s *gauge.Snapshot, err error) {
+		if isChanged {
+			err := c.OnRiverCatalogueChange(ctx, d)
 			if err != nil {
-				d.Action("msg.failed", report.Data{"error": err.Error()})
-			} else {
-				atomic.AddUint64(&counter, 1)
-				// do something with firebase here
+				return err
 			}
-		})
-	})
-
-	// log updates received ok every 30s
-	d.Run(ctx, func(ctx context.Context, d *daemon.Supervisor) error {
-		ticker := time.NewTicker(time.Second * 30)
-		defer ticker.Stop()
-
-		for {
-			select {
-			case <-ticker.C:
-			case <-ctx.Done():
-				return nil
-			}
-
-			d.Info("received.ok", report.Data{
-				"count": atomic.LoadUint64(&counter),
-			})
-			atomic.StoreUint64(&counter, 0)
 		}
-	})
+	}
+}
 
+func (c *cache) OnRiverCatalogueChange(ctx context.Context, d *daemon.Supervisor) error {
+	// TODO: update firebase rivers
+	return nil
+}
+
+func (c *cache) LogAndResetCountStats(ctx context.Context, d *daemon.Supervisor) error {
+	ticker := time.NewTicker(time.Second * 30)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+		case <-ctx.Done():
+			return nil
+		}
+
+		n := atomic.SwapUint64(&c.CountReceived, 0)
+		d.Info("snapshot.received", report.Data{
+			"count": n,
+		})
+	}
+}
+
+func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Supervisor) error {
+	topic, err := queue.New(ctx, d, c.ProjectID, c.TopicName)
+	if err != nil {
+		return err
+	}
+	defer topic.Stop()
+
+	return topic.Subscribe(ctx, d, "", c.OnReceivedSnapshot)
+}
+
+func (c *cache) OnReceivedSnapshot(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) error {
+	atomic.AddUint64(&c.CountReceived, 1)
+
+	// only return error if want message redelivered, otherwise deal with it locally
 	return nil
 }

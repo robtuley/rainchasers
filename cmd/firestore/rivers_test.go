@@ -13,7 +13,8 @@ func TestRiverCacheCreationFromCatalogueURL(t *testing.T) {
 	d := daemon.New("example")
 	defer d.Close()
 
-	cache, err := NewRiverCache(context.Background(), d, url)
+	cache := NewRiverCache(url)
+	_, err := cache.Update(context.Background(), d)
 	if err != nil {
 		if e, ok := err.(*json.SyntaxError); ok {
 			t.Log("syntax error at byte offset", e.Offset)
@@ -27,7 +28,8 @@ func TestRiverCacheCreationFromCatalogueURL(t *testing.T) {
 		t.Fatal("No sections!")
 	}
 
-	_, err = NewRiverCache(context.Background(), d, "https://app.rainchasers.com/a404.json")
+	cache = NewRiverCache("https://app.rainchasers.com/a404.json")
+	_, err = cache.Update(context.Background(), d)
 	if err == nil {
 		t.Fatal("No error despite 404 URL")
 	}

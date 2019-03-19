@@ -133,16 +133,13 @@ func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChange
 	return true, nil
 }
 
-// NewRiverCache creates a cache and populates it
-func NewRiverCache(ctx context.Context, d *daemon.Supervisor, URL string) (*RiverCache, error) {
-	cache := &RiverCache{
+// NewRiverCache creates a cache
+func NewRiverCache(URL string) *RiverCache {
+	return &RiverCache{
 		URL:        URL,
 		sectionMap: make(map[string]Section),
 		rwMutex:    &sync.RWMutex{},
 	}
-
-	_, err := cache.Update(ctx, d)
-	return cache, err
 }
 
 // Each calls f sequentially for each section. If f returns false, each stops the iteration.
