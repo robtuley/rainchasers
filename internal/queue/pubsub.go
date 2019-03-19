@@ -69,8 +69,9 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 	ctx = d.StartSpan(ctx, "snapshot.published")
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
-			"station": s.Station.AliasURL,
-			"count":   len(s.Readings),
+			"station":        s.Station.AliasURL,
+			"count":          1, // matches count/count_readings pattern for other snapshot events
+			"count_readings": len(s.Readings),
 		})
 		cancel()
 	}()
@@ -146,7 +147,10 @@ func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGro
 		err := s.Decode(bytes.NewBuffer(m.Data))
 		if err != nil {
 			m.Ack() // ack corrupted message to prevent redelivery
-			d.Action("snapshot.corrupted", report.Data{"error": err.Error()})
+			d.Action("snapshot.corrupted", report.Data{
+				"count": 1,
+				"error": err.Error(),
+			})
 			return
 		}
 
@@ -154,7 +158,10 @@ func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGro
 		err = fn(ctx, d, &s)
 		if err != nil {
 			m.Nack() // speed up message redelivery
-			d.Action("snapshot.timeout", report.Data{"error": err.Error()})
+			d.Action("snapshot.timeout", report.Data{
+				"count": 1,
+				"error": err.Error(),
+			})
 			return
 		}
 		m.Ack()

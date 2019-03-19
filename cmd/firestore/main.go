@@ -37,8 +37,9 @@ type cache struct {
 	ProjectID string
 	TopicName string
 	Rivers    *RiverCache
-	// CountReceived snapshots, access using sync.atomic
-	CountReceived uint64
+	// CountReceived snapshots & readings, access using sync.atomic
+	CountSnapshotsReceived uint64
+	CountReadingsReceived  uint64
 }
 
 func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supervisor) error {
@@ -81,9 +82,11 @@ func (c *cache) LogAndResetCountStats(ctx context.Context, d *daemon.Supervisor)
 			return nil
 		}
 
-		n := atomic.SwapUint64(&c.CountReceived, 0)
+		nSnaps := atomic.SwapUint64(&c.CountSnapshotsReceived, 0)
+		nReadings := atomic.SwapUint64(&c.CountReadingsReceived, 0)
 		d.Info("snapshot.received", report.Data{
-			"count": n,
+			"count":         nSnaps,
+			"reading_count": nReadings,
 		})
 	}
 }
@@ -99,7 +102,8 @@ func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Superv
 }
 
 func (c *cache) OnReceivedSnapshot(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) error {
-	atomic.AddUint64(&c.CountReceived, 1)
+	atomic.AddUint64(&c.CountSnapshotsReceived, 1)
+	atomic.AddUint64(&c.CountReadingsReceived, uint64(len(s.Readings)))
 
 	// only return error if want message redelivered, otherwise deal with it locally
 	return nil
