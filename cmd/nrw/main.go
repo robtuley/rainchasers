@@ -25,7 +25,7 @@ func main() {
 		ExitAfterXConsecutiveErr: 3,
 	}
 
-	d := daemon.New("nrw")
+	d := daemon.New("gauge")
 	d.Run(context.Background(), cfg.run)
 	d.CloseAfter(24 * time.Hour)
 	d.Wait()

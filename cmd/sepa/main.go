@@ -8,7 +8,6 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
-	"github.com/rainchasers/report"
 )
 
 // Responds to environment variables:
@@ -22,7 +21,7 @@ func main() {
 		ExitAfterXConsecutiveErr: 3,
 	}
 
-	d := daemon.New("sepa")
+	d := daemon.New("gauge")
 	d.Run(context.Background(), cfg.run)
 	d.CloseAfter(24 * time.Hour)
 
@@ -68,12 +67,6 @@ updateLoop:
 
 		err := func(ctx context.Context) (err error) {
 			ctx, traceID := d.Trace(ctx)
-			ctx = d.StartSpan(ctx, "sepa.updated")
-			defer func() {
-				d.EndSpan(ctx, err, report.Data{
-					"station": stations[i].AliasURL,
-				})
-			}()
 
 			readings, err := getReadings(ctx, d, stations[i].DataURL)
 			if err != nil {

@@ -18,7 +18,7 @@ func main() {
 		Rivers:    NewRiverCache(url),
 	}
 
-	d := daemon.New("firestore")
+	d := daemon.New("gauge")
 	d.Run(context.Background(), app.PollForRiverCatalogueChanges)
 	d.Run(context.Background(), app.SubscribeToSnapshotUpdates)
 	d.CloseAfter(24 * time.Hour)

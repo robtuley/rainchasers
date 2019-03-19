@@ -35,8 +35,11 @@ func TestDryRun(t *testing.T) {
 	if d.Count("sepa.discover") != 1 {
 		t.Fatal("sepa.discover event expected but not present")
 	}
-	if d.Count("sepa.updated") < 1 {
-		t.Fatal("sepa.updated event expected but not present")
+	if d.Count("sepa.readings") < 1 {
+		t.Fatal("sepa.readings event expected but not present")
+	}
+	if d.Count("snapshot.published") < 1 {
+		t.Fatal("snapshot.published event expected but not present")
 	}
 	if err := d.Err(); err != nil {
 		t.Fatal(err)
