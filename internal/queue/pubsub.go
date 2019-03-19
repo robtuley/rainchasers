@@ -70,7 +70,6 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 	defer func() {
 		d.EndSpan(ctx, err, report.Data{
 			"station":        s.Station.AliasURL,
-			"count":          1, // matches count/count_readings pattern for other snapshot events
 			"count_readings": len(s.Readings),
 		})
 		cancel()
@@ -148,19 +147,23 @@ func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGro
 		if err != nil {
 			m.Ack() // ack corrupted message to prevent redelivery
 			d.Action("snapshot.corrupted", report.Data{
-				"count": 1,
 				"error": err.Error(),
 			})
 			return
 		}
 
 		ctx = d.ContinueTrace(ctx, s.TraceID)
+		ctx = d.StartSpan(ctx, "snapshot.received")
 		err = fn(ctx, d, &s)
+		d.EndSpan(ctx, err, report.Data{
+			"count_readings": len(s.Readings),
+		})
+
 		if err != nil {
 			m.Nack() // speed up message redelivery
 			d.Action("snapshot.timeout", report.Data{
-				"count": 1,
-				"error": err.Error(),
+				"station": s.Station.AliasURL,
+				"error":   err.Error(),
 			})
 			return
 		}
