@@ -9,7 +9,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
@@ -81,21 +80,15 @@ func (c *RiverCache) Load(uuid string) (Section, bool) {
 }
 
 // Update polls for updated content version data
-func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChanged bool, err error) {
+func (c *RiverCache) Update(ctx context.Context) (isChanged bool, s report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
-	ctx = d.StartSpan(ctx, "rivers.update")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"url":     c.URL,
-			"version": c.Version,
-			"count":   c.Count(),
-		})
-		cancel()
-	}()
+	defer cancel()
+
+	span := report.StartSpan("rivers.update").Field("url", c.URL)
 
 	req, err := http.NewRequest("GET", c.URL, nil)
 	if err != nil {
-		return false, err
+		return false, span.End(err)
 	}
 	req = req.WithContext(ctx)
 
@@ -104,21 +97,24 @@ func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChange
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return false, err
+		return false, span.End(err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return false, errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+		err := errors.New("Status code " + strconv.Itoa(resp.StatusCode))
+		return false, span.End(err)
 	}
 
 	decoder := json.NewDecoder(resp.Body)
 	data := CatalogueJSON{}
 	if err := decoder.Decode(&data); err != nil {
-		return false, err
+		return false, span.End(err)
 	}
+	span = span.Field("version", data.Version)
+	span = span.Field("stations_count", len(data.Sections))
 
 	if c.Version == data.Version {
-		return false, nil
+		return false, span.End()
 	}
 
 	c.rwMutex.Lock()
@@ -130,7 +126,8 @@ func (c *RiverCache) Update(ctx context.Context, d *daemon.Supervisor) (isChange
 		}
 	}
 	c.rwMutex.Unlock()
-	return true, nil
+
+	return true, span.End()
 }
 
 // NewRiverCache creates a cache

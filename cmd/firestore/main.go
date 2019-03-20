@@ -8,6 +8,7 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
+	"github.com/rainchasers/report"
 )
 
 func main() {
@@ -41,44 +42,42 @@ func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supe
 	defer ticker.Stop()
 
 	for {
+		isChanged, span := c.Rivers.Update(ctx)
+		if isChanged && span.Err() == nil {
+			span = span.FollowedBy(c.OnRiverCatalogueChange(ctx))
+		}
+		d.Trace(span)
+		if err := span.Err(); err != nil {
+			return err
+		}
+
 		select {
 		case <-ticker.C:
 		case <-ctx.Done():
 			return nil
 		}
-
-		isChanged, err := c.Rivers.Update(ctx, d)
-		if err != nil {
-			return err
-		}
-		if isChanged {
-			err := c.OnRiverCatalogueChange(ctx, d)
-			if err != nil {
-				return err
-			}
-		}
 	}
 }
 
-func (c *cache) OnRiverCatalogueChange(ctx context.Context, d *daemon.Supervisor) error {
+func (c *cache) OnRiverCatalogueChange(ctx context.Context) report.Span {
+	span := report.StartSpan("rivers.firestore")
 	// TODO: update firebase rivers
-
-	return nil
+	return span.End()
 }
 
 func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Supervisor) error {
-	topic, err := queue.New(ctx, d, c.ProjectID, c.TopicName)
-	if err != nil {
+	topic, span := queue.New(ctx, c.ProjectID, c.TopicName)
+	d.Trace(span)
+	if err := span.Err(); err != nil {
 		return err
 	}
 	defer topic.Stop()
 
-	return topic.Subscribe(ctx, d, "", c.OnReceivedSnapshot)
+	return topic.Subscribe(ctx, "", c.OnReceivedSnapshot)
 }
 
-func (c *cache) OnReceivedSnapshot(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) error {
-	// TODO: process snaps
-
+func (c *cache) OnReceivedSnapshot(ctx context.Context, err error, s *gauge.Snapshot) error {
+	// TODO: process snaps, log error, etc
 	// only return error if want message redelivered, otherwise deal with it locally
 	return nil
 }
