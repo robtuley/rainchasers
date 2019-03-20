@@ -68,6 +68,13 @@ func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) report.Span {
 	span = span.Field("station", s.Station.AliasURL)
 	span = span.Field("count_readings", len(s.Readings))
 
+	if s.TraceID == "" {
+		// if there is no predefined existing trace info,
+		// assume this span tracer will be the trace generator
+		s.TraceID = span.TraceID()
+	}
+	s.ProcessingTime = time.Now()
+
 	bb := bytes.NewBuffer([]byte{})
 	err := s.Encode(bb)
 	if err != nil {

@@ -9,6 +9,7 @@ import (
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
+	"github.com/rainchasers/report"
 )
 
 // Responds to environment variables:
@@ -46,8 +47,9 @@ type config struct {
 
 func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// open connection to pubsub
-	topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
-	if err != nil {
+	topic, span := queue.New(ctx, cfg.ProjectID, cfg.TopicName)
+	d.Trace(span)
+	if err := span.Err(); err != nil {
 		return err
 	}
 	defer topic.Stop()
@@ -59,10 +61,13 @@ pollLoop:
 			// get recent stations & readings
 			var snapshots []gauge.Snapshot
 			var err error
+			var span report.Span
 			if cfg.APIKey == "" {
 				snapshots, err = parseRecent(bytes.NewBufferString(jsonResponseFromAPI))
 			} else {
-				snapshots, err = recent(ctx, d, cfg.APIKey)
+				snapshots, span = recent(ctx, cfg.APIKey)
+				d.Trace(span)
+				err = span.Err()
 			}
 			if err != nil {
 				return err
@@ -75,12 +80,9 @@ pollLoop:
 
 			// publish snapshots
 			for _, s := range snapshots {
-				tctx, traceID := d.Trace(ctx)
-				s.TraceID = traceID
-				s.ProcessingTime = time.Now()
-
-				err := topic.Publish(tctx, d, &s)
-				if err != nil {
+				span := topic.Publish(ctx, &s)
+				d.Trace(span)
+				if err := span.Err(); err != nil {
 					return err
 				}
 

@@ -12,7 +12,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
@@ -64,22 +63,16 @@ const recentURL = "https://api.naturalresources.wales/riverlevels/v1/all"
 const recentKeyHeader = "Ocp-Apim-Subscription-Key"
 
 // Recent fetches recent NRW readings
-func recent(ctx context.Context, d *daemon.Supervisor, apiKey string) (snaps []gauge.Snapshot, err error) {
-	// capture trace span timings
+func recent(ctx context.Context, apiKey string) ([]gauge.Snapshot, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "nrw.recent")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"count": len(snaps),
-			"url":   recentURL,
-		})
-		cancel()
-	}()
+	defer cancel()
+
+	span := report.StartSpan("nrw.recent").Field("url", recentURL)
 
 	// do the request
 	req, err := http.NewRequest("GET", recentURL, nil)
 	if err != nil {
-		return nil, err
+		return nil, span.End(err)
 	}
 	req.WithContext(ctx)
 	req.Header.Add("Accept", "application/json")
@@ -90,7 +83,7 @@ func recent(ctx context.Context, d *daemon.Supervisor, apiKey string) (snaps []g
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, span.End(err)
 	}
 	defer resp.Body.Close()
 
@@ -101,22 +94,25 @@ func recent(ctx context.Context, d *daemon.Supervisor, apiKey string) (snaps []g
 		if err == nil {
 			msg = msg + string(bb)
 		}
-		return nil, errors.New(msg)
+		return nil, span.End(errors.New(msg))
 	}
 
 	// parse response
-	return parseRecent(resp.Body)
+	snaps, err := parseRecent(resp.Body)
+	span = span.Field("snapshots_count", len(snaps))
+	return snaps, span.End(err)
 }
 
 func parseRecent(r io.Reader) ([]gauge.Snapshot, error) {
+	snaps := make([]gauge.Snapshot, 0)
+
 	parsed := recentJSON{}
 	decoder := json.NewDecoder(r)
 	err := decoder.Decode(&parsed)
 	if err != nil {
-		return nil, err
+		return snaps, err
 	}
 
-	snaps := make([]gauge.Snapshot, 0)
 	for _, feature := range parsed.Features {
 		p := feature.Properties
 		station := gauge.Station{
