@@ -21,22 +21,16 @@ type readingJSON struct {
 const recentReadingURL = "http://environment.data.gov.uk/flood-monitoring/data/readings?latest"
 
 // Recent fetches recent EA readings
-func Recent(ctx context.Context, d *daemon.Supervisor) (rd map[string]gauge.Reading, err error) {
+func Recent(ctx context.Context) (map[string]gauge.Reading, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "ea.recent")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"count": len(rd),
-			"url":   recentReadingURL,
-		})
-		cancel()
-	}()
+	defer cancel()
 
+	span := report.StartSpan("ea.recent").Field("url", recentReadingURL)
 	readings := make(map[string]gauge.Reading)
 
 	resp, err := daemon.JSON(ctx, recentReadingURL)
 	if err != nil {
-		return readings, err
+		return readings, span.End(err)
 	}
 	defer resp.Body.Close()
 
@@ -44,7 +38,7 @@ func Recent(ctx context.Context, d *daemon.Supervisor) (rd map[string]gauge.Read
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&r)
 	if err != nil {
-		return readings, err
+		return readings, span.End(err)
 	}
 
 	for _, item := range r.Items {
@@ -61,5 +55,6 @@ func Recent(ctx context.Context, d *daemon.Supervisor) (rd map[string]gauge.Read
 		}
 	}
 
-	return readings, nil
+	span = span.Field("readings_count", len(readings))
+	return readings, span.End()
 }

@@ -15,28 +15,18 @@ import (
 )
 
 // Day downloads all the measurements on specified day
-func Day(ctx context.Context, d *daemon.Supervisor, day time.Time) (rd map[string][]gauge.Reading, err error) {
+func Day(ctx context.Context, day time.Time) (map[string][]gauge.Reading, report.Span) {
 	url := "http://environment.data.gov.uk/flood-monitoring/archive/readings-" + day.Format("2006-01-02") + ".csv"
-	snapshots := make(map[string][]gauge.Reading)
+	readings := make(map[string][]gauge.Reading)
 
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "ea.day")
-	defer func() {
-		n := 0
-		for _, r := range rd {
-			n += len(r)
-		}
-		d.EndSpan(ctx, err, report.Data{
-			"count_stations": len(rd),
-			"count_readings": n,
-			"url":            url,
-		})
-		cancel()
-	}()
+	defer cancel()
+
+	span := report.StartSpan("ea.day").Field("url", url)
 
 	resp, err := daemon.CSV(ctx, url)
 	if err != nil {
-		return snapshots, err
+		return readings, span.End(err)
 	}
 	defer resp.Body.Close()
 
@@ -58,7 +48,7 @@ ReadCSV:
 			}
 		}
 		if err != nil {
-			return snapshots, err
+			return readings, span.End(err)
 		}
 		if isFirst {
 			isFirst = false
@@ -67,13 +57,19 @@ ReadCSV:
 
 		url, s, err := csvRecordToReading(r)
 		if err != nil {
-			return snapshots, err
+			return readings, span.End(err)
 		}
 
-		snapshots[url] = append(snapshots[url], s)
+		readings[url] = append(readings[url], s)
 	}
 
-	return snapshots, nil
+	n := 0
+	for _, r := range readings {
+		n += len(r)
+	}
+	span = span.Field("stations_count", len(readings))
+	span = span.Field("readings_count", n)
+	return readings, span.End()
 }
 
 // 2016-01-30T00:00:00Z,http://environment.data.gov.uk/flood-monitoring/id/measures/0569TH-level-stage-i-15_min-mASD,3.430

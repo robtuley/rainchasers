@@ -37,22 +37,17 @@ type measureJson struct {
 }
 
 // Discover finds all the available EA stations
-func Discover(ctx context.Context, d *daemon.Supervisor) (stations map[string]gauge.Station, err error) {
+func Discover(ctx context.Context) (map[string]gauge.Station, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "ea.discover")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"count": len(stations),
-		})
-		cancel()
-	}()
+	defer cancel()
 
 	url := "http://environment.data.gov.uk/flood-monitoring/id/stations"
-	stations = make(map[string]gauge.Station)
+	span := report.StartSpan("ea.discover").Field("url", url)
+	stations := make(map[string]gauge.Station)
 
 	resp, err := daemon.JSON(ctx, url)
 	if err != nil {
-		return stations, err
+		return stations, span.End(err)
 	}
 	defer resp.Body.Close()
 
@@ -60,10 +55,7 @@ func Discover(ctx context.Context, d *daemon.Supervisor) (stations map[string]ga
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&list)
 	if err != nil {
-		return stations, err
-	}
-	if err != nil {
-		return stations, err
+		return stations, span.End(err)
 	}
 
 	for _, s := range list.Stations {
@@ -109,5 +101,6 @@ func Discover(ctx context.Context, d *daemon.Supervisor) (stations map[string]ga
 		}
 	}
 
-	return stations, nil
+	span = span.Field("stations_count", len(stations))
+	return stations, span.End()
 }

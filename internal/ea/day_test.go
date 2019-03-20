@@ -4,16 +4,12 @@ import (
 	"context"
 	"testing"
 	"time"
-
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 )
 
 func TestDayCSVParse(t *testing.T) {
-	d := daemon.New("example")
-
 	twoDaysAgo := time.Now().AddDate(0, 0, -2)
-	snapshots, err := Day(context.Background(), d, twoDaysAgo)
-	if err != nil {
+	snapshots, span := Day(context.Background(), twoDaysAgo)
+	if err := span.Err(); err != nil {
 		t.Error("download error", err)
 	}
 	if len(snapshots) < 2000 {
