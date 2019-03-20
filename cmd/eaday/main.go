@@ -47,8 +47,9 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	isDryRun := projectID == ""
 
 	// discover EA gauging stations
-	stations, err := ea.Discover(ctx, d)
-	if err != nil {
+	stations, dSpan := ea.Discover(ctx)
+	if err := dSpan.Err(); err != nil {
+		d.Trace(dSpan)
 		return err
 	}
 
@@ -64,14 +65,16 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 	}
 
 	// get all readings on requested day
-	readings, err := ea.Day(ctx, d, day)
-	if err != nil {
+	readings, rSpan := ea.Day(ctx, day)
+	if err := rSpan.Err(); err != nil {
+		d.Trace(dSpan.FollowedBy(rSpan))
 		return err
 	}
 
 	// open connection to pubsub
-	topic, err := queue.New(ctx, d, projectID, topicName)
-	if err != nil {
+	topic, cSpan := queue.New(ctx, projectID, topicName)
+	d.Trace(dSpan.FollowedBy(rSpan).FollowedBy(cSpan))
+	if err := cSpan.Err(); err != nil {
 		return err
 	}
 	defer topic.Stop()
@@ -85,14 +88,12 @@ func run(ctx context.Context, d *daemon.Supervisor) error {
 			continue
 		}
 
-		tctx, traceID := d.Trace(ctx)
-		err := topic.Publish(tctx, d, &gauge.Snapshot{
-			Station:        s,
-			Readings:       r,
-			TraceID:        traceID,
-			ProcessingTime: time.Now(),
+		span := topic.Publish(ctx, &gauge.Snapshot{
+			Station:  s,
+			Readings: r,
 		})
-		if err != nil {
+		d.Trace(span)
+		if err := span.Err(); err != nil {
 			return err
 		}
 
