@@ -80,14 +80,19 @@
         "name": "readings"
       },
       {
-        "doc": "Trace ID to generate thgis snapshot, used as a version number",
+        "doc": "Correlation ID to generate this snapshot, can be used as a version identifier",
         "type": "string",
-        "name": "trace_id"
+        "name": "correlation_id"
       },
       {
-        "doc": "Unix epoch time in seconds for measurement processing time",
+        "doc": "Causation ID to generate this snapshot",
+        "type": "string",
+        "name": "causation_id"
+      },
+      {
+        "doc": "Unix epoch time in seconds for timestamp at which measurement was processed",
         "type": "long",
-        "name": "processing_time"
+        "name": "processed_time"
       }
     ]
   }

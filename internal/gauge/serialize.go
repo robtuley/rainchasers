@@ -39,8 +39,9 @@ func snapshotToAvro(s *Snapshot) *avro.Snapshot {
 	a.Lg = s.Station.Lg
 	a.Type = typeToValue(s.Station.Type)
 	a.Unit = s.Station.Unit
-	a.Trace_id = s.TraceID
-	a.Processing_time = s.ProcessingTime.Unix()
+	a.Correlation_id = s.CorrelationID
+	a.Causation_id = s.CausationID
+	a.Processed_time = s.ProcessedTime.Unix()
 
 	for i := range s.Readings {
 		a.Readings = append(a.Readings, readingToAvro(&s.Readings[i]))
@@ -93,8 +94,9 @@ func (s *Snapshot) Decode(r io.Reader) error {
 		s.Readings = append(s.Readings, avroToReading(m))
 	}
 
-	s.TraceID = a.Trace_id
-	s.ProcessingTime = time.Unix(a.Processing_time, 0)
+	s.CorrelationID = a.Correlation_id
+	s.CausationID = a.Causation_id
+	s.ProcessedTime = time.Unix(a.Processed_time, 0)
 
 	return nil
 }

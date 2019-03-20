@@ -229,11 +229,15 @@ func readSnapshot(r io.Reader) (*Snapshot, error) {
 	if err != nil {
 		return nil, err
 	}
-	str.Trace_id, err = readString(r)
+	str.Correlation_id, err = readString(r)
 	if err != nil {
 		return nil, err
 	}
-	str.Processing_time, err = readLong(r)
+	str.Causation_id, err = readString(r)
+	if err != nil {
+		return nil, err
+	}
+	str.Processed_time, err = readLong(r)
 	if err != nil {
 		return nil, err
 	}
@@ -382,11 +386,15 @@ func writeSnapshot(r *Snapshot, w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	err = writeString(r.Trace_id, w)
+	err = writeString(r.Correlation_id, w)
 	if err != nil {
 		return err
 	}
-	err = writeLong(r.Processing_time, w)
+	err = writeString(r.Causation_id, w)
+	if err != nil {
+		return err
+	}
+	err = writeLong(r.Processed_time, w)
 	if err != nil {
 		return err
 	}

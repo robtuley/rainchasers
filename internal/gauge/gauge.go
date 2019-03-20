@@ -25,8 +25,9 @@ type Reading struct {
 
 // Snapshot is a set of measurements for a particular gauge station
 type Snapshot struct {
-	Station        Station   `json:"station"`
-	Readings       []Reading `json:"readings"`
-	TraceID        string    `json:"trace_id"`
-	ProcessingTime time.Time `json:"processed_time"`
+	Station       Station   `json:"station"`
+	Readings      []Reading `json:"readings"`
+	CorrelationID string    `json:"correlation_id"`
+	CausationID   string    `json:"causation_id"`
+	ProcessedTime time.Time `json:"processed_time"`
 }

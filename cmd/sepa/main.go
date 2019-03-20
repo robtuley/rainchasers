@@ -70,9 +70,10 @@ updateLoop:
 		readings, span := getReadings(ctx, stations[i].DataURL)
 		if err := span.Err(); err == nil {
 			span = span.FollowedBy(topic.Publish(ctx, &gauge.Snapshot{
-				Station:  stations[i],
-				Readings: readings,
-				TraceID:  span.TraceID(),
+				Station:       stations[i],
+				Readings:      readings,
+				CorrelationID: span.TraceID(),
+				CausationID:   span.SpanID(),
 			}))
 		}
 

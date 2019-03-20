@@ -30,10 +30,11 @@ func TestEncodeDecode(t *testing.T) {
 	})
 
 	before := Snapshot{
-		Station:        station,
-		Readings:       readings,
-		TraceID:        "ABCDE",
-		ProcessingTime: timestamp,
+		Station:       station,
+		Readings:      readings,
+		CorrelationID: "ABCDE",
+		CausationID:   "FGHIJ",
+		ProcessedTime: timestamp,
 	}
 	var bb bytes.Buffer
 	err := before.Encode(&bb)
@@ -91,10 +92,13 @@ func TestEncodeDecode(t *testing.T) {
 		}
 	}
 
-	if !before.ProcessingTime.Equal(after.ProcessingTime) {
+	if !before.ProcessedTime.Equal(after.ProcessedTime) {
 		t.Error("Processing time mis-match", after)
 	}
-	if before.TraceID != after.TraceID {
-		t.Error("Trace ID mis-match", after)
+	if before.CorrelationID != after.CorrelationID {
+		t.Error("CorrelationID mis-match", after)
+	}
+	if before.CausationID != after.CausationID {
+		t.Error("CausationID mis-match", after)
 	}
 }
