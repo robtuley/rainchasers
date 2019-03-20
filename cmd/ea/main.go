@@ -43,8 +43,9 @@ type config struct {
 
 func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// discover EA gauging stations
-	stations, err := ea.Discover(ctx, d)
-	if err != nil {
+	stations, span := ea.Discover(ctx)
+	d.Trace(span)
+	if err := span.Err(); err != nil {
 		return err
 	}
 
@@ -53,14 +54,16 @@ updateLoop:
 	for {
 		err := func(ctx context.Context) error {
 			// get all recent readings
-			readings, err := ea.Recent(ctx, d)
-			if err != nil {
+			readings, rSpan := ea.Recent(ctx)
+			if err := rSpan.Err(); err != nil {
+				d.Trace(rSpan)
 				return err
 			}
 
 			// open connection to pubsub
-			topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
-			if err != nil {
+			topic, tSpan := queue.New(ctx, cfg.ProjectID, cfg.TopicName)
+			d.Trace(rSpan.FollowedBy(tSpan))
+			if err := tSpan.Err(); err != nil {
 				return err
 			}
 			defer topic.Stop()
@@ -77,14 +80,12 @@ updateLoop:
 					continue
 				}
 
-				tctx, traceID := d.Trace(ctx)
-				err := topic.Publish(tctx, d, &gauge.Snapshot{
-					Station:        s,
-					Readings:       []gauge.Reading{r},
-					TraceID:        traceID,
-					ProcessingTime: time.Now(),
+				span := topic.Publish(ctx, &gauge.Snapshot{
+					Station:  s,
+					Readings: []gauge.Reading{r},
 				})
-				if err != nil {
+				d.Trace(span)
+				if err := span.Err(); err != nil {
 					return err
 				}
 

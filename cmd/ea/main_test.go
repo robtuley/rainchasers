@@ -32,9 +32,18 @@ func TestDryRun(t *testing.T) {
 	}
 
 	// validate the log interface
-	if d.Count("snapshot.published") < 1 {
-		t.Fatal("No snapshot.published events")
+	expected := []string{
+		"ea.discover",
+		"topic.connected",
+		"ea.recent",
+		"snapshot.published",
 	}
+	for _, evt := range expected {
+		if d.Count(evt) == 0 {
+			t.Fatal(evt + " event expected but not present")
+		}
+	}
+
 	if err := d.Err(); err != nil {
 		t.Fatal(err)
 	}
