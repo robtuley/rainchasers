@@ -12,14 +12,15 @@ import (
 )
 
 func main() {
+	d := daemon.New("firestore")
 	url := "https://app.rainchasers.com/catalogue.json"
 	app := &cache{
 		ProjectID: os.Getenv("PROJECT_ID"),
 		TopicName: os.Getenv("PUBSUB_TOPIC"),
 		Rivers:    NewRiverCache(url),
+		Log:       d.Logger,
 	}
 
-	d := daemon.New("firestore")
 	d.Run(context.Background(), app.PollForRiverCatalogueChanges)
 	d.Run(context.Background(), app.SubscribeToSnapshotUpdates)
 	d.CloseAfter(24 * time.Hour)
@@ -35,6 +36,7 @@ type cache struct {
 	ProjectID string
 	TopicName string
 	Rivers    *RiverCache
+	Log       *report.Logger
 }
 
 func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supervisor) error {
@@ -76,8 +78,20 @@ func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Superv
 	return topic.Subscribe(ctx, "", c.OnReceivedSnapshot)
 }
 
+// only return error if want message redelivered, otherwise deal with it locally
 func (c *cache) OnReceivedSnapshot(ctx context.Context, err error, s *gauge.Snapshot) error {
-	// TODO: process snaps, log error, etc
-	// only return error if want message redelivered, otherwise deal with it locally
+	if err != nil {
+		c.Log.Action("snapshot.corrupted", report.Data{
+			"error": err.Error(),
+		})
+		return nil // error with decoding so do not retry delivery
+	}
+
+	span := report.StartSpan("snapshot.processed",
+		report.TraceID(s.CorrelationID), report.ParentSpanID(s.CausationID))
+
+	// TODO: process snaps
+
+	c.Log.Trace(span.End())
 	return nil
 }
