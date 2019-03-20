@@ -109,18 +109,6 @@ func (d *Supervisor) CloseWait() {
 	d.Wait()
 }
 
-// EndSpan writes the data from a completed trace span
-func (d *Supervisor) EndSpan(ctx context.Context, err error, payload report.Data) <-chan int {
-	if ctx.Err() == context.Canceled {
-		// do not end span cancelling down the stack
-		ch := make(chan int)
-		close(ch)
-		return ch
-	}
-
-	return d.Logger.EndSpan(ctx, err, payload)
-}
-
 func (d *Supervisor) cancelOnClose(ctx context.Context) context.Context {
 	ctx, cancel := context.WithCancel(ctx)
 	d.wg.Add(1)

@@ -14,24 +14,20 @@ import (
 	"github.com/rainchasers/report"
 )
 
-func discover(ctx context.Context, d *daemon.Supervisor) (stations []gauge.Station, err error) {
+func discover(ctx context.Context) ([]gauge.Station, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "sepa.discover")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"count": len(stations),
-		})
-		cancel()
-	}()
+	defer cancel()
 
+	span := report.StartSpan("sepa.discover")
 	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
 
 	resp, err := daemon.CSV(ctx, url)
 	if err != nil {
-		return stations, err
+		return nil, span.End(err)
 	}
 	defer resp.Body.Close()
 
+	var stations []gauge.Station
 	csv := csv.NewReader(resp.Body)
 	isFirst := true
 
@@ -43,7 +39,7 @@ ReadCSV:
 			break ReadCSV
 		}
 		if err != nil {
-			return stations, err
+			return stations, span.End(err)
 		}
 		if isFirst {
 			isFirst = false
@@ -52,13 +48,14 @@ ReadCSV:
 
 		s, err := csvRecordToSnapshot(r)
 		if err != nil {
-			return stations, err
+			return stations, span.End(err)
 		}
 
 		stations = append(stations, s)
 	}
 
-	return stations, nil
+	span = span.Field("stations_count", len(stations))
+	return stations, span.End()
 }
 
 // 0:SEPA_HYDROLOGY_OFFICE

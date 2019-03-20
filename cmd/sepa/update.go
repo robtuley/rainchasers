@@ -14,23 +14,19 @@ import (
 	"github.com/rainchasers/report"
 )
 
-func getReadings(ctx context.Context, d *daemon.Supervisor, dataURL string) (readings []gauge.Reading, err error) {
+func getReadings(ctx context.Context, dataURL string) ([]gauge.Reading, report.Span) {
+	span := report.StartSpan("sepa.recent")
+	span = span.Field("url", dataURL)
 	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	ctx = d.StartSpan(ctx, "sepa.readings")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"url":   dataURL,
-			"count": len(readings),
-		})
-		cancel()
-	}()
+	defer cancel()
 
 	resp, err := daemon.CSV(ctx, dataURL)
 	if err != nil {
-		return readings, err
+		return nil, span.End(err)
 	}
 	defer resp.Body.Close()
 
+	var readings []gauge.Reading
 	csv := csv.NewReader(resp.Body)
 
 ReadCSV:
@@ -41,27 +37,29 @@ ReadCSV:
 			break ReadCSV
 		}
 		if err != nil {
-			return readings, err
+			return readings, span.End(err)
 		}
 		if len(r) != 2 {
-			return readings, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
+			err = errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
+			return readings, span.End(err)
 		}
 
 		u := gauge.Reading{}
 
 		u.EventTime, err = time.Parse("02/01/2006 15:04:05", r[0])
 		if err != nil {
-			continue
+			continue ReadCSV
 		}
 
 		v, err := strconv.ParseFloat(r[1], 32)
 		if err != nil {
-			continue
+			continue ReadCSV
 		}
 		u.Value = float32(v)
 
 		readings = append(readings, u)
 	}
 
-	return readings, nil
+	span = span.Field("readings_count", len(readings))
+	return readings, span.End()
 }

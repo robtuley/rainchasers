@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/report"
 )
@@ -25,65 +24,58 @@ func (t *Topic) Stop() {
 }
 
 // New creates a message queue topic
-func New(ctx context.Context, d *daemon.Supervisor, projectID string, topicName string) (t *Topic, err error) {
+func New(ctx context.Context, projectID string, topicName string) (*Topic, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, 40*time.Second)
-	ctx = d.StartSpan(ctx, "topic.connected")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"project_id": projectID,
-			"topic_name": topicName,
-		})
-		cancel()
-	}()
+	defer cancel()
+
+	span := report.StartSpan("topic.connected").Field("project_id", projectID).Field("topic_name", topicName)
 
 	if len(projectID) == 0 {
-		return &Topic{}, nil
+		return &Topic{}, span.End()
 	}
 
 	client, err := pubsub.NewClient(ctx, projectID)
 	if err != nil {
-		return nil, err
+		return nil, span.End(err)
 	}
 
 	topic := client.Topic(topicName)
 	exists, err := topic.Exists(ctx)
 	if err != nil {
-		return nil, err
+		return nil, span.End(err)
 	}
 	if !exists {
+		cSpan := report.StartSpan("topic.created")
 		topic, err = client.CreateTopic(ctx, topicName)
+		span = span.Child(cSpan.End(err))
 		if err != nil {
-			return nil, err
+			return nil, span.End()
 		}
 	}
 
 	return &Topic{
 		ProjectID: projectID,
 		pubSub:    topic,
-	}, nil
+	}, span.End()
 }
 
 // Publish writes an AVRO encoded Snapshot to the topic
-func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) (err error) {
+func (t *Topic) Publish(ctx context.Context, s *gauge.Snapshot) report.Span {
 	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
-	ctx = d.StartSpan(ctx, "snapshot.published")
-	defer func() {
-		d.EndSpan(ctx, err, report.Data{
-			"station":        s.Station.AliasURL,
-			"count_readings": len(s.Readings),
-		})
-		cancel()
-	}()
+	defer cancel()
+
+	span := report.StartSpan("snapshot.published")
+	span = span.Field("station", s.Station.AliasURL)
+	span = span.Field("count_readings", len(s.Readings))
 
 	bb := bytes.NewBuffer([]byte{})
-
-	err = s.Encode(bb)
+	err := s.Encode(bb)
 	if err != nil {
-		return err
+		return span.End(err)
 	}
 
 	if t.pubSub == nil {
-		return nil
+		return span.End()
 	}
 
 	result := t.pubSub.Publish(ctx, &pubsub.Message{
@@ -91,15 +83,15 @@ func (t *Topic) Publish(ctx context.Context, d *daemon.Supervisor, s *gauge.Snap
 	})
 	_, err = result.Get(ctx)
 
-	return err
+	return span.End(err)
 }
 
 // Subscribe reads AVRO encoded snapshots from the topic and decodes them
 //
 // Note a zero length consumerGroup means auto-generate the pubsub subscription
 // string and delete once done.
-func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGroup string,
-	fn func(ctx context.Context, d *daemon.Supervisor, s *gauge.Snapshot) error) error {
+func (t *Topic) Subscribe(ctx context.Context, consumerGroup string,
+	fn func(ctx context.Context, err error, s *gauge.Snapshot) error) error {
 	const ackDeadline = time.Second * 20
 
 	if t.pubSub == nil {
@@ -138,40 +130,17 @@ func (t *Topic) Subscribe(ctx context.Context, d *daemon.Supervisor, consumerGro
 		defer sub.Delete(context.Background())
 	}
 
-	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
+	return sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		ctx, cancel := context.WithTimeout(ctx, ackDeadline-time.Second)
 		defer cancel()
 
 		s := gauge.Snapshot{}
 		err := s.Decode(bytes.NewBuffer(m.Data))
-		if err != nil {
-			m.Ack() // ack corrupted message to prevent redelivery
-			d.Action("snapshot.corrupted", report.Data{
-				"error": err.Error(),
-			})
-			return
-		}
-
-		ctx = d.ContinueTrace(ctx, s.TraceID)
-		ctx = d.StartSpan(ctx, "snapshot.received")
-		err = fn(ctx, d, &s)
-		d.EndSpan(ctx, err, report.Data{
-			"count_readings": len(s.Readings),
-		})
-
+		err = fn(ctx, err, &s)
 		if err != nil {
 			m.Nack() // speed up message redelivery
-			d.Action("snapshot.timeout", report.Data{
-				"station": s.Station.AliasURL,
-				"error":   err.Error(),
-			})
 			return
 		}
 		m.Ack()
 	})
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

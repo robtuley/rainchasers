@@ -41,8 +41,9 @@ type config struct {
 
 func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	// discover SEPA gauging stations
-	stations, err := discover(ctx, d)
-	if err != nil {
+	stations, dSpan := discover(ctx)
+	if err := dSpan.Err(); err != nil {
+		d.Trace(dSpan)
 		return err
 	}
 
@@ -52,8 +53,9 @@ func (cfg config) run(ctx context.Context, d *daemon.Supervisor) error {
 	defer ticker.Stop()
 
 	// open connection to pubsub
-	topic, err := queue.New(ctx, d, cfg.ProjectID, cfg.TopicName)
-	if err != nil {
+	topic, qSpan := queue.New(ctx, cfg.ProjectID, cfg.TopicName)
+	d.Trace(dSpan.FollowedBy(qSpan))
+	if err := qSpan.Err(); err != nil {
 		return err
 	}
 	defer topic.Stop()
@@ -65,23 +67,19 @@ updateLoop:
 	for {
 		i := n % len(stations)
 
-		err := func(ctx context.Context) (err error) {
-			ctx, traceID := d.Trace(ctx)
-
-			readings, err := getReadings(ctx, d, stations[i].DataURL)
-			if err != nil {
-				return err
-			}
-
-			return topic.Publish(ctx, d, &gauge.Snapshot{
+		readings, span := getReadings(ctx, stations[i].DataURL)
+		if err := span.Err(); err == nil {
+			span = span.FollowedBy(topic.Publish(ctx, &gauge.Snapshot{
 				Station:        stations[i],
 				Readings:       readings,
-				TraceID:        traceID,
+				TraceID:        span.TraceID(),
 				ProcessingTime: time.Now(),
-			})
-		}(ctx)
+			}))
+		}
 
-		if err != nil {
+		d.Trace(span)
+
+		if err := span.Err(); err != nil {
 			nConsecutiveErr++
 			if nConsecutiveErr >= cfg.ExitAfterXConsecutiveErr {
 				// ignore a few isolated errors, but if

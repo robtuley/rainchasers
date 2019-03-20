@@ -3,17 +3,12 @@ package main
 import (
 	"context"
 	"testing"
-
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 )
 
 func TestUpdatingFromAStation(t *testing.T) {
-	d := daemon.New("test")
-	defer d.CloseWait()
+	readings, span := getReadings(context.Background(), "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
 
-	readings, err := getReadings(context.Background(), d, "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
-
-	if err != nil {
+	if err := span.Err(); err != nil {
 		t.Error("Update stations error", err)
 	}
 	if len(readings) < 50 {

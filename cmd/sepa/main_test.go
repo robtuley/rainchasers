@@ -32,15 +32,18 @@ func TestDryRun(t *testing.T) {
 	}
 
 	// validate the log interface
-	if d.Count("sepa.discover") != 1 {
-		t.Fatal("sepa.discover event expected but not present")
+	expected := []string{
+		"sepa.discover",
+		"topic.connected",
+		"sepa.recent",
+		"snapshot.published",
 	}
-	if d.Count("sepa.readings") < 1 {
-		t.Fatal("sepa.readings event expected but not present")
+	for _, evt := range expected {
+		if d.Count(evt) == 0 {
+			t.Fatal(evt + " event expected but not present")
+		}
 	}
-	if d.Count("snapshot.published") < 1 {
-		t.Fatal("snapshot.published event expected but not present")
-	}
+
 	if err := d.Err(); err != nil {
 		t.Fatal(err)
 	}
