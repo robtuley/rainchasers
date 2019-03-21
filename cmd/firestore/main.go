@@ -75,20 +75,17 @@ func (c *cache) OnRiverCatalogueChange(ctx context.Context) report.Span {
 	}
 	defer client.Close()
 
-	// batch together writing all rivers
+	// write all the rivers
 	collection := client.Collection("rivers")
-	batch := client.Batch()
+	var writeErr error
 	c.Rivers.Each(func(s Section) bool {
-		batch = batch.Set(collection.Doc(s.UUID), s)
-		return true
+		fctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+		defer cancel()
+		_, writeErr = collection.Doc(s.UUID).Set(fctx, s)
+		return writeErr == nil // continue only if no error
 	})
-
-	// write batch to firestore
-	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
-	defer cancel()
-	_, err = batch.Commit(ctx)
-	if err != nil {
-		return span.End(err)
+	if writeErr != nil {
+		return span.End(writeErr)
 	}
 
 	return span.End()
