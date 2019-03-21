@@ -17,48 +17,48 @@ import (
 
 // LatLng is a geographic location
 type LatLng struct {
-	Lat float32 `firestore:"lat"`
-	Lng float32 `firestore:"lng"`
+	Lat float32 `firestore:"lat" json:"lat"`
+	Lng float32 `firestore:"lng" json:"lng"`
 }
 
 // Grade is the section difficultly
 type Grade struct {
-	Human   string   `firestore:"text"`
-	Average float32  `firestore:"value"`
-	Max     *float32 `firestore:"max,omitempty"`
+	Human   string   `firestore:"text" json:"text"`
+	Average float32  `firestore:"value" json:"value"`
+	Max     *float32 `firestore:"max,omitempty" json:"max,omitempty"`
 }
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	DataURL     string          `firestore:"data_url"`
-	Description string          `firestore:"desc"`
-	Scrape      *float32        `firestore:"scrape,omitempty"`
-	Low         *float32        `firestore:"low,omitempty"`
-	Medium      *float32        `firestore:"medium,omitempty"`
-	High        *float32        `firestore:"high,omitempty"`
-	Huge        *float32        `firestore:"huge,omitempty"`
-	TooHigh     *float32        `firestore:"toohigh,omitempty"`
-	Snapshot    *gauge.Snapshot `firestore:"gauge,omitempty"`
+	DataURL     string          `firestore:"data_url" json:"data_url"`
+	Description string          `firestore:"desc" json:"desc"`
+	Scrape      *float32        `firestore:"scrape,omitempty" json:"scrape,omitempty"`
+	Low         *float32        `firestore:"low,omitempty" json:"low,omitempty"`
+	Medium      *float32        `firestore:"medium,omitempty" json:"medium,omitempty"`
+	High        *float32        `firestore:"high,omitempty" json:"high,omitempty"`
+	Huge        *float32        `firestore:"huge,omitempty" json:"huge,omitempty"`
+	TooHigh     *float32        `firestore:"toohigh,omitempty" json:"toohigh,omitempty"`
+	Snapshot    *gauge.Snapshot `firestore:"gauge,omitempty" json:"gauge,omitempty"`
 }
 
 // Section is a paddleable river section
 type Section struct {
-	UUID        string        `firestore:"uuid"`
-	SectionName string        `firestore:"section"`
-	RiverName   string        `firestore:"river"`
-	KM          float32       `firestore:"km"`
-	Grade       Grade         `firestore:"grade"`
-	Putin       LatLng        `firestore:"putin"`
-	Takeout     LatLng        `firestore:"takeout"`
-	Description string        `firestore:"desc"`
-	Directions  string        `firestore:"directions"`
-	Measures    []Calibration `firestore:"measures,omitempty"`
+	UUID        string        `firestore:"uuid" json:"uuid"`
+	SectionName string        `firestore:"section" json:"section"`
+	RiverName   string        `firestore:"river" json:"river"`
+	KM          float32       `firestore:"km" json:"km"`
+	Grade       Grade         `firestore:"grade" json:"grade"`
+	Putin       LatLng        `firestore:"putin" json:"putin"`
+	Takeout     LatLng        `firestore:"takeout" json:"takeout"`
+	Description string        `firestore:"desc" json:"desc"`
+	Directions  string        `firestore:"directions" json:"directions"`
+	Measures    []Calibration `firestore:"measures,omitempty" json:"measures,omitempty"`
 }
 
 // CatalogueJSON is the JSON format to download the river catalogue
 type CatalogueJSON struct {
-	Version  string    `firestore:"version"`
-	Sections []Section `firestore:"rivers"`
+	Version  string    `json:"version"`
+	Sections []Section `json:"rivers"`
 }
 
 // RiverCache is an in-memory cache of sections
