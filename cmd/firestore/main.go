@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"cloud.google.com/go/firestore"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
@@ -62,8 +63,34 @@ func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supe
 }
 
 func (c *cache) OnRiverCatalogueChange(ctx context.Context) report.Span {
-	span := report.StartSpan("rivers.firestore")
-	// TODO: update firebase rivers
+	span := report.StartSpan("firestore.rivers.changed")
+	if c.ProjectID == "" {
+		return span.End()
+	}
+
+	// connect to firestore
+	client, err := firestore.NewClient(ctx, c.ProjectID)
+	if err != nil {
+		return span.End(err)
+	}
+	defer client.Close()
+
+	// batch together writing all rivers
+	collection := client.Collection("rivers")
+	batch := client.Batch()
+	c.Rivers.Each(func(s Section) bool {
+		batch = batch.Set(collection.Doc(s.UUID), s)
+		return true
+	})
+
+	// write batch to firestore
+	ctx, cancel := context.WithTimeout(ctx, 60*time.Second)
+	defer cancel()
+	_, err = batch.Commit(ctx)
+	if err != nil {
+		return span.End(err)
+	}
+
 	return span.End()
 }
 
