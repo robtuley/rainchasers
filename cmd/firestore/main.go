@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"cloud.google.com/go/firestore"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
@@ -14,16 +13,15 @@ import (
 
 func main() {
 	d := daemon.New("firestore")
-	url := "https://app.rainchasers.com/catalogue.json"
 	app := &cache{
 		ProjectID: os.Getenv("PROJECT_ID"),
 		TopicName: os.Getenv("PUBSUB_TOPIC"),
-		Rivers:    NewRiverCache(url),
+		ReadyC:    make(chan struct{}),
 		Log:       d.Logger,
 	}
 
-	d.Run(context.Background(), app.PollForRiverCatalogueChanges)
-	d.Run(context.Background(), app.SubscribeToSnapshotUpdates)
+	d.Run(context.Background(), app.Init)
+	d.Run(context.Background(), app.SubscribeToSnapshots)
 	d.CloseAfter(24 * time.Hour)
 
 	d.Wait()
@@ -36,62 +34,64 @@ func main() {
 type cache struct {
 	ProjectID string
 	TopicName string
-	Rivers    *RiverCache
+	ReadyC    chan struct{}
 	Log       *report.Logger
+	Writer    *FireWriter
 }
 
-func (c *cache) PollForRiverCatalogueChanges(ctx context.Context, d *daemon.Supervisor) error {
-	ticker := time.NewTicker(5 * time.Minute)
-	defer ticker.Stop()
+func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
+	// parse catalogue
+	sections, span := parseCatalogue(ctx)
+	d.Trace(span)
+	if err := span.Err(); err != nil {
+		return err
+	}
 
-	for {
-		isChanged, span := c.Rivers.Update(ctx)
-		if isChanged && span.Err() == nil {
-			span = span.FollowedBy(c.OnRiverCatalogueChange(ctx))
-		}
+	// quit before any firestore prep if in dry run
+	if c.ProjectID == "" {
+		close(c.ReadyC)
+		return nil
+	}
+
+	// connect to firestore
+	fw, span := NewFireWriter(c.ProjectID)
+	d.Trace(span)
+	if err := span.Err(); err != nil {
+		return err
+	}
+	c.Writer = fw
+
+	// update catalogue in firestore (rate limited)
+	ticker := time.NewTicker(50 * time.Millisecond)
+	defer ticker.Stop()
+updateLoop:
+	for _, s := range sections {
+		span := c.Writer.UpdateSection(ctx, s)
 		d.Trace(span)
 		if err := span.Err(); err != nil {
 			return err
 		}
 
 		select {
-		case <-ticker.C:
 		case <-ctx.Done():
-			return nil
+			break updateLoop
+		case <-ticker.C:
 		}
 	}
+
+	close(c.ReadyC)
+	return nil
 }
 
-func (c *cache) OnRiverCatalogueChange(ctx context.Context) report.Span {
-	span := report.StartSpan("firestore.rivers.changed")
-	if c.ProjectID == "" {
-		return span.End()
+func (c *cache) SubscribeToSnapshots(ctx context.Context, d *daemon.Supervisor) error {
+	// wait for init
+	select {
+	case <-ctx.Done():
+		return nil
+	case <-c.ReadyC:
 	}
 
-	// connect to firestore
-	client, err := firestore.NewClient(ctx, c.ProjectID)
-	if err != nil {
-		return span.End(err)
-	}
-	defer client.Close()
-
-	// write all the rivers
-	collection := client.Collection("rivers")
-	var writeErr error
-	c.Rivers.Each(func(s Section) bool {
-		fctx, cancel := context.WithTimeout(ctx, 10*time.Second)
-		defer cancel()
-		_, writeErr = collection.Doc(s.UUID).Set(fctx, s)
-		return writeErr == nil // continue only if no error
-	})
-	if writeErr != nil {
-		return span.End(writeErr)
-	}
-
-	return span.End()
-}
-
-func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Supervisor) error {
+	// connect to pubsub
 	topic, span := queue.New(ctx, c.ProjectID, c.TopicName)
 	d.Trace(span)
 	if err := span.Err(); err != nil {
@@ -99,6 +99,7 @@ func (c *cache) SubscribeToSnapshotUpdates(ctx context.Context, d *daemon.Superv
 	}
 	defer topic.Stop()
 
+	// subscribe!
 	return topic.Subscribe(ctx, "", c.OnReceivedSnapshot)
 }
 
