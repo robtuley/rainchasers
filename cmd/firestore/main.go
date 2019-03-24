@@ -200,12 +200,12 @@ func (c *cache) SnapshotRouter(ctx context.Context, err error, s *gauge.Snapshot
 	}
 
 	// search any of data URL, alias URL, or human URL to route to
-	urls := []string{
-		s.Station.DataURL,
-		s.Station.AliasURL,
-		s.Station.HumanURL,
-	}
-	for _, url := range urls {
+	// (using a map to remove dups between urls types)
+	urls := make(map[string]bool)
+	urls[s.Station.DataURL] = true
+	urls[s.Station.AliasURL] = true
+	urls[s.Station.HumanURL] = true
+	for url := range urls {
 		chs, ok := c.SnapRoute[url]
 		if ok {
 			for _, ch := range chs {
