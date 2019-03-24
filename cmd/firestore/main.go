@@ -66,11 +66,16 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 	defer ticker.Stop()
 updateLoop:
 	for _, s := range sections {
-		span := c.Writer.UpdateSection(ctx, s)
+		// update section info in firestore and launcg goroutine
+		// to listen for snaps
+		_, span := c.Writer.LoadAndUpdate(ctx, s)
 		d.Trace(span)
 		if err := span.Err(); err != nil {
 			return err
 		}
+
+		// TODO launch goroutine to watch any section with
+		// a calibration
 
 		select {
 		case <-ctx.Done():

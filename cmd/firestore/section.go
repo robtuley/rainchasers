@@ -21,7 +21,7 @@ type Grade struct {
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	DataURL     string   `firestore:"data_url" json:"data_url"`
+	DataURL     string   `firestore:"-" json:"data_url"`
 	Description string   `firestore:"desc" json:"desc"`
 	Scrape      *float32 `firestore:"scrape,omitempty" json:"scrape,omitempty"`
 	Low         *float32 `firestore:"low,omitempty" json:"low,omitempty"`
@@ -42,7 +42,7 @@ type Section struct {
 	Takeout     LatLng        `firestore:"takeout" json:"takeout"`
 	Description string        `firestore:"desc" json:"desc"`
 	Directions  string        `firestore:"directions" json:"directions"`
-	Measures    []Calibration `firestore:"measures" json:"measures"`
+	Measures    []Calibration `firestore:"-" json:"measures"`
 }
 
 // Checksum returns a comparable hash of the section
