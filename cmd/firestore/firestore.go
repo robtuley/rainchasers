@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"sync"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -16,7 +15,7 @@ import (
 type River struct {
 	Section  Section          `firestore:"section"`
 	Level    *Level           `firestore:"level,omitempty"`
-	Measures []gauge.Snapshot `firestore:"measures,omitempty"`
+	Measures []gauge.Snapshot `firestore:"measures"`
 }
 
 // Level is the calculated river current state
@@ -40,8 +39,6 @@ type FireWriter struct {
 	Client     *firestore.Client
 	Collection *firestore.CollectionRef
 	Timeout    time.Duration
-	SnapRouter map[string][]chan *gauge.Snapshot
-	SnapMutex  sync.RWMutex
 }
 
 // NewFireWriter creates a firestore writer
@@ -61,7 +58,6 @@ func NewFireWriter(projectID string) (*FireWriter, report.Span) {
 		Client:     client,
 		Collection: client.Collection("rivers"),
 		Timeout:    10 * time.Second,
-		SnapRouter: make(map[string][]chan *gauge.Snapshot),
 	}, span.End()
 }
 

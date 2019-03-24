@@ -21,7 +21,7 @@ type Grade struct {
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	DataURL     string   `firestore:"-" json:"data_url"`
+	URL         string   `firestore:"-" json:"data_url"`
 	Description string   `firestore:"desc" json:"desc"`
 	Scrape      *float32 `firestore:"scrape,omitempty" json:"scrape,omitempty"`
 	Low         *float32 `firestore:"low,omitempty" json:"low,omitempty"`
