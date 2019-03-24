@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 	"time"
 
@@ -86,7 +87,7 @@ updateLoop:
 				c.SnapRoute[m.URL] = append(c.SnapRoute[m.URL], ch)
 			}
 
-			fn := c.CreateSnapshotsWriter(*river, ch)
+			fn := c.CreateSnapshotsWriter(*river, s.Measures, ch)
 			d.Run(context.Background(), fn)
 		}
 
@@ -101,8 +102,13 @@ updateLoop:
 	return nil
 }
 
-func (c *cache) CreateSnapshotsWriter(river River, ch chan *gauge.Snapshot) func(ctx context.Context, d *daemon.Supervisor) error {
+func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, ch chan *gauge.Snapshot) func(ctx context.Context, d *daemon.Supervisor) error {
 	return func(ctx context.Context, d *daemon.Supervisor) error {
+		aliasURLToIndex := make(map[string]int)
+		for i, m := range river.Measures {
+			aliasURLToIndex[m.Station.AliasURL] = i
+		}
+
 		for {
 			var snap *gauge.Snapshot
 			select {
@@ -111,11 +117,53 @@ func (c *cache) CreateSnapshotsWriter(river River, ch chan *gauge.Snapshot) func
 			case snap = <-ch:
 			}
 
+			// which measure index does this snapshot relate to, or is this
+			// the very first snapshot?
+			index, ok := aliasURLToIndex[snap.Station.AliasURL]
+			if !ok {
+				// this must be the first snapshot, search for an appropriate
+				// calibration to map to it
+				var cal Calibration
+				for _, c := range calibrations {
+					if c.URL == snap.Station.DataURL {
+						cal = c
+					}
+					if c.URL == snap.Station.AliasURL {
+						cal = c
+					}
+					if c.URL == snap.Station.HumanURL {
+						cal = c
+					}
+				}
+				if cal.URL == "" {
+					msg := river.Section.UUID + " with snap " + snap.Station.AliasURL
+					return errors.New("incorrectly routed snapshot: " + msg)
+				}
+
+				// now append the measure to the existing river with calibration and station
+				// but no readings and log index for that
+				index = len(river.Measures)
+				river.Measures = append(river.Measures, Measure{
+					Station:     snap.Station,
+					Calibration: cal,
+					// no readings
+				})
+				aliasURLToIndex[snap.Station.AliasURL] = index
+			}
+
+			// now we know the index we're putting this snapshot into (and have
+			// created a placeholder for it if it didn't exist, we merge in the
+			// snapshot readings
 			span := report.StartSpan("snapshot.applied",
 				report.TraceID(snap.CorrelationID), report.ParentSpanID(snap.CausationID))
 			span = span.Field("section_uuid", river.Section.UUID)
+			span = span.Field("alias_url", snap.Station.AliasURL)
 
-			// TODO: process snapshot
+			// TODO: merge in properly trimming on age, and only write if changed
+			river.Measures[index].Readings = snap.Readings
+			river.Measures[index].ProcessedTime = snap.ProcessedTime
+			wSpan := c.Writer.Store(ctx, &river)
+			span = span.Child(wSpan)
 
 			c.Log.Trace(span.End())
 		}
