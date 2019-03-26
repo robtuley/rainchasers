@@ -109,6 +109,7 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			aliasURLToIndex[m.Station.AliasURL] = i
 		}
 
+	nextSnapshot:
 		for {
 			var snap *gauge.Snapshot
 			select {
@@ -140,8 +141,8 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 					return errors.New("incorrectly routed snapshot: " + msg)
 				}
 
-				// now append the measure to the existing river with calibration and station
-				// but no readings and log index for that
+				// append a new measure to the river with calibration and station
+				// (readings will be added in the normal snapshot processing later)
 				index = len(river.Measures)
 				river.Measures = append(river.Measures, Measure{
 					Station:     snap.Station,
@@ -152,31 +153,31 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			}
 
 			// now we know the index we're putting this snapshot into (and have
-			// created a placeholder for it if it didn't exist, we merge in the
-			// snapshot readings
+			// created a placeholder for it if it didn't exist), we merge in the
+			// snapshot readings with the existing measure ones and save if changed
 			span := report.StartSpan("snapshot.applied",
 				report.TraceID(snap.CorrelationID), report.ParentSpanID(snap.CausationID))
 			span = span.Field("section_uuid", river.Section.UUID)
 			span = span.Field("alias_url", snap.Station.AliasURL)
-			m := river.Measures[index]
 
-			// store checksum of previous state
+			m := river.Measures[index]
 			checksum := m.Checksum()
 
-			// merge snapshot
 			m.Readings = merge(m.Readings, snap.Readings)
 			expiry := time.Now().Add(-4 * 24 * time.Hour)
 			removeOlderThan(expiry, &m.Readings)
 			m.Station = snap.Station
 
-			// if measure has changed, save it
-			if checksum != m.Checksum() {
-				m.ProcessedTime = snap.ProcessedTime
-				river.Measures[index] = m
-				wSpan := c.Writer.Store(ctx, &river)
-				span = span.Child(wSpan)
-				c.Log.Trace(span.End()) // log span only if action is done
+			if checksum == m.Checksum() {
+				// measure has not changed wait for next one
+				continue nextSnapshot
 			}
+			m.ProcessedTime = snap.ProcessedTime
+
+			river.Measures[index] = m
+			wSpan := c.Writer.Store(ctx, &river)
+			span = span.Child(wSpan)
+			c.Log.Trace(span.End())
 		}
 	}
 }
