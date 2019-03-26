@@ -112,11 +112,21 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 	nextSnapshot:
 		for {
 			var snap *gauge.Snapshot
+			ticker := time.NewTicker(4 * time.Hour)
 			select {
 			case <-ctx.Done():
 				return nil
+			case <-ticker.C:
+				// if no snapshot received for some time there is
+				// some sort of upstream problem
+				c.Log.Action("snapshot.missing", report.Data{
+					"section_uuid": river.Section.UUID,
+				})
+				ticker.Stop()
+				continue nextSnapshot
 			case snap = <-ch:
 			}
+			ticker.Stop()
 
 			// which measure index does this snapshot relate to, or is this
 			// the very first snapshot?
@@ -155,7 +165,7 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			// now we know the index we're putting this snapshot into (and have
 			// created a placeholder for it if it didn't exist), we merge in the
 			// snapshot readings with the existing measure ones and save if changed
-			span := report.StartSpan("snapshot.applied",
+			span := report.StartSpan("snapshot.saved",
 				report.TraceID(snap.CorrelationID), report.ParentSpanID(snap.CausationID))
 			span = span.Field("section_uuid", river.Section.UUID)
 			span = span.Field("alias_url", snap.Station.AliasURL)
