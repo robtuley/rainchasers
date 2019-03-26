@@ -158,14 +158,25 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 				report.TraceID(snap.CorrelationID), report.ParentSpanID(snap.CausationID))
 			span = span.Field("section_uuid", river.Section.UUID)
 			span = span.Field("alias_url", snap.Station.AliasURL)
+			m := river.Measures[index]
 
-			// TODO: merge in properly trimming on age, and only write if changed
-			river.Measures[index].Readings = snap.Readings
-			river.Measures[index].ProcessedTime = snap.ProcessedTime
-			wSpan := c.Writer.Store(ctx, &river)
-			span = span.Child(wSpan)
+			// store checksum of previous state
+			checksum := m.Checksum()
 
-			c.Log.Trace(span.End())
+			// merge snapshot
+			m.Readings = merge(m.Readings, snap.Readings)
+			expiry := time.Now().Add(-4 * 24 * time.Hour)
+			removeOlderThan(expiry, &m.Readings)
+			m.Station = snap.Station
+
+			// if measure has changed, save it
+			if checksum != m.Checksum() {
+				m.ProcessedTime = snap.ProcessedTime
+				river.Measures[index] = m
+				wSpan := c.Writer.Store(ctx, &river)
+				span = span.Child(wSpan)
+				c.Log.Trace(span.End()) // log span only if action is done
+			}
 		}
 	}
 }

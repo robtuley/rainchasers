@@ -1,10 +1,28 @@
 package main
 
 import (
+	"crypto/sha1"
+	"encoding/gob"
+	"encoding/hex"
+	"sort"
 	"time"
 
 	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
 )
+
+type readingSorter []gauge.Reading
+
+func (rs readingSorter) Len() int {
+	return len(rs)
+}
+
+func (rs readingSorter) Swap(i, j int) {
+	rs[i], rs[j] = rs[j], rs[i]
+}
+
+func (rs readingSorter) Less(i, j int) bool {
+	return rs[i].EventTime.After(rs[j].EventTime)
+}
 
 // River is the river as written to firestore
 type River struct {
@@ -27,4 +45,42 @@ type Measure struct {
 	Calibration   Calibration     `firestore:"calibration"`
 	Readings      []gauge.Reading `firestore:"readings"`
 	ProcessedTime time.Time       `firestore:"processed_time"`
+}
+
+// Checksum provides a checksum of current state
+func (m Measure) Checksum() string {
+	b := sha1.New()
+	gob.NewEncoder(b).Encode(m)
+	return hex.EncodeToString(b.Sum(nil))
+}
+
+func merge(a []gauge.Reading, b []gauge.Reading) []gauge.Reading {
+	concat := append(a, b...)
+	removeDuplicates(&concat)
+	sort.Sort(readingSorter(concat))
+	return concat
+}
+
+func removeDuplicates(xs *[]gauge.Reading) {
+	found := make(map[time.Time]bool)
+	j := 0
+	for i, x := range *xs {
+		if !found[x.EventTime] {
+			found[x.EventTime] = true
+			(*xs)[j] = (*xs)[i]
+			j++
+		}
+	}
+	*xs = (*xs)[:j]
+}
+
+func removeOlderThan(keepSince time.Time, xs *[]gauge.Reading) {
+	j := 0
+	for i, x := range *xs {
+		if keepSince.Before(x.EventTime) {
+			(*xs)[j] = (*xs)[i]
+			j++
+		}
+	}
+	*xs = (*xs)[:j]
 }
