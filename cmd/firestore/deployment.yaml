@@ -22,6 +22,16 @@ spec:
               value: tuleyprod
             - name: PUBSUB_TOPIC
               value: com.rainchasers.gauge
+            - name: ALGOLIA_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: algolia-writekey
+                  key: id
+            - name: ALGOLIA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: algolia-writekey
+                  key: key
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:

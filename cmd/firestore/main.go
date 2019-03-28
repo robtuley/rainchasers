@@ -15,11 +15,13 @@ import (
 func main() {
 	d := daemon.New("firestore")
 	app := &cache{
-		ProjectID: os.Getenv("PROJECT_ID"),
-		TopicName: os.Getenv("PUBSUB_TOPIC"),
-		ReadyC:    make(chan struct{}),
-		Log:       d.Logger,
-		SnapRoute: make(map[string][]chan *gauge.Snapshot),
+		ProjectID:     os.Getenv("PROJECT_ID"),
+		TopicName:     os.Getenv("PUBSUB_TOPIC"),
+		AlgoliaAppID:  os.Getenv("ALGOLIA_APP_ID"),
+		AlgoliaAPIKey: os.Getenv("ALGOLIA_API_KEY"),
+		ReadyC:        make(chan struct{}),
+		Log:           d.Logger,
+		SnapRoute:     make(map[string][]chan *gauge.Snapshot),
 	}
 
 	d.Run(context.Background(), app.Init)
@@ -34,12 +36,14 @@ func main() {
 }
 
 type cache struct {
-	ProjectID string
-	TopicName string
-	ReadyC    chan struct{}
-	Log       *report.Logger
-	Writer    *FireWriter
-	SnapRoute map[string][]chan *gauge.Snapshot
+	ProjectID     string
+	TopicName     string
+	AlgoliaAppID  string
+	AlgoliaAPIKey string
+	ReadyC        chan struct{}
+	Log           *report.Logger
+	Writer        *FireWriter
+	SnapRoute     map[string][]chan *gauge.Snapshot
 }
 
 func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
@@ -57,7 +61,7 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 	}
 
 	// connect to firestore
-	fw, span := NewFireWriter(c.ProjectID)
+	fw, span := NewFireWriter(c.ProjectID, c.AlgoliaAppID, c.AlgoliaAPIKey)
 	d.Trace(span)
 	if err := span.Err(); err != nil {
 		return err

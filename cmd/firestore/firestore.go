@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
+	"github.com/algolia/algoliasearch-client-go/algoliasearch"
 	"github.com/rainchasers/report"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -12,28 +13,34 @@ import (
 
 // FireWriter handles firestore writes
 type FireWriter struct {
-	Client     *firestore.Client
-	Collection *firestore.CollectionRef
-	Timeout    time.Duration
+	Client       *firestore.Client
+	Collection   *firestore.CollectionRef
+	AlgoliaIndex algoliasearch.Index
+	Timeout      time.Duration
 }
 
 // NewFireWriter creates a firestore writer
-func NewFireWriter(projectID string) (*FireWriter, report.Span) {
+func NewFireWriter(projectID string, algoliaAppID string, algoliaAPIKey string) (*FireWriter, report.Span) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	span := report.StartSpan("firestore.connect")
+	span := report.StartSpan("firewriter.connect")
 	span = span.Field("project_id", projectID)
+	span = span.Field("algolia_app_id", algoliaAppID)
 
 	client, err := firestore.NewClient(ctx, projectID)
 	if err != nil {
 		return nil, span.End(err)
 	}
 
+	algoliaClient := algoliasearch.NewClient(algoliaAppID, algoliaAPIKey)
+	algoliaIndex := algoliaClient.InitIndex("rivers")
+
 	return &FireWriter{
-		Client:     client,
-		Collection: client.Collection("rivers"),
-		Timeout:    10 * time.Second,
+		Client:       client,
+		Collection:   client.Collection("rivers"),
+		AlgoliaIndex: algoliaIndex,
+		Timeout:      10 * time.Second,
 	}, span.End()
 }
 
@@ -113,12 +120,33 @@ func (fw *FireWriter) Store(ctx context.Context, river *River) report.Span {
 	defer cancel()
 
 	uuid := river.Section.UUID
-	span := report.StartSpan("firestore.store").Field("uuid", uuid)
 
+	// write to firestore
+	fireSpan := report.StartSpan("firestore.store").Field("uuid", uuid)
 	_, err := fw.Collection.Doc(uuid).Set(ctx, river)
 	if err != nil {
-		return span.End(err)
+		return fireSpan.End(err)
 	}
+	fireSpan = fireSpan.End()
 
-	return span.End()
+	// write to algolia
+	aSpan := report.StartSpan("algolia.store").Field("uuid", uuid)
+	object := algoliasearch.Object{
+		"objectID":     uuid,
+		"section_name": river.Section.SectionName,
+		"river_name":   river.Section.RiverName,
+		"grade":        river.Section.Grade.Human,
+		"description":  river.Section.Description,
+		"_geoloc": map[string]float32{
+			"lat": river.Section.Putin.Lat,
+			"lng": river.Section.Putin.Lng,
+		},
+	}
+	_, err = fw.AlgoliaIndex.UpdateObject(object)
+	if err != nil {
+		return fireSpan.FollowedBy(aSpan.End(err))
+	}
+	aSpan = aSpan.End()
+
+	return fireSpan.FollowedBy(aSpan)
 }

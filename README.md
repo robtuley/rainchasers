@@ -38,3 +38,11 @@ The k8s cluster needs the Honeycomb API key in a secrets store:
     --from-literal=key=<your API Key>
 
 Daemons will post events to Honeycomb alongside JSON structured logs to Stdout.
+
+## Algolia
+
+The `firestore` daemon persists the river state infomation to Algolia SAAS search service
+and this requires algolia credentials:
+
+kubectl create secret generic -n default algolia-writekey \
+    --from-literal=id=<app ID> --from-literal=key=<admin API key>
