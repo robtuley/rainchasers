@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/content/internal/gauge"
 )
 
 func TestMergeDeDuplicatesAndOrdersByTime(t *testing.T) {

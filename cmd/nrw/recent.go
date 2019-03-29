@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
+	"github.com/rainchasers/content/internal/gauge"
 	"github.com/rainchasers/report"
 )
 

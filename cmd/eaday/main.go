@@ -6,10 +6,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/com.rainchasers.gauge/internal/daemon"
-	"github.com/rainchasers/com.rainchasers.gauge/internal/ea"
-	"github.com/rainchasers/com.rainchasers.gauge/internal/gauge"
-	"github.com/rainchasers/com.rainchasers.gauge/internal/queue"
+	"github.com/rainchasers/content/internal/daemon"
+	"github.com/rainchasers/content/internal/ea"
+	"github.com/rainchasers/content/internal/gauge"
+	"github.com/rainchasers/content/internal/queue"
 )
 
 const maxPublishPerSecond = 20
