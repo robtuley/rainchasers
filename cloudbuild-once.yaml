@@ -1,0 +1,12 @@
+# this cloud build runs once for monitoring/docs tasks
+# requires _SONARCLOUD_KEY variable
+steps:
+  # perform sonarqube analysis, which requires this builder:
+  # https://github.com/GoogleCloudPlatform/cloud-builders-community/tree/master/sonarqube)
+  - name: "gcr.io/$PROJECT_ID/sonar-scanner:latest"
+    args:
+      - "-Dsonar.host.url=https://sonarcloud.io"
+      - "-Dsonar.login=${_SONARCLOUD_KEY}"
+      - "-Dsonar.projectKey=rainchasers_com.rainchasers.gauge"
+      - "-Dsonar.organization=rainchasers"
+      - "-Dsonar.sources=."
