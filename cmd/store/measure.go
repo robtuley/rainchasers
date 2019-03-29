@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/rainchasers/content/internal/gauge"
+	"github.com/rainchasers/content/internal/river"
 )
 
 type readingSorter []gauge.Reading
@@ -24,11 +25,11 @@ func (rs readingSorter) Less(i, j int) bool {
 	return rs[i].EventTime.After(rs[j].EventTime)
 }
 
-// River is the river as written to firestore
-type River struct {
-	Section  Section   `firestore:"section"`
-	Level    *Level    `firestore:"level,omitempty"`
-	Measures []Measure `firestore:"measures"`
+// Record is the river as written to firestore
+type Record struct {
+	Section  river.Section `firestore:"section"`
+	Level    *Level        `firestore:"level,omitempty"`
+	Measures []Measure     `firestore:"measures"`
 }
 
 // Level is the calculated river current state
@@ -41,10 +42,10 @@ type Level struct {
 
 // Measure is a relevant river measurement time series
 type Measure struct {
-	Station       gauge.Station   `firestore:"station"`
-	Calibration   Calibration     `firestore:"calibration"`
-	Readings      []gauge.Reading `firestore:"readings"`
-	ProcessedTime time.Time       `firestore:"processed_time"`
+	Station       gauge.Station     `firestore:"station"`
+	Calibration   river.Calibration `firestore:"calibration"`
+	Readings      []gauge.Reading   `firestore:"readings"`
+	ProcessedTime time.Time         `firestore:"processed_time"`
 }
 
 // Checksum provides a checksum of current state

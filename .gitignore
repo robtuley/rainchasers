@@ -2,6 +2,6 @@ cmd/eaday/eaday
 cmd/ea/ea
 cmd/sepa/sepa
 cmd/nrw/nrw
-cmd/firestore/firestore
+cmd/store/store
 app
 rivers.go

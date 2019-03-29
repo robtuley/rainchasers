@@ -13,8 +13,8 @@ sepa: vet test
 nrw: vet test
 	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/nrw 
 
-firestore: vet test
-	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/firestore 
+store: vet test
+	CGO_ENABLED=0 GO111MODULE=on $(GO_BUILD) ./cmd/store 
 
 check: test vet lint errcheck
 
@@ -31,4 +31,4 @@ errcheck:
 	go get -u github.com/kisielk/errcheck
 	CGO_ENABLED=0 errcheck ./...
 
-.PHONY: check vet test lint errcheck eaday ea sepa firestore
+.PHONY: check vet test lint errcheck eaday ea sepa store

@@ -61,7 +61,7 @@ package content
 
 import "github.com/rainchasers/content/internal/river"
 
-var Rivers = []river.Section{
+var Sections = []river.Section{
 {{- range .Rivers }}
 	{{ printf "%#v" . }},
 {{- end }}

@@ -6,6 +6,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/algolia/algoliasearch-client-go/algoliasearch"
+	"github.com/rainchasers/content/internal/river"
 	"github.com/rainchasers/report"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -52,29 +53,29 @@ func (fw *FireWriter) Close() {
 }
 
 // LoadAndUpdate saves any update to firestore
-func (fw *FireWriter) LoadAndUpdate(ctx context.Context, s Section) (*River, report.Span) {
+func (fw *FireWriter) LoadAndUpdate(ctx context.Context, s river.Section) (*Record, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, fw.Timeout)
 	defer cancel()
 
 	span := report.StartSpan("firestore.loadandupdate").Field("uuid", s.UUID)
 
 	// get existing river data to check against
-	river, sp := fw.Load(ctx, s.UUID)
+	record, sp := fw.Load(ctx, s.UUID)
 	span = span.Child(sp)
 	if err := span.Err(); err != nil {
-		return river, span.End()
+		return record, span.End()
 	}
 
 	// if river has not changed, do nothing
-	if river != nil {
-		if s.Checksum() == river.Section.Checksum() {
-			return river, span.End()
+	if record != nil {
+		if s.Checksum() == record.Section.Checksum() {
+			return record, span.End()
 		}
 	}
 
 	// write new data with no snapshot gauge readings or state only if river
 	// definition has changed
-	new := River{
+	new := Record{
 		Section: s,
 	}
 	sp = fw.Store(ctx, &new)
@@ -87,7 +88,7 @@ func (fw *FireWriter) LoadAndUpdate(ctx context.Context, s Section) (*River, rep
 }
 
 // Load retrieves the latest river from firestore
-func (fw *FireWriter) Load(ctx context.Context, uuid string) (*River, report.Span) {
+func (fw *FireWriter) Load(ctx context.Context, uuid string) (*Record, report.Span) {
 	ctx, cancel := context.WithTimeout(ctx, fw.Timeout)
 	defer cancel()
 
@@ -103,27 +104,27 @@ func (fw *FireWriter) Load(ctx context.Context, uuid string) (*River, report.Spa
 		}
 		return nil, span.End(err)
 	}
-	var river River
-	if err := doc.DataTo(&river); err != nil {
+	var record Record
+	if err := doc.DataTo(&record); err != nil {
 		// in this case assume that the data has changed format or
 		// similar and this is not an error in so much as an indication
 		// to re-write.
 		span = span.Field("corruption", err.Error())
 		return nil, span.End()
 	}
-	return &river, span.End()
+	return &record, span.End()
 }
 
 // Store saves the river to firestore
-func (fw *FireWriter) Store(ctx context.Context, river *River) report.Span {
+func (fw *FireWriter) Store(ctx context.Context, record *Record) report.Span {
 	ctx, cancel := context.WithTimeout(ctx, fw.Timeout)
 	defer cancel()
 
-	uuid := river.Section.UUID
+	uuid := record.Section.UUID
 
 	// write to firestore
 	fireSpan := report.StartSpan("firestore.store").Field("uuid", uuid)
-	_, err := fw.Collection.Doc(uuid).Set(ctx, river)
+	_, err := fw.Collection.Doc(uuid).Set(ctx, record)
 	if err != nil {
 		return fireSpan.End(err)
 	}
@@ -131,15 +132,17 @@ func (fw *FireWriter) Store(ctx context.Context, river *River) report.Span {
 
 	// write to algolia
 	aSpan := report.StartSpan("algolia.store").Field("uuid", uuid)
+	s := record.Section
 	object := algoliasearch.Object{
-		"objectID":     uuid,
-		"section_name": river.Section.SectionName,
-		"river_name":   river.Section.RiverName,
-		"grade":        river.Section.Grade.Human,
-		"description":  river.Section.Description,
+		"objectID": uuid,
+		"section":  s.SectionName,
+		"river":    s.RiverName,
+		"grade":    s.Grade.Human,
+		"desc":     s.Description,
+		"km":       s.KM,
 		"_geoloc": map[string]float32{
-			"lat": river.Section.Putin.Lat,
-			"lng": river.Section.Putin.Lng,
+			"lat": s.Putin.Lat,
+			"lng": s.Putin.Lng,
 		},
 	}
 	_, err = fw.AlgoliaIndex.UpdateObject(object)

@@ -6,9 +6,11 @@ import (
 	"os"
 	"time"
 
+	"github.com/rainchasers/content"
 	"github.com/rainchasers/content/internal/daemon"
 	"github.com/rainchasers/content/internal/gauge"
 	"github.com/rainchasers/content/internal/queue"
+	"github.com/rainchasers/content/internal/river"
 	"github.com/rainchasers/report"
 )
 
@@ -47,13 +49,6 @@ type cache struct {
 }
 
 func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
-	// parse catalogue
-	sections, span := parseCatalogue(ctx)
-	d.Trace(span)
-	if err := span.Err(); err != nil {
-		return err
-	}
-
 	// quit before any firestore prep if in dry run
 	if c.ProjectID == "" {
 		close(c.ReadyC)
@@ -72,7 +67,7 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 	ticker := time.NewTicker(50 * time.Millisecond)
 	defer ticker.Stop()
 updateLoop:
-	for _, s := range sections {
+	for _, s := range content.Sections {
 		// get firestore info for the section
 		// (& update if necessary)
 		river, span := c.Writer.LoadAndUpdate(ctx, s)
@@ -106,10 +101,10 @@ updateLoop:
 	return nil
 }
 
-func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, ch chan *gauge.Snapshot) func(ctx context.Context, d *daemon.Supervisor) error {
+func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibration, ch chan *gauge.Snapshot) func(ctx context.Context, d *daemon.Supervisor) error {
 	return func(ctx context.Context, d *daemon.Supervisor) error {
 		aliasURLToIndex := make(map[string]int)
-		for i, m := range river.Measures {
+		for i, m := range record.Measures {
 			aliasURLToIndex[m.Station.AliasURL] = i
 		}
 
@@ -124,7 +119,7 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 				// if no snapshot received for some time there is
 				// some sort of upstream problem
 				c.Log.Action("snapshot.missing", report.Data{
-					"section_uuid": river.Section.UUID,
+					"section_uuid": record.Section.UUID,
 				})
 				ticker.Stop()
 				continue nextSnapshot
@@ -138,7 +133,7 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			if !ok {
 				// this must be the first snapshot, search for an appropriate
 				// calibration to map to it
-				var cal Calibration
+				var cal river.Calibration
 				for _, c := range calibrations {
 					if c.URL == snap.Station.DataURL {
 						cal = c
@@ -151,14 +146,14 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 					}
 				}
 				if cal.URL == "" {
-					msg := river.Section.UUID + " with snap " + snap.Station.AliasURL
+					msg := record.Section.UUID + " with snap " + snap.Station.AliasURL
 					return errors.New("incorrectly routed snapshot: " + msg)
 				}
 
 				// append a new measure to the river with calibration and station
 				// (readings will be added in the normal snapshot processing later)
-				index = len(river.Measures)
-				river.Measures = append(river.Measures, Measure{
+				index = len(record.Measures)
+				record.Measures = append(record.Measures, Measure{
 					Station:     snap.Station,
 					Calibration: cal,
 					// no readings
@@ -171,10 +166,10 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			// snapshot readings with the existing measure ones and save if changed
 			span := report.StartSpan("snapshot.saved",
 				report.TraceID(snap.CorrelationID), report.ParentSpanID(snap.CausationID))
-			span = span.Field("section_uuid", river.Section.UUID)
+			span = span.Field("section_uuid", record.Section.UUID)
 			span = span.Field("alias_url", snap.Station.AliasURL)
 
-			m := river.Measures[index]
+			m := record.Measures[index]
 			checksum := m.Checksum()
 
 			m.Readings = merge(m.Readings, snap.Readings)
@@ -188,8 +183,8 @@ func (c *cache) CreateSnapshotsWriter(river River, calibrations []Calibration, c
 			}
 			m.ProcessedTime = snap.ProcessedTime
 
-			river.Measures[index] = m
-			wSpan := c.Writer.Store(ctx, &river)
+			record.Measures[index] = m
+			wSpan := c.Writer.Store(ctx, &record)
 			span = span.Child(wSpan)
 			c.Log.Trace(span.End())
 		}
