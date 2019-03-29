@@ -1,0 +1,15 @@
+uuid: 5d252839-ca87-4bef-a353-8945dbb29f3f
+river: Tryweryn
+section: 'Llyn Celyn to Tyn-y-bont'
+km: 2
+grade:
+  text: '4'
+  value: 4
+desc: 'A short and playful section, the classic low-water option for North Wales, and site of the national whitewater centre. Watch out for rafts, this is a busy section of water.'
+directions: 'Between Bala and Llyn Celyn along the A4212 take the signposted turn into the the national whitewater centre. This is takeout. Either simply walk up and run the best bottom section repeatedly, or you can drive up the small road to a large carpark to putin just below the Dam.'
+putin:
+  lat: 52.9447672
+  lng: -3.6647041
+takeout:
+  lat: 52.9466356
+  lng: -3.6495281

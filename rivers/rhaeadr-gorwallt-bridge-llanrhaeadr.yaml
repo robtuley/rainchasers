@@ -1,0 +1,15 @@
+uuid: 1cdaa8ab-4105-4f16-bfda-127dc051f245
+river: Rhaeadr
+section: 'Gorwallt bridge to Llanrhaeadr'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'Would be a good paddle, but is spoilt by the constant tree portages. Pistyll Rhaeadr, Wales'' tallest fall about a km above the putin is well worth a visit though.'
+directions: 'Takeout at the B4580 bridge in Llanrhaeadr-ym-Mochnant. Head upstream along the small road on river left, and the putin is down a small track at Tyn-y-wern about a km downstream of Pistyll Rhaeadr.'
+putin:
+  lat: 52.8469743
+  lng: -3.3615667
+takeout:
+  lat: 52.8251594
+  lng: -3.303129

@@ -1,0 +1,22 @@
+uuid: a0ccd4ce-35f2-4f7e-bbca-f151de8abdca
+river: Wyre
+section: 'Abbeystead to Dolphinholme'
+km: 4
+grade:
+  text: '2'
+  value: 2
+desc: 'From the confluence of the Tarnbrook and Marshaw Wyre''s the river flows through a flat overgrown section of river into Abbeystead reservoir. The dam is yet to see a descent, for good reason, portage on the left and put back in below a small foot bridge. Two small weirs of note break up the easier water on the way down to Dolphinholme. The river continues at the same grade down at least as far as Cleveley Bridge, but this is into fishing territory, so expect hassle!'
+directions: null
+putin:
+  lat: 53.9833803
+  lng: -2.6673023
+takeout:
+  lat: 53.97437
+  lng: -2.7353818
+measures:
+  -
+    low: 0.3
+    medium: 0.4
+    high: 0.5
+    huge: 0.6
+    data_url: 'rloi://5001'

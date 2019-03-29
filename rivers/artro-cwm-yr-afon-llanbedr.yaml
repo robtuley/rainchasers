@@ -1,0 +1,15 @@
+uuid: 704253ba-ece0-4b30-acd5-d6afbe3cb6b6
+river: Artro
+section: 'Cwm Yr Afon to Llanbedr'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'Fun spate run, can be used as a warm-up for the Nantcol.'
+directions: 'Takeout at Llanbedr on the A496. To get to the putin drive upstream from Llanbedr keeping to river-right. Access to the river is possible from the footpath bridge leading to Cwn Yr Afon.'
+putin:
+  lat: 52.8484681
+  lng: -4.0483508
+takeout:
+  lat: 52.8203902
+  lng: -4.1007397

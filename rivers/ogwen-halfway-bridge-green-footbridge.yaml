@@ -1,0 +1,15 @@
+uuid: fa286e03-810a-4f82-a706-37900ea49613
+river: Ogwen
+section: 'Halfway Bridge to green footbridge'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'An excellent run, slightly easier and less continuous than the section above. Takeout just above the weir next to the green footbridge and walk up the left bank to the road.'
+directions: 'Putin at the A5 road bridge north of Besthesda (or continue down from the section above). Take the small dead-end road that follows the river left bank just downstream of the bridge. Follow this to the end of the road and park by the houses, it is easy to walk up here from the river.'
+putin:
+  lat: 53.1994856
+  lng: -4.0857316
+takeout:
+  lat: 53.2066863
+  lng: -4.0968735

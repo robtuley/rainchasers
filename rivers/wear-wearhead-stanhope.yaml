@@ -1,0 +1,24 @@
+uuid: c7d88b96-3a64-482f-a861-f1750b2d9bb8
+river: Wear
+section: 'Wearhead to Stanhope'
+km: 14.5
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Fun grade 3 run after the 6m grade 4 waterfall at the start. If running all the way to Stanhope, beware of the sticky weir above the bridge.'
+directions: 'Highest put-in is at the bridge in Cowshill (technically on Killhope Burn), if you drive up from Wearhead you will see the waterfall from the road that you want to put-in above. If you don''t want to run the waterfall, pr levels are low, put-in at Wearhead. Various take-outs possible, either at the bridges in Daddry Shield or Eastgate or above the ford in Stanhope.'
+putin:
+  lat: 54.7595344
+  lng: -2.2287298
+takeout:
+  lat: 54.7473715
+  lng: -2.0165487
+measures:
+  -
+    scrape: 0.3
+    low: 0.4
+    medium: 0.7
+    high: 1
+    huge: 1.3
+    data_url: 'rloi://8212'

@@ -1,0 +1,23 @@
+uuid: d353124b-e43a-42c0-8de1-43a2becc47de
+river: 'Greta (Keswick)'
+section: 'Threlkeld to Keswick'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'A popular grade 3 classic. That this is one of the few UK rivers with a sensible access agreement. Paddling is permitted year round, but in Nov-Dec the level must be above the white marker on the bridge to avoid damaging salmon spawning redds. Whilst the white line may possibly be positioned a bit high, it corresponds to a level of approx 1.41m on the Low Briery Gauge. The river itself changed considerably in the December 2015 floods, but is still a classic, even if some rapids have been lost and new ones formed.'
+directions: 'Putin at Threlkeld bridge, along a small road off the A66 just east of Threlkeld (signposted to the Youth Centre and Castlerigg Stone Circle). Takeout on river right at the climbing wall carpark in Keswick. Alternatively paddle another flatish 1.5km down to onto the Derwent and takeout on river right just before the suspension footbridge at Portinscale.'
+putin:
+  lat: 54.61255
+  lng: -3.0628212
+takeout:
+  lat: 54.6052561
+  lng: -3.1403137
+measures:
+  -
+    scrape: 0.9
+    low: 1.05
+    medium: 1.25
+    high: 1.45
+    huge: 2.05
+    data_url: 'rloi://5090'

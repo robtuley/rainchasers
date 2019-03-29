@@ -1,0 +1,15 @@
+uuid: 6a6833d5-536e-4e51-bb80-b9b3497115da
+river: Severn
+section: "The Bore"
+km: 29
+grade:
+  text: "3"
+  value: 3
+desc: "The bore is a tidal phenomena that happens twice a day. The incoming tide forces a pressure wave to go roaring upstream. The EA publishes a bore forecast for the year giving dates and times: the best bores are usually on big spring tides."
+directions: "Various combinations are possible, don't forget you will be surfing/paddling up- rather than downstream with the tide. You can try to stay with the bore by going from Newnham to Minsterworth, or from Minsterworth to Gloucester. To stay on the wave the best bet is to do a series of short surfs and keep overtaking the wave again in a car. For example: get on at Newnham and surf to Broad Oak (2km), then drive to the Severn Bore Pub jump back on and surf the 3km to Minsterworth: you will have around 50 minutes to do the shuttle."
+putin:
+  lat: 51.8031344
+  lng: -2.447306
+takeout:
+  lat: 51.870292
+  lng: -2.2553663

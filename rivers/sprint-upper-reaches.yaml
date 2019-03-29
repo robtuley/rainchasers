@@ -1,0 +1,15 @@
+uuid: 165bb776-4ca8-4409-8045-f18b4934bf7b
+river: Sprint
+section: 'Upper Reaches'
+km: 1
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Steep section of the Sprint near its source. A series of rocky continuous slides and small falls.'
+directions: 'Drive to the head of Longsleddale and either risk your car''s suspension 2km up the track past Sadgill, or walk in. Put on at the confluence of the two streams near the end of the track, and take out when you''ve had enough!'
+putin:
+  lat: 54.4670434
+  lng: -2.8071207
+takeout:
+  lat: 54.4567663
+  lng: -2.8033012

@@ -1,0 +1,21 @@
+uuid: 6895e98e-1e40-4e40-af31-9be01550dcd8
+river: 'South Tyne'
+section: 'Garrigill to Alston'
+km: 6.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A high water trip starting at grade 3 and dropping back to grade 2.'
+directions: null
+putin:
+  lat: 54.7687093
+  lng: -2.3972093
+takeout:
+  lat: 54.8093476
+  lng: -2.4429765
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    high: 2
+    data_url: 'rloi://8007'

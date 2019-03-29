@@ -1,0 +1,15 @@
+uuid: e3f8afb6-5361-42bb-b256-7f9b980971ea
+river: Ehen
+section: 'Ennerdale Water to Wath Brow Bridge'
+km: 7
+grade:
+  text: '2'
+  value: 2
+desc: 'The top two kilometers from the lake to Ennerdale Bridge don''t contain much white water (except for two weirs, the second of which may require inspection, as the river leaves the lake). However they do contain lots of trees. If you can find anywhere to access the river in Ennerdale Bridge itself, this may be a better bet if you''re not a confident tree dodger.'
+directions: 'Carry up to the lake from the public car park at the western end of Ennerdale Water. Follow the road alongside the river until you cross a hump-backed bridge just outside of Cleator Moor. There is a fair sized area you can park at, right next to the river.'
+putin:
+  lat: 54.5242897
+  lng: -3.4094799
+takeout:
+  lat: 54.5157765
+  lng: -3.4981492

@@ -1,0 +1,16 @@
+uuid: 960d2271-e424-442b-81cd-29ab12a6b426
+river: 'Lead Mines Clough'
+section: 'Upper Reaches to Alance Bridge'
+km: 1
+grade:
+  text: '4/5 (5)'
+  value: 4.5
+  max: 5
+desc: 'Low volume, steep countinuous grade 4 rapids and slides, with some big falls reaching grade 5. One or two may need portaging.'
+directions: 'Park at Alance bridge at the top of Yarrow reservoir and walk up the track and paths on river right from there.'
+putin:
+  lat: 53.649153
+  lng: -2.5569004
+takeout:
+  lat: 53.6391296
+  lng: -2.5649507

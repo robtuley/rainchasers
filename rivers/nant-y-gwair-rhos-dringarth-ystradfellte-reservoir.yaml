@@ -1,0 +1,15 @@
+uuid: 873202f9-ace2-4584-bd83-255759bb2558
+river: 'Nant y Gwair'
+section: 'Rhos Dringarth to Ystradfellte Reservoir'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'For the very adventurous only, the walkin takes 1.5 hours and it needs to be raining at the time. You are rewarded for the hard work by a fun spate run.'
+directions: 'Requires an epic walkin. You can either skirt round the north across Bryn Melyn and Fan Dringarth, or walk up the river right of the Dringarth and simply keep going. Takeout at the reservoir.'
+putin:
+  lat: 51.875519
+  lng: -3.5167985
+takeout:
+  lat: 51.845489
+  lng: -3.530158

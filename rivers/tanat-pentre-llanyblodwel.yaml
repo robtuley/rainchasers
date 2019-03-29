@@ -1,0 +1,15 @@
+uuid: 14b1e1fc-e479-490e-ad8d-08fa58381645
+river: Tanat
+section: 'Pentre to Llanyblodwel'
+km: 24
+grade:
+  text: '2'
+  value: 2
+desc: 'A beautiful touring river. If you continue below the recommended takeout there are two large weirs before the confluence with the Vyrnwy that are good playspots in medium water but get nasty in higher levels.'
+directions: 'Putin at a footbridge at the entrance to a caravan park off the B4391 just downstream of Llangtnog. Takeout in Llanyblodwel (just west of Poarth-y-waen) at a lay-by just upstream of the bridge, or from the pub carpark.'
+putin:
+  lat: 52.8230796
+  lng: -3.399206
+takeout:
+  lat: 52.7974476
+  lng: -3.1274628

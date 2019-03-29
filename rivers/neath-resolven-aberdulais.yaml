@@ -1,0 +1,15 @@
+uuid: 6fe06e05-9219-466c-8673-1e89f50d7a6f
+river: Neath
+section: 'Resolven to Aberdulais'
+km: 8
+grade:
+  text: '2'
+  value: 2
+desc: 'Can be used as an extension to the section above. Mellow water with a few weirs.'
+directions: 'Pakeout at the B4242 bridge in Resolven just off the A465. Takeout in Aberdulais, somewhere in town near the weirs just downstream of the A465 bridge that crosses high over the river.'
+putin:
+  lat: 51.7141614
+  lng: -3.7000288
+takeout:
+  lat: 51.678286
+  lng: -3.7759005

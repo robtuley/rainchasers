@@ -1,0 +1,15 @@
+uuid: d0e43336-ab8a-493e-af9a-87f99db99e9f
+river: 'Cleddau (Eastern)'
+section: 'Llangwm Ford to Landshipping'
+km: 20
+grade:
+  text: '2'
+  value: 2
+desc: 'Good touring river, with Llawhaden as a lunch-stop or an alternative takeout to shorten the trip. The only potential nasty to watch out for is the weir just below Canasten bridge. Avoid the low tide if going all the way down to Landshipping as the last km can get shallow.'
+directions: 'To reach the putin turn west off the A478 at Llandissilo village and follow the road to a bridge over the river. The takeout is in the estuary at Landshipping (drop south off the A40 along the A4075, then head west along small roads to the village).'
+putin:
+  lat: 51.86839
+  lng: -4.7516092
+takeout:
+  lat: 51.7695466
+  lng: -4.8838314

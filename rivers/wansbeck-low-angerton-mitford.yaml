@@ -1,0 +1,15 @@
+uuid: d15b4ec0-0f64-4604-a645-dcb853a3b741
+river: Wansbeck
+section: 'Low Angerton to Mitford'
+km: 10
+grade:
+  text: '2'
+  value: 2
+desc: 'Fast flowing, low grade run in pleasent countryside.'
+directions: null
+putin:
+  lat: 55.1528666
+  lng: -1.8552795
+takeout:
+  lat: 55.1642429
+  lng: -1.7337039

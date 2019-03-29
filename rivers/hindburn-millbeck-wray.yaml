@@ -1,0 +1,23 @@
+uuid: ed67c970-ff6d-4c47-aeed-dc60bef7acf8
+river: Hindburn
+section: 'Millbeck to Wray'
+km: 8
+grade:
+  text: '4'
+  value: 4
+desc: 'Great run: steep slabs at the start, plenty of grade 3 and then a straightforward but bigger fall towards the end. Beware of this one in bigger levels as there aren''t many eddies above it!'
+directions: 'Takeout at Mealbank bridge, on the B6480 just north of Wray. Putin at the bridge near Lowgill village: go across the first bridge across the Hindburn and 100m later is another bridge over a small side beck at a sharp bend: from here there is access down to the confluence.'
+putin:
+  lat: 54.0711715
+  lng: -2.5373876
+takeout:
+  lat: 54.1064111
+  lng: -2.6064964
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 1
+    high: 1.4
+    huge: 1.8
+    data_url: 'rloi://5156'

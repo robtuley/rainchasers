@@ -1,0 +1,15 @@
+uuid: 0e16025a-309c-45d1-85c8-cff35b2e10cd
+river: Dore
+section: 'Abbey Dore to Great Corras bends'
+km: 8
+grade:
+  text: '1'
+  value: 1
+desc: 'An interesting narrow but easy paddle. Keep an eye out for Cupid''s Hill weir, about a km downstream of the Monnow confluence.'
+directions: 'To reach the putin turn off the B4347 at Abbey Dore and get on at the Court Gardens bridge. Takeout after the confluence with the Monnow at a small footbridge just before the great Corras bends: this can be reached by heading down river left along small roads from the B4347 bridge at Kentchurch.'
+putin:
+  lat: 51.9731388
+  lng: -2.8936096
+takeout:
+  lat: 51.9207296
+  lng: -2.8462928

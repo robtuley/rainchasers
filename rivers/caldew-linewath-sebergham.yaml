@@ -1,0 +1,15 @@
+uuid: c75e4e0b-e94a-4515-b870-d2244a19499f
+river: Caldew
+section: 'Linewath to Sebergham'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'Picturesque grade 2. One broken weir to look out for. Alternative start from Millhouse is possible if the levels are high and you''re worried about trees.'
+directions: 'Small car park on river left just below Sebergham bridge.'
+putin:
+  lat: 54.6990348
+  lng: -2.9936455
+takeout:
+  lat: 54.7672258
+  lng: -3.000301

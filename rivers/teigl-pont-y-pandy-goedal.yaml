@@ -1,0 +1,15 @@
+uuid: 1e6ecd32-0b3f-47e0-a29e-30bc5fa1d3a7
+river: Teigl
+section: 'Pont y Pandy to Goedal'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'A steep narrow run with two distinct gorges, the 2nd of which is only possible in medium levels. Trees are usually a problem.'
+directions: 'Takeout at the lay-by by the A496 bridge just north of Pont Tal-y-bont. Putin at disused bridge next to the A470 bridge near Pont y Pandy.'
+putin:
+  lat: 52.9680638
+  lng: -3.9257688
+takeout:
+  lat: 52.9621699
+  lng: -3.9504917

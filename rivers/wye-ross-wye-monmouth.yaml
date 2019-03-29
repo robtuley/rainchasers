@@ -1,0 +1,15 @@
+uuid: 16bf9c05-c097-48b6-baf3-767eccbc2d2a
+river: Wye
+section: 'Ross-on-Wye to Monmouth'
+km: 35
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'The classic touring section of the Wye. Highlight is Symonds Yat rapids.'
+directions: 'Putin at the B4260 bridge near Ross-on-Wye (about a km downstream of the A40 bridge). Takeout in Monmouth at the rowing club (just off the A40).'
+putin:
+  lat: 51.9149466
+  lng: -2.597612
+takeout:
+  lat: 51.8128934
+  lng: -2.7086237

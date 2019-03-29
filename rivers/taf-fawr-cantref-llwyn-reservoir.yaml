@@ -1,0 +1,15 @@
+uuid: 7751beae-084c-4a3f-8aae-553bd28f1220
+river: 'Taf Fawr'
+section: 'Cantref to LLwyn Reservoir'
+km: 3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A good paddle with lots of fences to dodge. Although the overflow out from the reservoir at the putin has been run, it angered the water authority bailiffs so is best not repeated.'
+directions: 'Putin just downstream of the Cantref reservoir: take a small turn off the A470 into the waterworks and head down to the river. Takeout just downstream of the the minor road bridge before Llwyn-on reservoir.'
+putin:
+  lat: 51.8272374
+  lng: -3.4548866
+takeout:
+  lat: 51.8084451
+  lng: -3.4447371

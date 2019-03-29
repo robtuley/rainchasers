@@ -1,0 +1,16 @@
+uuid: 28b9342f-938a-4e71-9edf-d96f7f96e26f
+river: Nith
+section: 'Mennock to Glen Airlie Picnic Site'
+km: 4
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Mainly gd 2, with a grade 3 rapid about halfwat down. Usually combined with the section downstream. '
+directions: 'Putin at Eliock Bridge, a minor road bridge just off the A76 just north of the hamlet of Mennock (just south of Sanquhar). Takeout at the Glen Airlie picnic site off the A76, or more usually continue downstream to combine this with the section downstream.'
+putin:
+  lat: 55.3536981
+  lng: -3.8879216
+takeout:
+  lat: 55.3322589
+  lng: -3.8386799

@@ -1,0 +1,15 @@
+uuid: 670234b0-e912-4244-ba98-8abe7b081415
+river: Cennen
+section: 'Carreg Cennen Castle to Tywi confluence'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Always a battle through trees and fences, you''ll probably only paddle this once.'
+directions: 'Reach the putin by heading towards Carreg Cennen Castle from the A483 just south of Llandeilo, there is a small bridge over the river after you pass the castle. Takeout at the closest small bridge over the river to the A483.'
+putin:
+  lat: 51.8539915
+  lng: -3.9308766
+takeout:
+  lat: 51.8446334
+  lng: -3.9958236

@@ -1,0 +1,15 @@
+uuid: 5ee3dc4d-cf3d-4953-82d4-ad617f9107db
+river: 'Taf Fawr'
+section: 'Beacons to Cantref Reservoir'
+km: 2
+grade:
+  text: '3'
+  value: 3
+desc: 'A fast spate stream, watch out for trees and wires across the river.'
+directions: 'The A470 runs along the river between the two reservoirs. Putin at the A4059 bridge just downstream of Beacons reservoir, and takeout at a small footbridge and layby off the A470 just before entering the Cantref reservoir.'
+putin:
+  lat: 51.8529798
+  lng: -3.4696368
+takeout:
+  lat: 51.8370738
+  lng: -3.4634678

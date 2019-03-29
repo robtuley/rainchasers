@@ -1,0 +1,15 @@
+uuid: 44aeabe7-9ee8-45f5-9ac2-decdd147efc7
+river: 'Llynfi (Bridgend)'
+section: 'Pont Rhyd y Cyff to Bridgend'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant touring river.'
+directions: 'Putin at the bridge on the minor road off the A4063 that leads to Bettws. Takeout at the bridge near Glanrhyd Hospital in Bridgend, just south of the M4.'
+putin:
+  lat: 51.5661479
+  lng: -3.6031757
+takeout:
+  lat: 51.5276056
+  lng: -3.5843492

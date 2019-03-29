@@ -1,0 +1,24 @@
+uuid: 527a4506-9e9e-45cf-97a4-6b642d272404
+river: 'Rookhope Burn'
+section: 'Footbridge to Eastgate'
+km: 3
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Rarely paddled spate ditch Wear trib with a few waterfalls including a 4-5m fall which looks quite photogenic. Get out at Eastgate Bridge or continue onto the Wear.'
+directions: null
+putin:
+  lat: 54.769776
+  lng: -2.0886942
+takeout:
+  lat: 54.7436001
+  lng: -2.0754763
+measures:
+  -
+    scrape: 0.3
+    low: 0.4
+    medium: 0.7
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://8072'

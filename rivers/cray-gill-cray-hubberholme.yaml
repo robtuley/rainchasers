@@ -1,0 +1,20 @@
+uuid: e2f721e7-876b-4032-a7db-7023d42d186c
+river: 'Cray Gill'
+section: 'Cray to Hubberholme'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Described by the few who have run it as Yorkshire''s best beck. Short and very steep, plenty of falls packed in, some with shallow landings. Needs lots of water, so rarely run.'
+directions: 'Either put-in above the big fall in Cray village, or in very high water continue up the road to where the Gill crosses the road again and put on below here.'
+putin:
+  lat: 54.212803
+  lng: -2.0878404
+takeout:
+  lat: 54.2015292
+  lng: -2.1032503
+measures:
+  -
+    low: 1.5
+    high: 2
+    data_url: 'rloi://8110'

@@ -1,0 +1,16 @@
+uuid: 7c60c419-a416-4667-8d63-9c24681ea519
+river: Cynfal
+section: 'Cwm Farm to Viaduct'
+km: 2
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Pretty much continuous grade 2 with some 3. Keep your eyes out for possible tree/fence portages. Hop out at the A470 bridge as the difficulty ups a little and it''s worth inspecting the next 500m for trees. Down to the viaduct there''s some slides, a slot then a sweet double drop into a slot rapid into a clean 4ft drop. Get out at the viaduct as there''s sumps and nastiness if you choose to continue.'
+directions: 'Takeout at the viaduct just after the A470 roadbridge (just south of Ffestiniog). A footpath river left leads back to the road. To reach the put-in, head upstream along the road on river right to Cwm Farm.'
+putin:
+  lat: 52.9537484
+  lng: -3.8871667
+takeout:
+  lat: 52.9498522
+  lng: -3.9224699

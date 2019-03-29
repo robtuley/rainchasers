@@ -1,0 +1,15 @@
+uuid: 4c55823c-7ddc-4604-a467-86e0e8b02fa9
+river: Usk
+section: 'Brecon to Talybont'
+km: 14
+grade:
+  text: '2'
+  value: 2
+desc: 'Cruisy grade 2 run with no nasties that is good for introducing beginners to moving water.'
+directions: 'Putin at the upstream outskirts of Brecon just above the weir. Takeout at the bridge on the minor road off the A40 heading towards Talybont-on-Usk. Parking is a bit tight as you have to just tuck the car into the roadside on the river-right side of the bridge. A stile leads into the field on upstream river-right from which you can access the river just above the bridge.'
+putin:
+  lat: 51.9506435
+  lng: -3.4031241
+takeout:
+  lat: 51.901608
+  lng: -3.2769759

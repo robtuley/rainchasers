@@ -1,0 +1,15 @@
+uuid: bb247c59-f61a-43ee-94a4-d9f3556047a0
+river: Dee
+section: 'Corwen to Horseshoe Falls'
+km: 19
+grade:
+  text: '2'
+  value: 2
+desc: 'An excellent touring paddle. Takeout just above Horseshoe Falls on river left.'
+directions: 'Putin at the small bridge in Corwen just downstream of the main A5 road bridge. To reach the takeout head towards Llangollen and just before you reach it cross the river at Berwyn along the B5103 and use the carpark on river left.'
+putin:
+  lat: 52.9848795
+  lng: -3.3694785
+takeout:
+  lat: 52.9808747
+  lng: -3.196696

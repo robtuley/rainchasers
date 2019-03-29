@@ -1,0 +1,15 @@
+uuid: 8fbefdb4-fc43-4e46-94aa-0103ec9a4cfb
+river: Ceidiog
+section: 'Pennant to Llandrillo'
+km: 3
+grade:
+  text: '2'
+  value: 2
+desc: 'Pleasant stream, can be used as a alternative start for the Dee.'
+directions: 'The takeout is in the village of Llandrillo on the B4401. To reach the putin head upstream for about 3km to Pennant Bridge.'
+putin:
+  lat: 52.9093842
+  lng: -3.4419808
+takeout:
+  lat: 52.922918
+  lng: -3.4368149

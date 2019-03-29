@@ -1,0 +1,16 @@
+uuid: 48a23f8f-efef-4a39-8fe0-df5187500990
+river: 'Esk (Lakes)'
+section: 'Pack Horse Bridge to Brotherilkeld'
+km: 4
+grade:
+  text: '4/5 (6)'
+  value: 4.5
+  max: 6
+desc: 'A more remote and harder version of the classic Etive. A long walk-in rewards you with a series of pool-drop waterfalls of varying difficulty. '
+directions: 'Park up in Brotherilkeld, take the river left path and keep walking! Either put in at the Pack Horse bridge near the Lingcove Beck confluence, or if you want to do the Eskdale Waterfalls, carry on 1/2km upstream.'
+putin:
+  lat: 54.4217633
+  lng: -3.1925307
+takeout:
+  lat: 54.4014587
+  lng: -3.2156621

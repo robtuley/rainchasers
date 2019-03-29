@@ -1,0 +1,15 @@
+uuid: 49b032f6-0849-4cd4-aaee-06ef182ef8f7
+river: Monnow
+section: 'Longtown to Great Corras bend'
+km: 19
+grade:
+  text: '2'
+  value: 2
+desc: 'Pleasant touring paddle, a few weirs but nothing nasty.'
+directions: 'To reach the putin turn off the A465 at Pandy and head north to a bridge just before Longtown. Takeout at a small footbridge just before the great Corras bends: this can be reached by heading down river left along small roads from the B4347 bridge at Kentchurch.'
+putin:
+  lat: 51.9472896
+  lng: -2.9808055
+takeout:
+  lat: 51.9207334
+  lng: -2.8462927

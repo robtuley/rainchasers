@@ -1,0 +1,16 @@
+uuid: 2ab33818-3364-4a8b-ae09-79c50dfcadcf
+river: 'Linhope Burn'
+section: 'Linhope Spout to Breamish Confluence'
+km: 2
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'Starts with an optional 18m fall. The rest is continuous 3/4 including a tight gorge with a double drop.'
+directions: 'Put in above (or below) Linhope Spout, We drove into Linhope crossed over the burn and parked at the end of the road NT 964 162. There are a couple of signs saying local access only, but upon being polite to the residents there was no problem parking here! Alternatively, you could park just before Linhope NT 976 162 and walk along the public footpath to Linhope and then follow the stone track up to the spout. Upon reaching the corner of the plantation, a fingerpost guides you off the stone track and onto a clear grassy track. Follow this up a slope alongside the plantation and through a gate. Follow the path as it zig-zags down the hill to the Linhope Burn and Linhope Spout waterfall NT 956171 . Suggested take out would be on the River Breamish at the last road bridge before Linhope NT 997 166. We got off before the confluence with the Breamish on the estate track.'
+putin:
+  lat: 55.4478117
+  lng: -2.0715447
+takeout:
+  lat: 55.4398883
+  lng: -2.0584806

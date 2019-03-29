@@ -1,0 +1,21 @@
+uuid: 46ed838f-032b-46cd-a4b6-eabc60c105fd
+river: Clwyd
+section: 'Pont Glan y Wern to St Asaph'
+km: 12
+grade:
+  text: '1'
+  value: 1
+desc: 'Trees can be a problem over the first 5km, but after this is a pleasant touring section.'
+directions: 'The takeout is just off the A55 on the old A525 bridge at the  east side of St Asaph. Putin on the bridge on the little road from Denbigh to Waen.'
+putin:
+  lat: 53.1823132
+  lng: -3.3624537
+takeout:
+  lat: 53.2615892
+  lng: -3.4345944
+measures:
+  -
+    scrape: 0.54
+    low: 0.6
+    high: 1
+    data_url: 'rloi://4181'

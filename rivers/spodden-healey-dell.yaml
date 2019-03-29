@@ -1,0 +1,15 @@
+uuid: f1cb0782-7461-4ea7-85c3-7399abd42f2d
+river: Spodden
+section: 'Healey Dell'
+km: 1
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A series of about 5 drops/slides in the middle of Healey Dell Nature Reserve. Trees can be problematic.'
+directions: 'Follow the footpaths in Healey Dell and put in as high as safe to do so (up to the viaduct). Take out by the Rangers office.'
+putin:
+  lat: 53.6396384
+  lng: -2.1821952
+takeout:
+  lat: 53.6274495
+  lng: -2.1798599

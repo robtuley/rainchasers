@@ -1,0 +1,23 @@
+uuid: dcbed9f6-384a-458d-abe7-b083afed40b2
+river: 'South Tyne'
+section: 'Tynehead to Garrigill'
+km: 4
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Paddling near the source of the South Tyne. This spate section is small and narrow, containing several gorges and is quite continuous in nature. '
+directions: 'Drive up the Tyne head road from Garrigill, until you reach a gated track. Walk down to the river here. Get out at the bridge in Garrigill or combine with the section to Alston.'
+putin:
+  lat: 54.7366143
+  lng: -2.372284
+takeout:
+  lat: 54.7687835
+  lng: -2.3972951
+measures:
+  -
+    scrape: 0.8
+    low: 1
+    medium: 1.3
+    high: 1.6
+    huge: 2
+    data_url: 'rloi://8007'

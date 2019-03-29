@@ -1,0 +1,16 @@
+uuid: d70becd3-8126-44ac-98a7-374747fb9745
+river: 'Dyfi (Dovey)'
+section: 'Llanymawddwy Bridge to Dinas Mawddwy'
+km: 14
+grade:
+  text: '3 (5)'
+  value: 3
+  max: 5
+desc: 'A relaxed run, with a kick in the tail as there are a series of 3 harder drops just above the takeout.'
+directions: 'Turn off the A470 towards Llanymawddwy at Dinas Mawddwy. The takeout is in the village itself. To reach the putin continue heading upstream to a bridge in Llanymawddwy.'
+putin:
+  lat: 52.7612643
+  lng: -3.6195078
+takeout:
+  lat: 52.7274061
+  lng: -3.671717

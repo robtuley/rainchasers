@@ -1,0 +1,23 @@
+uuid: c7794c84-7f0a-48e1-b023-6e45a90fa082
+river: Idle
+section: 'Ordsall to Retford'
+km: 2
+grade:
+  text: '1 (2)'
+  value: 1
+  max: 2
+desc: 'Perfect intro to moving water for beginners. Gently moving flat water with a couple of small weirs which allow for an intro to playing. Can easily be extended by continuing on to one of the bridges downstream.'
+directions: 'Put-in river left on Goosemore Lane. Shuttle up the A638, turning off immediately after you turn left onto the A620. Park in the large car park next to the river.'
+putin:
+  lat: 53.3088542
+  lng: -0.9422324
+takeout:
+  lat: 53.3247268
+  lng: -0.943207
+measures:
+  -
+    low: 0.2
+    medium: 0.4
+    high: 0.6
+    huge: 0.8
+    data_url: 'rloi://2156'

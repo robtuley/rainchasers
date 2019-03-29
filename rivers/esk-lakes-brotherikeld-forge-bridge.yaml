@@ -1,0 +1,20 @@
+uuid: b351e108-48cc-436e-9884-ad54c5cdcbb6
+river: 'Esk (Lakes)'
+section: 'Brotherikeld to Forge Bridge'
+km: 7.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun classic section of the Esk: no nasties but watch out for trees.'
+directions: 'Park at the layby at the bottom of Hardknott Pass next to the track up to Brotherilkeld farm. Walk up the track towards the farm and take the footpath down to the river. Takeout at Forge Bridge, near Eskdale Green village.'
+putin:
+  lat: 54.401116
+  lng: -3.215802
+takeout:
+  lat: 54.3840798
+  lng: -3.3116049
+measures:
+  -
+    low: 0.62
+    high: 1.2
+    data_url: 'rloi://5037'

@@ -1,0 +1,21 @@
+uuid: 6c563223-0c49-4b0f-ab60-02dbd15113f5
+river: Wharfe
+section: 'Bolton Bridge to Ilkley'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Low grade bimble with a couple of weirs. The weir near Addingham may need portaging.'
+directions: null
+putin:
+  lat: 53.9719319
+  lng: -1.8917354
+takeout:
+  lat: 53.9279877
+  lng: -1.8235466
+measures:
+  -
+    low: 0.5
+    medium: 0.8
+    high: 1.5
+    data_url: 'rloi://8001'

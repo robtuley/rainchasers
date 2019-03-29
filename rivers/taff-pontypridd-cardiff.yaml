@@ -1,0 +1,15 @@
+uuid: c918c395-f81f-4046-bf39-472e5e7d0cc0
+river: Taff
+section: 'Pontypridd to Cardiff'
+km: 21
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Pleasant paddle: mostly flat with a series of weirs some of which may need to be portaged.'
+directions: 'Putin at the northern outskirts Pontypridd somewhere along the road running along the river right bank just upstream from the A4223 bridge. There are plenty of possible takeouts through Cardiff. There is a large carpark opposite the castle at the sports institute, or continue all the way down into Cardiff Bay.'
+putin:
+  lat: 51.6074586
+  lng: -3.3377341
+takeout:
+  lat: 51.483271
+  lng: -3.1886208

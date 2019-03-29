@@ -1,0 +1,20 @@
+uuid: e62e1fa2-334c-4b19-87c9-4a3e3e33be46
+river: Cledwen
+section: 'Gwytherin to Llanfair Talhaiarn'
+km: 13
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Good little river that passes through a series of fun mini-gorges. A few fences to watch out for - in particular in the upper reaches - but otherwise no nasties. Note that below Llangernyw the Cledwen becomes the Elwy.'
+directions: 'Putin at the bridge in Gwytherin (just east of Betws-y-Coed), and takeout at the bridge in Llanfair Talhaiam.'
+putin:
+  lat: 53.1402702
+  lng: -3.678371
+takeout:
+  lat: 53.2188434
+  lng: -3.6080569
+measures:
+  -
+    low: 0.85
+    huge: 1.75
+    data_url: 'rloi://4183'

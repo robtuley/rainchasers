@@ -1,0 +1,22 @@
+uuid: 4d1da56d-1085-4dd3-bb6b-0ee32a076cf6
+river: 'Wye (Derbyshire)'
+section: 'Buxton to Litton Mill'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Possibly the best whitewater in the Peak District? Key feature is a fun grade 3 gorge in the middle of the run.'
+directions: 'Use the Car park opposite to Topley Pike quarry.'
+putin:
+  lat: 53.2494912
+  lng: -1.8462781
+takeout:
+  lat: 53.2531771
+  lng: -1.7600773
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.7
+    high: 0.8
+    data_url: 'rloi://2162'

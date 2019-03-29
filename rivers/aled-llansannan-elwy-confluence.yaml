@@ -1,0 +1,20 @@
+uuid: 5f9b8b29-9c48-4749-bd62-6631ace413fa
+river: Aled
+section: 'Llansannan to Elwy confluence'
+km: 8
+grade:
+  text: 2/3
+  value: 2.75
+desc: 'Gentle grade 2 for the first 2km leads to some harder ledge drops and weirs before it eases again to the takeout. You can extend the trip by continuing onto the Elwy.'
+directions: 'Putin is just off the A544 south of Llanfair Talhaiam, with the takeout reached by wiggling along the backroads from the A548.'
+putin:
+  lat: 53.178912
+  lng: -3.5945438
+takeout:
+  lat: 53.2330954
+  lng: -3.5710262
+measures:
+  -
+    low: 0.9
+    huge: 1.75
+    data_url: 'rloi://4183'

@@ -1,0 +1,20 @@
+uuid: 4955935b-44c9-4899-ae45-90c24c0bcedb
+river: Barle
+section: 'Dulverton to Exebridge'
+km: 6
+grade:
+  text: '2'
+  value: 2
+desc: 'The poor sibling to the section upstream, but runs at lower levels. A decent touring run or introduction for beginners. Watch out for a couple of weirs and takeout at Exebridge after the confluence with the Exe.'
+directions: 'Putin at Dulverton, at the concrete ramp on river left just upstream of the main road bridge. Please park in the public carpark rather than the limited space by the river. Takeout in Exebridge river left just upstream of the bridge: the pub don''t mind you using their carpark but consider a post-trip beer.'
+putin:
+  lat: 51.0394111
+  lng: -3.5532074
+takeout:
+  lat: 51.0095562
+  lng: -3.5264753
+measures:
+  -
+    low: 0.55
+    high: 1.4
+    data_url: 'rloi://3257'

@@ -1,0 +1,21 @@
+uuid: 1c7b8915-d5ab-44e5-95c6-16d39f72d449
+river: Calder
+section: 'Thornholme Farm to Calder Bridge'
+km: 4
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Enjoyable bimble through pleasant countryside, beware of the occasional tree. The whitewater interest lies in the second half of the run where a few rapids liven up the approach to Calder Bridge. It is possible to continue past Calder Bridge, taking in some unusual sandstone gorges. Possible takeouts are a) at a public footpath which goes down to the river, or b) continuing through the Sellafield nuclear site down to the sea. Note that there are a couple of grade 4 rapids through Sellafield which are made all the more interesting by their unique location.'
+directions: 'Thornholme Farm can be reached from Calder Bridge by turning off the Cold Fell road as it zig-zags up a steep hill. There isn''t much parking, but make sure to leave access for farm traffic. There is a large car park on your left as the Cold Fell road enters Calder Bridge.'
+putin:
+  lat: 54.4677619
+  lng: -3.4428509
+takeout:
+  lat: 54.4403678
+  lng: -3.4786423
+measures:
+  -
+    low: 0.5
+    medium: 0.7
+    high: 0.95
+    data_url: 'rloi://5027'

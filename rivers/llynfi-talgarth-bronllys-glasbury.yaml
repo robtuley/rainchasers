@@ -1,0 +1,15 @@
+uuid: 94708cd7-8967-45e2-a65b-ba355383e5d5
+river: 'Llynfi (Talgarth)'
+section: 'Bronllys to Glasbury'
+km: 7
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Mostly unremarkable gd1 with a few fences to portage. Highlight is 3 partially natural weir drops that can have good holes in high water.'
+directions: 'Putin from the A479 bridge just west of Talgarth (just off the A438 near Bronllys Hospital). Takeout just above the A438 bridge in Glasbury on river left.'
+putin:
+  lat: 52.0028006
+  lng: -3.239946
+takeout:
+  lat: 52.0454216
+  lng: -3.1996807

@@ -1,0 +1,15 @@
+uuid: c4437572-dbc0-4d7e-b9c8-7d6954986f0a
+river: Elan
+section: 'Elan Village to Junction Pool'
+km: 6
+grade:
+  text: '2'
+  value: 2
+desc: 'Good alternative start to the river Wye.'
+directions: 'Putin just below Cabin Coch dam at a bridge in Elan village. Either takeout at junction pool at the confluence with the Wye (the small road on river right has good access) or continue down the Wye.'
+putin:
+  lat: 52.2710476
+  lng: -3.568959
+takeout:
+  lat: 52.2784723
+  lng: -3.5158164

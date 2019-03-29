@@ -1,0 +1,15 @@
+uuid: 05943242-a31f-4e50-9fb3-fb2158e7fd8c
+river: 'Dulas (Corris)'
+section: 'Esgairgeiliog bridge to Machynlleth'
+km: 6
+grade:
+  text: '3'
+  value: 3
+desc: 'Unremarkable grade 3 run. There is a weir almost immediately after the putin, and watch out for a portage round a fall immediately below a rock island (riber right is easiest).'
+directions: 'Putin at a small bridge just off the A487 about a km south of Corris. Takeout at the B4404 bridge at Ffiddgate.'
+putin:
+  lat: 52.637734
+  lng: -3.8407204
+takeout:
+  lat: 52.6053242
+  lng: -3.8444487

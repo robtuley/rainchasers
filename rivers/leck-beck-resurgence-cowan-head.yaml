@@ -1,0 +1,15 @@
+uuid: 179df29b-d406-4ab2-9d07-42d3e3839a5f
+river: 'Leck Beck'
+section: 'Resurgence to Cowan Head'
+km: 4.5
+grade:
+  text: '4'
+  value: 4
+desc: 'An excellent spate beck with a high-end grade four gorge containing several small falls.'
+directions: 'Park at the top of the track for Smithy House Farm and walk down from here. When you reach the river you may want to walk back upstream to the resurgence. Get out at Cowan Bridge on the left after the railway bridge.'
+putin:
+  lat: 54.216457
+  lng: -2.5187613
+takeout:
+  lat: 54.1838726
+  lng: -2.5617625

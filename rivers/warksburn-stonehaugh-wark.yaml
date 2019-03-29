@@ -1,0 +1,15 @@
+uuid: 9999c102-7a08-476a-bf82-0a16e767d9a2
+river: Warksburn
+section: 'Stonehaugh to Wark'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'There''s a 2m fall along this run, but beware of fences. '
+directions: null
+putin:
+  lat: 55.0795862
+  lng: -2.3308473
+takeout:
+  lat: 55.0832935
+  lng: -2.2171124

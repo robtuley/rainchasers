@@ -1,0 +1,16 @@
+uuid: 149c6ebd-9b86-4f18-ac04-1ca4ae14ed43
+river: Teign
+section: 'Dogmarsh Bridge to Steps Bridge'
+km: 11
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'A scenic trip through woodland with continuous grade two rapids and a large weir.'
+directions: 'Putin at the A382 road bridge just NE of Chagford. Takeout at Steps Bridge, the B3212 road bridge between Doccombe and Dunsford.'
+putin:
+  lat: 50.6890553
+  lng: -3.8232705
+takeout:
+  lat: 50.6823072
+  lng: -3.692877

@@ -1,0 +1,20 @@
+uuid: 89891e09-b308-4c05-9c92-c22c38558e3f
+river: Ouse
+section: 'Linton Weir'
+km: 0.1
+grade:
+  text: '3'
+  value: 3
+desc: 'Popular play spot consisting of a fish ladder and 3m weir. At certain levels a play wave is formed.'
+directions: null
+putin:
+  lat: 54.0351203
+  lng: -1.2373603
+takeout:
+  lat: 54.0353219
+  lng: -1.2346137
+measures:
+  -
+    low: 0.02
+    high: 2
+    data_url: 'rloi://8004'

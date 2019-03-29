@@ -1,0 +1,15 @@
+uuid: ac1630ad-4514-44f5-ad0b-bc3ec0367756
+river: 'Stock Ghyll'
+section: 'Stock Ghyll Force to Rothay Confluence'
+km: 1
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A stunt in the middle of Ambleside! Two big falls at the start which have been run, but rarely cleanly. A series of slides and falls follow down into the town, before flattening out on to the Rothay.'
+directions: 'Obvious if you''re in Ambleside, just follow the river up as a high as you want to go. Either take out in Ambleside, or continue onto the Rothay.'
+putin:
+  lat: 54.4325968
+  lng: -2.9544
+takeout:
+  lat: 54.431798
+  lng: -2.9710512

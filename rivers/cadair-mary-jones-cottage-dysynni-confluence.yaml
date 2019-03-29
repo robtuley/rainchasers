@@ -1,0 +1,16 @@
+uuid: ad571ec7-5962-429c-a98b-d883aca85ddf
+river: Cadair
+section: 'Mary Jones cottage to Dysynni confluence'
+km: 2.5
+grade:
+  text: '3 (5)'
+  value: 3
+  max: 5
+desc: 'If you''re feeling adventurous you can start with a 5m fall just above the described putin. A series of good grade 3 rapids lead down under the road bridge, which mellow to the odd grade 2 as you head down to the takeout.'
+directions: 'Head up towards Llanfihangel-y-Pennant from the B4405 as it passes through Abergynolwyn. Putin and takeout at the road bridges either side of the village.'
+putin:
+  lat: 52.6668686
+  lng: -3.9630691
+takeout:
+  lat: 52.6584224
+  lng: -3.9829281

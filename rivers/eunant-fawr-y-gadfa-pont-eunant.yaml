@@ -1,0 +1,15 @@
+uuid: 85989fcf-2f5e-4bb9-a6db-4a104e271a06
+river: 'Eunant Fawr'
+section: 'Y Gadfa to Pont Eunant'
+km: 3
+grade:
+  text: '5'
+  value: 5
+desc: 'Radical steep trib into Lake Vyrnwy.'
+directions: 'Takeout at the B4393 bridge next to Lake Vyrnwy. To reach the putin head up the small road on river left towards Llyn Efyrnwy. The road runs near the river all the way up to the lake, so pick a suitable spot to putin along the way.'
+putin:
+  lat: 52.7983908
+  lng: -3.5924655
+takeout:
+  lat: 52.7891865
+  lng: -3.5388723

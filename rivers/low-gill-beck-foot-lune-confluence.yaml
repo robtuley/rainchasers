@@ -1,0 +1,15 @@
+uuid: 4d45013c-bef9-4781-ae9c-11e819d9c061
+river: 'Low Gill'
+section: 'Beck Foot to Lune Confluence'
+km: 0.3
+grade:
+  text: '4'
+  value: 4
+desc: 'Ridiculous steep shallow giggle of a ditch which acts as an amusing start to the classic Lune section. A few small falls and slides, beware the piton rock on one of the drops in the middle and the temptation to take the left line on the final slide! '
+directions: 'As you are walking down to the Lune from Beck Foot, this is the river that follows the road on your right. Put on where it''s right next to the road and still looks flat.'
+putin:
+  lat: 54.3617568
+  lng: -2.5910735
+takeout:
+  lat: 54.3606065
+  lng: -2.586782

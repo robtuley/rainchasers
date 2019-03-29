@@ -1,0 +1,20 @@
+uuid: ccd035ae-9b6c-4bae-b0d0-bfc016d1b8a0
+river: Vyrnwy
+section: 'Lake Vyrnwy to Pont Llogel'
+km: 7
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fun grade 2+ run with one grade 3 drop. The weir just below the dam is a good playhole if the water isn''t too high.'
+directions: 'Make your way along the minor roads to Lake Vyrnwy dam and putin from the carpark at its base. Takeout at the B4395 bridge at Pont LLogel, or continue onto the next section.'
+putin:
+  lat: 52.7598188
+  lng: -3.4560005
+takeout:
+  lat: 52.7275735
+  lng: -3.4348434
+measures:
+  -
+    low: 0.4
+    high: 0.8
+    data_url: 'rloi://2003'

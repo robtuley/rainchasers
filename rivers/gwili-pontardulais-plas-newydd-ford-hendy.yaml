@@ -1,0 +1,15 @@
+uuid: 71fe1934-598d-44cb-8713-b26d7ac204bd
+river: 'Gwili (Pontardulais)'
+section: 'Plas Newydd Ford to Hendy'
+km: 8
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Beautiful little river with fun narrow gorges. No nasties, the long tunnel under the motorway holds no unpleasant surprises.'
+directions: 'Putin at the small ford just downstream of the M4/A48 junction (take the A48 south parallel to the M4, then take the first small right under the M4 to the river). Takeout at the Hendy Rugby Club near the A4138 bridge in Hendy.'
+putin:
+  lat: 51.7387287
+  lng: -4.0738962
+takeout:
+  lat: 51.713274
+  lng: -4.0563023

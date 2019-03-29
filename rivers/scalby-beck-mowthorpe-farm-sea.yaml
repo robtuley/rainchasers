@@ -1,0 +1,20 @@
+uuid: ed96e01c-3c9e-4788-b283-a09c1886d7ac
+river: 'Scalby Beck'
+section: 'Mowthorpe Farm to Sea'
+km: 7
+grade:
+  text: '3'
+  value: 3
+desc: 'An odd man-made river, mostly flat, but loads of weirs to shoot, some of which can be tricky.'
+directions: null
+putin:
+  lat: 54.2803821
+  lng: -0.4963115
+takeout:
+  lat: 54.3024996
+  lng: -0.4097942
+measures:
+  -
+    low: 0.3
+    high: 1
+    data_url: 'rloi://8178'

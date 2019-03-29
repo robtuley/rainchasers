@@ -1,0 +1,15 @@
+uuid: af7d3a6b-fd30-47a6-ae4e-c90f639f0b86
+river: Dee
+section: 'Llandderfel to Corwen'
+km: 20
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A gentle touring section.'
+directions: 'Putin where the B4402 crosses the river just south of Llandderfel. Takeout at the small road bridge just outside Corwen, it is the first bridge downstream of the main A5 road bridge. Alternatively, use the A5 road bridge itself.'
+putin:
+  lat: 52.9170361
+  lng: -3.5154544
+takeout:
+  lat: 52.9848866
+  lng: -3.3695047

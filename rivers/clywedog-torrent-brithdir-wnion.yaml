@@ -1,0 +1,16 @@
+uuid: 8d16c560-ffc6-4b8e-8b43-e75205b8ba07
+river: 'Clywedog (Torrent)'
+section: 'Brithdir to Wnion'
+km: 2.5
+grade:
+  text: '5 (6)'
+  value: 5
+  max: 6
+desc: 'Slightly sadistic paddle: lots of awkward drops, trees in nasty places, etc.'
+directions: 'Putin at the B4416 roadbridge just off the A470 east of Dolgellau. Takeout at the small road bridge just before the confluence with the Wnion.'
+putin:
+  lat: 52.7443034
+  lng: -3.8365498
+takeout:
+  lat: 52.752431
+  lng: -3.8499769

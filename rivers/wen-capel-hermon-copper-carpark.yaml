@@ -1,0 +1,15 @@
+uuid: bb0236dd-76db-46d7-91cd-b6e6a6fd6d84
+river: Wen
+section: 'Capel Hermon to Copper Mine carpark'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Tree filled ditch: should be a good grade 3/4 run but trees in all the drops usually spoil it.'
+directions: 'To reach the river take the minor road just off across the Mawddach just downstream of Public Toilet Falls (in Ganllwyd). The takeout is at the carpark just downstream of the first bridge you reach after the Mawddach. Putin about 4km upstream at the bridge at Capel Hermon.'
+putin:
+  lat: 52.8138291
+  lng: -3.8559507
+takeout:
+  lat: 52.7863692
+  lng: -3.8747945

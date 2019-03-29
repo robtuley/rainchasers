@@ -1,0 +1,16 @@
+uuid: 68de8df1-7bf5-43b6-af91-ce31cd61ddc4
+river: 'Greta (Ingleton)'
+section: 'Ingleton to Lune Confluence'
+km: 10
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'A fairly mellow river, with some low grade shingle rapids and one harder drop on a bend at grade 3.'
+directions: 'Put in river right from the road bridge on the A65, following the footpath to the river. There''s a car park opposite this. Get out river right at Greta Bridge near Wrayton where the A687 and A 683 meet. Parking available on the verges.'
+putin:
+  lat: 54.1497483
+  lng: -2.4778021
+takeout:
+  lat: 54.1482522
+  lng: -2.5974323

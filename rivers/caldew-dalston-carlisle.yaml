@@ -1,0 +1,15 @@
+uuid: 20cc1528-a200-4adf-a7c5-482d0fb5fc32
+river: Caldew
+section: 'Dalston to Carlisle'
+km: 7
+grade:
+  text: 1/2
+  value: 1.4
+desc: 'Wide meandering section with two weirs to be aware of. The first small weir is just after a railway bridge and washes out in high water but can be very grabby at certain levels. The second is a big drop onto a ledge. A definite portage. The route round both is on river right. You can take out here, or continue through Carlisle itself. '
+directions: 'A small carpark, accessed from the middle of Dalston provides a convenient put-in. The takeout is just before the confluence with the Eden with a large car park behind the castle.'
+putin:
+  lat: 54.8392994
+  lng: -2.9819796
+takeout:
+  lat: 54.9011845
+  lng: -2.9448615

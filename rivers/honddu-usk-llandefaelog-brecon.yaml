@@ -1,0 +1,15 @@
+uuid: 9b46b69a-92b1-4ccb-8caf-3b301420a50b
+river: 'Honddu (Usk)'
+section: 'Llandefaelog to Brecon'
+km: 6
+grade:
+  text: '3'
+  value: 3
+desc: 'Unremarkable gd3 run, which requires decent water.'
+directions: 'Takeout in Brecon, parking at the carpark at the confluence with the Usk. Head upstream along the B4520 and putin at the bridge in Llandefaelog. If you wish to make the run longer, it is also possible to get on upstream at the bridge in Lower Chapel.'
+putin:
+  lat: 51.9818916
+  lng: -3.4070032
+takeout:
+  lat: 51.948296
+  lng: -3.3943781

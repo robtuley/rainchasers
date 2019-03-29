@@ -1,0 +1,15 @@
+uuid: 5bab512c-e16b-42de-a945-94c6ec39fdbb
+river: 'Honddu (Monnow)'
+section: 'Llanthony to Monnow confluence'
+km: 16
+grade:
+  text: '2'
+  value: 2
+desc: 'What might have been a good grade 2 run is marred by lots of fences, and a nasty weir near Stanton.'
+directions: 'Takeout at the small road bridge just off the A465 Abergavenny to Hereford road, just north of Pandy. To reach the putin head upstream along small roads towards Llanthony, and get on at one of the bridges over the river before you get there.'
+putin:
+  lat: 51.9396534
+  lng: -3.0339117
+takeout:
+  lat: 51.8984969
+  lng: -2.9687966

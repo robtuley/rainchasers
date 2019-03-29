@@ -1,0 +1,22 @@
+uuid: 7071f770-c06c-4589-81d1-424cf381b54f
+river: Wear
+section: 'Wolsingham to Witton-Le-Wear'
+km: 13
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Small bit of grade three at the start, with a surfable wave. The gradient then eases off throughout the run.'
+directions: 'Put on from the bridge at Wolsingha. Takeout river left after passing under the A68, at the minor road bridge.'
+putin:
+  lat: 54.7265135
+  lng: -1.8858283
+takeout:
+  lat: 54.6712425
+  lng: -1.7722731
+measures:
+  -
+    low: 0.6
+    medium: 1
+    high: 2
+    data_url: 'rloi://8196'

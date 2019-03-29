@@ -1,0 +1,15 @@
+uuid: 01101fc0-0a2d-45c8-9549-0b0ce078aba9
+river: Nantmor
+section: 'Gelli-lago bridge to Bwlchgwernog Bridge'
+km: 6
+grade:
+  text: '4'
+  value: 4
+desc: 'Appearance of a ditch hides a couple of good gorge sections.'
+directions: 'From the bridge at the bottom of the Abergalsyn Gorge (the junction of the A498 and A4085 near Beddgelert) head along the A4085 towards Dolgellau. Almost immediately take a road on the left that follows Nantmor upstream. Keep going until the river is too thin to paddle, and get on. Various takeouts are possible, scout one out on the day with suitable parking: the small bridge above the main A4085 bridge is good if there is space.'
+putin:
+  lat: 53.016365
+  lng: -4.0393887
+takeout:
+  lat: 52.9865098
+  lng: -4.0711514

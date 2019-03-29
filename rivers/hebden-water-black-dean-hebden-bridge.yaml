@@ -1,0 +1,21 @@
+uuid: 939f1e67-3e8b-4be0-aab8-a6e9ffd931f8
+river: 'Hebden Water'
+section: 'Black Dean to Hebden Bridge'
+km: 6
+grade:
+  text: '3'
+  value: 3
+desc: 'Continuous grade three boulder garden spate beck through a wooded valley in West Yorkshire. '
+directions: 'Put in at Black Dean road bridge, take out in Hebden Water.'
+putin:
+  lat: 53.7783649
+  lng: -2.0648627
+takeout:
+  lat: 53.7420857
+  lng: -2.0133214
+measures:
+  -
+    low: 0.6
+    medium: 0.8
+    high: 1
+    data_url: 'rloi://8152'

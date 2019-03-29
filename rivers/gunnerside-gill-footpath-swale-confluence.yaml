@@ -1,0 +1,15 @@
+uuid: ac2719bf-abcc-4c98-aefc-adf3f8c48b8a
+river: 'Gunnerside Gill'
+section: 'Off the footpath to Swale Confluence'
+km: 2.5
+grade:
+  text: '4'
+  value: 4
+desc: 'If Swaledale is flooded this will go as a constant flume ride from however high up you want to walk.'
+directions: "Park in Gunnerside and walk up as high as you fancy/looks runnable.\nEither take out in the village or continue down the Swale."
+putin:
+  lat: 54.3941541
+  lng: -2.0927713
+takeout:
+  lat: 54.3754107
+  lng: -2.0776258

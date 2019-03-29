@@ -1,0 +1,15 @@
+uuid: df95d0ba-ede1-4530-806a-b9ad6d904820
+river: 'Rhaeadr Fawr'
+section: 'Bont Newydd to Laran Sands'
+km: 2.5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Fun continuous run. Watch out for the low road and railway bridges that can be problematic in high water.'
+directions: 'To reach the putin head upstream from Abergwyngregyn to the carpark at Bont Newydd. Takeout just before reaching the sands, just downstream of the railway bridge: there is a carpark on river left a short walk from the river.'
+putin:
+  lat: 53.2282129
+  lng: -4.0048984
+takeout:
+  lat: 53.2413387
+  lng: -4.0261656

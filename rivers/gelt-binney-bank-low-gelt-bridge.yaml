@@ -1,0 +1,23 @@
+uuid: 7cb18e7a-a4f1-4cd4-abcf-2ced90b600f9
+river: Gelt
+section: 'Binney Bank to Low Gelt Bridge'
+km: 7.5
+grade:
+  text: '4'
+  value: 4
+desc: 'Run of continued interest through some narrow gorges with the spicy combination of sparse eddies and a high risk of trees to keep you on your toes.'
+directions: 'Put in at Binney Bank, or if you don''t value your warm-up opportunities, hop in at Hynam Bridge to drop straight into the thick of it. Take out at Low Geltbridge, just off the A69.'
+putin:
+  lat: 54.8802142
+  lng: -2.6688543
+takeout:
+  lat: 54.9247131
+  lng: -2.7512496
+measures:
+  -
+    scrape: 0.7
+    low: 0.9
+    medium: 1.1
+    high: 1.3
+    huge: 1.6
+    data_url: 'rloi://5074'

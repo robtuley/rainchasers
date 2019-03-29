@@ -1,0 +1,15 @@
+uuid: 05c037fa-d462-494c-920c-2763fbdedd5a
+river: Pyrddin
+section: 'Forestry bridge to Angel Inn'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Adventurous run. Starts with 500m of gd3/4 down to a wooden footbridge. Be careful as you enter the gorge that follows as a few hundred metres downstream is Scwd Einion Gam, a 25m waterfall directly at the end of steep closed-in gd4 rapid. A difficult portage on river left. Fun water follows in the spectacular gorge, watch out for Gladys Fall another waterfall that is usually portaged. Continue past the confluence to catch the tail-end of the Nedd Fechan.'
+directions: 'Takeout at the small bridge in Pontneddfechan, at the start of the "waterfall walk". Heading north onto the A4109 you need to walk the boats down the first forestry track on the right (with a green gate). 500m down this track is a bridge over the river.'
+putin:
+  lat: 51.7746569
+  lng: -3.6208088
+takeout:
+  lat: 51.7568306
+  lng: -3.5938633

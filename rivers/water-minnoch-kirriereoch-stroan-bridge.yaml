@@ -1,0 +1,23 @@
+uuid: 994ba608-5060-4313-910e-f08bd13e4362
+river: 'Water of Minnoch'
+section: 'Kirriereoch to Stroan Bridge'
+km: 10
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A relaxed start, and remains max grade 4 for the first 5km until Palgowan Bridge (an alternative option for the putin). Picks up once the banks become wooded about a km below Palgowan Bridge, with several grade 5 drops including the Falls of Minnoch and the "Black Linn". Takeout after or just before Dog Leg Falls which is just below Stroan Bridge.'
+directions: 'Takeout at the Glen Trool Visitor Centre at Stroan Bridge, which is also a good place to check the levels and admire Dog Leg Falls. To reach the putin head north along the minor road: either get on at Palgowan Bridge (for a short grade 5 run), or continue up to the picnic site for the full 10km section. It is also possible to continue down onto the Water of Trool to Borgan Bridge (an extra 5km of grade 3/4). '
+putin:
+  lat: 55.1467439
+  lng: -4.5769327
+takeout:
+  lat: 55.0745257
+  lng: -4.5529466
+measures:
+  -
+    scrape: 0.9
+    low: 1
+    medium: 1.2
+    high: 1.5
+    huge: 1.7
+    data_url: 'sepa://133168'

@@ -1,0 +1,22 @@
+uuid: 024c3e0b-beb3-41d5-ba37-6c6670ccbcc4
+river: Allen
+section: 'Cupola Bridge to South Tyne Confluence'
+km: 7
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A fun trib of the South Tyne, containing boulder garden rapids and a 6ft sloping weir (Hagg Fall).'
+directions: 'Put in at Cupola Bridge. Take out either at Plankey Mill or continue down the South Tyne to Haydon Bridge.'
+putin:
+  lat: 54.9265327
+  lng: -2.3136779
+takeout:
+  lat: 54.97716
+  lng: -2.3114332
+measures:
+  -
+    scrape: 0.35
+    low: 0.5
+    high: 1
+    huge: 1.5
+    data_url: 'rloi://8005'

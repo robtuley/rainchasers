@@ -1,0 +1,15 @@
+uuid: 035d7894-df49-426b-b1b7-2d2f86a67fed
+river: Exe
+section: 'Bridgetown to Bolham Weir'
+km: 26
+grade:
+  text: '2'
+  value: 2
+desc: 'A good introduction to whitewater for beginners or as a touring run: lots of small natural rapids and a few weirs. Bolham weir at the takeout is nasty: portage around on river right and then paddle across the river downstream of the weir to takeout by the road on river left. '
+directions: 'Putin at Bridgetown, or you could shorten the trip by putting in at Exebridge. Takeout at Bolham weir, about 2km north of Tiverton along the A386.'
+putin:
+  lat: 51.0881248
+  lng: -3.5390471
+takeout:
+  lat: 50.9273531
+  lng: -3.4971507

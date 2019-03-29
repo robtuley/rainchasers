@@ -1,0 +1,15 @@
+uuid: 1bb731bd-3a47-4a75-ba3c-bac7e8b6f686
+river: Alwen
+section: 'Llanfihangel Glyn Myfyr to A5 road bridge'
+km: 14
+grade:
+  text: '3'
+  value: 3
+desc: 'A mixed bag: some excellent rapids but also a few nasty fences and weirs. Watch out for a nasty weir where a footbridge crosses the river after the Cierw has joined.'
+directions: 'Putin from the B5015 at Llanfihangel Glyn Myfyr, and takeout at the A5 roadbridge at Plas Isaf.'
+putin:
+  lat: 53.031368
+  lng: -3.505117
+takeout:
+  lat: 52.9807927
+  lng: -3.415542

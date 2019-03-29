@@ -1,0 +1,15 @@
+uuid: 2e51f168-7fa0-4a60-8ee1-fda3c671508d
+river: 'Nant Peris'
+section: 'Pont y Gromlech to Gwastadnant Bridge'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Desperate and reactive paddling between large chock-stones down a spate ditch.'
+directions: 'Putin as high as you dare as you drive up Llanberis Pass from Nant Peris along the A4086 (be careful as footbridges across the river can become siphons). Takeout in or just upstream of Nant Peris before the river drops into the lake.'
+putin:
+  lat: 53.0887287
+  lng: -4.0474608
+takeout:
+  lat: 53.1032114
+  lng: -4.087106

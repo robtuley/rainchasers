@@ -1,0 +1,15 @@
+uuid: 2e55a4bb-38f0-4c4b-b70a-0de8e9b6adb2
+river: 'Llafar (Ogwen)'
+section: 'Dafydd Falls to Gerlan'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'An adventurous run. Walkin from the takeout up the path on river left to just above or below a large gd5 fall. The run is fairly easy down to a weir, and hots up as the trees close in. Much of the last km is pretty sketchy.'
+directions: 'Takeout is just east of Bethesda at a small road bridge over the river. From here walkin up the path on river left.'
+putin:
+  lat: 53.1591885
+  lng: -4.0018179
+takeout:
+  lat: 53.173157
+  lng: -4.0392374

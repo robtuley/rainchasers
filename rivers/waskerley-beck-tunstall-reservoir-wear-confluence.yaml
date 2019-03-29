@@ -1,0 +1,15 @@
+uuid: 77110b0c-bd4a-43bd-bd9a-40a269dbc0c5
+river: 'Waskerley Beck'
+section: 'Tunstall Reservoir to Wear Confluence'
+km: 5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Tree infested ditch starting below a big spillway off the dam.'
+directions: 'Put-in at the reservoir where there''s parking for walkers. Take out at the Picknic site in Wolsingham off the B6296 or carry on down the Wear.'
+putin:
+  lat: 54.7615411
+  lng: -1.898313
+takeout:
+  lat: 54.73256
+  lng: -1.8829959

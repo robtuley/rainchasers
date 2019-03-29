@@ -1,0 +1,15 @@
+uuid: d2cb2bac-cc5c-482b-aa0b-602eb255e7ed
+river: Taf
+section: 'Login to Whitland'
+km: 15
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Excellent touring run. Watch out for trees.'
+directions: 'Putin at the minor road bridge in Login: an OS map is useful to help find it. Takeout at the old bridge in Whitland, just downstream of the main B4328 bridge, or if you want a longer section continue downstream onto the next section to Laugharne.'
+putin:
+  lat: 51.8788789
+  lng: -4.6659874
+takeout:
+  lat: 51.8151179
+  lng: -4.6121926

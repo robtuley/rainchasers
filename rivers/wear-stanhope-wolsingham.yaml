@@ -1,0 +1,21 @@
+uuid: 1a2b9696-115d-41e7-9a69-f39abbabe9f9
+river: Wear
+section: 'Stanhope to Wolsingham'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fairly continuous grade two, with the odd bit of three, an occasional surf wave and a weir above Wolsingham.'
+directions: 'Put in from the South bank of the ford at Stanhope. Get out at Hamsterly road bridge in Wolsingham, with parking at the station.'
+putin:
+  lat: 54.7474785
+  lng: -2.0155935
+takeout:
+  lat: 54.7266869
+  lng: -1.8858283
+measures:
+  -
+    low: 0.9
+    medium: 1.5
+    high: 2.5
+    data_url: 'rloi://8196'

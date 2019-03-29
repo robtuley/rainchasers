@@ -1,0 +1,16 @@
+uuid: c36da162-95f8-4325-8e93-78fd71aec907
+river: 'Eden (Lakes)'
+section: 'Langwathby to Lazonby'
+km: 9
+grade:
+  text: '1 (3)'
+  value: 1
+  max: 3
+desc: 'Eden Lacey falls are about 2/3rds of the way down this section - look out for a viaduct crossing the river. Inspect from river left if you need to.'
+directions: 'Put-in river left, just downstream of the bridge in Langwathby. A large car-park just above the bridge near Lazonby provides a convenient takeout.'
+putin:
+  lat: 54.6944968
+  lng: -2.675352
+takeout:
+  lat: 54.7550189
+  lng: -2.7009331

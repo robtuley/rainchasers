@@ -1,0 +1,15 @@
+uuid: 4483c18e-d65a-4999-a3e4-a79a1d5ee432
+river: 'Dean Clough'
+section: 'Pennine Way to Digley Reservoir'
+km: 3
+grade:
+  text: 4/5
+  value: 4.5
+desc: "Lots of smooth slides and a few drops in open moorland.\n\nHop over the first dam onto the second reservoir, but be very cautious of the sink hole at the far left close to the dam!"
+directions: "Walk-in via the Pennine Way from the A635.\n\nTake out near the car park on river left of Digley Reservoir."
+putin:
+  lat: 53.5558901
+  lng: -1.8824617
+takeout:
+  lat: 53.5605041
+  lng: -1.8345288

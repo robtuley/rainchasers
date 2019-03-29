@@ -1,0 +1,15 @@
+uuid: 6ad4fc0c-d817-4f93-adaf-0b6dc1dd04a9
+river: 'Stanley Embankment'
+section: 'Anglesey Holyhead Straits'
+km: 0
+grade:
+  text: '3'
+  value: 3
+desc: 'Tidal playspot at the southern side of a tunnel under the A5 road barrage. Requires a good spring tide, you need to get there about 2hrs before high tide at Holyhead.'
+directions: 'Park at the eastern end of the A5 crossing and paddle in along the southern side (a nasty hole can form in the tunnel and you have to paddle through the gap if you paddle in along the northern bank).'
+putin:
+  lat: 53.2901567
+  lng: -4.5837584
+takeout:
+  lat: 0
+  lng: 0

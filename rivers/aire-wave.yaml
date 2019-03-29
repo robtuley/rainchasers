@@ -1,0 +1,22 @@
+uuid: 46991772-f124-4c7f-8ad2-187108d249bf
+river: Aire
+section: 'The "Wave"'
+km: 0
+grade:
+  text: '3'
+  value: 3
+desc: 'Playspot near Leeds. Beautiful glassy wave if you catch it at the right level.'
+directions: 'Playspot to the SE of Leeds, just downstream of Woodlesford rail station. From Aberford Rd (A642) head down Fleet Lane to the oil storage depot (just after the bridge over the canal). This is on an island formed by the canal and the river. Park up and walk downstream 200m to a bridge over the river to see if the wave is in condition.'
+putin:
+  lat: 53.7484432
+  lng: -1.4224225
+takeout:
+  lat: 0
+  lng: 0
+measures:
+  -
+    low: 1.1
+    medium: 1.3
+    high: 1.7
+    toohigh: 2
+    data_url: 'rloi://8079'

@@ -1,0 +1,24 @@
+uuid: 2cbe59d3-eac8-444b-8e3e-cb51b399b1b2
+river: 'Greta (Tees)'
+section: 'Rutherford to Tees Confluence'
+km: 12
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Good continuous grade 3 run that ends with 100m of grade 4 just above the confluence with the Tees. The final stretch (including Rokesby falls) is difficult to inspect/portage, so be prepared to read and run.'
+directions: 'Putin at the bridge in Rutherford. Takeout after the confluence with the Tees: the first available takeout is river left just above Whorlton Lido (clamber up the steep bank), or continue on the Tees down to Winston Bridge as it will be at a fun level if the Greta is running.'
+putin:
+  lat: 54.5048386
+  lng: -1.947717
+takeout:
+  lat: 54.5265004
+  lng: -1.8352431
+measures:
+  -
+    scrape: 0.45
+    low: 0.55
+    medium: 0.75
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://8177'

@@ -1,0 +1,15 @@
+uuid: ba03b75f-5647-4a65-8ce7-e97793d8f150
+river: 'Newlands Beck'
+section: 'Little Town to Stair'
+km: 2.5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Fairly continuous spate beck, mostly grade 3 with three harder rapids/falls.'
+directions: 'Put in at the road bridge in Little Town, where there is parking. Take out at the road bridge in Stair, where parking can be found a short walk away.'
+putin:
+  lat: 54.5638621
+  lng: -3.190224
+takeout:
+  lat: 54.5809505
+  lng: -3.1823521

@@ -1,0 +1,15 @@
+uuid: 751a721f-47a9-4d2e-88e8-ed7103ab052f
+river: 'Derwent (York)'
+section: 'Howsham Weir'
+km: 0.5
+grade:
+  text: '3'
+  value: 3
+desc: 'Various play-spots around the weir depending on the level: on the weir canoe-shoot; the archimedes screw output; the water wheel tail-race.'
+directions: 'Park at the bridge to the east of Howsham village, then paddle up to the weir.'
+putin:
+  lat: 54.055991
+  lng: -0.8857792
+takeout:
+  lat: 54.0533585
+  lng: -0.8829503

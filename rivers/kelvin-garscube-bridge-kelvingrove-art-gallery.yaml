@@ -1,0 +1,24 @@
+uuid: 4ea6e6cb-94de-46ae-91bf-31af271c1736
+river: Kelvin
+section: 'Garscube Bridge to Kelvingrove Art Gallery'
+km: 9
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Urban flat water boating with great views of Glasgow. Be careful at the first weir in particular, and enjoy the play-wave at the end.'
+directions: 'Putin at Garscube Bridge, where Maryhill Road (A81) crosses the Kelvin. Turn off the A81, and access the river near the entrance to Killermont Golf Club. Alternatively, you can putin at the Kelvindale Road bridge (just south of the canal bridge) which avoids Kelvindale weir. Takeout at the Kelvingrove Art Gallery at the southern end on Kelvingrove Park, or continue down to the Clyde.'
+putin:
+  lat: 55.9073056
+  lng: -4.31308
+takeout:
+  lat: 55.8697332
+  lng: -4.2935539
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.8
+    high: 1
+    huge: 1.4
+    data_url: 'sepa://133080'

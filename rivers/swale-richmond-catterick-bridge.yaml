@@ -1,0 +1,22 @@
+uuid: 5e355220-86d6-43b6-8f9a-ee1bb7e61f2c
+river: Swale
+section: 'Richmond to Catterick Bridge'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Pleasant low grade intro to white water, good for open boats too. Richmond falls can be run at the put-in at grade 4 and there''s often a playwave at the Catterick Bridge get-out.'
+directions: "Put-in by Richmond falls, or the bridge downstream near the station.\nGet out at Catterick Bridge after passing under the A1."
+putin:
+  lat: 54.4006512
+  lng: -1.73484
+takeout:
+  lat: 54.3892493
+  lng: -1.6515523
+measures:
+  -
+    low: 0.35
+    medium: 0.9
+    high: 1.5
+    huge: 2
+    data_url: 'rloi://8169'

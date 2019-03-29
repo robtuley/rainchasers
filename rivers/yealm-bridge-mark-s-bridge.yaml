@@ -1,0 +1,21 @@
+uuid: a1374301-ab60-479f-bc06-a06b1029d17a
+river: Yealm
+section: 'Mill Bridge to Mark''s Bridge'
+km: 4
+grade:
+  text: '3'
+  value: 3
+desc: null
+directions: 'If wanting to avoid Blachford Manor, you can miss the upper section and put in at Langham Bridge. There''s not much in the way of parking spaces at either put-in or the take-out.'
+putin:
+  lat: 50.431318
+  lng: -3.952048
+takeout:
+  lat: 50.3979754
+  lng: -3.9677694
+measures:
+  -
+    low: 0.45
+    medium: 0.55
+    high: 0.75
+    data_url: 'rloi://3188'

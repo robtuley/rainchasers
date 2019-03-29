@@ -1,0 +1,15 @@
+uuid: 13f4ddb7-1a2f-4f08-b97b-c685911b9e58
+river: 'Black Brook'
+section: 'Barkisland Paper Mills to Calder Confluence'
+km: 4
+grade:
+  text: '3'
+  value: 3
+desc: 'Industrial adventure with trees and sluices to contend with...'
+directions: null
+putin:
+  lat: 53.6769971
+  lng: -1.8981772
+takeout:
+  lat: 53.6890192
+  lng: -1.8488711

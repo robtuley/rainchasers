@@ -1,0 +1,16 @@
+uuid: c308a165-4e0f-4af1-ad8f-06a37207b429
+river: Nevis
+section: 'Steall Gorge to Polldubh Falls'
+km: 3
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Popular classic near Fort William, super fun. Putin just below the unpaddleable Steall Gorge below or above "Boulder Blast": a long chaotic rapid. Then down to the sticky Dave''s Hole, before feeding into Scimitar Gorge, 3 tricky drops in quick succession. The fun continues: Mad Mile, Leg Breaker, Dead Sheep falls. Polldubh Falls at the takeout is the largest waterfall, a relatively straight-forward climax to a great run.'
+directions: 'From the north A82 roundabout in Fort William head off towards Glen Nevis. The takeout at Polldubh Falls is obvious, where the road first crosses from river left to river right. To reach the putin keep heading upstream to the end of the road. To reach the putin at Boulder Blast rapid, walkin along the path to Steall Meadows. After 400m as you cross a side stream turn off on a small path that leads down to the river. '
+putin:
+  lat: 56.7783805
+  lng: -4.9919445
+takeout:
+  lat: 56.7705214
+  lng: -5.0367732

@@ -1,0 +1,16 @@
+uuid: 9e1ec4ea-e001-453a-8139-e1fa3a351608
+river: 'Hudeshope Beck'
+section: 'Pikestone Brow to Middleton-in-Teesdale'
+km: 4
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'An unusual Tees spate trib, which starts off flat before some gorge sections, a big slide and a rocky 3m fall.'
+directions: "In high water, drive up either side of the valley and put on where the road crosses the Beck. Otherwise drive up the small track which follows the Beck to the North of Middleton-in-Teesdale and put on as high up as you like.\nGet out above the Middleton Bridge on the Tees."
+putin:
+  lat: 54.6584695
+  lng: -2.0874281
+takeout:
+  lat: 54.6227812
+  lng: -2.0846386

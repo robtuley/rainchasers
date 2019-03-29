@@ -1,0 +1,22 @@
+uuid: 0e0e1e06-709a-47f5-ae83-1ddd83937a7b
+river: Seiont
+section: 'Pont Rhythallt pylons to Caernarfon'
+km: 13
+grade:
+  text: '3'
+  value: 3
+desc: 'Top quality continuous grade 3 read-and-run for almost its whole length.'
+directions: 'Takeout next to Caernarfon Castle once the Seiont meets the sea. To get to the putin head towards Llanberis from Caernarfon along the A4086. At Llanrug head down towards the river, and take the small right turn just after crossing the river. There are a few places along this single track road to park and access the river.'
+putin:
+  lat: 53.1502708
+  lng: -4.1727863
+takeout:
+  lat: 53.1386714
+  lng: -4.2755833
+measures:
+  -
+    scrape: 0.75
+    low: 0.8
+    medium: 0.9
+    high: 1.2
+    data_url: 'rloi://4179'

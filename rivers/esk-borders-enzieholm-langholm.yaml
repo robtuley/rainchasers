@@ -1,0 +1,23 @@
+uuid: 2bead475-7156-4dab-aac2-a095d2fcb3b7
+river: 'Esk (Borders)'
+section: 'Enzieholm to Langholm'
+km: 14
+grade:
+  text: '1'
+  value: 1
+desc: 'Pleasant touring or beginners run.'
+directions: 'Lots of access/egress points on the run mean length can be adjusted to suit. Suggested putin is at Enzieholm Bridge, about 14km north of Langholm; takeout out at Langholm for a grade 1 trip, or continue downstream onto the next section (gd 2/3) to Hollows Bridge or Canonbie.'
+putin:
+  lat: 55.2112568
+  lng: -3.1243767
+takeout:
+  lat: 55.0940933
+  lng: -2.9635766
+measures:
+  -
+    scrape: 0.6
+    low: 0.8
+    medium: 1.1
+    high: 1.3
+    huge: 1.7
+    data_url: 'sepa://133148'

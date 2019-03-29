@@ -1,0 +1,15 @@
+uuid: 31c19099-3cda-460f-9205-f5a40b419a40
+river: 'Nant Cyw'
+section: 'Gorge to Giedd confluence'
+km: 1
+grade:
+  text: '4'
+  value: 4
+desc: 'A one-hit wonder grade 4 gorge, but worth the walkin. Works well combined with the Giedd.'
+directions: 'Takeout at the bridge just about the confluence with the Giedd, although because the run is so short is it usually better to combine it with the Giedd. It is easiest to simply walk up river left to putin above the gorge, although it is possible to drive up along the small road.'
+putin:
+  lat: 51.8029139
+  lng: -3.7496895
+takeout:
+  lat: 51.8002973
+  lng: -3.753855

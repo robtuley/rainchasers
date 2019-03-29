@@ -1,0 +1,15 @@
+uuid: 8dc99511-f12d-4651-a9cf-0fc4697c0b7b
+river: Severn
+section: 'Llanidloes to Caersws'
+km: 15
+grade:
+  text: '2'
+  value: 2
+desc: 'Unremarkable run, but pleasant enough.'
+directions: 'Putin at Llanidloes, just downstream of the main bridge on river left. Takeout in Caersws at the football ground just before the railway bridge.'
+putin:
+  lat: 52.4512599
+  lng: -3.5371213
+takeout:
+  lat: 52.5137527
+  lng: -3.4286403

@@ -1,0 +1,16 @@
+uuid: 7fd2a009-af72-44c5-b266-e0ec72b38211
+river: 'Birk Beck'
+section: 'Shap Wells Hotel to Scout Green'
+km: 3
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Wave trains and wire fences combined with one big fall (Docker Force).'
+directions: 'Either do this as a continuation of Wasdale Beck, or put in at Shap Wells Hotel. Get out at Scout Green, or continue on low grade water for 3km to the Lune confluence near Tebay.'
+putin:
+  lat: 54.4792839
+  lng: -2.6513877
+takeout:
+  lat: 54.4614275
+  lng: -2.6288142

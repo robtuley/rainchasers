@@ -1,0 +1,15 @@
+uuid: e369acbc-f907-4bdb-8d95-47bb02cbd89f
+river: Rheidol
+section: 'Ponterwyd to Allt-y-Gigfran'
+km: 6
+grade:
+  text: '5'
+  value: 5
+desc: 'Totally bonkers. Take ropes, abseil harnesses, torches and start early.'
+directions: 'Putin at the A44 bridge at Ponterwyd. Takeout at a small footbridge downstream of Devil''s Bridge Pontarfynach that can be approached from downstream along the road running along river right.'
+putin:
+  lat: 52.4110969
+  lng: -3.8408444
+takeout:
+  lat: 52.3867838
+  lng: -3.8715233

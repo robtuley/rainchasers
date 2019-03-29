@@ -1,0 +1,15 @@
+uuid: cdfb56c8-e143-49fc-817e-c75a232e63fb
+river: Nyfer
+section: 'Castell Clwyd to Newport'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A beautiful little river with no nasties.'
+directions: 'Takeout at the main bridge on the outskirts of Newport before reaching Newport Sands. To reach the putin head east along the A487 and turn off onto small roads to stay south of the river (just before the bridge at Felindre Farchog). Putin at the bridge over the Afon Brynberian, a little trib.'
+putin:
+  lat: 52.0019948
+  lng: -4.7512482
+takeout:
+  lat: 52.0199665
+  lng: -4.825213

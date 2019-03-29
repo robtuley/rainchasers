@@ -1,0 +1,21 @@
+uuid: af35b406-c847-4f2e-9ed4-995d63f43e94
+river: Trent
+section: 'Sawley Weir'
+km: 0.1
+grade:
+  text: '4'
+  value: 4
+desc: 'A big wave river left, and at certain levels a hole river right that can be played on all day, each working best at different levels (once you''ve worked out how to get on them).'
+directions: "It is possible to park briefly just off the road at the canal cut, to unload, sort kit etc. There is normally ample parking just up the road in Sawley.\n\nPut onto the cut above the flood lock and paddle a couple of hundred metres to the junction with the river. Nip past the buoys on the right, and have some fun. Getting back, simply take out, put back in on the cut on paddle back to the start.\n\nIt's also possible, with arrangement, to park at the Hartington Arms pub and walk across the field at the back to the river. But this involves a long carry and an uphill paddle to get to the wave."
+putin:
+  lat: 52.8738394
+  lng: -1.3027439
+takeout:
+  lat: 52.8753676
+  lng: -1.3066099
+measures:
+  -
+    low: 1.8
+    medium: 2.3
+    high: 2.8
+    data_url: 'rloi://2100'

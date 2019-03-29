@@ -1,0 +1,23 @@
+uuid: f1c4e3b2-7d97-49bc-a737-d2804ba58e63
+river: 'East Lyn'
+section: 'Brendon to Watersmeet'
+km: 4
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Fun continuous boulder rapids and drops. Hardest drop is a two-tier waterfall about halfway down.'
+directions: 'Putin at the village of Brendon. Please be considerate and change before you get there. Although it is possible to takeout at Watermeets, you''d be mad not to continue straight onto the section downstream and takeout at the sea.'
+putin:
+  lat: 51.2205446
+  lng: -3.7630548
+takeout:
+  lat: 51.2242746
+  lng: -3.8001112
+measures:
+  -
+    low: 1.55
+    medium: 1.7
+    high: 1.8
+    huge: 2
+    data_url: 'rloi://3099'

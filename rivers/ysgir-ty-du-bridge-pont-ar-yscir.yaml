@@ -1,0 +1,15 @@
+uuid: 182f5a65-f468-4658-8029-628d1b1db4ee
+river: Ysgir
+section: 'Ty du Bridge to Pont ar Yscir'
+km: 11
+grade:
+  text: '3'
+  value: 3
+desc: 'Fun little stream run. The weir 200m upstream of the takeout can be nasty: it''s worth walking up to have a quick look before you get on.'
+directions: 'Takeout at the minor road bridge just upstream of the A40 bridge west of Brecon. To reach the putin keep heading upstream along the minor roads and putin at the small bridge by the farmyard.'
+putin:
+  lat: 52.0272065
+  lng: -3.5076871
+takeout:
+  lat: 51.9619423
+  lng: -3.4515741

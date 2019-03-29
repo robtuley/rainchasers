@@ -1,0 +1,23 @@
+uuid: 7fb555b2-e0e2-4f6d-b7f7-7e4ca7a3117c
+river: 'Clywedog (Severn)'
+section: 'Bryntail Mine to Severn'
+km: 6
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'An excellent continuous grade 2/3 blast. The hardest drop (gd4) is just downstream of the putin, and there are a couple f weirs to keep an eye out for. Takeout after joining the Severn.'
+directions: 'Takeout in Llanidloes at the B4518 bridge just off the A470. To reach the putin head upstream along the B4518 then head down a small left to the dam. Getin as close to the dam as possible.'
+putin:
+  lat: 52.4677394
+  lng: -3.6007379
+takeout:
+  lat: 52.4510881
+  lng: -3.5392908
+measures:
+  -
+    scrape: 0.33
+    low: 0.47
+    medium: 0.6
+    high: 0.9
+    data_url: 'rloi://2054'

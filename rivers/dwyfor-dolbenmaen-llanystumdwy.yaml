@@ -1,0 +1,22 @@
+uuid: 37b545fe-54a0-4386-978b-86357720e1f4
+river: Dwyfor
+section: 'Dolbenmaen to Llanystumdwy'
+km: 7
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'An excellent bouncy run in high water. It is possible to get on at various bridges higher than the recommended putin, but the majority of it is flat and meandering with a liberal scattering of trees for good measure. Pretty though, if that''s your bag.'
+directions: 'Putin at the disused road bridge just off the A487 at Dolbenmaen. Takeout up the steps river left, just upstream of the first road bridge in Llanystumdwy.'
+putin:
+  lat: 52.9636243
+  lng: -4.2238117
+takeout:
+  lat: 52.9225083
+  lng: -4.2702514
+measures:
+  -
+    low: 0.47
+    medium: 0.6
+    high: 0.78
+    huge: 1.1
+    data_url: 'rloi://4171'

@@ -1,0 +1,16 @@
+uuid: b92befa3-2bfc-42e5-8f0c-df1804b61476
+river: Barle
+section: 'Withypool to Tarr Steps'
+km: 7
+grade:
+  text: '2 (3-)'
+  value: 2
+  max: 2.75
+desc: 'Flat at first before gradually building in difficulty to a long rapid leading down to Tarr Steps.'
+directions: 'Putin at the main bridge in Withypool. Takeout at the ford at Tarr Steps: this can be reached either by heading south down minor roads river right through Hawkridge, or river left through Liscombe.'
+putin:
+  lat: 51.1066747
+  lng: -3.6510805
+takeout:
+  lat: 51.0771364
+  lng: -3.6171152

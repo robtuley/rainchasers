@@ -1,0 +1,16 @@
+uuid: 442fe1b2-f565-4be1-ba29-d2acd7324de1
+river: Irthing
+section: 'Gilsland to Lanercost'
+km: 9
+grade:
+  text: '2 (3+)'
+  value: 2
+  max: 3.1
+desc: 'Meandering grade 2 with a couple of harder rapids to keep the interest.'
+directions: 'Put in river left a hundred metres or so upstream of the bridge in Gilsland. Parking is limited so be careful. The best takeout is river right just upstream of the bridge near Holmehead. The best parking however is a bit of a trek back upstream on river left.'
+putin:
+  lat: 54.9919239
+  lng: -2.5733784
+takeout:
+  lat: 54.9685033
+  lng: -2.6813355

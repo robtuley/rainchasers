@@ -1,0 +1,15 @@
+uuid: ad3a5dc2-fbec-47b5-a752-4699c87d77c9
+river: 'Troutbeck (South)'
+section: 'Church Bridge to Garage'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'Gentle warm-up leads to a fast and commiting gorge section that is often plagued by trees.'
+directions: 'Putin at a layby just downstream of Church Bridge, the A592 bridge just south of Limefitt Park campsite. Takeout river left just downstream of the A591 road bridge behind the garage.'
+putin:
+  lat: 54.416236
+  lng: -2.9070362
+takeout:
+  lat: 54.3948332
+  lng: -2.9209306

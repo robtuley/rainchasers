@@ -1,0 +1,15 @@
+uuid: 68710951-9f40-410a-ac76-88f701cf724b
+river: Dee
+section: 'Hilnant to Llandderfel bridge'
+km: 5
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Makes sure to get on below the hard fall at the putin. A series of small weirs lead down to the confluence with the Dee (or it is possible to walk down a footpath river right). Once on the Dee, a fast and flat touring paddle.'
+directions: 'Putin where the B4391 crosses the Hilant river which flows into the Dee. There is a grade 5 falls about 200m downstream of this bridge so make sure you walk downstream and putin below this! It is also possible to putin at the bridge over the Dee as it flows out of Bala lake. Takeout at the B4401 road bridge.'
+putin:
+  lat: 52.9084242
+  lng: -3.5631455
+takeout:
+  lat: 52.917133
+  lng: -3.5155717

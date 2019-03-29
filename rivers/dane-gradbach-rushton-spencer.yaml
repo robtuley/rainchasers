@@ -1,0 +1,21 @@
+uuid: 70a119d3-d912-4cda-b62c-240c7977c278
+river: Dane
+section: 'Gradbach to Rushton Spencer'
+km: 10
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Spate river with nice continuous grade 3/4 gorge at the start.'
+directions: null
+putin:
+  lat: 53.1948463
+  lng: -2.000101
+takeout:
+  lat: 53.1692568
+  lng: -2.1052436
+measures:
+  -
+    low: 0.35
+    high: 0.55
+    data_url: 'rloi://5036'

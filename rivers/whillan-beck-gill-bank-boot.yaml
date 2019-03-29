@@ -1,0 +1,15 @@
+uuid: 7c5d67bf-b0fe-4643-af6d-aff268e3f50b
+river: 'Whillan Beck'
+section: 'Gill Bank to Boot'
+km: 1
+grade:
+  text: '5'
+  value: 5
+desc: 'Low water stunt. Series of very technical rocky slides and falls.'
+directions: 'This involves a walk-in from Boot village. Follow a track on the right-hand bank (looking upstream) out of Boot, until you reach Gill Bank Farm. Walk through the yard, cross the bridge and follow the other riverbank up to a waterfall which you can start above or below. Get out in the village of Boot itself.'
+putin:
+  lat: 54.4075526
+  lng: -3.2630995
+takeout:
+  lat: 54.3988596
+  lng: -3.2703522

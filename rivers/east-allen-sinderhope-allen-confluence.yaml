@@ -1,0 +1,20 @@
+uuid: 3cc367fc-ffd4-4bbc-bf83-e778d6cd73e2
+river: 'East Allen'
+section: 'Sinderhope to Allen Confluence'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fairly continuous spate beck, with one 3m fall. '
+directions: 'In spate conditions the river is runnable from Sinderhope Ford. Get out either at Thornley Gate Bridge just outside of Allendale Town, or continue to Cupola Bridge on the Allen.'
+putin:
+  lat: 54.8642137
+  lng: -2.2450145
+takeout:
+  lat: 54.9265389
+  lng: -2.313814
+measures:
+  -
+    low: 0.9
+    high: 1.6
+    data_url: 'rloi://8005'

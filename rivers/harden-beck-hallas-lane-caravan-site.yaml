@@ -1,0 +1,16 @@
+uuid: 8600872f-2366-4a16-887e-6e4b6d9fb2ad
+river: 'Harden Beck'
+section: 'Hallas Lane to Caravan Site'
+km: 1
+grade:
+  text: '2/3 (5)'
+  value: 2.5
+  max: 5
+desc: 'Small fast spate beck with one large waterfall (Goit Stock).'
+directions: null
+putin:
+  lat: 53.8249668
+  lng: -1.8841838
+takeout:
+  lat: 53.8318563
+  lng: -1.8794667

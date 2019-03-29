@@ -1,0 +1,15 @@
+uuid: 4a2c3990-21b0-4533-b155-25d3f1798c0f
+river: Rhymney
+section: 'Llanbradach to Cardiff'
+km: 26
+grade:
+  text: '2'
+  value: 2
+desc: 'A more relaxed paddle than the upper section. A few weirs to watch out for, but nothing serious.'
+directions: 'Takeout in Llanbradach, find a convenient route down to the river from estate next to the A469 bridge. Takeout at one of the many road bridges towards the estuary. If you want a shorter trip, there are plenty of bridges all the way down.'
+putin:
+  lat: 51.6011105
+  lng: -3.2308455
+takeout:
+  lat: 51.5001217
+  lng: -3.1393875

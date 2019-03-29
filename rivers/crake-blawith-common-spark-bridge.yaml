@@ -1,0 +1,22 @@
+uuid: dd32f5a5-a507-4d87-b718-dd4adf9631dc
+river: Crake
+section: 'Blawith Common to Spark Bridge'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun grade 2/3: builds up in excitement culminating in Bobbin Mill Rapid just before Spark Bridge.'
+directions: 'Putin at the south end of Coniston Water. There are a few lay-bys on the west side from where you can walk down to the water''s edge. Takeout river right just downstream of the bridge in Spark Bridge.  '
+putin:
+  lat: 54.3012163
+  lng: -3.0968388
+takeout:
+  lat: 54.2551494
+  lng: -3.065972
+measures:
+  -
+    low: 0.5
+    medium: 0.6
+    high: 0.9
+    huge: 1.2
+    data_url: 'rloi://5092'

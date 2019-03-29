@@ -1,0 +1,15 @@
+uuid: 82be760d-635f-482c-9081-57ed8d8f11e6
+river: Sawdde
+section: 'Llyn y Fan Fach to Blaenau'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'Similar but slightly easier than the nearby Haffes, an excellent run.'
+directions: 'Takeout at the village of Blaenau. If you are lucky the track will be open and you can drive up the river right bank to putin at Llyn y Fan Fach, it you can''t get through you''ll have to walk it.'
+putin:
+  lat: 51.8838141
+  lng: -3.7400517
+takeout:
+  lat: 51.9022522
+  lng: -3.7578535

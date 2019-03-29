@@ -1,0 +1,15 @@
+uuid: 56ffb0cc-d518-487c-8e46-7efa2eb69bd8
+river: Aman
+section: 'Cwm Aman to Pantyffynnon'
+km: 10
+grade:
+  text: '3'
+  value: 3
+desc: 'Grade 2/3 rapids interspersed with broken weirs.'
+directions: 'Both putin and takeout are just off the A474 Ammanford to Brynamman road. The takeout is in Ammanford itself, and the putin is just west of Glanaman.'
+putin:
+  lat: 51.8041722
+  lng: -3.8980247
+takeout:
+  lat: 51.790079
+  lng: -3.985057

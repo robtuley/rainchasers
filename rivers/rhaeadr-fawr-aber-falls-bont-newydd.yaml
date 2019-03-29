@@ -1,0 +1,15 @@
+uuid: 9b8ea5a7-5c3f-4699-bb71-7d11c70dd64d
+river: 'Rhaeadr Fawr'
+section: 'Aber Falls to Bont Newydd'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Reasonable gd4/5 run to reward the 2km walkin. Watch out for trees.'
+directions: 'Turn off the A55 at Abergwyngregyn and head upstream to the takeout bridge at Bont Newydd. From here walkin 2km along the path on river right to get on just below Aber Falls.'
+putin:
+  lat: 53.2112994
+  lng: -3.996254
+takeout:
+  lat: 53.2282006
+  lng: -4.0049416

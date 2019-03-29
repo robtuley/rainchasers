@@ -1,0 +1,15 @@
+uuid: 3a4ae6c1-0248-428f-b3f8-530893b224f8
+river: 'Clywedog (Wrexham)'
+section: 'Country Park bridge to B5130 bridge'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Starts well, but has been used as a rubbish tip downstream. And then you paddle pass the sewage works. Not inspiring.'
+directions: 'Putin at the bridge in the country park just south of Wrexham (on Sontley Hill road). Takeout at the B5130 bridge between Sesswick and Isycoed.'
+putin:
+  lat: 53.0294987
+  lng: -2.9915715
+takeout:
+  lat: 53.0278757
+  lng: -2.9014678

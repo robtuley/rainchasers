@@ -1,0 +1,16 @@
+uuid: 60db8409-b957-42bd-aeca-dd39bd1666e0
+river: Tweed
+section: 'Fairnilee Farm to St Boswells'
+km: 25
+grade:
+  text: '1 (2)'
+  value: 1
+  max: 2
+desc: 'Flat touring run with a couple of weirs. You can choose to get on above or below the grade 2 Fairnilee rapids just after the bridge at putin.'
+directions: 'Takeout at the bridge near St Boswells, and putin where the B7060 and A707 meet at the bridge at near Fairnilee Farm.'
+putin:
+  lat: 55.5835562
+  lng: -2.8611689
+takeout:
+  lat: 55.5805483
+  lng: -2.6202457

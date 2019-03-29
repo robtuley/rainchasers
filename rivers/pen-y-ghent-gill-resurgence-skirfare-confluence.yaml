@@ -1,0 +1,16 @@
+uuid: ba390e42-fb10-407a-bf47-28b657a0e2da
+river: 'Pen-Y-Ghent Gill'
+section: 'Resurgence to Skirfare Confluence'
+km: 4
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'A small, tight, continuous spate beck with a number of falls, two of which are quite tricky.'
+directions: 'Follow the road between Halton Gill and Stainforth and put on where you see the resurgence after a cattle grid. Take out either at the confluence, or continue on down the Skirfare.'
+putin:
+  lat: 54.1556111
+  lng: -2.2219298
+takeout:
+  lat: 54.1673226
+  lng: -2.1639454

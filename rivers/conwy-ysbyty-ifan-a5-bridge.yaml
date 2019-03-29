@@ -1,0 +1,22 @@
+uuid: 7d8da5de-895b-4b08-9e32-e9af62475d31
+river: Conwy
+section: 'Ysbyty Ifan to A5 bridge'
+km: 4
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'A pleasant run suitable for beginners. The bridge opposite Foel Ddu 3km upstream of the marked putin can be used as an alternative but the run then includes a tricky fall and barbed wire across the river!'
+directions: 'Takeout at the A5 road bridge near the B4407 turn off to Ysbyty Ifan. To reach the putin head upstream along the B4407 and either putin at Ysbyty Ifan itself, or continue heading upstream until you can turn left down a narrow road to the river a few km further up. If you use the putin at Ysbyty Ifan please be considerate about changing: it''s best to get changed before arriving as houses look out directly onto the parking area.'
+putin:
+  lat: 53.023915
+  lng: -3.7273261
+takeout:
+  lat: 53.0458761
+  lng: -3.7076011
+measures:
+  -
+    low: 1.2
+    medium: 1.5
+    high: 2
+    data_url: 'rloi://4145'

@@ -1,0 +1,15 @@
+uuid: 70e45ff0-d339-4f72-87a5-06721ad78c4f
+river: Wye
+section: 'Rhayader to Builth Wells'
+km: 26
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Good playrun in high levels, pleasant easy run when lower. Possible alternative putin at Newbridge if you want to shorten the trip.'
+directions: 'Takeout in Rhayader, just downstream of the B4518 bridge on river right after Rhayader Falls. Takeout in Builth Wells: follow the one way system round to the carpark on river right just upstream of the A470 bridge.'
+putin:
+  lat: 52.2986134
+  lng: -3.5146257
+takeout:
+  lat: 52.1500028
+  lng: -3.4028369

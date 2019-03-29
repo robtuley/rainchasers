@@ -1,0 +1,15 @@
+uuid: 243e599a-02cb-4a69-9031-1911130f7435
+river: 'Eden (Lakes)'
+section: 'Kirkby Stephen to Great Musgrave'
+km: 7
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Easy shingle rapids on a meandering river bed. One small weir near the start.'
+directions: null
+putin:
+  lat: 54.4734145
+  lng: -2.3463532
+takeout:
+  lat: 54.5126594
+  lng: -2.3651966

@@ -1,0 +1,22 @@
+uuid: 1d0ae0a8-d292-4306-a90d-ab45edbdb0d8
+river: Severn
+section: 'Shrewsbury Weir'
+km: 0.1
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Shrewsbury Weir is a playspot that comes into condition only when the Severn is very high. At lower levels it can form a dangerous stopper and should be avoided - note that the level suggested here is only an indicator that it should be running. If it looks nasty, it probably is - don''t get on! The wave flushes when the river rises further.   '
+directions: 'The weir is just downstream of the town centre itself. There is ample parking along Sydney Avenue - just find somewhere the water won''t be start lapping at your car whilst you''re strutting your stuff. '
+putin:
+  lat: 52.7127559
+  lng: -2.740813
+takeout:
+  lat: 52.7127884
+  lng: -2.7394022
+measures:
+  -
+    medium: 2.85
+    high: 3
+    low: 2.8
+    toohigh: 3.1
+    data_url: 'rloi://2036'

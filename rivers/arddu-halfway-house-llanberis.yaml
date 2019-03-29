@@ -1,0 +1,15 @@
+uuid: 9631a5ea-9f44-47c1-9a11-87e37de2f669
+river: Arddu
+section: 'Halfway House to Llanberis'
+km: 3
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'An adventurous day out with a walkin to the putin. The drops tend to be grouped: a flurry of steeper drops, a breather, then another flurry. The section around the Snowdon railway bridge is grade 5+, and includes Llanberis Falls.'
+directions: 'Head up a steep road beside Llanberis Snowdon railway station that runs near the track. Keep going as far as possible until continuing on foot.'
+putin:
+  lat: 53.091251
+  lng: -4.104129
+takeout:
+  lat: 53.1125982
+  lng: -4.1243368

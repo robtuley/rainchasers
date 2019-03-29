@@ -1,0 +1,15 @@
+uuid: 8dd73ad1-96a2-4e77-a212-20269ac374f2
+river: Ashop
+section: 'Top of Snake Pass to Alport Confluence'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'Steep continuous with tiny eddies and plenty of trees and fences. The rapids are not super hard but it''s easy to mess it up or underestimate this run, especially when high.'
+directions: null
+putin:
+  lat: 53.4313897
+  lng: -1.8471082
+takeout:
+  lat: 53.401541
+  lng: -1.7891332

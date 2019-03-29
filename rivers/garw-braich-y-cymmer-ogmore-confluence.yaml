@@ -1,0 +1,15 @@
+uuid: 01b5b77d-b117-449e-980b-5d77a0fd89d9
+river: Garw
+section: 'Braich y Cymmer to Ogmore confluence'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Easy and pretty, but filled with trees, low bridges, low wires and fences.'
+directions: 'Takeout at the main bridge in Brynmenyn. Head upstream along the A4064 and take the second bridge across to river left and carry on upstream for another km or so to a small bridge near the sewage works.'
+putin:
+  lat: 51.5954381
+  lng: -3.5819759
+takeout:
+  lat: 51.5516456
+  lng: -3.5783268

@@ -1,0 +1,15 @@
+uuid: 4f96ffc1-e23b-4864-92a2-9bdfc1dcc86f
+river: Tweed
+section: 'St Boswells to Kelso'
+km: 16
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Pool-drop run: flat sections with the occasional rapid. Highlight is Mackerstoun rapid (gd2/3), islands in mid-stream mark the start. Watch out for the weir just before the takeout: inspect/portage river right.'
+directions: 'Putin at the bridge just east of St Boswells. Takeout at a layby off the A699 just upstream of the main bridge in Kelso. '
+putin:
+  lat: 55.5805063
+  lng: -2.6204301
+takeout:
+  lat: 55.5958585
+  lng: -2.4358548

@@ -1,0 +1,15 @@
+uuid: 848a6028-6d4c-4eea-9366-033d1bb56457
+river: Severn
+section: 'Caersws to Abermule'
+km: 21
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Pleasant touring run, although this is not a pretty section. Watch out for Penarth weir 3km east of Newtown. This obvious from the river and can either be portaged well before round the weir buildings on river left, or scramble up the steep right bank just above it.'
+directions: 'Putin at Caersws on river right at the football ground just before the railway bridge. Takeout at the bridge in Abermule. It is easy to shorten the trip if necessary, but the bottom half is probably better than the top half, so if you do simply putin somewhere downstream of Caersws.'
+putin:
+  lat: 52.5137533
+  lng: -3.4286286
+takeout:
+  lat: 52.547874
+  lng: -3.2368974

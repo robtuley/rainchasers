@@ -1,0 +1,23 @@
+uuid: ffc65895-269b-4300-ab75-58d27fae135a
+river: Wharfe
+section: 'Kettlewell to Linton Falls'
+km: 10
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Classic Yorkshire pool-drop grade 3: a few feature drops linked by long flat sections. First drop is Conistone Falls, a 1m riverwide ledge. Next is Ghaistrills strid on a LH bend. Finally two weirs lead to Linton Falls, a grade 4 two-tier drop at the takeout.'
+directions: 'Putin at Kettlewell, there is a carpark on river left just upstream of the bridge. Takeout on river right just below Linton Falls (in Linton), and scramble up the steep bank to the carpark.'
+putin:
+  lat: 54.1460962
+  lng: -2.0510015
+takeout:
+  lat: 54.0657325
+  lng: -1.9992565
+measures:
+  -
+    scrape: 0.35
+    low: 0.45
+    medium: 0.6
+    high: 1
+    data_url: 'rloi://8110'

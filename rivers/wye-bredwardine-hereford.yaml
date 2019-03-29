@@ -1,0 +1,16 @@
+uuid: 2f75e1e5-996e-41e5-a934-f0f39d63be75
+river: Wye
+section: 'Bredwardine to Hereford'
+km: 27
+grade:
+  text: '1 (2)'
+  value: 1
+  max: 2
+desc: 'Mellow run, the only interruption is Monington "Falls" which you will probably pass without noticing.'
+directions: 'Putin at the minor road bridge near Bredwardine. Takeout in Hereford just downstream of the A49 bridge on river right.'
+putin:
+  lat: 52.0968475
+  lng: -2.9695669
+takeout:
+  lat: 52.0522429
+  lng: -2.7167753

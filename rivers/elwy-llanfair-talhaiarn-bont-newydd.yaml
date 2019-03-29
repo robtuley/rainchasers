@@ -1,0 +1,23 @@
+uuid: a0fff96f-22da-423d-8fba-e38ef79cc93b
+river: Elwy
+section: 'Llanfair Talhaiarn to Bont Newydd'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'A good play run when up. Lots of weirs, but most are friendly.'
+directions: 'Putin at the smaller bridge just upstream of the main A544 bridge at Llanfair Talhaiarn. Takeout at the narrow bridge at Bontnewydd.'
+putin:
+  lat: 53.2188423
+  lng: -3.6080581
+takeout:
+  lat: 53.2258134
+  lng: -3.4800818
+measures:
+  -
+    scrape: 0.63
+    low: 0.68
+    medium: 0.8
+    high: 1.2
+    huge: 1.75
+    data_url: 'rloi://4183'

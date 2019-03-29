@@ -1,0 +1,24 @@
+uuid: 9b86c37a-f6a9-4c26-bfa7-818b1e968374
+river: Rawthey
+section: 'Sedbergh to Lune Confluence'
+km: 6
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'An addition to the main Rawthey section, consists of a few weirs and one rapid of note near the end - railway falls(IV).'
+directions: "If you're not just running this as an add-on to the last section, then put on at Sedbergh New Bridge where there's a big lay-by and a path to the river.\nBest get-out is on the Lune, 500m below the confluence where there's a bridleway on river left."
+putin:
+  lat: 54.3218269
+  lng: -2.515986
+takeout:
+  lat: 54.2957837
+  lng: -2.5718409
+measures:
+  -
+    scrape: 1
+    low: 1.3
+    medium: 1.6
+    high: 2.1
+    huge: 2.8
+    data_url: 'rloi://5020'

@@ -1,0 +1,24 @@
+uuid: f172a0f7-b625-44fb-b098-0414b78a731c
+river: Mellte
+section: 'Sgwd Clun-gwyn falls to Dinas Rock'
+km: 6
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'A precarious seal launch just under the main falls at the putin gives you possibly 5 paddle strokes before a 4m boof: a great start. Shortly afterwards round a LH bend the lead-in to the main waterfall starts, care needs to be taken to stop and scout it early as there are no eddies within direct line of sight with the lip. In the bottom half of the run a few weirs feature: one drops 1m onto a concrete slab and is awkward to portage but goes more cleanly that it would appear. Takeout river left at the bridge by the carpark.'
+directions: 'The takeout is at a large carpark by a small stone bridge that you''ll reach driving east towards the river through Pontneddfechan. To get to the putin head back through the village then take the steep hill up to the open moor. Once the road flatterns out keep an eye out for a layby on the right just before a cattle grid. If you reach the houses of Ystradfellte you''ve gone too far. From this layby walk down the track next to the layby and keep following it downhill as it turns into a footpath to reach the river (about a km walkin). Putin at the base of a large waterfall, just before the 3m exit drop.'
+putin:
+  lat: 51.7833938
+  lng: -3.5689506
+takeout:
+  lat: 51.759572
+  lng: -3.5795175
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.7
+    high: 0.9
+    huge: 1.2
+    data_url: 'rloi://4121'

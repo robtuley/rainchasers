@@ -1,0 +1,15 @@
+uuid: 4548f1c6-a501-4807-ab29-4af7cff89147
+river: 'Cwm Mynach'
+section: 'Garth Gell bridge to Pen y Bryn'
+km: 2.5
+grade:
+  text: '5'
+  value: 5
+desc: 'The first 600m is an easy warmup before you drop into a steep boulder garden. A short break follows before entering the lower gorge with a set of narrow drops and sticky holes that can be sketchy in higher water.'
+directions: 'Takeout at the A496 road bridge at Pen-y-bryn. To reach the putin head upstream to the next road bridge over the river.'
+putin:
+  lat: 52.7696059
+  lng: -3.9521632
+takeout:
+  lat: 52.7537159
+  lng: -3.943108

@@ -1,0 +1,16 @@
+uuid: cdb6157f-279b-47ad-8a06-ba74dce1db2f
+river: 'Dulas (Forge)'
+section: 'Henllan bridge to Garth campsite bridge'
+km: 7
+grade:
+  text: '3 (5)'
+  value: 3
+  max: 5
+desc: 'An excellent little run with plenty of good drops. The harder drop is similar to Brown''s Falls on the Llugwy, on a LH bend about 400m downstream of Forge.'
+directions: 'To reach the takeout head east from Machynlleth along the A489, taking a left to head downstream immediately after crossing the river. Keep going downstream as far as is practical. To reach the putin head back to Machynlleth and head upstream to cross the river at Forge. From here keep going up river right for about 5km to the second small bridge over the river.'
+putin:
+  lat: 52.5688286
+  lng: -3.777652
+takeout:
+  lat: 52.5975918
+  lng: -3.8302783

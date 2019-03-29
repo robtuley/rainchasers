@@ -1,0 +1,15 @@
+uuid: dc20aaa5-10d4-42a9-b717-6802509a41ec
+river: 'Eden (Lakes)'
+section: 'Great Musgrave to Appleby in Westmorland'
+km: 13
+grade:
+  text: '1'
+  value: 1
+desc: null
+directions: null
+putin:
+  lat: 54.5127092
+  lng: -2.3639485
+takeout:
+  lat: 54.5718355
+  lng: -2.4853596

@@ -1,0 +1,16 @@
+uuid: 2fbf73d3-1fdb-4d5d-893f-dd6a9c91c294
+river: Exe
+section: 'Stokes Wood to Haven Bank Quay'
+km: 7
+grade:
+  text: '1 (3)'
+  value: 1
+  max: 3
+desc: 'Flat apart from weirs: this is one to save for low water when nothing else is running. When higher, you''ll just portage round a series of hideous towbacks.'
+directions: 'Takeout at Haven Bank Quay in Exeter, parking near the AS Watersports shop (EX2 8GX). To putin, park at Stokes Wood carpark, just north of Exeter on the A386. From the carpark, carry your boats further along the road and then down a track to the river just upstream of the railway bridge.'
+putin:
+  lat: 50.7526702
+  lng: -3.5331699
+takeout:
+  lat: 50.7171563
+  lng: -3.5305495

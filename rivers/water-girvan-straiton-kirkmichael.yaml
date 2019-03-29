@@ -1,0 +1,23 @@
+uuid: 6d3877ee-1c4f-40e8-9cf3-85cff6cd710e
+river: 'Water of Girvan'
+section: 'Straiton to Kirkmichael'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'A few gd3 drops lead into a scenic gd1/2 meander past Blairquan Castle, followed by the gd3 Tranew Gorge.'
+directions: 'Putin at the B741 bridge just west of Straiton. Takeout at the minor road bridge just south of Kirkmichael.'
+putin:
+  lat: 55.3118931
+  lng: -4.5586071
+takeout:
+  lat: 55.3367973
+  lng: -4.6123837
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.7
+    high: 1
+    huge: 1.2
+    data_url: 'sepa://133123'

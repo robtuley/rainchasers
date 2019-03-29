@@ -1,0 +1,15 @@
+uuid: 1ee60504-9e92-4d6d-8554-5eededf2e905
+river: Severn
+section: 'Abermule to Pool Quay'
+km: 28
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A pleasant touring section: there are a few weirs but most will be friendly unless the river is high. '
+directions: 'Putin at the main bridge in Abermule. Takeout in Pool Quay on the A483 just north of Welshpool, or at Buttington on the A458 (3km earlier).'
+putin:
+  lat: 52.5478627
+  lng: -3.236871
+takeout:
+  lat: 52.6963794
+  lng: -3.0982894

@@ -1,0 +1,16 @@
+uuid: d3c2072d-01bb-4400-9d3d-21c4e852d6af
+river: Twymyn
+section: 'Tafolwern to Cemmaes Road bridge'
+km: 9
+grade:
+  text: '3 (4-)'
+  value: 3
+  max: 3.75
+desc: 'A fun grade 3 run for almost it''s entire length, with a harder 500m gorge just above the takeout. The final gorge can be inspected from the path on river right.'
+directions: 'Putin just off the A470 at Llanbrymair. Take the turn-off towards Tafolwern at the S-bend in the A470 and get on at the first bridge over the Afon Laen (its confluence with the Twymyn is just downstream). Takeout at the A470 road bridge near Glantwymyn (next to the A470/A489 roundabout); its a bit awkward but you can scramble up the steep bank on river left. Alternatively continue down to the B4404 bridge over the Dyfi.'
+putin:
+  lat: 52.610725
+  lng: -3.6391773
+takeout:
+  lat: 52.6270892
+  lng: -3.7363393

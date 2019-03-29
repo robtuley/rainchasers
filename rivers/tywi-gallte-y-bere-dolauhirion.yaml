@@ -1,0 +1,22 @@
+uuid: 4f580351-55ab-4146-a6a9-c36b946a36f6
+river: Tywi
+section: 'Gallte-y-bere to Dolauhirion'
+km: 16
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A superb touring run through a beautiful valley.'
+directions: 'Putin at the bridge over the river about 3km downstream from Llyn Brianne (downstream of Ystradffin). Takout at Dolauhirion: the minor road bridge just upstream of the main A40 bridge in Llandovery.'
+putin:
+  lat: 52.0984201
+  lng: -3.7929962
+takeout:
+  lat: 52.0095038
+  lng: -3.8051255
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.7
+    high: 1.2
+    data_url: 'rloi://4196'

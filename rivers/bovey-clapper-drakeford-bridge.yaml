@@ -1,0 +1,15 @@
+uuid: 8328f3ac-5f8c-4e0c-a37d-6ee05b103e15
+river: Bovey
+section: 'Clapper to Drakeford Bridge'
+km: 6
+grade:
+  text: '4'
+  value: 4
+desc: 'Trees portages can be annoying, but lower half is fun.'
+directions: 'Putin at Clapper Bridge on the small road a km downstream from the village of North Bovey. Takeout at Drakeford Bridge, on the small road south of Lustleigh.'
+putin:
+  lat: 50.6314642
+  lng: -3.764645
+takeout:
+  lat: 50.6082457
+  lng: -3.7121357

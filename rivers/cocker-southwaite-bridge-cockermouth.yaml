@@ -1,0 +1,22 @@
+uuid: d72f4fdc-235f-4d12-9518-3096b5c22ee5
+river: Cocker
+section: 'Southwaite Bridge to Cockermouth'
+km: 3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Often paddled in conjunction with the top section, this part of the river conveniently contains all the whitewater interest if you''re after a quick blast down a shorter section. The run starts with a small weir - beware the towback in high levels. The best section of this run is the final kilometre through the town, where the river yields a number of bouncy grade 3''s with nice surf waves at certain levels.'
+directions: 'Parking is possible on river left above the roadbridge, adjacent to the weir. Take-out just after the confluence from the Derwent, river right just after the first bridge you pass under. There is a huge car park next to a play area where you can leave your car.'
+putin:
+  lat: 54.6426168
+  lng: -3.3483512
+takeout:
+  lat: 54.664651
+  lng: -3.3682532
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.9
+    high: 1.1
+    data_url: 'rloi://5129'

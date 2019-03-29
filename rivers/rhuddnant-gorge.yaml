@@ -1,0 +1,16 @@
+uuid: fbeb8f43-7ed1-4b6d-bff5-38d66fa092ff
+river: Rhuddnant
+section: Gorge
+km: 3
+grade:
+  text: '4/5 (6)'
+  value: 4.5
+  max: 6
+desc: "Steep, narrow, committing ditch. You will need climbing gear, although there is an established rope to abseil down to below the two large falls that make up the portage. Be prepared, the level can rise quickly and the gorge is not easy to escape from.\n\nFrom the putin paddle through the bog to the first set of small rapids. Portage river right immediately after a steep, rocky forked drop, as below here are two large falls onto rock. A short but difficult walk leads to a small tree with a fixed rope. Abseil in, careful not to drop any kit in the river. The first gorge is three distinct falls, with the second gorge around the corner culminating in \"big boof\", left line recommended. The river mellows for a few hundred metres before the takeout river left, just as you emerge from the trees. Note there are ongoing forestry works, so watch out for machinery."
+directions: 'Put in just south of the windfarm at Cripiau Nantmelyn (just east of Pontarfynach along small roads, or via Arch Forestry car park) at a small bridge over the river. Reach the takeout by heading up the track on river left from the bridge just upstream of the confluence with the Mynach.'
+putin:
+  lat: 52.3901832
+  lng: -3.7528394
+takeout:
+  lat: 52.3850382
+  lng: -3.777049

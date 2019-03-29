@@ -1,0 +1,23 @@
+uuid: 11f6d627-5e89-4e30-b046-c38c7675268f
+river: Roeburn
+section: 'Barkin Bridge to Wray'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Continuous grade 3 run, with one fall in a gorge reaching grade 4 in high water which is awkward to portage. The gorge starts just after a small footbridge, and is best inspected by clambering along the left bank: the 2m drop at the end is sticky in high water.'
+directions: 'Putin at Barkin Bridge: from Wray follow the minor road towards High Salter (marked Roeburndale West). Follwo this road to where it crosses the river. There is only space for 1 car by the bridge. Takeout on river left just below the road bridge on the east side of Wray. Alternatively continue past the confluence with the Hindburn to the carpark by the weir just to the north of Wray.'
+putin:
+  lat: 54.0682645
+  lng: -2.6120141
+takeout:
+  lat: 54.1014996
+  lng: -2.604666
+measures:
+  -
+    scrape: 0.65
+    low: 0.85
+    medium: 1.05
+    high: 1.35
+    huge: 1.65
+    data_url: 'rloi://5156'

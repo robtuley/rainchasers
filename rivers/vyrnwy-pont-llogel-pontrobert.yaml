@@ -1,0 +1,21 @@
+uuid: 70b6fe82-4c3e-4e12-8bae-2ce8187c57e2
+river: Vyrnwy
+section: 'Pont Llogel to Pontrobert'
+km: 10
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'The best of the Vyrnwy. Pleasant grade 2/3 down to the bridge at Dolanog is shortly followed by a nasty weir. Below, the walls close in as you enter the fun grade 3/4 (depending on levels) Dolanog gorge. Inspect as necessary from the footpath on river right. Easier water leads down to the takeout at Pontrobert.'
+directions: 'Putin at the B4395 bridge at Llogel, or paddle the section above down from the dam itself. Takeout in Pontrobert on river left 50m upstream of the bridge through a stile out to the road.'
+putin:
+  lat: 52.7276054
+  lng: -3.4348483
+takeout:
+  lat: 52.7046065
+  lng: -3.322215
+measures:
+  -
+    low: 0.4
+    high: 0.8
+    data_url: 'rloi://2003'

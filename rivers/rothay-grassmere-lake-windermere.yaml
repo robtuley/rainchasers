@@ -1,0 +1,23 @@
+uuid: 5651a82c-f50e-4fb6-9af7-824dce279117
+river: Rothay
+section: 'Grassmere to Lake Windermere'
+km: 7
+grade:
+  text: '2'
+  value: 2
+desc: 'Gentle low grade paddle in the central Lakes encompassing Grassmere Lake and Rydal Water.'
+directions: "Put-in either on Grassmere Lake or on the river above.\nTake out at the final weir or on Lake Windermere."
+putin:
+  lat: 54.4571917
+  lng: -3.0236257
+takeout:
+  lat: 54.4200474
+  lng: -2.9627063
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 1.2
+    high: 1.5
+    huge: 2
+    data_url: 'rloi://5162'

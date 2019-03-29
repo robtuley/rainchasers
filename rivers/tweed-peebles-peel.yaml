@@ -1,0 +1,23 @@
+uuid: dc85d1e5-b0b8-471f-acc9-b33d3ae14849
+river: Tweed
+section: 'Peebles To Peel'
+km: 25
+grade:
+  text: '1'
+  value: 1
+desc: null
+directions: 'Putin at Peebles. Takeout at Peel: the minor road bridge just off the A707 near the A72/A707 jct.'
+putin:
+  lat: 55.6503309
+  lng: -3.1927062
+takeout:
+  lat: 55.60569
+  lng: -2.8926028
+measures:
+  -
+    scrape: 0
+    low: 1.2
+    medium: 1.7
+    high: 2
+    huge: 3
+    data_url: 'sepa://14979'

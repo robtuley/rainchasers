@@ -1,0 +1,15 @@
+uuid: a855350b-0a98-4add-bc4e-79865ab8d4d1
+river: 'East Okement'
+section: 'Cullever Steps to Okehampton College'
+km: 5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Adventurous day out: plenty of steep slides and technical drops. Watch out for the 6m waterfall (portage river right).'
+directions: 'Takeout next to Okehampton College. To reach the putin drive up through Belstone to the end of the road and then walk the final 2km in to Cullever Steps (along the Tarka Trail).'
+putin:
+  lat: 50.7120711
+  lng: -3.9757458
+takeout:
+  lat: 50.7359431
+  lng: -4.0005245

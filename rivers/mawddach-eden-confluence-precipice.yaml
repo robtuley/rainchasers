@@ -1,0 +1,15 @@
+uuid: 33e33895-4456-4236-bf7b-6a6deabe7d8c
+river: Mawddach
+section: 'Eden confluence to Precipice'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Watch out for the weir just below the confluence. Public Toilet Falls follows, and then a series of bouldery bouncy rapids before the run mellows towards the takeout as the road comes close on river left.'
+directions: 'Putin at the small bridge just off he A470 at the confluence with the Eden. Head down the small road on river left (the opposite side to the A470) and choose a convenient takeout at one of the points where the road is close to the river.'
+putin:
+  lat: 52.7929805
+  lng: -3.885513
+takeout:
+  lat: 52.7703853
+  lng: -3.8870533

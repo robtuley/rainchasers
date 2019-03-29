@@ -1,0 +1,15 @@
+uuid: 4af1174a-7da0-4f18-8c31-6e1f78d74e89
+river: 'Nant Tywynni'
+section: 'Tower to confluence'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'Fun in a painful way. The hardest drop is fall onto rock, and some barbed wire dodging is required.'
+directions: 'Takeout next to the A4067 bridge over the Tawe just north of Glyntawe. Putin from a large layby off the A4067 a few km upstream from where you can walk down to the river.'
+putin:
+  lat: 51.859208
+  lng: -3.6456491
+takeout:
+  lat: 51.8370532
+  lng: -3.6759259

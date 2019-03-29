@@ -1,0 +1,16 @@
+uuid: aa6d5540-e9e2-47f5-976b-49648e9ffa47
+river: 'Nant Clydach'
+section: 'Porthcelyn bridge to Taff confluence'
+km: 8
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'Continuous grade 2 leads to the first short tunnel. A section of tree/fence/bridge dodging follows before a 70m tunnel (be careful of possible debris!). As the river nears Glyncoch you reach an excellent grade 4 gorge.'
+directions: 'Putin at the bridge on the small road between Ynysybwl and Perthcelyn (heading upstream along river right). Takeout in Glyncoch just before the confluence with the Taff, at the bridge just downstream of the railway (on Abercynon Road).'
+putin:
+  lat: 51.6609042
+  lng: -3.3794227
+takeout:
+  lat: 51.6270296
+  lng: -3.329771

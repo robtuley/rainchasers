@@ -1,0 +1,21 @@
+uuid: d69ec8a1-ed1f-4850-b79b-8261a23408f2
+river: 'Ouse Burn'
+section: 'South Gosforth to Heaton'
+km: 2
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Random urban spate boating in the middle of Geordie land. A few weirs and one 4m waterfall. You must get out before Heaton as the river disappears underground!'
+directions: 'Put in and take out wherever suits around Jesmond Park. Highest point is South Gosforth, absolutely must get out before Heaton, Armstrong bridge probably the best bet. '
+putin:
+  lat: 55.006887
+  lng: -1.602138
+takeout:
+  lat: 54.9888247
+  lng: -1.5889373
+measures:
+  -
+    low: 0.5
+    high: 1.2
+    data_url: 'rloi://8058'

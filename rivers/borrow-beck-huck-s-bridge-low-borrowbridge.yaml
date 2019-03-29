@@ -1,0 +1,16 @@
+uuid: 670b8705-28ed-40b2-aa6a-f5cfe22e1d66
+river: 'Borrow Beck'
+section: 'Huck''s Bridge to Low Borrowbridge'
+km: 7
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'Starting off gently for the first 4km, this spate beck gathers pace to become continuous grade 3/4 and contains one harder fall. Look out for sheep fences throughout the upper section and the weir under the motorway at the end!'
+directions: 'The shuttle for this is a bit of a monster - the price you pay for getting to paddle a river in a beautiful valley with no roads! For the put-in, it is possible to park on the A6 and walk down to the river, alternatively take the farm track parallel to the A6, the junction of which is about 1km south of the A6 bridge over the river. There is plenty of parking here.'
+putin:
+  lat: 54.4289362
+  lng: -2.6912725
+takeout:
+  lat: 54.4072273
+  lng: -2.6066034

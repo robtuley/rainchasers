@@ -1,0 +1,15 @@
+uuid: 14be0011-a293-4e0d-89df-c0216cf9fe5e
+river: Aeron
+section: 'Cilau Aeron to Aberaeron'
+km: 9
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Good training run. Watch out for 4 weirs just upstream of the A487 bridge in Aberaeron, can be portaged river right if necessary. Take out in the harbour on one of the slipways.'
+directions: 'The takeout is at Aberaeron harbour. Get to the putin by heading inland up the A482, then take a small road down to a bridge over the river once you reach Cilau Aeron.'
+putin:
+  lat: 52.2151638
+  lng: -4.197429
+takeout:
+  lat: 52.2436576
+  lng: -4.2644627

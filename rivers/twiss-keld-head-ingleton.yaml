@@ -1,0 +1,16 @@
+uuid: e1bbd14d-5923-4868-a73a-000dc73739d4
+river: Twiss
+section: 'Keld Head to Ingleton'
+km: 3
+grade:
+  text: '5 (6)'
+  value: 5
+  max: 6
+desc: 'Very hard series of waterfalls, some of which go nicely, others which don''t!'
+directions: 'Take out at the Ingleton car park for the waterfall walk. Either walk up from here or drive up Thronton Lane until it meets the river again.'
+putin:
+  lat: 54.1824601
+  lng: -2.4684895
+takeout:
+  lat: 54.1541968
+  lng: -2.4708498

@@ -1,0 +1,23 @@
+uuid: 6de0bd8a-4edf-427f-bc73-69386072905e
+river: Yarrow
+section: 'Yarrowford to General''s Bridge'
+km: 3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun grade 2 leads down to a short gorge, the entrance marked by a footbridge. The gorge is grade 2/3, with ''Banana Slide'' at it''s exit.'
+directions: 'Putin at the village of Yarrowford, parking in the layby on the A708 at the western end of the village. Takeout 3km downstream at General''s Bridge, where the B7039 crosses the river. It''s an awkward scramble up. Alternatively continue onto the Ettrick and takeout in Selkirk.'
+putin:
+  lat: 55.5596513
+  lng: -2.9399776
+takeout:
+  lat: 55.543423
+  lng: -2.9006654
+measures:
+  -
+    scrape: 0.3
+    low: 0.35
+    medium: 0.5
+    high: 0.8
+    huge: 1.2
+    data_url: 'sepa://14985'

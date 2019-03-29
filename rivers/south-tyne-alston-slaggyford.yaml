@@ -1,0 +1,22 @@
+uuid: 1eaf251e-fda4-4c12-a25f-bd353b71400b
+river: 'South Tyne'
+section: 'Alston to Slaggyford'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'An easy spate run, popular with open boaters.'
+directions: 'Putin at Alston, parking near the tourist railway. Takeout at Slaggyford where a small road bridge crosses the river. It is possible to extend the run in various ways, even paddling 24km all the way down to Haltwhistle.'
+putin:
+  lat: 54.813953
+  lng: -2.441416
+takeout:
+  lat: 54.861168
+  lng: -2.4981737
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 1.1
+    high: 1.3
+    data_url: 'rloi://8007'

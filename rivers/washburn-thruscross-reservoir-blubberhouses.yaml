@@ -1,0 +1,15 @@
+uuid: 8ed13bd6-f7fd-4623-a445-19b7e9ebf00c
+river: Washburn
+section: 'Thruscross Reservoir to Blubberhouses'
+km: 2.5
+grade:
+  text: '3'
+  value: 3
+desc: 'A dam release river maintained by the Yorkshire branch of Canoe England. Releases are published on the YORCIE website in advance and modest payment is required to paddle. The river features have been improved to produce a number of surfable waves and one larger weir drop. The eddies are small and hard to catch, so a swim maybe a long one! '
+directions: 'Drive up the road from Blubberhouses and turn right down the single track to the bottom of the dam and large parking area. Either do laps of the upper section by walking back up, or continue down to Blubberhouses, using the car park above Fewston reservoir.'
+putin:
+  lat: 54.0107983
+  lng: -1.7630853
+takeout:
+  lat: 53.9937219
+  lng: -1.7436018

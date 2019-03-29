@@ -1,0 +1,16 @@
+uuid: 7e5c89e3-7223-4508-9d2e-d4a052ae8515
+river: 'Tarn Beck'
+section: 'Seathwaite Bridge to Duddon Confluence'
+km: 1
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'An interesting diversion from the Duddon. A hard slide/slot at the put-in leads into a continuous gorge section and a final rocky fall, before levelling out as the beck joins the main river. A good giggle.'
+directions: 'As you drive through Seathwaite up the valley you''ll see Tarn beck on your left. Park up next to the stone wall and put on as high as the water level/value of your boat allows. Take out after the final fall by the footbridge, or combine with a run of the lower Duddon.'
+putin:
+  lat: 54.3612313
+  lng: -3.1835548
+takeout:
+  lat: 54.3542792
+  lng: -3.1944982

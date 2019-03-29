@@ -1,0 +1,16 @@
+uuid: e55d6ca5-c7b6-4b5e-923f-639d89de42ca
+river: Wye
+section: 'Builth Wells to Llyswen'
+km: 20
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'A popular classic section of the Wye. Watch out for the harder "Hell Hole" rapid just above the chain bridge in Llanstephan.'
+directions: 'Putin in Builth Wells: follow the one way system round to the carpark on river right just upstream of the A470 bridge. Takeout in Llyswen just upstream of the bridge on river right.'
+putin:
+  lat: 52.1500185
+  lng: -3.4029299
+takeout:
+  lat: 52.0380596
+  lng: -3.2717197

@@ -1,0 +1,15 @@
+uuid: cb30718b-7294-4314-97a0-ee5e27107c79
+river: 'Heyden Brook'
+section: 'Upper Heyden to Heyden bridge'
+km: 3
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Very continuous spate beck, few eddies and one large fall (6m) which many will portage. '
+directions: "Access is from a layby on the A6024 with a small path leading west to the river (about 300m). Put on the river as far up as water levels allow.\n\nTake out above the old road bridge at Hayden Bridge where there are a few small laybys."
+putin:
+  lat: 53.517467
+  lng: -1.8565999
+takeout:
+  lat: 53.5035837
+  lng: -1.8525658

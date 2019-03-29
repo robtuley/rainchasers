@@ -1,0 +1,15 @@
+uuid: 35471d6b-10c3-43e0-821e-029879af827a
+river: 'Llynfi (Caernarfon)'
+section: 'Llyn Nantlle to Pontllyfni'
+km: 12
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun but random river: shortly after putting on, you are forced to weave your way through "the jungle". It''s mostly flat until reaching a tunnel, and some good rapids follow in the 2nd half. Takeout at the A499 road bridge, or it''s possible to continue into the sea and end the trip with a brief surf.'
+directions: 'Putin at the exit of Llyn Nantlle, where the B4418 Rhyd Ddu to Penygroes road crosses the river. If you want to avoid the "jungle" putin at the next bridge down. Takeout at the A499 bridge, or paddle all the way to the sea and takeout from the beach.'
+putin:
+  lat: 53.05344
+  lng: -4.2242351
+takeout:
+  lat: 53.0475495
+  lng: -4.3362428

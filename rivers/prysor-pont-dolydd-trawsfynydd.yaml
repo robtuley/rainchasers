@@ -1,0 +1,16 @@
+uuid: 9b74aac9-4da9-4390-95c3-74f889cab7b8
+river: Prysor
+section: 'Pont Dolydd to Trawsfynydd'
+km: 6
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'Spate stream with 4 brilliant gorges. There is harder gd4 drop about halfway down after the 2nd gorge, and a series of steps below the bridge in Trawsfynydd can be gd4 in big water, watch out for sticky stoppers.'
+directions: 'Takeout at the lower road bridge in Trawsfynydd, and putin at the A4212 road bridge at Pont Dolydd Prysor.'
+putin:
+  lat: 52.9087777
+  lng: -3.8660166
+takeout:
+  lat: 52.8973688
+  lng: -3.9196072

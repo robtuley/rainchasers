@@ -1,0 +1,15 @@
+uuid: 616cdbae-e6f6-40fe-8f63-b5bd6a24cfcd
+river: Lledr
+section: 'Blaenau Dolwyddelan to Pont y Pant'
+km: 9
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'The value of the run is few good feature drops in the top half of the run. After these the river opens out and meanders down to the takeout at Pont-y-Pant bridge.'
+directions: 'Takeout at Pont-y-Pant bridge, just off the A470 by a restaurant near Pont-y-Pant rail station. To reach the takeout head upstream along the A470 and turn down a small road just west of Dolwyddelan. Continue along this road for about 2km to the second bridge over the river.'
+putin:
+  lat: 53.0421314
+  lng: -3.9457083
+takeout:
+  lat: 53.0676483
+  lng: -3.8587377

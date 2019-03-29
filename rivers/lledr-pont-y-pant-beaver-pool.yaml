@@ -1,0 +1,24 @@
+uuid: d782baa3-3596-4a1c-8b41-7747f31b41ee
+river: Lledr
+section: 'Pont y Pant to Beaver Pool'
+km: 6
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Starts off with Pont-y-Pant falls, a long technical rapid ending in a slide. If you''re feeling like you''d rather have a warm-up before tacking this, it is possible to put in below by carrying 150m down the road on river left.  A few more good grade 4 rapids follow before the ''minger'', which marks the start of a fun 200m gorge. The ''minger'' forms a chunky hole (portage over the rocks hard left) at anything above medium levels, but when it is high, a chicken line with a nice boof line opens up down the portage line. A small bridge (53°04''06.0"N 3°50''09.8"W) marks an alternative takeout half-way, or continue down, being sure to get out river right to portage Viaduct falls – a long manky siphon filled rapid that has been run but is not recommended.'
+directions: 'Takeout just south of Betws-y-Coed on the A470 at the confluence with the Conwy (the same takeout as the Fairy Glen). To get to the putin continue up the A470 away from Betws-y-Coed to Pont-y-Pant bridge (a small bridge just off the main road next to a restaurant). Don''t forget to drop a few quid in the honesty box for use of their land for parking.'
+putin:
+  lat: 53.0676545
+  lng: -3.8587419
+takeout:
+  lat: 53.0757814
+  lng: -3.7959487
+measures:
+  -
+    scrape: 0.55
+    low: 0.9
+    medium: 1.1
+    high: 1.4
+    huge: 1.6
+    data_url: 'rloi://4148'

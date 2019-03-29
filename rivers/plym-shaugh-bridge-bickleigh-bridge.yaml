@@ -1,0 +1,21 @@
+uuid: cfe1588a-74c9-429c-a400-900cf588fc0f
+river: Plym
+section: 'Shaugh Bridge to Bickleigh Bridge'
+km: 3
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Starts with a bang, then eases to pool-drop. Takeout on river right at a beach 200m above Bickleigh Bridge (residents prefer it).'
+directions: 'Takeout at the bridge near Bickleigh village. Putin at the bridge just west of Shaugh Prior.'
+putin:
+  lat: 50.4544298
+  lng: -4.0682272
+takeout:
+  lat: 50.4376092
+  lng: -4.0758734
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.7
+    data_url: 'rloi://3197'

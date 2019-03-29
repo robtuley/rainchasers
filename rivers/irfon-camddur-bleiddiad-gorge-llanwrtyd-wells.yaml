@@ -1,0 +1,23 @@
+uuid: ada71e48-2178-428b-89d4-3adc2fe44984
+river: Irfon
+section: 'Camddur Bleiddiad gorge to Llanwrtyd Wells'
+km: 13
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Putin below Camddwr Bleiddiad gorge to a fun series of gd4 drops down to Abergwesyn bridge (for a shorter run it is possible to takeout here). Below here the water is generally easier, but there is a good short stretch that has another 4 major drops before the river eases until the takeout.'
+directions: 'Takeout at the A483 bridge in Llanwrtyd Wells. To reach the putin head upstream along small roads to Abergwesyn where the road crosses to river left. Continue up the river left bank for about 3km to a lay-by and walk down to get on below Camddwr Bleiddiad gorge. The gorge itself is nasty, so make sure you don''t get-on too high.'
+putin:
+  lat: 52.17952
+  lng: -3.6938349
+takeout:
+  lat: 52.1071865
+  lng: -3.6388496
+measures:
+  -
+    scrape: 0.75
+    low: 0.9
+    medium: 1.1
+    high: 1.5
+    data_url: 'rloi://4001'

@@ -1,0 +1,15 @@
+uuid: 7c9e85fe-7143-47a6-a79e-8ba4dd2a0045
+river: Skirfare
+section: 'Halton Gill to Arncliffe'
+km: 6.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A high water trib of the Wharfe, with some grade three rapids and the odd fence to dodge.'
+directions: 'Put in at Halton Gill where the bridge crosses the river. Take out at the Arncliffe bridge or continue down into the Wharfe.'
+putin:
+  lat: 54.1820315
+  lng: -2.185391
+takeout:
+  lat: 54.1433872
+  lng: -2.1051393

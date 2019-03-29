@@ -1,0 +1,15 @@
+uuid: cf5c506e-e4de-4ecf-bc6c-686a40c3f46f
+river: Ewenny
+section: 'Pencoed to Ogmore Castle'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'Pleasant run, with a fun tunnel under the motorway.'
+directions: 'Putin at the bridge just of the A473 in Pencoed just north of the M4. If you''re coming along the M4, exit at junction 35. Takeout at Ogmore castle just before the sewage works and confluence of the Ogmore. Be careful as the castle carpark is occasionally flooded by high tides.'
+putin:
+  lat: 51.5208419
+  lng: -3.4960868
+takeout:
+  lat: 51.4804521
+  lng: -3.6122559

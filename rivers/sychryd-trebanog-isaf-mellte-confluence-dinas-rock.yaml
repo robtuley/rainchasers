@@ -1,0 +1,15 @@
+uuid: 6c2d0e36-59ba-48e3-a64c-7a92390196a8
+river: Sychryd
+section: 'Trebanog Isaf to Mellte confluence Dinas Rock'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'You get on just below a tunnel, and grade 2/3 water leads down to a 3m waterfall with a shallow landing. The best section is shortly downstream as you paddle under a wooden footbridge, and ends in a 10m gorge. As the river flatterns out and you paddle past a big cave on river right watch out for the boulder choke downstream. An awkward portage on river left that requires a rope.'
+directions: 'Takeout at the confluence with the Mellte at a large carpark by a small stone bridge that you''ll reach driving east towards the river through Pontneddfechan. Putin at a layby off the A465, this is only accessible when travelling eastbound along the A465, just before it crosses the river.'
+putin:
+  lat: 51.7506651
+  lng: -3.5560205
+takeout:
+  lat: 51.7592329
+  lng: -3.5796101

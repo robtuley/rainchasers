@@ -1,0 +1,23 @@
+uuid: 2a809b05-9806-416f-828a-568e2e886b65
+river: Tees
+section: 'Barnard Castle to Winston Bridge'
+km: 12
+grade:
+  text: '3'
+  value: 3
+desc: 'Classic lower section of the Tees. Fun grade 3 trip, an excellent playrun at medium-high levels. Highlights are  Abbey rapids (river narrows into a mini-gorge) and Whorlton Lido (a river-wide reef).'
+directions: 'Putin at Barnard Castle: park in the visitors car-park for the young offenders institute and walk down to the river getting on just above the weir. Takeout at Winston bridge (a path leads up from river right just upstream of the bridge). In low levels, the section from Whorlton to Winston may not be worth it, get out at Whorlton using the footpath river left just above the falls. In very low levels, Abbey rapids will still work as a park and play spot, either using the verge on river right above the road bridge, or parking at the Abbey itself.'
+putin:
+  lat: 54.54347
+  lng: -1.9319751
+takeout:
+  lat: 54.5414983
+  lng: -1.7811653
+measures:
+  -
+    scrape: 0.45
+    low: 0.55
+    medium: 0.85
+    high: 1.05
+    huge: 1.5
+    data_url: 'rloi://8014'

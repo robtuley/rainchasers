@@ -1,0 +1,15 @@
+uuid: 0b314886-1295-4bb2-93f7-4b3e34dea4d5
+river: Gamlan
+section: 'Rhaeadr Ddu to Mawddach confluence'
+km: 1
+grade:
+  text: '5'
+  value: 5
+desc: 'Steep, low volume with an unrelenting gradient: slightly bonkers. Scout the run on the walkin and then run the bits that take your fancy. The usual putin is in the middle of a two-tier fall about a km from the road (the larger first tier has a practically non-existent landing and is barely ever run). Note that it is possible to start higher up, if you''re looking for an adventure!'
+directions: 'Park by Public Toilet Falls on the Mawdach. The Gamlan joins just downstream so walk down the road to the bridge and then walkin up river left. The usual putin is at a two tier fall about 1km upstream, takeout at the confluence.'
+putin:
+  lat: 52.8022587
+  lng: -3.8971438
+takeout:
+  lat: 52.8010392
+  lng: -3.8905617

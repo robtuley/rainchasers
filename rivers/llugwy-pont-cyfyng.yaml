@@ -1,0 +1,16 @@
+uuid: 152cbbb3-4787-45f7-8f2f-25279b994a7c
+river: Llugwy
+section: 'Pont Cyfyng'
+km: 0.4
+grade:
+  text: '4/5 (6)'
+  value: 4.5
+  max: 6
+desc: 'Fun park-n-huck in low conditions. The final drop is not normally run (portage river right), and depending on the levels can be a bit sketchy to eddy out before!'
+directions: 'Heading south towards Betws-y-Coed from Capel Curig park at the large layby near the first road bridge across the river (a small single-track turn-off from the A5) after passing the Cobdens Fall Hotel.'
+putin:
+  lat: 53.0960905
+  lng: -3.8903887
+takeout:
+  lat: 0
+  lng: 0

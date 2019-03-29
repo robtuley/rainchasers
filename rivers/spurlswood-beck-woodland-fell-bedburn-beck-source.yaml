@@ -1,0 +1,24 @@
+uuid: 1347cc77-fff0-4ccb-85c8-5f9c72917723
+river: 'Spurlswood Beck'
+section: 'Woodland Fell to Bedburn Beck Source'
+km: 4.5
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'Spate ditch in Hamsterley Forest. Mostly grade 2/3 but with one large fall (Blackling Hole) which can be run just as a park-and-huck in lower levels than needed for the rest of the beck.'
+directions: 'Use the Forest Drive in Hamsterley after paying the £3 toll. Park at Blackling Hole and walk up as high as you can be bothered. Take out at the car park near the Grove or carry on down Bedburn Beck.'
+putin:
+  lat: 54.636982
+  lng: -1.9362753
+takeout:
+  lat: 54.6635494
+  lng: -1.8986421
+measures:
+  -
+    scrape: 0.5
+    low: 0.7
+    medium: 0.8
+    high: 0.9
+    huge: 1
+    data_url: 'rloi://8018'

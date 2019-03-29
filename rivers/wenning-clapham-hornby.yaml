@@ -1,0 +1,24 @@
+uuid: faf6d6bd-297a-465f-ab3e-ee4ea3c365ff
+river: Wenning
+section: 'Clapham to Hornby'
+km: 21
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'A pleasant grade 2 touring paddle, dotted with lots of weirs and a notable playwave.'
+directions: 'Putin in the centre of the village of Clapham, or 3.5km downstream at the bridge at Clapham station (a couple of beck join in between, so the the station putin may be better when low). Takeout on river left just below the bridge at Hornby. '
+putin:
+  lat: 54.1043689
+  lng: -2.4102584
+takeout:
+  lat: 54.109301
+  lng: -2.6361571
+measures:
+  -
+    scrape: 0.55
+    low: 0.65
+    medium: 0.8
+    high: 1.2
+    huge: 1.5
+    data_url: 'rloi://5148'

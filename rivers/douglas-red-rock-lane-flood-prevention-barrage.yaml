@@ -1,0 +1,22 @@
+uuid: bad4af7d-060a-4b28-ac27-56775e4904e6
+river: Douglas
+section: 'Red Rock Lane to Flood Prevention Barrage'
+km: 3.5
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Shallow urban stream running from Worthington Lakes reservoir down towards Wigan town centre. Despite it''s proximity to urban sprawl, it''s not as built up as you''d think once you''re down at river level. The river keeps a fairly rapid flow throughout, although it never gets above grade 2. Beware of fallen trees and branches.'
+directions: 'Follow the A49 north out of wigan, turning right onto the A5106 at a roundabout with an Esso garage. After ~1km, turn right onto Red-Rock Lane (B5239) at a mini-roundabout and you cross the river immediately. There is very limited parking here, but ~200m up the hill is a free car park. To find the take-out, retrace your steps back onto the A49, turn left Coppull Lane, and drive down to the river. There''s plenty of parking here, but leave space at the bottom for other cars to turn round.'
+putin:
+  lat: 53.5837254
+  lng: -2.6372106
+takeout:
+  lat: 53.5543441
+  lng: -2.6237319
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.6
+    high: 0.8
+    data_url: 'rloi://5117'

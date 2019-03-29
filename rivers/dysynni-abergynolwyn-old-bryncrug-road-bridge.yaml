@@ -1,0 +1,15 @@
+uuid: 8ef4574d-8926-474f-b076-05d92af8530c
+river: Dysynni
+section: 'Abergynolwyn to the old Bryncrug road bridge'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'A beautiful touring run with no nasties.'
+directions: 'Putin at the bridge in Abergynolwyn just off the B4405. Takeout at the disused bridge just next the main A493 road bridge east of Bryncrug.'
+putin:
+  lat: 52.6460298
+  lng: -3.9590216
+takeout:
+  lat: 52.6142596
+  lng: -4.0706712

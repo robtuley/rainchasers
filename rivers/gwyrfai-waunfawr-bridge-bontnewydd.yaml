@@ -1,0 +1,22 @@
+uuid: f2454d4f-3a91-4881-91e4-d2d4aaebca95
+river: Gwyrfai
+section: 'Waunfawr bridge to Bontnewydd'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'A scrappy technical gd3 run; expect trees and low bridges, and keep an eye out for the weir in Bontnewydd.'
+directions: 'Takeout at the A487 road bridge in Bontnewydd (there is a small carpark river left just downstream of the bridge). Putin at the lower of the two A4085 road bridges at Waunfawr.'
+putin:
+  lat: 53.1080212
+  lng: -4.2031052
+takeout:
+  lat: 53.114244
+  lng: -4.2686691
+measures:
+  -
+    scrape: 0.45
+    low: 0.5
+    medium: 0.6
+    high: 0.7
+    data_url: 'rloi://4158'

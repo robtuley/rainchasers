@@ -1,0 +1,15 @@
+uuid: c41bb2fa-400f-4136-a8ff-80c519fb9179
+river: Lliw
+section: 'Lliw Falls to Bryn Gwyn'
+km: 5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Easy water leads down to the first grade 5 as the river gorges up slightly into a RH bend. The next major challenge is a 300m cateract, its difficulty depending a lot on the level. Scout along the small path on river left.'
+directions: 'Takeout at a small foot bridge about 0.5km upstream of the A494 bridge: access from the small road on river left, the footbridge is just upstream of the caravan park. To reach the putin keep heading upstream along the road on river left. Go through the village of Dothendre and then up a steep bit of the road until the huge Lliw Falls become visible. Get on from a layby just upstream of the farm buildings, and make sure you get on below a cateract leading out from the falls.'
+putin:
+  lat: 52.8776203
+  lng: -3.7447205
+takeout:
+  lat: 52.8621138
+  lng: -3.6935795

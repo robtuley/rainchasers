@@ -1,0 +1,21 @@
+uuid: a99d8357-cd93-4791-b374-21300664e641
+river: 'Esk (Yorkshire)'
+section: 'Egton Bridge to Whitby'
+km: 16
+grade:
+  text: '2'
+  value: 2
+desc: 'Mostly a grade 2 bimble with a couple of weirs and the option to paddle out to sea at the end!'
+directions: 'Put in at Egton Bridge and take out at Whitby Harbour.'
+putin:
+  lat: 54.4346986
+  lng: -0.762045
+takeout:
+  lat: 54.4868336
+  lng: -0.6126604
+measures:
+  -
+    low: 0.6
+    medium: 0.8
+    high: 1
+    data_url: 'rloi://8232'

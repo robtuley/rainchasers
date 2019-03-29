@@ -1,0 +1,15 @@
+uuid: d931cab2-624d-468d-9f10-76c120ce5b93
+river: Arth
+section: 'Pennant to Aberarth'
+km: 5
+grade:
+  text: '4'
+  value: 4
+desc: 'Spate stream, often with plenty of trees in.'
+directions: 'Take the B4577 Aberarth to Pennant road inland to the getin at a little bridge. The takeout is in Aberarth town itself below the falls.'
+putin:
+  lat: 52.2457347
+  lng: -4.1794651
+takeout:
+  lat: 52.2519354
+  lng: -4.2293918

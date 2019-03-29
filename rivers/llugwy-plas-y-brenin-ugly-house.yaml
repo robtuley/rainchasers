@@ -1,0 +1,23 @@
+uuid: 710c425e-42a7-4edf-9fca-f761e97d3200
+river: Llugwy
+section: 'Plas-y-Brenin to Ugly House'
+km: 6
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Quite a mix of grades, perhaps best suited to a mixed ability group. The river is grade 2/3 for most of it''s length with two harder drops. Cobdens Falls (4) opposite a hotel can be inspected river right and has a good footbridge for spectating. Pont Cyfyng (5) under the only road bridge on this section is tougher and can be portaged river left along the road before cutting back down through a farmer''s field.'
+directions: 'Putin by parking along the road near Plas-y-Brenin near Capel Curig and walk the boats down a footpath to the end of the lake. The takeout is down the A5 towards Betws-y-Coed, park on next to the "Ugly House" on the left just before the A5 crosses the river.'
+putin:
+  lat: 53.1013762
+  lng: -3.9184982
+takeout:
+  lat: 53.1004663
+  lng: -3.8591435
+measures:
+  -
+    scrape: 1.13
+    low: 1.3
+    medium: 1.5
+    high: 1.8
+    data_url: 'rloi://4145'

@@ -1,0 +1,24 @@
+uuid: cdbd61d6-93c8-4082-bbeb-445318ce52cc
+river: Wear
+section: 'Durham to Finchale Priory'
+km: 8.5
+grade:
+  text: '2'
+  value: 2
+desc: 'A relaxed touring run.'
+directions: 'Putin in Durham, there are a few carparks on river right just downstream of the A690 bridge. Takeout at Finchale Priory, which is a bit tricky to find: head up to Newton Hall and then follow signs out past the prison and keep going until you end up at Finchale Priory.'
+putin:
+  lat: 54.7802685
+  lng: -1.5755085
+takeout:
+  lat: 54.8196772
+  lng: -1.5393015
+measures:
+  -
+    scrape: 0.45
+    low: 0.6
+    medium: 0.8
+    high: 1
+    huge: 1.8
+    toohigh: 2.2
+    data_url: 'rloi://8201'

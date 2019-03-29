@@ -1,0 +1,22 @@
+uuid: c7c2d1e7-65d3-4669-a8a5-76fd97638ce1
+river: Plym
+section: 'Cadover Bridge to Shaugh Bridge'
+km: 3
+grade:
+  text: '5'
+  value: 5
+desc: 'Excellent, but challenging run: starts with a series of pool-drop rapids, then gets steeper and more continuous.'
+directions: 'Putin at Cadover bridge on the minor roads south-east of Yelverton. Takeout at Shaugh bridge, just west of the village of Shaugh Prior, or continue straight onto the section downstream.'
+putin:
+  lat: 50.4635965
+  lng: -4.0367817
+takeout:
+  lat: 50.4543848
+  lng: -4.0682252
+measures:
+  -
+    low: 0.6
+    medium: 0.75
+    high: 0.9
+    huge: 1
+    data_url: 'rloi://3197'

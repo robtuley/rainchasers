@@ -1,0 +1,15 @@
+uuid: 63360f42-072e-479f-b28e-c6a6fb9fd57a
+river: 'Park Burn'
+section: 'Ramshaw Fell to South Tyne Confluence'
+km: 3
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A rarely paddleable spate trib of the South Tyne with a couple of 2m+ falls and fast flowing rapids.'
+directions: null
+putin:
+  lat: 54.9375988
+  lng: -2.4688424
+takeout:
+  lat: 54.9518856
+  lng: -2.4953599

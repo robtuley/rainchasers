@@ -1,0 +1,23 @@
+uuid: 780e2a5b-6aab-4962-8c1f-798ee56f02d7
+river: 'Greta (Tees)'
+section: 'Gilmonby Bridge to Rutherford Bridge'
+km: 5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'An extra few kms to add to the start of the Greta at a slightly easier grade to the rest. The weir above Rutherford Bridge can be dodgy in high water.'
+directions: "Put-in from the footpath at Gilmonby Bridge, down the road from Bowes (easier to park in Bowes and walk down the hill). Walking a few hundred metres upstream will allow you to run Mill Force (3+) as a warm up.\nYou can take out at Rutherford Bridge, but would be better to continue on down the next section."
+putin:
+  lat: 54.5142438
+  lng: -2.0081249
+takeout:
+  lat: 54.5048009
+  lng: -1.947743
+measures:
+  -
+    scrape: 0.45
+    low: 0.55
+    medium: 0.75
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://8177'

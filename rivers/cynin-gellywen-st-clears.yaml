@@ -1,0 +1,15 @@
+uuid: c64d6956-2b8a-4f62-9719-dd09e3f1c16f
+river: Cynin
+section: 'Gellywen to St Clears'
+km: 10
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A pleasant touring river through wooded banks.'
+directions: 'Takeout in St Clears at the smaller bridge downstream of the main A40 bridge. To reach the putin head upstream along small roads to the village of Gellywen, either putin at the bridge here or head up the road on river left from which you can access the river a little higher up.'
+putin:
+  lat: 51.890976
+  lng: -4.5053444
+takeout:
+  lat: 51.810293
+  lng: -4.4933871

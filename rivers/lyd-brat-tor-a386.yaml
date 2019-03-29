@@ -1,0 +1,15 @@
+uuid: a8acc6f0-50a8-4c2d-b57c-b2012a6e0069
+river: Lyd
+section: 'Brat Tor to A386'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'Scrappy but fun. Be careful at the takeout, egress well above the A386 bridge on river right: otherwise you get drawn into the tunnel under the road, and downstream is the unpaddleable Lydford gorge.'
+directions: 'Takeout at the A386 bridge north of Tavistock. To reach the putin take the track off the A386 between the Dartmoor Inn and the petrol station up to the river.'
+putin:
+  lat: 50.6526534
+  lng: -4.078001
+takeout:
+  lat: 50.6410414
+  lng: -4.0936128

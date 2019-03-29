@@ -1,0 +1,15 @@
+uuid: 227ef132-0098-4709-aaaf-8c560054988a
+river: 'Clywedog Brook'
+section: 'Henfryn bridge to A44 bridge'
+km: 5
+grade:
+  text: '2'
+  value: 2
+desc: 'Pleasant spate run, usually with a few wires and trees to dodge. About halfway down is a small friendly brick weir.'
+directions: 'Takeout along a small road on river left that heads downstream from the A44 road bridge near Crossgates. To reach the putin head upstream via the A483 then onto small roads towards Abby-cwm-hir to reach a small road bridge over the river.'
+putin:
+  lat: 52.3229421
+  lng: -3.3568156
+takeout:
+  lat: 52.2749803
+  lng: -3.3447081

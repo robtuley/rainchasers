@@ -1,0 +1,15 @@
+uuid: 7960fbea-44d7-4a6e-aad4-67d1d551c357
+river: 'Glenridding Beck'
+section: 'Youth Hostel to Glenriding Village'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: "This starts with a dog leg drop and waterfall. 100m downstream is 'Edge Of World Rapid' - a hard pin ball toboggan drop.\nMore steep grade 3-4 rapids lead you to the next tricky drop known as Underworld. A further km of grade 3/4 rapids and the river opens up before reaching Glenridding village."
+directions: 'Follow Greenside Lane up to the youth hostel from Glenridding Village and put on near here. Take out in the village itself.'
+putin:
+  lat: 54.5471355
+  lng: -2.9858506
+takeout:
+  lat: 54.54375
+  lng: -2.9492009

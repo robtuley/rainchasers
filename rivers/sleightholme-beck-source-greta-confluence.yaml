@@ -1,0 +1,16 @@
+uuid: c4e55aaf-f9a1-467f-99c5-2de8b93db6cd
+river: 'Sleightholme Beck'
+section: 'Source to Greta Confluence'
+km: 7
+grade:
+  text: '3 (5)'
+  value: 3
+  max: 5
+desc: 'Very rarely run trib of the Tees Greta. Mostly fast flowing grade 2/3, but a serious gorge at Trough Heads contains spikes and siphons may need portaging.'
+directions: "Use the track up from Gilmonby to put-in around Bar Gap or higher. Alternatively put-in on Ease Gill on the Tan Hill round if water levels allow.\nGet out after the Greta confluence at Gilmonby Bridge, or continue down the Greta for a long day's paddle!"
+putin:
+  lat: 54.4754867
+  lng: -2.1258846
+takeout:
+  lat: 54.5142189
+  lng: -2.0082108

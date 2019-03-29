@@ -1,0 +1,15 @@
+uuid: f5df7567-e85e-4056-a06d-3b52c0ffb7d3
+river: Torridge
+section: 'Hele Bridge to Rothern bridge'
+km: 25
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A relaxed touring run with a few weirs to watch out for.'
+directions: 'Putin at Hele bridge, the A386 roadbridge just north of Hatherleigh. Takeout at Rothern bridge, the minor bridge just downstream of the A386 roadbridge to the north-west of Great Torrington.'
+putin:
+  lat: 50.8379657
+  lng: -4.0749366
+takeout:
+  lat: 50.9569842
+  lng: -4.1669004

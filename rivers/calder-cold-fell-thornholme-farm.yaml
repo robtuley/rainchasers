@@ -1,0 +1,15 @@
+uuid: c278c79f-895e-4bb6-bc30-d2e176af21a9
+river: Calder
+section: 'Cold Fell to Thornholme Farm'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Lots of water is needed for this upper section of the Calder and it rises an falls incredibly quickly. If the river looks brown and churning at Calder Bridge, and it''s still raining, you might be in luck! The river starts as a narrow flume ride down little more than a stream, before dropping through a couple of tight gorges. Once past Monks Bridge the river changes in character and some more powerful grade 3/4 rapids lead to a 2-tier slide. A couple hundred meters of easier water leads to the confluence with Worm Gill (beware of the sheep fence). Either take out here, or continue down the easier (and now much bigger) lower section of the river to Calder Bridge, or the sea.'
+directions: 'To reach the put-in, drive north from Calder Bridge towards Ennerdale Bridge. As the Cold Fell road takes a sharp left hand turn, park up and walk the <1km eastwards to the river. Takeout at Thornholme Farm'
+putin:
+  lat: 54.5020498
+  lng: -3.4297594
+takeout:
+  lat: 54.4676621
+  lng: -3.4426793

@@ -1,0 +1,15 @@
+uuid: bbf5d71f-21bc-470f-b422-be626f465480
+river: Camlad
+section: 'Chirbury to Hospital Bridge'
+km: 13
+grade:
+  text: '1'
+  value: 1
+desc: 'Good touring run: apart from a few fences and weirs it is grade 1 for its entire length.'
+directions: 'Take a small road heading east off the A490 just south of Chirbury to reach the putin at a bridge over the river. The takeout is at the bridge on the small road between Forden and Caerhowel, or alternatively you can continue down onto the Severn.'
+putin:
+  lat: 52.5774673
+  lng: -3.0761992
+takeout:
+  lat: 52.5916343
+  lng: -3.1616697

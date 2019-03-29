@@ -1,0 +1,15 @@
+uuid: 618c9003-a05c-4bc7-a933-395476a0d4b2
+river: 'Swindale Beck'
+section: 'Source to Brough'
+km: 4.5
+grade:
+  text: '5'
+  value: 5
+desc: 'Very hard, crunchy waterfall spate beck. Various falls, some with shallow landings. Trees may mean some are portages. There''s also a big sloping weir in Brough.'
+directions: 'Get in on the stream off the B6276. Get out on the right after the weir in Brough.'
+putin:
+  lat: 54.5649059
+  lng: -2.2748084
+takeout:
+  lat: 54.5271681
+  lng: -2.3156638

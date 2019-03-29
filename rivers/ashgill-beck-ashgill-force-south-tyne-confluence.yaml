@@ -1,0 +1,20 @@
+uuid: 6c07da94-ff9b-4cae-8a66-62ec85cd1b65
+river: 'Ashgill Beck'
+section: 'Ashgill Force to South Tyne Confluence'
+km: 0.5
+grade:
+  text: '4'
+  value: 4
+desc: 'Short steep trib of the Upper South Tyne containing five falls. Usually paddled as a diversion to the Tyne.'
+directions: 'Put on below Ashgill Force (it lands on rock). Continue down the South Tyne after the confluence.'
+putin:
+  lat: 54.7586567
+  lng: -2.3760949
+takeout:
+  lat: 54.7567004
+  lng: -2.3833476
+measures:
+  -
+    low: 1.4
+    high: 2.2
+    data_url: 'rloi://8007'

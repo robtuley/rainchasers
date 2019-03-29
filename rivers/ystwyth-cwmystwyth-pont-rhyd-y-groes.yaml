@@ -1,0 +1,22 @@
+uuid: 3df1067b-0051-49de-9565-ee121906b156
+river: Ystwyth
+section: 'Cwmystwyth to Pont-rhyd-y-groes'
+km: 5
+grade:
+  text: '5'
+  value: 5
+desc: 'Decent run, watch out for the broken dam. The gorge below the takeout looks horrendous and makes a better gorge walk than paddle.'
+directions: 'Putin at the bridge at Cwmystwyth, and takeout at the bridge in Pont-rhyd-y-groes.'
+putin:
+  lat: 52.3483983
+  lng: -3.7794502
+takeout:
+  lat: 52.3384714
+  lng: -3.84867
+measures:
+  -
+    scrape: 0.35
+    low: 0.4
+    medium: 0.65
+    high: 0.8
+    data_url: 'rloi://4094'

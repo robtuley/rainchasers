@@ -1,0 +1,16 @@
+uuid: 958da700-13eb-4738-81c5-3c883a3f817f
+river: 'Clydach (Usk)'
+section: 'Clydach Gorge Park to River Usk'
+km: 5
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'Fast-paced narrow tree-lined run. Trees in or across the river are often an issue. After 1.5km there is a waterfall under a footbridge (grade 5). Keep your eyes peeled as this comes up fast round a RH bend. Next interesting feature is a 50m tunnel: there is nothing significant in the tunnel itself but a decent exit rapid at the end which you commit to by entering the tunnel. Take this exit rapid roughly centre and then be prepared to hop out on river right to inspect and possibly portage the slot drop that follows it. In higher flows it is a good idea to scout this exit rapid by parking at the bridge over the canal on the way out of Gilwern, walking up the canal towpath for 200m until you can scramble down to the river on the right. From this point all that remains before joining the Usk are a couple of 1.5m weirs.'
+directions: 'Just west of Abergavenny take a small turn off the A465 opposite Gilwern village. 300m up the road there is a small carpark on the right next to the river. Takeout after you''ve joined the Usk, the first bridge after the confluence is on a small road linking Gilwern back to the A40.'
+putin:
+  lat: 51.8132142
+  lng: -3.1195068
+takeout:
+  lat: 51.8380226
+  lng: -3.1037743

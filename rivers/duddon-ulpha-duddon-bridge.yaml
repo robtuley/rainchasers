@@ -1,0 +1,24 @@
+uuid: 452e0bb0-9f8f-4df7-bee4-33bb70fdfdad
+river: Duddon
+section: 'Ulpha to Duddon Bridge'
+km: 6
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Fun grade 3 run with a couple of challenges. A large island warns of the lead-in to Rawford bridge (gd4), which is followed by a nasty weir.  '
+directions: 'Putin at the bridge just south of Ulpha or continue from the section above. Takeout immediately downstream of Duddon Bridge on the river left.'
+putin:
+  lat: 54.3265467
+  lng: -3.2370229
+takeout:
+  lat: 54.2829007
+  lng: -3.2314521
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.7
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://5142'

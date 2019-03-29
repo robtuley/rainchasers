@@ -1,0 +1,15 @@
+uuid: 9d601d6f-2cf0-450e-822b-0019ce1df02e
+river: Pelenna
+section: 'Cwm Blaenpelenna to Pontrhydyfen'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun spate run, watch out for low fences.'
+directions: 'Takeout just downstream of the confluence with the Afan in Pontrhydyfen at a footbridge next to the B4286. To reach the putin head north through Tonmawr and continue up the road along the river right bank until reaching a small bridge.'
+putin:
+  lat: 51.6618488
+  lng: -3.7133974
+takeout:
+  lat: 51.6323871
+  lng: -3.7455571

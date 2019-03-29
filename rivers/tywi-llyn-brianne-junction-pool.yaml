@@ -1,0 +1,22 @@
+uuid: b75e67a5-f2f5-4265-be98-fbaf97d8a5ec
+river: Tywi
+section: 'Llyn Brianne to Junction Pool'
+km: 3
+grade:
+  text: 4/5
+  value: 4.5
+desc: '2 fun gorges: the first is the grade 3/4 warm-up, the second harder grade 4/5 with some probable portages. Plenty of people have paddled the spillway at the putin, but note that this is illegal.'
+directions: 'Putin at the bottom of the spillway out of Llyn Brianne, east of Llanwrtyd Wells: follow minor roads up through Rhandirmwyn and Ystradffin. Takeout at Junction Pool, at the confluence of the Tywi with the Afon Doethie, or at the next road bridge just downstream.'
+putin:
+  lat: 52.1187521
+  lng: -3.7657813
+takeout:
+  lat: 52.1045925
+  lng: -3.786283
+measures:
+  -
+    scrape: 0.15
+    low: 0.3
+    medium: 0.5
+    high: 1
+    data_url: 'rloi://4209'

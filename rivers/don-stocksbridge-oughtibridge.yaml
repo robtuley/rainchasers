@@ -1,0 +1,22 @@
+uuid: e65360e8-9b57-4ce0-89fd-6c5cda8527c6
+river: Don
+section: 'Stocksbridge to Oughtibridge'
+km: 7.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Starts off flat with the odd grade 2, then a good play wave followed by a bouldery grade 3 section.'
+directions: "Putin at the bridge near the museum between Deepcar and Thurgoland.\n\nTake out at the road bridge in Oughtibridge. There are mixed messages on this but Sheffield Canoe Club's site is nearby and often suggested as an egress: however their car park is usually locked so unless you are a member I think it's best to use the road bridge.\n\nAn alternative is to extend the trip by 2km and continue to takeout at SK328916 (where the blue P&R letters are on the map)."
+putin:
+  lat: 53.4940742
+  lng: -1.5592114
+takeout:
+  lat: 53.4362654
+  lng: -1.5382294
+measures:
+  -
+    scrape: 0.3
+    low: 0.5
+    high: 0.85
+    huge: 1.1
+    data_url: 'rloi://8247'

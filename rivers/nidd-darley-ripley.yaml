@@ -1,0 +1,15 @@
+uuid: 38e434a9-13f1-4893-a324-9fee25a8e87d
+river: Nidd
+section: 'Darley to Ripley'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Mostly shallow and slow, due to the reservoirs restricting the flow, the main interest on the Nidd comes from weirs.'
+directions: null
+putin:
+  lat: 54.0340303
+  lng: -1.6861017
+takeout:
+  lat: 54.0321209
+  lng: -1.5637205

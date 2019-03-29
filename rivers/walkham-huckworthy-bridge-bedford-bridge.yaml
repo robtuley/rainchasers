@@ -1,0 +1,16 @@
+uuid: bce91eb9-8bfd-4323-b0c9-a653eefdc41b
+river: Walkham
+section: 'Huckworthy Bridge to Bedford Bridge'
+km: 3
+grade:
+  text: '1/2 (3)'
+  value: 1.5
+  max: 3
+desc: 'Usually paddled as an extension to the section downstream, there''s a couple of weirs to contend with, and one pretty gorge with a surprise at the end.'
+directions: 'There''s a carpark at the takeout.'
+putin:
+  lat: 50.5160705
+  lng: -4.0727748
+takeout:
+  lat: 50.5137236
+  lng: -4.1112306

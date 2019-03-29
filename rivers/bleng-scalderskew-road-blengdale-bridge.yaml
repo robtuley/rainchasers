@@ -1,0 +1,16 @@
+uuid: 4acd1ace-3d6e-4653-a892-db71af074231
+river: Bleng
+section: 'Scalderskew Road to Blengdale Bridge'
+km: 3.5
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'The harder rapids are all concentrated at the top of this rarely run river. To avoid the harder rapids and enjoy an alpine style (read steep and fast) grade 3 run, put in at the footbridge 1km downstream from the put-in.'
+directions: 'Whilst the forestry-track to the put-in is physically drivable, the road is not open for public access so it is recommended to park in the large parking area just downstream of Blengdale Bridge and man-up for the walk-in. You''ll have driven past Wellington Bridge at the takeout on the way up the valley.'
+putin:
+  lat: 54.4517667
+  lng: -3.3938057
+takeout:
+  lat: 54.4237439
+  lng: -3.4199437

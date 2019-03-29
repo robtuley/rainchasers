@@ -1,0 +1,21 @@
+uuid: ef665bf1-5dba-47d6-ace7-e0c541891603
+river: Ribble
+section: 'Helwith Bridge to Settle'
+km: 7
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'After about 1km a footbridge marks the run into "Twin Bridges", a long rapid under two railway bridges. Further downstream stop on river right just after a small stone bridge to inspect Stainforth Force, a tricky 3-tier drop. Can be portaged on river right. From here down to Settle is pleasant grade 3 but watch out for 2 weirs, both a bit sketchy.  '
+directions: 'Putin at Helwith Bridge, there is a picnic area on river right. Takeout on river right just after a footbridge below "Queen''s Rock", the last significant rapid in Settle (about 100m below the main road bridge). Carry back over the footbridge to river left out to Kings Mill housing estate. '
+putin:
+  lat: 54.1213872
+  lng: -2.2902243
+takeout:
+  lat: 54.0706734
+  lng: -2.2856272
+measures:
+  -
+    low: 0.34
+    high: 0.8
+    data_url: 'rloi://5086'

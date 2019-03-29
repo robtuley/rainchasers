@@ -1,0 +1,23 @@
+uuid: aad4d491-69b1-4fbd-be81-073815cd7c44
+river: Eamont
+section: 'Waterfoot to Brougham Castle'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'Popular open boat trip, with the occasional weir to add spice!'
+directions: 'Takeout just above the weir at Brougham Castle and follow the public footpath to the lay-by just off the A66'
+putin:
+  lat: 54.612297
+  lng: -2.8222937
+takeout:
+  lat: 54.6547632
+  lng: -2.7232681
+measures:
+  -
+    scrape: 0.55
+    low: 0.65
+    medium: 0.75
+    high: 0.95
+    huge: 1.1
+    data_url: 'rloi://5046'

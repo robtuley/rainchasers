@@ -1,0 +1,16 @@
+uuid: c67babf5-2f99-49a7-990d-8f167e435f67
+river: Wye
+section: 'Llangurig to Rhayader'
+km: 17
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'An excellent run in decent levels. The harder grade 4 drop is at the takeout, just below the bridge in Rhayader. Takeout after the drop on river right.'
+directions: 'Takeout in Rhayader, just downstream of the B4518 bridge on river right after Rhayader Falls. Putin at Llangurig at the minor road bridge (turn off the A44 at the church).'
+putin:
+  lat: 52.4041214
+  lng: -3.6062981
+takeout:
+  lat: 52.2985712
+  lng: -3.5146469

@@ -1,0 +1,16 @@
+uuid: b4ef3270-866f-4a86-9817-b71ef223d6cb
+river: Banwy
+section: 'Llanfair Caereinion to Meifod Bridge'
+km: 14
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Good touring or beginners trip.'
+directions: 'Putin at the A458 bridge at Llanfair Caereinion. To get to the takeout head north to Meiford on the A495 and head down a small road to a bridge over the river.'
+putin:
+  lat: 52.6495
+  lng: -3.3259809
+takeout:
+  lat: 52.7071495
+  lng: -3.2495246

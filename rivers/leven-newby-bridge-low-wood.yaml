@@ -1,0 +1,23 @@
+uuid: a3cf1c26-b6b4-4ffa-ae77-3f11af08c4d4
+river: Leven
+section: 'Newby Bridge to Low Wood'
+km: 3.5
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: "Excellent short blast, with plenty of playwaves, weirs and rapids. Runs at a variety of levels, often for days after rain as Windermere lake drains.\nBackbarrow is the main event - an intimidating grade 4 under the road bridge, but with a nice big pool to mop up the pieces! You often have an audience from the hotel. The big weir after Backbarrow can be run at grade 5, but not recommended - there's a simple portage on river left.\nCurrent recommendation is to get out river right above the roadbridge at Low Wood to avoid erosion of the bank below the bridge on river left."
+directions: 'The put-in on river right on the small road just downstream of the bridge  (in Newby Bridge) is right on some salmon redds. Provided you won''t touch/scrape over these as you launch, you''ll be fine. If not, find an alternative put-in or perhaps a different river for the day.'
+putin:
+  lat: 54.2696806
+  lng: -2.9724213
+takeout:
+  lat: 54.2445814
+  lng: -3.0065615
+measures:
+  -
+    low: 0.8
+    medium: 1
+    high: 1.25
+    huge: 1.45
+    data_url: 'rloi://5160'

@@ -1,0 +1,15 @@
+uuid: 27667d55-6ef2-4961-bd82-04aa51228370
+river: 'Clydach (Sawdde)'
+section: 'Pont Clydach to Church Road bridge'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Excellent spate paddle, fast and furious. Requires a walk-in and out and the best putin/takeout depends on the levels: scout round the A4096 bridge and see what you fancy taking on.'
+directions: 'The run is based around the A4069 Pont Clydach bridge between Llangadog and Brynamman. From here you can walk upstream into the Foel Fawr quarries to find a good putin as far up as you have time for. Paddle down under the bridge and the easiest takeout is on river right just before the wooded section where there is a footpath back up to the road. It is possible to keep going further downstream and simply walk back up the river bank.'
+putin:
+  lat: 51.8610868
+  lng: -3.8331459
+takeout:
+  lat: 51.8637022
+  lng: -3.8392882

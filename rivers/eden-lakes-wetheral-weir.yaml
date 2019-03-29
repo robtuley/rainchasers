@@ -1,0 +1,15 @@
+uuid: 9fe251ba-ce67-4ca1-8074-83f9d81354b7
+river: 'Eden (Lakes)'
+section: 'Wetheral Weir'
+km: 0
+grade:
+  text: '3'
+  value: 3
+desc: 'The playspot works well at high and low levels. Somewhere between this it closes in and forms a nasty hole. Make your own mind up when you get there.'
+directions: 'A convenient layby just downstream on river left provides good access to the spot.'
+putin:
+  lat: 54.8894338
+  lng: -2.8315301
+takeout:
+  lat: 54.8901989
+  lng: -2.8315766

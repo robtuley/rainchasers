@@ -1,0 +1,15 @@
+uuid: d0991b90-fe7b-40d6-9472-77e1de9ea809
+river: Tweed
+section: 'Kelso to Berwick'
+km: 40
+grade:
+  text: '1'
+  value: 1
+desc: 'Pleasant grade 1 paddling with a few small rapids and weirs.'
+directions: 'From Kelso to Berwick is a long full-day trip, but there are plenty of alternative putin/takeouts so the trip length can be adjusted to suit.'
+putin:
+  lat: 55.5954247
+  lng: -2.433193
+takeout:
+  lat: 55.7686487
+  lng: -2.0086566

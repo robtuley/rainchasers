@@ -1,0 +1,15 @@
+uuid: 961a48ff-44cf-43d5-a294-faaf932ffe4d
+river: 'Sgithwen Brook'
+section: 'Trericket Mill to Wye'
+km: 0.2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A full-on 200m blast. Above this section there is reputedly a 2km of grade 5/6 gorge if you fancy trying your luck.'
+directions: 'Takeout at Trericket Mill bridge just before the confluence with the Wye (just off the A470 between Llyswen and Erwood). From here simply walk 200m up the river and have a quick blast down.'
+putin:
+  lat: 52.0637664
+  lng: -3.2990321
+takeout:
+  lat: 52.064083
+  lng: -3.2958564

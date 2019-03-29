@@ -1,0 +1,15 @@
+uuid: 68cb1114-87ac-477a-ad47-44d1ab5f0120
+river: Till
+section: 'Etal to Twizel'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A collection of weirs (some of which are playable) and one small fall.'
+directions: 'Put on above the weir in Etal Village. Take out on the right at Twizel Bridge.'
+putin:
+  lat: 55.6493125
+  lng: -2.1199041
+takeout:
+  lat: 55.6828314
+  lng: -2.1846155

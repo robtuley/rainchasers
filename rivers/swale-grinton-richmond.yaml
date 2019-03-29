@@ -1,0 +1,23 @@
+uuid: a443673d-1fa0-4bed-a2e1-6b4920d7a3ef
+river: Swale
+section: 'Grinton to Richmond'
+km: 14
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Mellow touring run through beautiful countryside.'
+directions: 'Putin at Grinton bridge. Takeout in Richmond, at the carpark on river left downstream of the bridge.'
+putin:
+  lat: 54.3821769
+  lng: -1.929932
+takeout:
+  lat: 54.4008189
+  lng: -1.7346018
+measures:
+  -
+    scrape: 0.02
+    low: 0.15
+    medium: 0.4
+    high: 1.1
+    huge: 1.6
+    data_url: 'rloi://8089'

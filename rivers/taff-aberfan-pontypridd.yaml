@@ -1,0 +1,16 @@
+uuid: 2baf695c-fe0d-46d2-b827-b6b2168fb455
+river: Taff
+section: 'Aberfan to Pontypridd'
+km: 18
+grade:
+  text: '2/3 (4+)'
+  value: 2.5
+  max: 4.5
+desc: 'Entertaining grade 2/3 with some good playspots. Be careful around Quaker''s Yard (just upstream of Abercynon): there is tricky grade 4+ drop which is followed by two weirs that can be nasty at higher levels.'
+directions: 'Putin at the bridge in Aberfan just off the A470. Takeout at the northern outskirts Pontypridd somewhere along the road running along the river right bank just upstream from the A4223 bridge.'
+putin:
+  lat: 51.6921928
+  lng: -3.3436248
+takeout:
+  lat: 51.6074585
+  lng: -3.3377343

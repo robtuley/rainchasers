@@ -1,0 +1,16 @@
+uuid: 7f326a09-e680-4899-bb28-3d4c1d977820
+river: Caseg
+section: 'Afon Wen confluence to upper Gerlan bridge'
+km: 3
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Requires a 2-3km walkin. First km is easier gd3, then run builds to continuous gd4. At the takeout bridge just before the confluence with the Llafar is a gd5 drop. It is possible to continue downriver from here but it can be a little sketchy.'
+directions: 'Find the small road bridge above Gerlan in Bethesda, this is the takeout. By back-tracking downhill and then taking the first right, follow a small road to the start of the walkin (follow the footpath upstream!).'
+putin:
+  lat: 53.1776827
+  lng: -4.0267599
+takeout:
+  lat: 53.1744788
+  lng: -4.0423717

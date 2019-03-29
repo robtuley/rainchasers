@@ -1,0 +1,15 @@
+uuid: 9cbc745f-3186-4ff7-8d74-979cb2f14007
+river: Monnow
+section: 'Great Corras bend to Monmouth'
+km: 30
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A beautiful meandering run, with a couple of weirs to watch out for.'
+directions: 'Takeout at a small footbridge just before the great Corras bends: this can be reached by heading down river left along small roads from the B4347 bridge at Kentchurch. Takeout at the large carpark between Monnow Street bridge and the B4293 bridge in Monmouth.'
+putin:
+  lat: 51.9207283
+  lng: -2.8462958
+takeout:
+  lat: 51.8090507
+  lng: -2.7190866

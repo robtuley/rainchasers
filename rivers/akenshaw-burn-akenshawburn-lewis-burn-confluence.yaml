@@ -1,0 +1,15 @@
+uuid: 2730e379-491e-4e39-9e5d-c0f01ead7e6d
+river: 'Akenshaw Burn'
+section: 'Akenshawburn to Lewis Burn Confluence'
+km: 2
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'An adventure in Kielder Forest.'
+directions: 'Turn off the road running alongside Keilder Water itself onto a track up towards Buck Fell.'
+putin:
+  lat: 55.1998871
+  lng: -2.6120125
+takeout:
+  lat: 55.1936655
+  lng: -2.5833021

@@ -1,0 +1,15 @@
+uuid: 9f8fdea5-1e9c-49b1-bbdc-05008a92e4ce
+river: Pysgotwr
+section: 'Forestry bridge to Angel Inn'
+km: 7
+grade:
+  text: '5'
+  value: 5
+desc: 'At suitable levels for the gorge the first 3km will be a flat scrape. The gorge itself is tough, and much probably still hasn''t been paddled. A km above the Doethie confluence the river eases back to gd3/4 before the takeout at Junction Pool (Towy confluence).'
+directions: 'Takeout at "junction pool" at the confluence with the Tywi between Ystradffin and Rhandirmwyn. An OS map would be useful to find the putin via small roads from Llanddewi Brefi.'
+putin:
+  lat: 52.1476678
+  lng: -3.8468182
+takeout:
+  lat: 52.1045288
+  lng: -3.7862729

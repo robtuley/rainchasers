@@ -1,0 +1,16 @@
+uuid: ff578bca-45d8-4c27-8e32-965dde97fa28
+river: Dringarth
+section: 'Reservoir to Shoni''s Farm'
+km: 4
+grade:
+  text: '3/4 (4+)'
+  value: 3.5
+  max: 4.5
+desc: 'Fun bouncy run. The harder drop is about halfway down as the banks close in. Watch out for fences.'
+directions: 'Takeout at the small bridge in Heolyrhedyn (just north of Ystradfellte) at the confluence with the Llia. To reach the putin head south up a steep hill and take a small road on the left upstream. Head up here for a few km and then park and walk down to the river.'
+putin:
+  lat: 51.8350641
+  lng: -3.5337551
+takeout:
+  lat: 51.8175676
+  lng: -3.5451585

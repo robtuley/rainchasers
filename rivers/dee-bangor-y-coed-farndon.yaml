@@ -1,0 +1,15 @@
+uuid: ed14d7e2-b84d-4079-a2b9-80bda58788f8
+river: Dee
+section: 'Bangor-is-y-Coed to Farndon'
+km: 15
+grade:
+  text: '1'
+  value: 1
+desc: 'Another touring section as the Dee winds its way to the sea.'
+directions: 'Putin in Bangor-is-y-Coed at the narrow bridge just downstream of the main A525 road bridge. Takeout at the narrow road bridge in the village of Farndon (just downstream of where the A534 crosses the river).'
+putin:
+  lat: 53.0026665
+  lng: -2.9139329
+takeout:
+  lat: 53.0835471
+  lng: -2.8798206

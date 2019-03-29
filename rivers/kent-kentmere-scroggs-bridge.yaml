@@ -1,0 +1,21 @@
+uuid: 3dbd5a11-989b-4f76-a651-878a90f052bc
+river: Kent
+section: 'Kentmere to Scroggs Bridge'
+km: 5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'The first 200m is fairly tree ridden and may be worth portaging if super high. The exit to Kentmere Tarn can also be a bit tree-eey but the flow isn''t fast so portaging is OK. The remainder of the run is constantly moving so provides continual interest throughout. The highlight is a few hundred metres of grade 3, not far after a pretty mini-gorge. If you don''t plan to run the rapid at Scroggs bridge (grade 4), it might be worth scouting your take-out eddy on the way up.'
+directions: 'Take the small turning in Staveley signposted to Kentmere. When the road crosses to river left as you head north, you''ve reached Scroggs Bridge, the takeout. Continue northwards up the valley until you reach Kentmere. Parking here is very limited, so be discrete and try not to block passing places. A gate and small stile give access to the river on river left.'
+putin:
+  lat: 54.4282787
+  lng: -2.8368529
+takeout:
+  lat: 54.3885155
+  lng: -2.8224799
+measures:
+  -
+    scrape: 0.5
+    low: 0.55
+    high: 0.9
+    data_url: 'rloi://5017'

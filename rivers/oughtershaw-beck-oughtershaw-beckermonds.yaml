@@ -1,0 +1,20 @@
+uuid: 3d292876-62ef-4e29-8a32-d8496952357f
+river: 'Oughtershaw Beck'
+section: 'Oughtershaw to Beckermonds'
+km: 2
+grade:
+  text: '4'
+  value: 4
+desc: 'Combines with Green Field Beck to form the Upper Wharfe. Spate tree and fence filled steep ditch with plenty of tight rapids and small falls.'
+directions: 'Walk up the footpath above Oughtershaw village and put-on wherever looks sensible. '
+putin:
+  lat: 54.2306081
+  lng: -2.2039982
+takeout:
+  lat: 54.2180601
+  lng: -2.1943014
+measures:
+  -
+    low: 1.4
+    high: 2
+    data_url: 'rloi://8110'

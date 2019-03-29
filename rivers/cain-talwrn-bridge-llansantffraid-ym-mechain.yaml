@@ -1,0 +1,15 @@
+uuid: 16713811-679b-4f8b-9599-2c40551823a4
+river: Cain
+section: 'Talwrn Bridge to Llansantffraid-ym-Mechain'
+km: 8
+grade:
+  text: '1'
+  value: 1
+desc: 'Gentle touring section.'
+directions: 'From the A490 Welshpool to Llanfyllin road, turn up the B4393 and take the first small left to the putin at a small bridge. To get to the takeout continue along the B4393 through Llanfechain until the road crosses the river again. Takeout here, or at the main A495 road bridge further down.'
+putin:
+  lat: 52.7638868
+  lng: -3.2243418
+takeout:
+  lat: 52.7757721
+  lng: -3.1735193

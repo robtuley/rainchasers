@@ -1,0 +1,21 @@
+uuid: e57bcf38-3cc1-4aeb-8fd5-2b36007d6eca
+river: Corrwg
+section: 'Glyncorrwg to Cymer'
+km: 5
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'A good alternative to the upper Afan. The grade 4 rapid is at the putin just above Glyncorrwg, from here it is a fast grade 2/3 until it joins the Afan at Cymer.'
+directions: 'Takeout at the bridge in Cymer just downstream of the confluence with the Afan. Reach the putin by heading upstream to Gyncorrwg and get on just upstream of the town.'
+putin:
+  lat: 51.6819874
+  lng: -3.6197529
+takeout:
+  lat: 51.653687
+  lng: -3.6492223
+measures:
+  -
+    low: 0.7
+    high: 1
+    data_url: 'rloi://4092'

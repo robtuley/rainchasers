@@ -1,0 +1,15 @@
+uuid: 70259266-5f4d-4d56-a6d1-2761c47864a5
+river: 'Eggleston Burn'
+section: 'Middle End Farm to Egglesburn'
+km: 4
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A small steep and twisty spate trib of the Tees. There''s a tight gorge after ~1km, which is quite continuous and contains a surprise slot.'
+directions: "Drive through Eggleston on the B6278, following the river on the left. Take the left turn which crosses the river at Middle End Farm and put on here.\nEither take out at the small road bridge above Eggleston, or carry on down into the Tees."
+putin:
+  lat: 54.6538468
+  lng: -2.0249905
+takeout:
+  lat: 54.6195957
+  lng: -2.0184245

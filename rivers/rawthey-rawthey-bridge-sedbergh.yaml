@@ -1,0 +1,23 @@
+uuid: 60d6bb57-a6c5-43a2-8969-59d2cf8509c4
+river: Rawthey
+section: 'Rawthey Bridge to Sedbergh'
+km: 10
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Fantastic run: continuous grade 3 dotted with a few garder bedrock falls.'
+directions: 'Putin at Rawthey Bridge: head out of Sedburgh through Cautley along the A683, and the bridge is about 2km north of Cross Keys. Takeout on river right at the A683 bridge just north of Sedburgh, or continue onto the next section.'
+putin:
+  lat: 54.3755296
+  lng: -2.4427008
+takeout:
+  lat: 54.3256601
+  lng: -2.4974532
+measures:
+  -
+    scrape: 1.2
+    low: 1.4
+    medium: 1.6
+    high: 2
+    huge: 2.5
+    data_url: 'rloi://5020'

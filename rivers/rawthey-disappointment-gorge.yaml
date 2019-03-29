@@ -1,0 +1,15 @@
+uuid: d13bd26d-549c-49d8-9459-48b3b4523871
+river: Rawthey
+section: 'Disappointment Gorge'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'Low volume narrow gorges down to the normal starting point at Rawthey bridge: a decent addition to the standard run.'
+directions: 'From Rawthey Bridge carry on upstream and take a small road on the right. After 1km, turn right again, and then park where the road forks. Walk the boats down the left fork to a bridge over Needlehouse Gill and walk down the left bank of this tiny beck to the confluence. The marked takeout is at Rawthey bridge but most will combine this run with the popular section downstream and continue to Sedburgh.'
+putin:
+  lat: 54.365457
+  lng: -2.4205266
+takeout:
+  lat: 54.375535
+  lng: -2.4427051

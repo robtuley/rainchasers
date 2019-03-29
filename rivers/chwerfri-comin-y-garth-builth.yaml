@@ -1,0 +1,16 @@
+uuid: 6734f2e5-fc8d-44cf-b6f8-4783e3607145
+river: Chwerfri
+section: 'Comin-y-Garth to Builth'
+km: 9
+grade:
+  text: '1/2 (4)'
+  value: 1.5
+  max: 4
+desc: 'A fun little river: there is a single grade 4 drop between two footbridges as you paddle through the Builth Wells golf course.'
+directions: 'Turn north off the a483 in the village of Cilmery near Builth Wells; keep heading right and you will reach a small bridge over the river. The takeout is back in Cilmery near the railway tracks. It is also possible to continue joining the Irfon and soon the wye to takeout in Builth itself.'
+putin:
+  lat: 52.1775894
+  lng: -3.4931681
+takeout:
+  lat: 52.1550684
+  lng: -3.4468812

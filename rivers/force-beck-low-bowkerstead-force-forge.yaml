@@ -1,0 +1,15 @@
+uuid: 0e6ba874-b1f8-4a34-8f63-ff1a89b1409c
+river: 'Force Beck'
+section: 'Low Bowkerstead to Force Forge'
+km: 0.5
+grade:
+  text: '5'
+  value: 5
+desc: 'Extremely steep continuous series of slides and falls in Grizedale Forest.'
+directions: 'It''s on the road between Spark Bridge and Hawkeshead. Put on at the bridge above Force Mills, take out next to the phone box in Force Forge.'
+putin:
+  lat: 54.3127423
+  lng: -3.0194453
+takeout:
+  lat: 54.3085612
+  lng: -3.0193166

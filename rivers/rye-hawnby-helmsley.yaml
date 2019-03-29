@@ -1,0 +1,20 @@
+uuid: 2f5eab0c-bf94-42b6-8685-2a2e5df55ee4
+river: Rye
+section: 'Hawnby to Helmsley'
+km: 14
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Set in the steep wooded Rye valley, flows fast off the Yorkshire moors after recent rain. Beware of the tree lined banks in high water.'
+directions: 'Put in at the road bridge in Hawnby and get off in Helmsley. Flat below here until the Derwent.'
+putin:
+  lat: 54.2967309
+  lng: -1.1670898
+takeout:
+  lat: 54.2440851
+  lng: -1.0592151
+measures:
+  -
+    low: 0.5
+    medium: 0.7
+    data_url: 'rloi://8033'

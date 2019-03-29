@@ -1,0 +1,15 @@
+uuid: 86480270-bbd9-49dc-a002-f54782a25fcf
+river: 'De Lank'
+section: 'Delford Bridge to Tregaddick'
+km: 5
+grade:
+  text: '5'
+  value: 5
+desc: 'Masochistic. Mellow for the first 1.5km, then suddenly drops steeply through quarry workings. Watch out for the river disappearing underground: carry up river right past the quarry buildings to where it re-surfaces. This happens again later. Once you reach the footbridge (an alternative putin) you''ve braved the worst, and the river eases to grade 4.'
+directions: 'Putin at Delford Bridge, the bridge downstream of the village of Bradford. Takeout at the bridge at Tregaddick just upstream of the confluence with the river Camel.'
+putin:
+  lat: 50.5523439
+  lng: -4.6632812
+takeout:
+  lat: 50.533389
+  lng: -4.6983421

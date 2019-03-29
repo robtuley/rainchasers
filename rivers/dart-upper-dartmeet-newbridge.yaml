@@ -1,0 +1,23 @@
+uuid: 3d0be5ff-d578-4101-9884-049990b6cb10
+river: Dart
+section: 'Upper, Dartmeet to Newbridge'
+km: 7
+grade:
+  text: '4'
+  value: 4
+desc: 'Fabulous grade 4 classic: continuous and isolated away from the road. Highlights in order of appearance are the "mad mile" (full-on in spate), Euthanasia Falls (slidey drop on a RH bend) and "Surprise Surprise!" (an awkward slot). '
+directions: 'Takeout at the National Park carpark at Newbridge. Putin at the carpark at Dartmeet.'
+putin:
+  lat: 50.5436552
+  lng: -3.8753617
+takeout:
+  lat: 50.523496
+  lng: -3.8196379
+measures:
+  -
+    scrape: 0.35
+    low: 0.5
+    medium: 0.74
+    high: 1.1
+    huge: 1.25
+    data_url: 'rloi://3212'

@@ -1,0 +1,16 @@
+uuid: 511c7800-8005-4361-b4f3-57009a2095fc
+river: Ogwen
+section: 'Ogwen Bank to Scout Hut Bridge'
+km: 4
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'The run starts with a bang with Ogwen Bank Falls (gd5) followed immediately by the Gun Barrel. From here the water is easier but fun down to the scout hut bridge.'
+directions: 'Putin at Ogwen Bank, just off the A5 south of Besthesda. Takeout at small bridge just off the A5 heading to Tregarth, or continue downstream onto the harder section that follows.'
+putin:
+  lat: 53.1679751
+  lng: -4.0561945
+takeout:
+  lat: 53.1890883
+  lng: -4.08105

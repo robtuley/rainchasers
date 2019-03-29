@@ -1,0 +1,23 @@
+uuid: 0449bc4f-736d-4e65-b030-f40e34fd6ea3
+river: Conwy
+section: 'Fairy Glen'
+km: 2
+grade:
+  text: 4/5
+  value: 4.8
+desc: "The reputation of this classic testpiece is probably more fearsome than it is in reality, but it should be respected as a committing run due to the fact that the second half is in a boxed-in gorge.\n\nThe first half of the run is a good warmup before you reach Fairy Falls, probably the hardest individual rapid on the run: inspect and portage if necessary on the left bank. From here you can escape to the road on river left or continue into a boxed in canyon.\n\n200m downstream of Fairy Falls is the \"Pipeline\": you are already committed by the time you reach it but can hop out on rocks on river left to pick a line.\n\nThe final rapid of note an uninspectable horizon line: take this 1.5m ledge drop roughly in the centre. The takeout is obvious as you pop out of the canyon to a calm pool and the confluence with the Lledr."
+directions: "Takeout at the pool at the confluence of the Conwy and Lledr at the A470 road bridge just outside Betws-y-Coed.\n\nTo reach the putin continue on the A470 away from Betws-y-Coed and take the first left to cross the Lledr and head up the Conwy. It is possible to stop and scout Fairy Falls on the way up. Park at the large layby and walk down to the river."
+putin:
+  lat: 53.0662402
+  lng: -3.7798534
+takeout:
+  lat: 53.0758707
+  lng: -3.7956837
+measures:
+  -
+    scrape: 1.05
+    low: 1.15
+    medium: 1.35
+    high: 1.65
+    huge: 1.85
+    data_url: 'rloi://4145'

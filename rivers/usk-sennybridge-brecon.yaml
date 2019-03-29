@@ -1,0 +1,20 @@
+uuid: e4ac8af7-17f4-41fd-86e1-c5ef88dfae11
+river: Usk
+section: 'Sennybridge to Brecon'
+km: 19
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Bouncy grade 2/3 run at decent levels. Watch out for 3 separate weirs on the way down.'
+directions: 'Takeout in Brecon in the carpark on the upstream outskirts just above a weir. Putin in Sennybridge itself (take the turn towards the barracks and stay right along the outside to park by the river), or at the small bridge just upstream of Sennybridge leading to Pantsgallog.'
+putin:
+  lat: 51.9502848
+  lng: -3.5968572
+takeout:
+  lat: 51.9506929
+  lng: -3.4031641
+measures:
+  -
+    low: 0.55
+    high: 1.1
+    data_url: 'rloi://4050'

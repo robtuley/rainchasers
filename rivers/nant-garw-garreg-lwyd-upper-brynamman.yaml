@@ -1,0 +1,16 @@
+uuid: 2eb36b43-2f93-44d4-badd-1a275a248d4e
+river: 'Nant Garw'
+section: 'Garreg Lwyd to Upper Brynamman'
+km: 2
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'Fast but easy spate run, with 2 harder falls. There are few eddies, with the first gd4 as the river steepens into a RH bend, dropping into a mini-gorge. The 2nd gd4 is 200m downstream.'
+directions: 'Takeout at a footbridge at the outskirts of Brynamman on a footpath just off the road. To reach the putin head north along the A4069, find somwhere to park and then walk down the grassy bank to the river.'
+putin:
+  lat: 51.8386085
+  lng: -3.8532953
+takeout:
+  lat: 51.8193451
+  lng: -3.8541026

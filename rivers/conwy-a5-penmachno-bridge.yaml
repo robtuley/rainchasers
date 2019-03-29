@@ -1,0 +1,22 @@
+uuid: feedda92-e4b9-4afe-8ff9-9f1ca12bd2b8
+river: Conwy
+section: 'A5 to Penmachno Bridge'
+km: 6.5
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'The classic section of the Conwy. The top half is an excellent grade 3/4 run (which can be done in it''s own right, taking out at the second lay-by downstream of the bridge at Rhydlanfair on the A5 - Grid Ref:822528). Below here the water is unremarkable grade 3 with two distinctly harder drops. The first is a narrow chute leading to a twisting drop with an awkward landing. This can be viewed and easily portaged river left. The second (the "Gobbler") is a slightly easier S-bend, inspect river left. The portage for the Gobbler requires a bit of clambering around and a 2m seal launch, so is fun whether you run it or not! Take out river left about 1km below the Gobbler, keep your eyes peeled for white marker posts on river left. Go too far downstream and you end up at Conwy falls; the site of numerous mountain rescue team callouts where paddlers have not been vigilant enough. It is probably worth scouting the takeout before you get on.'
+directions: 'Putin at the A5 road bridge near the B4407 turn to Ysbyty Ifan. To reach the takeout head downstream along the A5, crossing from river left to river right. Park at the Conwy Falls cafe and takeout just above the B4406 road bridge and walk up the road to the cafe.'
+putin:
+  lat: 53.0458564
+  lng: -3.7076699
+takeout:
+  lat: 53.065745
+  lng: -3.7762969
+measures:
+  -
+    low: 1
+    medium: 1.5
+    high: 2
+    data_url: 'rloi://4145'

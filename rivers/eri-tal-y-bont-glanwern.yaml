@@ -1,0 +1,15 @@
+uuid: a7f08f04-5868-43c8-8b81-cf9ee46ea614
+river: Eri
+section: 'Tal-y-Bont to Glanwern'
+km: 4.5
+grade:
+  text: '2'
+  value: 2
+desc: 'A beautiful run with a hidden gorge.'
+directions: 'Both putin and takeout are a bit tricky. Takeout at the footbridge in the middle of the caravan park between Glanwern and Upper Borth, and the use the public footpath to wherever you managed to park your vehicle. The putin at the A487 bridge at Tal-yBont is also difficult, it may be worth changing before you get there.'
+putin:
+  lat: 52.4832107
+  lng: -3.9827726
+takeout:
+  lat: 52.4792225
+  lng: -4.0369291

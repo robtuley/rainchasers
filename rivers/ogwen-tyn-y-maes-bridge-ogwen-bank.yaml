@@ -1,0 +1,15 @@
+uuid: 9fd68ad0-a872-4f52-9fb1-53a818aeae29
+river: Ogwen
+section: 'Tyn y Maes Bridge to Ogwen Bank'
+km: 1.5
+grade:
+  text: '5'
+  value: 5
+desc: 'A gorge with a series of tricky drops that are only sensible when the rest of the river is low. Scrappy stuff, the other sections are better.'
+directions: 'Takeout at Ogwen Bank off the A5 just south of Bethesda, or continue down straight into the next section. Putin at the next road bridge upstream.'
+putin:
+  lat: 53.15821
+  lng: -4.0462331
+takeout:
+  lat: 53.1679743
+  lng: -4.0562002

@@ -1,0 +1,16 @@
+uuid: aff7f21f-fdf8-40fd-8c39-6f40536f6ec8
+river: Gwydderig
+section: 'Halfway to Cwm Rhuddan bridge'
+km: 11
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'Fun little river, despite the closeness to the road you soon get lost in the little gorges. A few weirs, but nothing nasty.'
+directions: 'Putin at a small bridge just off the A40 (or at the A40 bridge itself) just upstream of the village of Halfway. Takeout at the A4069 bridge just south of Llandovery before the confluence with the Tywi (Towy).'
+putin:
+  lat: 51.9812813
+  lng: -3.6982417
+takeout:
+  lat: 51.9815406
+  lng: -3.8084108

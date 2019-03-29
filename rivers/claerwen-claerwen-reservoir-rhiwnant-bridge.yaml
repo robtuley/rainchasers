@@ -1,0 +1,16 @@
+uuid: 0a4dabf8-d92b-43eb-aa16-90f7e83c5bd9
+river: Claerwen
+section: 'Claerwen reservoir to Rhiwnant bridge'
+km: 4
+grade:
+  text: '3/4 (5+)'
+  value: 3.5
+  max: 5.5
+desc: 'Relaxed 1.5km of flat from the dam down to the first (big) fall that most will portage. Easy grade 3 follows until a hard double drop immediately below a footbridge perched between two boulders. Grade 3/4 from this drop down to the takeout.'
+directions: 'Head up to the Claerwen Reservoir (through Elan Village) from the A470 at Rhayader. The takeout is at a small bridge at the head of Caban-Coch Reservoir, and the putin is just below the Dam at the foot of Claerwen Reservoir itself.'
+putin:
+  lat: 52.2567293
+  lng: -3.6559458
+takeout:
+  lat: 52.2411635
+  lng: -3.6113863

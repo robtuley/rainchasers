@@ -1,0 +1,15 @@
+uuid: 538bbdec-3a45-4e76-ba45-bd5190456024
+river: Afan
+section: 'Pontrhydyfen to Aberavon'
+km: 8
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Playful run that doesn''t require massive rain to be running. Watch out for the weirs in high flows, the towbacks can be dangerous at high levels.'
+directions: 'A4107 and B4286 Port Talbot to Treorchy roads'
+putin:
+  lat: 51.6321587
+  lng: -3.7458115
+takeout:
+  lat: 51.5896247
+  lng: -3.7970524

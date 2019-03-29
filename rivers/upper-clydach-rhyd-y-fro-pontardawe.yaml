@@ -1,0 +1,16 @@
+uuid: 45868007-a4d7-41d9-b82c-d2d2df7b7d3f
+river: 'Upper Clydach'
+section: 'Rhyd-y-Fro to Pontardawe'
+km: 3
+grade:
+  text: '4 (6)'
+  value: 4
+  max: 6
+desc: 'An excellent spate stream: continuously hard paddling. Watch out for the grade 6 fall, just after a bridge: this has been run but only in big flood, most will portage river left. There is a boxed in weir just above Pontardawe which is sketchy in big flood, portage right if necessary. Takeout just above the tunnel in town.'
+directions: 'Takeout in Pontardawe at the lower of the two A474 bridges: there is a carpark just upstream of the bridge on river right. Putin at the northern outskirts of Rhyd-y-fro: a small road (Barans Road) heads off the A474 and crosses the river at a bridge. Alternatively take the RH turn further up to a bridge over the Afon Egel. '
+putin:
+  lat: 51.7354658
+  lng: -3.8659987
+takeout:
+  lat: 51.7194424
+  lng: -3.8508662

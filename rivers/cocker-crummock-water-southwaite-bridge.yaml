@@ -1,0 +1,22 @@
+uuid: df9989bf-b035-4474-9eb9-1f379f316f23
+river: Cocker
+section: 'Crummock Water to Southwaite Bridge'
+km: 8
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'The difficulty in this section, if any, lies in the first kilometre, where the river is narrower and trees may be an issue. The remainder is flat and meanders through the scenic valley bottom. The occasional fence may be lurking in the lower section.'
+directions: 'The put-in is from the carpark on river right, just upstream of the roadbridge. For the takeout, river left above Southwaite Bridge is the best option, not far from a small parking area.'
+putin:
+  lat: 54.5811327
+  lng: -3.3182479
+takeout:
+  lat: 54.642762
+  lng: -3.3483515
+measures:
+  -
+    scrape: 0.55
+    low: 0.6
+    medium: 0.9
+    high: 1.1
+    data_url: 'rloi://5129'

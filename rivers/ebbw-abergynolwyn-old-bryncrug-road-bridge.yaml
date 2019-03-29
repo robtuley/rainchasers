@@ -1,0 +1,15 @@
+uuid: b83cfba8-cb8a-4eae-8266-235b8767a007
+river: Ebbw
+section: 'Abergynolwyn to the old Bryncrug road bridge'
+km: 17
+grade:
+  text: '2'
+  value: 2
+desc: 'An easy run, but depending on levels some of the weirs may be nasty. Watch out for wires across the river.'
+directions: 'Putin at Cwmcarn, heading down to a bridge over the river by turning off the A467 at a roundabout. Takeout just south of the M4, next to Ebbw Bridge roundabout in Maes-Glas.'
+putin:
+  lat: 51.6326611
+  lng: -3.1317071
+takeout:
+  lat: 51.5685308
+  lng: -3.0211062

@@ -1,0 +1,16 @@
+uuid: 1acb0a7f-4b0c-4be8-b57d-4f0f4040d381
+river: Bran
+section: 'Cynghardy to Llandovery'
+km: 8
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Fun Usk trib, somewhat marred by the number of fences strung across the river that are awkward to portage. The top of the run is fairly mellow, best bit is a series of ledge drops near the end.'
+directions: 'Takeout is at Llandovery on the A40. To get to the putin head upstream towards Buith Wells on the A483 and access the river at Cynghardy.'
+putin:
+  lat: 52.0452845
+  lng: -3.7433269
+takeout:
+  lat: 51.9945451
+  lng: -3.7911238

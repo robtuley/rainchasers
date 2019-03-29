@@ -1,0 +1,15 @@
+uuid: 7687f342-f048-4c5e-9059-973d7ee13ffd
+river: Usk
+section: 'Llangynidr Bridge to Crickhowell'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'Combined with the section above is the classic Usk run. The ledge drop on the LH bend about 100m below the putin can be sticky, but other than this a no-nasties run, with good playholes in flood. Takeout on river right just below the weir under the bridge.'
+directions: 'Putin at Llangynidr bridge or from the section above, accessing the river from river-left side of the bridge and parking up the hill on the outskirts of the village. Takeout at the A4077 bridge at Crickhowell: there is a convenient layby on river-right just upstream of the bridge itself.'
+putin:
+  lat: 51.8749629
+  lng: -3.2329499
+takeout:
+  lat: 51.8563089
+  lng: -3.143401

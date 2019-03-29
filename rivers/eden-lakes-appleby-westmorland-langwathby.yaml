@@ -1,0 +1,15 @@
+uuid: ed6205ae-7d82-45fc-b678-44257aea120d
+river: 'Eden (Lakes)'
+section: 'Appleby in Westmorland to Langwathby'
+km: 19
+grade:
+  text: '1'
+  value: 1
+desc: null
+directions: null
+putin:
+  lat: 54.5717525
+  lng: -2.4852396
+takeout:
+  lat: 54.6944859
+  lng: -2.6752294

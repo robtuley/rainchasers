@@ -1,0 +1,15 @@
+uuid: d5f86435-61ee-4af8-ad6a-fdf532c65d1c
+river: Ithon
+section: 'Llananno bridge to Shakey Bridge'
+km: 24
+grade:
+  text: '2'
+  value: 2
+desc: 'Watch out for the weir just after the railway bridge about halfway down.'
+directions: 'Putin at a small bridge just off the A483 north of Llanbister. If you want to cut the trip shorter, it is possible to get on at the A483 road bridge downstream. To reach the takeout head south down the A483 to Llandrindod Wells. The takeout is at a small footbridge (Shakey Bridge) next to the road directly east of Llandrindod Wells, it can be tricky to find so an OS map is helpful.'
+putin:
+  lat: 52.3632341
+  lng: -3.3350733
+takeout:
+  lat: 52.2418599
+  lng: -3.341803

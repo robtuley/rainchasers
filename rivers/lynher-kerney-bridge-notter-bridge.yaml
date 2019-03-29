@@ -1,0 +1,15 @@
+uuid: 2d18318b-a8be-4729-8cde-7c04669565d8
+river: Lynher
+section: 'Kerney Bridge to Notter Bridge'
+km: 15
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Good touring or beginner''s trip: a mellow introduction to moving water.'
+directions: 'Putin at Kerney Bridge, just west of Golberdon. Takeout at Notter Bridge: just upstream of the A38 bridge west of Saltash.'
+putin:
+  lat: 50.5140453
+  lng: -4.371655
+takeout:
+  lat: 50.4255301
+  lng: -4.2752514

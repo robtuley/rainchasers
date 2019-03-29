@@ -1,0 +1,16 @@
+uuid: 5a04b9ab-fe08-4c55-ba72-c5270747c81b
+river: Roch
+section: 'Rochdale to Bury'
+km: 10
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Mostly low grade run, but lots of big weirs make this more interesting.'
+directions: 'Put in from Roch Valley Way in Rochdale, and take out at the Car Park at the end of Gigg Lane, Bury.'
+putin:
+  lat: 53.6073645
+  lng: -2.1787619
+takeout:
+  lat: 53.5818945
+  lng: -2.281977

@@ -1,0 +1,23 @@
+uuid: bed643b7-9c20-4d87-a647-47d9dda3b5ed
+river: 'Cleddau (Western)'
+section: 'Welsh Hook to Haverfordwest'
+km: 19
+grade:
+  text: '2 (2+)'
+  value: 2
+  max: 2.5
+desc: 'Beautiful touring river. Only nasty is the weir in Haverfordwest itself, but you can takeout in the carpark just above this on river left to avoid it. Some of the broken weirs on the way down are great to play on at the right level, especially the Fishing lodge weir near Treffgarne'
+directions: 'Takeout in the large carpark by the weir in Haverfordwest itself. To reach the putin head north along the A40 towards Firshguard and at Wolfscastle turn off left up to Welsh Hook. Here it is possible to get on a small tributary that meanders down to the Cleddau itself.'
+putin:
+  lat: 51.9094655
+  lng: -5.0052828
+takeout:
+  lat: 51.8017714
+  lng: -4.9656264
+measures:
+  -
+    scrape: 0.95
+    low: 1.1
+    medium: 1.3
+    high: 1.5
+    data_url: 'rloi://4124'

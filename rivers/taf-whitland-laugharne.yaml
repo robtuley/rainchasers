@@ -1,0 +1,15 @@
+uuid: 09b8b25c-1a7e-4a1b-ae23-176edaf75d7f
+river: Taf
+section: 'Whitland to Laugharne'
+km: 16
+grade:
+  text: '1'
+  value: 1
+desc: 'A pleasant mostly-tidal touring section, often combined with the section above.'
+directions: 'Putin at the old bridge in Whitland, just downstream of the main B4328 bridge, or combine this with the section above. Takeout at the main carpark in Laugharne.'
+putin:
+  lat: 51.8151192
+  lng: -4.6122046
+takeout:
+  lat: 51.7684099
+  lng: -4.4623228

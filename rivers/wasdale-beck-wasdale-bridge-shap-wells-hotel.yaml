@@ -1,0 +1,15 @@
+uuid: b9a6f808-e81c-4f4e-98ba-e047ab877891
+river: 'Wasdale Beck'
+section: 'Wasdale Bridge to Shap Wells Hotel'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A continuous and steep spate beck, with a few falls and nasty weir, finishing with an 8m tiered drop.'
+directions: 'Put in off the A6 north of Kendal. Either get out at the hotel, or combine with Birk Beck down to the Lune.'
+putin:
+  lat: 54.4667154
+  lng: -2.6792397
+takeout:
+  lat: 54.4793338
+  lng: -2.6514735

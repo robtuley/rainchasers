@@ -1,0 +1,23 @@
+uuid: c27b4838-7788-408d-8c12-2caab298d690
+river: 'Calder (Yorkshire)'
+section: 'Sowerby Bridge Whitewater Course'
+km: 0.3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A 300m section of the Calder which has been modified to provide a good introduction to white water, play boating or slalom practice. Maintained by Halifax Canoe Club - contact them for further details. '
+directions: "Halifax CC are located in Greenups Mill in the centre of Sowerby Bridge, near Halifax. From the bridge over the river you can see the put-in and the course.\n\nParking within the mill complex is for residents only, there is a big car park at the rear of B&M supermaket  next to the canal. You can drop your boat at the club, but to avoid any problems with residents move your car as soon as you have unloaded.\n\n"
+putin:
+  lat: 53.7079537
+  lng: -1.9117123
+takeout:
+  lat: 53.7092111
+  lng: -1.8998712
+measures:
+  -
+    scrape: 0.1
+    low: 0.2
+    medium: 0.3
+    high: 0.4
+    toohigh: 0.55
+    data_url: 'rloi://8298'

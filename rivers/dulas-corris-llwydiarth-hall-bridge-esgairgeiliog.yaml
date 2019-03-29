@@ -1,0 +1,15 @@
+uuid: f0af45e0-ce29-43b8-b533-8c7c6e7669f4
+river: 'Dulas (Corris)'
+section: 'Llwydiarth Hall bridge to Esgairgeiliog'
+km: 7
+grade:
+  text: '4'
+  value: 4
+desc: 'Fast and easy until a sequence of falls: Rhaedr y Pwll Du, or "The Falls of the Black Pool". After this the water eases, but keep an eye out for wires across the river.'
+directions: 'Takeout at Esgairgeiliog bridge just off the A487 about a km south of Corris. To reach the putin head towards Aberllefenni from Corris along small roads. Stay right after passing through the village and you''ll end up at a bridge over the river.'
+putin:
+  lat: 52.6776671
+  lng: -3.8087966
+takeout:
+  lat: 52.6377265
+  lng: -3.8407309

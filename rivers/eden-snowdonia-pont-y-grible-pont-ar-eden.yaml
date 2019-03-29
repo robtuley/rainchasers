@@ -1,0 +1,15 @@
+uuid: 0d0b0813-6a71-4279-b0fb-b1337242e6ec
+river: 'Eden (Snowdonia)'
+section: 'Pont y Grible to Pont ar Eden'
+km: 8
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A narrow continuous run through the Coed Brenin forest. No nasties although there is usually some woodwork to sneak around at some point.'
+directions: 'Takeout at the public toilets in Ganllwyd, from here there is easy access down the bank to the river. To reach the putin head north along the A470, then take a small left turn just before Bronaber down to a bridge over the river. Alternatively, head into Coed y Brenin across the river and you can access the river from their main carpark.'
+putin:
+  lat: 52.8432972
+  lng: -3.9150932
+takeout:
+  lat: 52.8024318
+  lng: -3.8897302

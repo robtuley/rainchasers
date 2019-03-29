@@ -1,0 +1,24 @@
+uuid: e5c7b041-dbaf-41f9-8f4e-db788ce46dc4
+river: Sawdde
+section: 'Llwynfron to Cefn Coed Common'
+km: 9
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'A fun river, with a superb gorge section. In high water an absolute blast!'
+directions: 'Takeout at the main A4069 road bridge just south of Llangadog, or the smaller bridge 1.5km downstream. It helps if you have an OS map to find the put-in at the small bridge between Llwynfron and Twynllanan. Alternatively, for a less tree infested put-in, start your trip at Pont Aber on the A4069 for the last 1 km of the Clydach before it joins the Sawdde.'
+putin:
+  lat: 51.8991787
+  lng: -3.8072048
+takeout:
+  lat: 51.917974
+  lng: -3.8708805
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 1
+    high: 1.2
+    huge: 1.6
+    data_url: 'rloi://4198'

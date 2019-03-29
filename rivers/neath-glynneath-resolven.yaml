@@ -1,0 +1,15 @@
+uuid: 37cd3e99-49c8-41f7-986c-a15b2726c401
+river: Neath
+section: 'Glynneath to Resolven'
+km: 12
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Some decent whitewater with lots of (mostly friendly) weirs. In high water makes a good playrun.'
+directions: 'Putin and takeout are just off the A465: takeout at the B4242 bridge in Resolven; putin at the Dinas Rock carpark in Glynneath, be careful not to leave valuables in your car.'
+putin:
+  lat: 51.7585403
+  lng: -3.592295
+takeout:
+  lat: 51.7141787
+  lng: -3.700054

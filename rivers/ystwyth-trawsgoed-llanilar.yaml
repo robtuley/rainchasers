@@ -1,0 +1,15 @@
+uuid: fc18d305-070d-4c7c-a5c3-e5c272b776c6
+river: Ystwyth
+section: 'Trawsgoed to Llanilar'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Popular grade 2/3 intermediate run.'
+directions: 'Putin at the B4575 bridge at Trawsgoed, and takeout at the minor road bridge just downstream of Llanilar.'
+putin:
+  lat: 52.3388011
+  lng: -3.9582477
+takeout:
+  lat: 52.3617581
+  lng: -4.0296077

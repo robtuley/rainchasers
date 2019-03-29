@@ -1,0 +1,24 @@
+uuid: c7a4fb79-ff43-4b55-b44a-5d9786b7876a
+river: Swale
+section: 'Hoggarths to Ivelet Bridge'
+km: 7
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Classic waterfall run. Wain Wath Force is the first drop, obvious from the road on the drive up to the putin. The drops get bigger: Rainby Force, then the only real ''rapid'' rather than fall, the double drop of Catrake Force, a short easy gorge section then Upper and Lower Kisdon (the last and most serious).'
+directions: 'If there is decent levels putin at the Hoggarths road bridge upstream of Keld, and takeout at small bridge on the way to Ivelet (just downstream of Muker). This gives a gentle warm-up and -down either side of the falls. If the water levels are low the falls still go, but the start and end will be barely paddleable. In these conditions it is best to get-on just above Wain Wath falls (visible from the road), and take-out at Lower Kisdon on river right, carrying the km back upstream to Keld via the footpath.'
+putin:
+  lat: 54.407454
+  lng: -2.200441
+takeout:
+  lat: 54.375697
+  lng: -2.1045591
+measures:
+  -
+    scrape: 0.35
+    low: 0.5
+    medium: 0.7
+    high: 0.9
+    huge: 1.6
+    data_url: 'rloi://8159'

@@ -1,0 +1,15 @@
+uuid: 206da50d-dc3a-4a1c-9e68-124a46bfae52
+river: 'Greenburn Beck'
+section: 'Mines to Little Langdale Tarn'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'A pushy low volume lakeland beck with plenty of falls and slides near the top and a slightly more moderate section leading into the Tarn.'
+directions: 'A long walk in up the path on river right is required. Put in below the unrunnable falls at the mine workings.'
+putin:
+  lat: 54.4106417
+  lng: -3.0954251
+takeout:
+  lat: 54.4189327
+  lng: -3.0684742

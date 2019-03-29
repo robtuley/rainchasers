@@ -1,0 +1,24 @@
+uuid: 816b499c-61c5-44cc-9b9f-338ce1656953
+river: Irthing
+section: 'Crammel Linn to Gilsland'
+km: 4
+grade:
+  text: '3/4 (5)'
+  value: 3.1
+  max: 5
+desc: 'Huge waterfall (Crammel Linn) at the start, get in above or below depending on skill and bravery levels! Rest of the run is grade 3 with sloping weirs. Higher water brings '
+directions: 'Put in at the waterfall after driving along the single track road and walking down the boggy path. Get out at the stepping stones above the village of Gilsland.'
+putin:
+  lat: 55.0202026
+  lng: -2.5638977
+takeout:
+  lat: 54.9928595
+  lng: -2.5728241
+measures:
+  -
+    scrape: 0.35
+    low: 0.4
+    medium: 0.48
+    high: 0.55
+    huge: 0.8
+    data_url: 'rloi://5033'

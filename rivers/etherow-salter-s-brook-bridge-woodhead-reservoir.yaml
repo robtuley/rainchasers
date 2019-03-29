@@ -1,0 +1,15 @@
+uuid: bf6cde81-8307-4c45-85ac-7602af3b7474
+river: Etherow
+section: 'Salter''s Brook Bridge to Woodhead Reservoir'
+km: 3
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Continuous steep spate stream.'
+directions: "There is easy access from the A628 at the road bridge at Salters Brook. Park in a layby just before the bridge. \nTake out above a big weir a little way above Woodhead reservoir. There is a small road leading down to a good parking spot here just off the A628."
+putin:
+  lat: 53.4964351
+  lng: -1.7950145
+takeout:
+  lat: 53.4947501
+  lng: -1.8293468

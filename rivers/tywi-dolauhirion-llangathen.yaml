@@ -1,0 +1,16 @@
+uuid: cd33ef4c-eaa0-4023-910b-36b82682c846
+river: Tywi
+section: 'Dolauhirion to Llangathen'
+km: 30
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'The rapid under the bridge in Llandovery can reach grade 3 in high water, but otherwise a relaxed and pleasant grade 2 touring run.'
+directions: 'Putin at Dolauhirion, the minor road bridge just upstream of the main A40 bridge in Llandovery. Takeout at the bridge downstream of the Llandeilo A483 bridge, on a minor road between Llangathen and Golden Grove. It is possible to takeout in Llandeilo to shorten the run by 5km, but access to the river is tricky.'
+putin:
+  lat: 52.0095049
+  lng: -3.8051339
+takeout:
+  lat: 51.8734999
+  lng: -4.0501495

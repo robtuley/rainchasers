@@ -1,0 +1,15 @@
+uuid: 9cb3912a-82be-4a3b-b62d-dca62dd0b7a0
+river: Ely
+section: 'Dyffryn to Cardiff'
+km: 30
+grade:
+  text: '2'
+  value: 2
+desc: 'Gentle touring river.'
+directions: 'Putin just off the A4119 just north of Ynysmaerdy (heading north, take the first exit at the 3rd roundabout after passing the Royal Glamorgan Hospital). There are various takeout options near Cardiff, and it is possible to paddle all the way to Cardiff Bay. The takeout recommended here is at the road bridge in St Fagans, about a km downstream of the A4232 road bridge.'
+putin:
+  lat: 51.5588572
+  lng: -3.4143012
+takeout:
+  lat: 51.4849428
+  lng: -3.2696148

@@ -1,0 +1,15 @@
+uuid: 36e88e98-1146-4b0e-8d17-82a42b21e7c3
+river: Cothi
+section: 'Brynteg to Tywi confluence'
+km: 35
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Excellent touring run, with a funky gorge section. Takeout just after the confluence with the Tywi.'
+directions: 'Putin at the bridge upstream of the A482 road bridge near Pumpsaint. Takeout at the B4310 road bridge just off the A40 near Nantgaredig.'
+putin:
+  lat: 52.0687574
+  lng: -3.9404801
+takeout:
+  lat: 51.8607427
+  lng: -4.1895796

@@ -1,0 +1,16 @@
+uuid: 02a5431d-2d94-43a5-995d-7cdf35f984ab
+river: 'Taf Fechan'
+section: 'Pontsticill to Tefechan'
+km: 3.5
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Fun run of ledges, shoots and narrow gorges.'
+directions: 'Putin at one of the two bridges below Pontsticill reservoir in Pontsticill itself. Takeout at Tefechan at the outskirts of Merthyr, parking in the layby at the A465 road bridge. It is possible to continue downstream further into Merthyr if you wish, there are plenty of possible takeouts in town.'
+putin:
+  lat: 51.7868944
+  lng: -3.3637035
+takeout:
+  lat: 51.7639628
+  lng: -3.4004444

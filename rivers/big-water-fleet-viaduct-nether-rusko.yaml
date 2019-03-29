@@ -1,0 +1,16 @@
+uuid: d9ab7180-9622-42c6-a1e1-517aa3f7904b
+river: 'Big Water of Fleet'
+section: 'Viaduct to Nether Rusko'
+km: 5
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'From the viaduct the river starts at grade 2, building to beautiful continuous grade three through pine-forest. The main event of the trip (grade 4) comes up suddenly and eddies are limited. Best option is scout/portage left.'
+directions: 'Ample parking is available at the obvious put-in; the huge (and picturesque) viaduct at the end of the road. Follow the road south taking two left turns (the second being a tight switchback to reach the takeout bridge.'
+putin:
+  lat: 54.9522918
+  lng: -4.251803
+takeout:
+  lat: 54.9160974
+  lng: -4.2053293

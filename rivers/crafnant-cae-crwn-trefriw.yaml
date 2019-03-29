@@ -1,0 +1,15 @@
+uuid: 54bbf392-8be7-48bf-aa4d-d22aa0a8fef7
+river: Crafnant
+section: 'Cae Crwn to Trefriw'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Good fun with an impressive gradient. Lots of few tree portages and other nasties, including "Fairy Falls"; not top quality paddling, but an interesting bash.'
+directions: 'From Llanrwst on the A470 head to the village of Trefriw along the B5106. The takeout is just upstream of the village above Bro Geirionnydd weir (near the large greenhouses). To reach the putin head up the small steep road towards Llyn Crafnant, either putin at the lake itself or at a small stone hut about 2.5km up the road.'
+putin:
+  lat: 53.1368873
+  lng: -3.8650745
+takeout:
+  lat: 53.1505526
+  lng: -3.8300448

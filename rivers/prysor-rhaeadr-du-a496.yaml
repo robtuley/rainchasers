@@ -1,0 +1,15 @@
+uuid: 7ce748af-11ac-410a-801f-64cd5a5dd87c
+river: Prysor
+section: 'Rhaeadr Du to A496'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'A tough but awesome run. The gorge above the marked putin is extremely tricky and almost never has water in. The normal putin at Rhaeadr Du waterfall requires a walkin, from here down to the road bridge is demanding gd5.'
+directions: 'Takeout at the A486 road bridge near Maentwrog Power Station. Head up the small road along river right and walkin to Rhaeadr Du along the track down from Gellilydan.'
+putin:
+  lat: 52.9301173
+  lng: -3.9849497
+takeout:
+  lat: 52.9364409
+  lng: -4.0051923

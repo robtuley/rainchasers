@@ -1,0 +1,19 @@
+uuid: f783e2dd-6707-4368-80a3-368b8ee5322a
+river: Fowey
+section: 'Golitha Falls to Treverbyn Mill'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Unpromising start, but after 200m of ducking and diving through trees things improve. Golitha Falls are 2 successive fun gd4 drops, if you''re not convinced at the putin walk down to have a look and see what you''d be missing.'
+directions: 'Putin at the Goliath Falls carpark, getting on just below the bridge from the footpath. Takeout at Treverbyn Mill, the twin bridges just east of St Neot.'
+putin:
+  lat: 50.4931332
+  lng: -4.4994846
+takeout:
+  lat: 50.4792989
+  lng: -4.5293613
+measures:
+  -
+    low: 0.58
+    data_url: 'rloi://3142'

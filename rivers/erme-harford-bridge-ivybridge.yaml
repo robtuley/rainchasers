@@ -1,0 +1,23 @@
+uuid: f0571049-3e52-4f4f-be91-ad1db33d03c7
+river: Erme
+section: 'Harford Bridge to Ivybridge'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Classic narrow creeking. At high water watch out for the slot just downstream of a series of small ledges (~2km in). The run cranks up from here, culminating in the Erme gorge which starts under the railway viaduct. Inspect along the path on river right. Takeout at the footbridge in Ivybridge. Below about 0.63 on the gauge, it is recommended to park in Ivybridge and walk-in to the slot rapid, as above here starts to get scrapy.'
+directions: 'Takeout at the footbridge in the centre of Ivybridge where there is plenty of parking. Putin at the road bridge at Harford, a small village north of Ivybridge.'
+putin:
+  lat: 50.4201052
+  lng: -3.9205844
+takeout:
+  lat: 50.3905238
+  lng: -3.9197536
+measures:
+  -
+    scrape: 0.55
+    low: 0.67
+    medium: 0.8
+    high: 0.9
+    huge: 1.1
+    data_url: 'rloi://3208'

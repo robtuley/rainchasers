@@ -1,0 +1,16 @@
+uuid: eddf3afc-fd7a-4b6c-a040-a7fc304f7e11
+river: Noe
+section: 'Bagshaw Bridge to Hope'
+km: 3
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: null
+directions: null
+putin:
+  lat: 53.372647
+  lng: -1.7587578
+takeout:
+  lat: 53.3464208
+  lng: -1.7382479

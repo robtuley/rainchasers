@@ -1,0 +1,23 @@
+uuid: 7ea17714-96c1-4e4f-a7df-a10b05251348
+river: Lune
+section: 'Halton Rapids'
+km: 1
+grade:
+  text: '3'
+  value: 3
+desc: 'A few hundred metres of rapids between two weirs: park-n-play.'
+directions: 'Heading east from Lancaster along the A683 take a small left down to the river about 0.5km after passing under the M6. At the bottom of the hill, before crossing the bridge to Halton, park at the Lancaster University boathouse. The putin is reach by walking up the diused railway track on river left, and putting in below the top weir (don''t go right up to the weir as it will mess with the fish counter). '
+putin:
+  lat: 54.0756054
+  lng: -2.746799
+takeout:
+  lat: 54.0746779
+  lng: -2.7600219
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.8
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://5029'

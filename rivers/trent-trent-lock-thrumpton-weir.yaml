@@ -1,0 +1,22 @@
+uuid: 5d75ed38-1f61-4306-9ed8-259963256097
+river: Trent
+section: 'Trent Lock (Thrumpton Weir)'
+km: 0
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A big green (brown) fast wave that you can front surf and carve around on to your hearts content. The shape of the waves favours longer (faster) boats.'
+directions: 'The best parking spot (i.e. the one that causes least bother to locals) is the public car parks near the Trent Lock Inn. Once on the water, paddle downstream ~300m, avoid turning left onto the canal. Just after the railway bridge is the weir - it’s possible to paddle past the bouys on the left. Getting back you have two choices - put in above the weir and paddle upstream, which can be a challenge in high flows / wind, or paddle downstream a few hundred meters and turn left to come back along the canal cut, portaging the lock.'
+putin:
+  lat: 52.8754064
+  lng: -1.2727246
+takeout:
+  lat: 52.8737681
+  lng: -1.2623213
+measures:
+  -
+    low: 2.7
+    medium: 2.9
+    high: 3.2
+    toohigh: 3.5
+    data_url: 'rloi://2102'

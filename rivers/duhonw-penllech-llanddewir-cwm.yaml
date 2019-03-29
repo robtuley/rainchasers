@@ -1,0 +1,15 @@
+uuid: c861cf13-6be7-4458-9de9-b886a788ca28
+river: Duhonw
+section: 'Penllech to Llanddewi''r Cwm'
+km: 2
+grade:
+  text: '4'
+  value: 4
+desc: 'Painful. Although there are some good drops if the water is high enough, this is a tree-infested ditch.'
+directions: 'Takeout at the B4520 bridge at Llanddewi''r Cwm (or continue down to the confluence with the Wye). Get on at a small stream trib at Penllech.'
+putin:
+  lat: 52.116873
+  lng: -3.4391803
+takeout:
+  lat: 52.1293128
+  lng: -3.4091637

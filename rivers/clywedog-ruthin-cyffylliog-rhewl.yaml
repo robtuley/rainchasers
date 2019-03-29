@@ -1,0 +1,19 @@
+uuid: 563578fc-e10f-4737-a092-66105187bbde
+river: 'Clywedog (Ruthin)'
+section: 'Cyffylliog to Rhewl'
+km: 8
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun limestone gorges and ledge drops. A couple of weirs to watch out for: just before the second road bridge in Bontuchel and one near the takeout.'
+directions: 'Putin at the bridge in Cyffylliog, and takeout in Rhewl either at the main A525 bridge or the smaller bridge just upstream.'
+putin:
+  lat: 53.1090814
+  lng: -3.4052549
+takeout:
+  lat: 53.1331459
+  lng: -3.3340315
+measures:
+  -
+    low: 1.7
+    data_url: 'rloi://4181'

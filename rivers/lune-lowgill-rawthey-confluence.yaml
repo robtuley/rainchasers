@@ -1,0 +1,23 @@
+uuid: ad1ec3e2-1d83-45a6-ad04-aa1f3d13db8d
+river: Lune
+section: 'Lowgill to Rawthey Confluence'
+km: 8
+grade:
+  text: 2/3
+  value: 2.7
+desc: 'A classic section with easy access. The narrow gorges are still fun in low water and the "The Strid" becomes a monster in epic water. Two weirs after Killington Bridge can be avoided by getting out at Killington Bridge itself - this is recommended if you have inexperienced paddlers in your group.'
+directions: 'Putin at the Crook of Lune bridge, along a small road just off the B6257 just south of the M6. There is no parking at the bridge, and the residents have asked that you don''t drive down the narrow lane to drop off boats. Park at the end of the lane and carry the boats down to the river - possibly paddling Low Gill on the way. Takeout on river left about 300m downstream of the Rawthey confluence. A bridleway leads up to track back to the road where there is a large layby to park.'
+putin:
+  lat: 54.3608858
+  lng: -2.5857419
+takeout:
+  lat: 54.2963785
+  lng: -2.5693513
+measures:
+  -
+    scrape: 0.35
+    low: 0.6
+    medium: 0.9
+    high: 1.1
+    huge: 1.5
+    data_url: 'rloi://5077'

@@ -1,0 +1,16 @@
+uuid: a5a852fe-b5e5-44e0-97bd-2c9467bd4962
+river: Duddon
+section: 'Hall Dunnerdale to Ulpha'
+km: 2.5
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Short but always interesting, is usually combined with the section above or below.'
+directions: 'This is usually combined with the section above or below, but can be paddled on its own. Putin (or continue) at Hall Dunnerdale Bridge, and takeout at the bridge just south of Ulpha (or continue downstream).'
+putin:
+  lat: 54.3475143
+  lng: -3.2123063
+takeout:
+  lat: 54.3265467
+  lng: -3.2370229

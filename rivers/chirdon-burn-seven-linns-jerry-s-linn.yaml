@@ -1,0 +1,15 @@
+uuid: 0d448afc-6055-4a9a-b42b-6e6fe266849f
+river: 'Chirdon Burn'
+section: 'Seven Linns to Jerry''s Linn'
+km: 6.5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Obscure spate ditch in Kielder Forest. The Seven Linns section is a series of falls and slides. Other notable features are Cat Linns and Jerry''s Linn (a 4m fall).'
+directions: 'You need to get the OS map out and get familiar with forestry tracks! The Seven Linns, which are a few hundred metres long are the main event and it''s debatable as to whether it''s worth paddling the rest of the beck, or just going to Jerry''s Linn for a one-hit wonder.'
+putin:
+  lat: 55.1151251
+  lng: -2.4959783
+takeout:
+  lat: 55.1274445
+  lng: -2.3955564

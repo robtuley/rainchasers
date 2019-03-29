@@ -1,0 +1,15 @@
+uuid: 06314640-eaea-4e2a-a371-a0338140937e
+river: Edw
+section: 'Cregrina to Wye confluence'
+km: 12
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Great bouncy run when you have good water. No real nasties, the hardest drop is Llanedw Falls just below a metal footbridge.'
+directions: 'Takeout at the B4567 road bridge just before the confluence with the Wye. Putin at a small road bridge just north of Cregina.'
+putin:
+  lat: 52.1603675
+  lng: -3.2818271
+takeout:
+  lat: 52.1133251
+  lng: -3.3493463

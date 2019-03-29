@@ -1,0 +1,23 @@
+uuid: 198125da-606d-4cbd-9033-60d77ca68b99
+river: 'East Lyn'
+section: 'Watersmeet to the Sea'
+km: 3
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Excellent creeking run, with most of the action in one long gorge.'
+directions: 'Takeout in Lynmouth where the river enters the sea. Putin at Watermeet at the confluence with the Hoaroak: park on the A39 and carry down to the river.'
+putin:
+  lat: 51.2244617
+  lng: -3.7998819
+takeout:
+  lat: 51.2320195
+  lng: -3.8307241
+measures:
+  -
+    scrape: 1.4
+    low: 1.5
+    medium: 1.65
+    high: 1.8
+    huge: 2
+    data_url: 'rloi://3099'

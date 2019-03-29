@@ -1,0 +1,15 @@
+uuid: 19033b2b-fe2f-4d3d-904f-42bfad952d34
+river: Don
+section: 'Doncaster Prison to Barnby Dun'
+km: 9
+grade:
+  text: '1'
+  value: 1
+desc: 'Grade 1/2 with weirs'
+directions: null
+putin:
+  lat: 53.5219015
+  lng: -1.1515039
+takeout:
+  lat: 53.5760837
+  lng: -1.0740453

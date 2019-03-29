@@ -1,0 +1,15 @@
+uuid: 64ba8fbd-f041-494b-a413-4f0b1005c776
+river: Liza
+section: 'Black Sail YHA to Ennerdale Water'
+km: 7
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Spate stream in the Ennerdale forests. Starts with continuous 3/4 with three harder rapids before dropping a grade for the final few km to the lake.'
+directions: 'Very difficult to get to as cars aren''t meant to go up the forestry track, so a long walk from Bowness Knott, or over Scarth Gap for a shorter, but steeper alternative.'
+putin:
+  lat: 54.4993758
+  lng: -3.2497454
+takeout:
+  lat: 54.5156463
+  lng: -3.3442486

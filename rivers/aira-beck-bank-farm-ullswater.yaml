@@ -1,0 +1,16 @@
+uuid: 97431922-1c40-496a-ab3c-75b66c6d9774
+river: 'Aira Beck'
+section: 'Bank Farm to Ullswater'
+km: 3
+grade:
+  text: '4 (6)'
+  value: 4
+  max: 6
+desc: 'A variety of excellent continuous gorges and drops, but some mandatory portages in the form of High Force and Aira Force, best to thoroughly inspect first.'
+directions: 'Either put-in in Dockray, or walk in higher up via the public footpath. Get out either from Ullswater itself or under the A592 road bridge.'
+putin:
+  lat: 54.5876135
+  lng: -2.952481
+takeout:
+  lat: 54.5718942
+  lng: -2.9269463

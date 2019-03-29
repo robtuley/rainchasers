@@ -1,0 +1,21 @@
+uuid: bfc880e1-dde0-4d01-b4d7-c421e7300453
+river: Walkham
+section: 'Bedford Bridge to Tavy Confluence'
+km: 3.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Normally combined with the Tavy, this is a fun run which starts off gently and builds up to continuous low-end grade three, with one notable slot. There''s one harder grade 3 on the Tavy, just below the confluence.'
+directions: 'There''s a car park next to the river at Bedford Bridge. Take out at Denham Bridge on the Tavy.'
+putin:
+  lat: 50.5137646
+  lng: -4.1113593
+takeout:
+  lat: 50.5090705
+  lng: -4.151056
+measures:
+  -
+    scrape: 0.35
+    low: 0.42
+    medium: 0.8
+    data_url: 'rloi://3200'

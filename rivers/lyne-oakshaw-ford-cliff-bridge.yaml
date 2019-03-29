@@ -1,0 +1,15 @@
+uuid: ac2f1a99-9989-4cf3-ac4f-aea9c6ec4966
+river: Lyne
+section: 'Oakshaw Ford to Cliff Bridge'
+km: 17
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A few small rapids early in in the first half, ease off for the second section. It is possible to shorten the trip by starting/stopping at some of the bridges en route.'
+directions: null
+putin:
+  lat: 55.0786637
+  lng: -2.7641815
+takeout:
+  lat: 54.9872934
+  lng: -2.9173929

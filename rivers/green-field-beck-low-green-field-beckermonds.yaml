@@ -1,0 +1,20 @@
+uuid: dbc07685-8cd5-4b31-97d6-7f54fe4f951a
+river: 'Green Field Beck'
+section: 'Low Green Field to Beckermonds'
+km: 2.5
+grade:
+  text: '3'
+  value: 3
+desc: 'Small spate stream which joins Oughtershaw Beck to form the Wharfe. Narrow and quite continuos - look out for fences and a surprise small fall on a bend. Worth doing as a warm up for the Upper Wharfe in high water.'
+directions: 'Drive past the farmyard at the get-in for the Upper Wharfe in Beckmonds. You''ll need to open a couple of gates on the road. When you see a forestry track on the right, park here and walk down to the river on the left. It may be paddleable higher up in spate, but the road is private above this point making access tricky.'
+putin:
+  lat: 54.2157565
+  lng: -2.2304977
+takeout:
+  lat: 54.218035
+  lng: -2.194988
+measures:
+  -
+    low: 1.25
+    high: 2
+    data_url: 'rloi://8110'

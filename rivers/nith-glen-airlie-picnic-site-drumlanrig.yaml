@@ -1,0 +1,24 @@
+uuid: d29ed4fb-e34b-491f-94a0-252df75f40bf
+river: Nith
+section: 'Glen Airlie Picnic Site to Drumlanrig'
+km: 7
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Continuous gd 3 run. Watch out for trees, particularly in Drumlanrig gorge (gd 4) just before the takeout. Takeout river right just before Drumlanrig Bridge.'
+directions: 'Putin at the Glen Airlie Picnic site just off the A76 about 7km south of Sanquhar. Takeout at a minor road bridge near Drumlanrig Castle (follow the signs to the castle off the A76).'
+putin:
+  lat: 55.3320514
+  lng: -3.8382256
+takeout:
+  lat: 55.2796428
+  lng: -3.7967945
+measures:
+  -
+    scrape: 0.4
+    low: 0.65
+    medium: 1
+    high: 1.2
+    huge: 1.6
+    data_url: 'sepa://133154'

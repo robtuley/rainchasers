@@ -1,0 +1,15 @@
+uuid: 1feea0c2-dd9b-4226-9c57-90f3017e0bc4
+river: 'Twrch (Banwy)'
+section: 'Dôl-y-gaseg to Foel'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'Easy water from the ford leads to a 2nd ford 500m downstream which will need portaging unless the river is high. From here the water is mellow to the road bridge halfway down, watch out for the fence hanging under the bridge. Downstream just after a stone bridge you enter the Twrch gorge, containg 4 distinct grade 3 rapids. After the gorge, the river is easy to the takeout.'
+directions: 'Takeout at the carpark on river right just downstream of the A458 road bridge at Foel. To reach the putin head upstream on river left along a minor road. Cross to river right at the first bridge (a possible alternative putin) and head upstream for a few km until there is a ford across the river just off the road near Dôl-y-gaseg.'
+putin:
+  lat: 52.7193924
+  lng: -3.5241975
+takeout:
+  lat: 52.6918672
+  lng: -3.4968152

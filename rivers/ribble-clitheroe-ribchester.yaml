@@ -1,0 +1,22 @@
+uuid: 3ac9af6d-df37-49a8-86f3-222e52744cc4
+river: Ribble
+section: 'Clitheroe to Ribchester'
+km: 13
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Good touring run, with just 1 weir to watch out for.'
+directions: 'Putin at Edisford Road Bridge, just west of Clitheroe. Takeout at Ribchester School.'
+putin:
+  lat: 53.8683888
+  lng: -2.4175847
+takeout:
+  lat: 53.8097023
+  lng: -2.5323654
+measures:
+  -
+    scrape: 0.4
+    low: 0.6
+    medium: 0.8
+    high: 1.5
+    data_url: 'rloi://5099'

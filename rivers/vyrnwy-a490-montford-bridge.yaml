@@ -1,0 +1,15 @@
+uuid: d2198640-3927-4520-83d8-b265e6563052
+river: Vyrnwy
+section: 'A490 to Montford Bridge'
+km: 29
+grade:
+  text: '1'
+  value: 1
+desc: 'Pleasant touring section, plenty of alternative takeouts if you want to cut it shorter.'
+directions: 'Putin at the A490 bridge. Various takeouts are possible along the way to the confluence with the Severn depending on the length desired: marked here is the B4380 bridge at Montford Bridge just upstream of the confluence.'
+putin:
+  lat: 52.7323037
+  lng: -3.1926283
+takeout:
+  lat: 52.7324591
+  lng: -2.842746

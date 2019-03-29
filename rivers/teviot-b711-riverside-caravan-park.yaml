@@ -1,0 +1,22 @@
+uuid: 6d8eae75-3c33-475a-abbe-d1bdd21213c8
+river: Teviot
+section: 'B711 to Riverside Caravan Park'
+km: 6
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A fun intro to whitewater for beginners, with a long sloping weir in the middle, and the hardest rapids (grade 2+) just before the takeout.'
+directions: 'The put-in is found by driving southwest out of Hawick and taking the first road off to the right. Just over the bridge is ample parking for 4-5 cars and a convenient (if grubby) path down to the river. To reach the takeout, head out of Hawick the other direction (try not to get confused by the one way system - you need to stay on the north side of the river until the roundabout near Sainsburys). A small road to the left off the A698 is the takeout (if you pass the caravan park you''ve gone too far). There is just about space for two cars here on river left, but it''s a squeeze. '
+putin:
+  lat: 55.4124458
+  lng: -2.8206536
+takeout:
+  lat: 55.4429788
+  lng: -2.739607
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 1
+    high: 1.5
+    data_url: 'sepa://15001'

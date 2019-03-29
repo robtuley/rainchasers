@@ -1,0 +1,16 @@
+uuid: 507ff10f-c38f-4498-a696-0891a9c443a8
+river: Cilieni
+section: 'Pentre''r Felin to Park Farm bridge'
+km: 3
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Spate tributary of the Usk: a fun torrent.'
+directions: 'Putin in the village of Pentre''r Felin just north of Sennybridge. It is easiest to paddle onto the Usk and takeout at bridge just off the A40.'
+putin:
+  lat: 51.9609446
+  lng: -3.5732435
+takeout:
+  lat: 51.9547231
+  lng: -3.5340457

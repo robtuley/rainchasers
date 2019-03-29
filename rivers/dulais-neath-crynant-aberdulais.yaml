@@ -1,0 +1,16 @@
+uuid: 21959f53-6140-488c-996e-a48e15e500bb
+river: 'Dulais (Neath)'
+section: 'Crynant to Aberdulais'
+km: 9
+grade:
+  text: '3 (4+)'
+  value: 3
+  max: 4.5
+desc: 'Unremarkable grade 3 run. The hardest rapid is after an old railway bridge: a long steep grade 4. Takeout on river left before reaching Aberdulais Falls which would be a definite portage.'
+directions: 'Takeout near the A4109 bridge in Aberdulais (just off the main A465). From the bridge head a little way upstream up river left through a housing estate to find somewhere where you can access the river. To reach the putin head upstream along the A4109 and take a small turnoff to a bridge just north of Crynant.'
+putin:
+  lat: 51.7413323
+  lng: -3.7506487
+takeout:
+  lat: 51.6848478
+  lng: -3.7769263

@@ -1,0 +1,15 @@
+uuid: 25a32048-75bf-4d7e-b90b-8ec9ba408d8d
+river: 'Liddel Water'
+section: 'Penton Bridge Rapids'
+km: 0.5
+grade:
+  text: 3/4
+  value: 3.5
+desc: "Possibly not worth driving a long way for, but best done if you're in the area having done one of the other rivers in the area. The section consists of a series of drops which get increasingly more difficult as the levels go up.\n"
+directions: 'Park and put-in just below Penton Bridge, get out at the bottom and walk back up for another lap!'
+putin:
+  lat: 55.0880871
+  lng: -2.8906829
+takeout:
+  lat: 55.0839238
+  lng: -2.8934117

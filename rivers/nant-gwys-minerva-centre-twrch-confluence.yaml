@@ -1,0 +1,15 @@
+uuid: 73eddfa2-4e89-4ada-8ad3-ed9faeb560d2
+river: 'Nant Gwys'
+section: 'Minerva Centre to Twrch Confluence'
+km: 4
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Excellent stream run, with a few good gorges.'
+directions: 'Takeout in Cwm-twrch Uchaf (on the A4068) at the minor road bridge just before the confluence with the Twrch. To reach the putin head upstream from river left and cut down to the river from the road where you can just north of Bryngrunin.'
+putin:
+  lat: 51.800437
+  lng: -3.7651867
+takeout:
+  lat: 51.7862814
+  lng: -3.8030552

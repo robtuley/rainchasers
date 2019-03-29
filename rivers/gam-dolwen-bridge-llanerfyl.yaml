@@ -1,0 +1,15 @@
+uuid: c8e30c0a-84b7-45e0-9495-7f5f7ef9aa2f
+river: Gam
+section: 'Dolwen Bridge to Llanerfyl'
+km: 9
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'An easy run through a beautiful gorge.'
+directions: 'Takeout at the A458 bridge over the Banwy at Llanerfyl. To reach the putin head west along smaller roads to the 2nd bridge from the Gam/Banwy confluence.'
+putin:
+  lat: 52.6594459
+  lng: -3.4793691
+takeout:
+  lat: 52.6772145
+  lng: -3.4336106

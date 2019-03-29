@@ -1,0 +1,24 @@
+uuid: 151b4c8e-5f9d-459b-9dca-4e8de57aabfc
+river: Cree
+section: 'Arnimean to Creebank'
+km: 10
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Fun sections of continuous grade 4, with a couple of grade 5 drops to watch out for! '
+directions: 'Putin at the A714 bridge at Arnimean (about 7km east of Barrhill). Takeout at the next A714 road bridge south-east towards Glen Trool, just before the confluence with the Water of Trool.'
+putin:
+  lat: 55.0902717
+  lng: -4.6619051
+takeout:
+  lat: 55.0545949
+  lng: -4.5859485
+measures:
+  -
+    scrape: 1
+    low: 1.35
+    medium: 1.4
+    high: 1.7
+    huge: 2.2
+    data_url: 'sepa://133171'

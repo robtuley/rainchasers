@@ -1,0 +1,24 @@
+uuid: 291c32c6-ae8d-4c73-aa69-0fc758789a47
+river: Duddon
+section: 'Birk''s Bridge to Hall Dunnerdale'
+km: 5
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'An absolute classic. At the put-in is the gun-barrel run (gd5) - 100m of narrow siphon-filled mank for the brave. 500m of gd3 leads into Troutal gorge (gd5): portage river left. Fun, continuous grade 3 water leads down to Wallowbarrow gorge (continuous gd4+/5), inspect along the footpath on river right. The river then eases off for the last 2km down to Hall Bridge.'
+directions: 'Takeout at Hall Dunnerdale Bridge to the north of Broughton in Furness. To reach the putin head upstream to a picnic site by the river at Birks bridge (a disused bridge just off the road).'
+putin:
+  lat: 54.3838238
+  lng: -3.1806883
+takeout:
+  lat: 54.3474271
+  lng: -3.2120345
+measures:
+  -
+    scrape: 0.65
+    low: 0.75
+    medium: 0.85
+    high: 1
+    huge: 1.25
+    data_url: 'rloi://5142'

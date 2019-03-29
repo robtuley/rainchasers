@@ -1,0 +1,15 @@
+uuid: 44c33f30-2201-4a76-87e1-33770f59990e
+river: 'Scandale Beck'
+section: 'Low Sweden Bridge to Scandale Bridge'
+km: 0.6
+grade:
+  text: '5'
+  value: 5
+desc: 'Short Beck near Ambleside with two 3m+ falls and a series of tricky rapids.'
+directions: null
+putin:
+  lat: 54.4413576
+  lng: -2.9646997
+takeout:
+  lat: 54.4377138
+  lng: -2.9700641

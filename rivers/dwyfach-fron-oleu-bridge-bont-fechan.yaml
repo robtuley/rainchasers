@@ -1,0 +1,15 @@
+uuid: 85f276c6-7f7e-41bd-8428-54870d564979
+river: Dwyfach
+section: 'Fron Oleu Bridge to Bont Fechan'
+km: 7
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fun little run, with a few tree/fence obstacles.'
+directions: 'Takeout at the small bridge just off the A497 where it crosses the river east of Llanystumdwy. Putin at a bridge near Ynys, which can be reached from a small road of the B4411 which links the A497 and the A487.'
+putin:
+  lat: 52.9505897
+  lng: -4.2731984
+takeout:
+  lat: 52.9177846
+  lng: -4.2872639

@@ -1,0 +1,15 @@
+uuid: 1d1cac33-51c8-417d-9384-7707ca6702f1
+river: Taw
+section: 'Belstone to Sticklepath'
+km: 3
+grade:
+  text: '4'
+  value: 4
+desc: 'Trees usually a problem, East Okement is much better.'
+directions: 'To reach the putin park in Belstone and then walk-in along the track heading upstream out of the village. Takeout around the village of Sticklepath.'
+putin:
+  lat: 50.7155148
+  lng: -3.9535671
+takeout:
+  lat: 50.7299381
+  lng: -3.9233445

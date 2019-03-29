@@ -1,0 +1,15 @@
+uuid: 82b23a7f-b3e0-4648-a56a-d0a5c3d7408f
+river: Anafon
+section: 'Llyn Anafon to forest area'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Excellent fast and steep run, the walkin is rewarded.'
+directions: 'Turn off the A55 at Abergwyngregyn and follow signs for Aber Falls. At the carpark head left up a small steep road to another small carpark. This is the takeout: the putin is a strenuous but rewarding walkin continuing up along the track out from the carpark.'
+putin:
+  lat: 53.213041
+  lng: -3.9469214
+takeout:
+  lat: 53.2249125
+  lng: -3.984998

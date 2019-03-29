@@ -1,0 +1,15 @@
+uuid: a786e6f2-b832-4bd2-a6cf-f1743a8f7985
+river: 'Grwyne Fawr'
+section: 'Reservoir to Cwm Bridge'
+km: 9
+grade:
+  text: '3'
+  value: 3
+desc: 'A fun slabby run that only comes up occasionally.'
+directions: 'Putin just underneath the exit dam from Grwyne Fawr reservoir. Takeout onto a footpath at the confluence with the Grwyne Fechan or simply continue down to the main A40 road bridge.'
+putin:
+  lat: 51.9689687
+  lng: -3.115385
+takeout:
+  lat: 51.8714907
+  lng: -3.0968255

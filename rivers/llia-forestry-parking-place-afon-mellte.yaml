@@ -1,0 +1,16 @@
+uuid: eb7759b5-09cc-408a-9df4-d51dee6a8206
+river: Llia
+section: 'Forestry parking place to Afon Mellte'
+km: 3
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'Fast and fun, but watch out for trees and fences. About halfway down on a LH bend is a 6m waterfall with a shallow landing.'
+directions: 'Takeout at the road bridge at the confluence with the Dringarth river (just north of Ystradfellte). To reach the putin head north up a steep hill, then take a small turnoff down to the river just after entering the woods.'
+putin:
+  lat: 51.8363959
+  lng: -3.5583387
+takeout:
+  lat: 51.8175643
+  lng: -3.5451476

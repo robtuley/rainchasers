@@ -1,0 +1,23 @@
+uuid: be780782-a8d2-498d-962d-d100e8945e6b
+river: Tawe
+section: 'Glyntawe to Abercraf'
+km: 7
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'The classic section of the Tawe: a great run.  The grade can vary from 3+ to 5 between low and spate levels. At high levels be careful of the huge walled in hole that forms just downstream of Pen y Cae bridge. After this are a series of slides before a fun waterfall. After a final gorge the river eases before the takeout in Abercraf.'
+directions: 'Putin at the A4067 bridge at Glyntawe, and takeout somewhere in Abercraf: either at the upstream A4067 bridge, at the weir a few hundred metres downstream of this bridge (accessed via a small road down to the river near the large layby), or near the downstream A4067 bridge. '
+putin:
+  lat: 51.8370338
+  lng: -3.6759099
+takeout:
+  lat: 51.8007944
+  lng: -3.7123564
+measures:
+  -
+    scrape: 0.46
+    low: 0.55
+    medium: 0.7
+    high: 0.85
+    huge: 1.2
+    data_url: 'rloi://4091'

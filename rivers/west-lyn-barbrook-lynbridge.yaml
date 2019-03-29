@@ -1,0 +1,15 @@
+uuid: 76b71aa1-5a4e-4d57-8b9b-6ddb742d9956
+river: 'West Lyn'
+section: 'Barbrook to Lynbridge'
+km: 1
+grade:
+  text: '4'
+  value: 4
+desc: 'Fun gd3/4 run. Watch out for a footbridge after the caravan park, this is the takeout. Get out above the bridge on river right and carry up to a pub carpark. Downstream is steep scary stuff, best avoided.'
+directions: 'Putin at Barbrook, clambering down to the canalised river. Takeout at Lynbridge, a footbridge near a pub about a km downstream. Below this the river becomes heinous.'
+putin:
+  lat: 51.213833
+  lng: -3.8411915
+takeout:
+  lat: 51.22167
+  lng: -3.8346303

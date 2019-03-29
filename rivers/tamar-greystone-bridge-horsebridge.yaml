@@ -1,0 +1,15 @@
+uuid: e2feeca8-7d55-4188-bb0f-034a50d9020a
+river: Tamar
+section: 'Greystone Bridge to Horsebridge'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'Mostly flat, with a few small weirs. A decent touring run.'
+directions: 'Putin 300m upstream of Greystone Bridge (SE of Launceston, near the village of Little Comfort). There is a small unmarked track down to the putin on river right, but limited parking. Takeout at Horsebridge just upstream of Luckett.'
+putin:
+  lat: 50.5999443
+  lng: -4.3069543
+takeout:
+  lat: 50.5516584
+  lng: -4.2598081

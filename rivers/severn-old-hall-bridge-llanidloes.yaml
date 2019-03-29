@@ -1,0 +1,15 @@
+uuid: 7497e497-481f-4582-ba8d-2525d5c24d64
+river: Severn
+section: 'Old Hall bridge to Llanidloes'
+km: 5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Grade 2/3 leads down to the Mount Severn weir. This is a bit tricky, falling steeply onto rock and then funnelling through a slot, but can be portaged easily.'
+directions: 'Takeout in Llanidloes, just downstream of the main bridge on river right. To reach the putin head up minor roads on river left through Glan-y-nant to the bridge at Old Hall.'
+putin:
+  lat: 52.4480459
+  lng: -3.6076174
+takeout:
+  lat: 52.4512842
+  lng: -3.5370458

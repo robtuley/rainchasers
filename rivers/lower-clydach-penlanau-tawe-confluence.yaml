@@ -1,0 +1,16 @@
+uuid: 2ce69dbf-8b72-4d83-a856-74bef3c61187
+river: 'Lower Clydach'
+section: 'Penlanau to Tawe confluence'
+km: 10
+grade:
+  text: '2/3 (4+)'
+  value: 2.5
+  max: 4.5
+desc: 'An excellent run. Watch out for a trees and one small weir, but otherwise no nasties. One harder fall (gd4) jsut before the confluence with the Tawe is easy to spot with an obvious horizon line.'
+directions: 'Takeout from the Tawe at small road bridge just upstream of the M4 about a km below the confluence in Clydach town. An OS map is useful to find the putin as its tricky: head upstream along minor roads on river right and then head down to a small bridge by Penlanau.'
+putin:
+  lat: 51.762612
+  lng: -3.9201619
+takeout:
+  lat: 51.6813784
+  lng: -3.902841

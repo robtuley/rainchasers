@@ -1,0 +1,23 @@
+uuid: eed8aaa0-d74e-4d40-8638-39b6b0c66711
+river: Trent
+section: 'Newark Weir'
+km: 0
+grade:
+  text: 2/3
+  value: 2.7
+desc: 'A friendly green wave in low levels, it builds gradually, eventually turning into a sticky walled in monster when it gets too high. Look before you leap!'
+directions: 'Cross the bridge over the river right channel on Mill Lane, and park in the area on the left. To put on the water either seal launch from the bridge over the river left channel, or cross this bridge and put in from the footpath river left. Getting out take out river left below the weir and walk back over the bridge to the parking area.'
+putin:
+  lat: 53.0748526
+  lng: -0.8178874
+takeout:
+  lat: 53.0750202
+  lng: -0.8189854
+measures:
+  -
+    low: 1.2
+    medium: 1.6
+    high: 1.8
+    huge: 2.1
+    toohigh: 2.5
+    data_url: 'rloi://2102'

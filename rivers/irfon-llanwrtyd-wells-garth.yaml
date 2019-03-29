@@ -1,0 +1,15 @@
+uuid: 86b729fd-5aa0-4de0-ad80-3b711a0500d8
+river: Irfon
+section: 'Llanwrtyd Wells to Garth'
+km: 12
+grade:
+  text: '2'
+  value: 2
+desc: 'Pleasant touring section with no nasties.'
+directions: 'Putin at the A483 bridge in Llanwrtyd Wells. Takeout at the B4519 bridge (just off the A483) near Garth, or if you want to make the run 4km shorter use the bridge in Llangammarch Wells.'
+putin:
+  lat: 52.1071766
+  lng: -3.6388664
+takeout:
+  lat: 52.1328568
+  lng: -3.526852

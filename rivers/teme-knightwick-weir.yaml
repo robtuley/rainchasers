@@ -1,0 +1,24 @@
+uuid: b8976131-172b-4ed4-b7f6-6b32c630580d
+river: Teme
+section: 'Knightwick Weir'
+km: 0
+grade:
+  text: '2'
+  value: 2
+desc: 'Small green wave at normal base levels, perfect for introducing beginners to moving water; the wave improves as the levels rise becoming increasingly fast and green up to about 0.8 - 0.9 when it closes out - use your own judgement whether to paddle or not. As the river continues to rise the wave greens out again before finally washing out above about 1.35m'
+directions: 'The weir is just downstream of Knightsford bridge, just east of Knightswick on the A44. Park in the lay-by on the river left and walk down to the weir.'
+putin:
+  lat: 52.1992283
+  lng: -2.3894386
+takeout:
+  lat: 52.198814
+  lng: -2.3892545
+measures:
+  -
+    scrape: 0.35
+    low: 0.4
+    medium: 0.55
+    high: 0.7
+    huge: 0.9
+    toohigh: 1.35
+    data_url: 'rloi://2021'

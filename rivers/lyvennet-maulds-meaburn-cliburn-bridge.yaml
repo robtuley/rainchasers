@@ -1,0 +1,15 @@
+uuid: a88805fe-3ea3-4667-9e2a-17ef5ed55a91
+river: Lyvennet
+section: 'Maulds Meaburn to Cliburn Mill Bridge'
+km: 10
+grade:
+  text: '2'
+  value: 2
+desc: 'A couple of small weirs add interest to this grade 2 run.'
+directions: 'Both put-in and take out on river right. From the put-in, the road via King''s Meaburn is the fastest way to the take-out.'
+putin:
+  lat: 54.5416387
+  lng: -2.5799917
+takeout:
+  lat: 54.6145676
+  lng: -2.6193058

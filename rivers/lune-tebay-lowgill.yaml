@@ -1,0 +1,23 @@
+uuid: f157691e-3ee4-4d41-8996-ce0c58c08549
+river: Lune
+section: 'Tebay to Lowgill'
+km: 8
+grade:
+  text: '2 (4)'
+  value: 2
+  max: 4
+desc: 'The rapid under the disused road bridge is by far the hardest on the section. A weir immediately above this rapid gets terminal in high water, but it is possible to put in between the two if you fancy the rapid but not the weir. The river is pretty grade 2 from here on down, making you forget about the roaring motorway in the same valley.'
+directions: "The best put-in is an old road bridge over the river, just to the north of where A685 crosses the M6. Walk upstream on river right to paddle the drop, or downstream on river left to put-in below.\n\nTo reach the takeout, drive south along the A685 forking left onto the B6257. As you pass under a bridge just south of the M6 there is an old viaduct on your left with a small lane running under it. The takeout is at the bridge just down this lane, however the residents have asked that you don't park at the bridge itself. Park at the end of the lane and walk back to your car... or, carry on downstream!"
+putin:
+  lat: 54.4200904
+  lng: -2.5982725
+takeout:
+  lat: 54.3608624
+  lng: -2.5862529
+measures:
+  -
+    scrape: 0.8
+    low: 0.9
+    medium: 1.2
+    high: 1.5
+    data_url: 'rloi://5094'

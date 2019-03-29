@@ -1,0 +1,16 @@
+uuid: c64e705f-b3dc-4953-9fec-f18443f59bc4
+river: 'Twrch (Tawe)'
+section: 'Dorwen to Ystradowen'
+km: 5
+grade:
+  text: '4/5 (6)'
+  value: 4.5
+  max: 6
+desc: 'Walk-in to the 6m waterfall at Dorwen: this has been run but usually at low levels. Downstream is bouncy water to a short narrow gorge which should be inspected as the exit drop is tricky. Once the river opens back out watch out for serious grade 6 fall that pops up just after a RH bend. Portage along the ledge on river right. The river eases off downstream until the takeout.'
+directions: 'Takeout in Ystradowen at a bridge down a small road off the A4068 just south of Cwmllynfell. It is problematic to work your way upstream to the putin: if possible, drive up the roads on river left however these are often closed because of the quarry work. Alternatively, head up the rough track on river right as far as you can and then continue upstream on foot. You want to get on at the 6m waterfall just north of Dorwen.'
+putin:
+  lat: 51.8230156
+  lng: -3.782015
+takeout:
+  lat: 51.7977242
+  lng: -3.8061525

@@ -1,0 +1,15 @@
+uuid: 18f53395-b256-413f-a874-ca4322a6622a
+river: Ogwen
+section: 'Fisherman''s Gorge'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'The classic section of the Ogwen, and the hardest. A superb continuous run with no particular nasties. Can be scary in full spate.'
+directions: 'Putin at the small bridge upstream of the main A5 road bridge, or get-in at Ogwen Bank if you have time to paddle the top section too. Takeout at the A5 bridge, there is limited parking so if you have time continue onto the next section downstream.'
+putin:
+  lat: 53.1890963
+  lng: -4.0810347
+takeout:
+  lat: 53.1994818
+  lng: -4.0857339

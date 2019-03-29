@@ -1,0 +1,15 @@
+uuid: c17c942b-24aa-456c-9f92-bbb7fd8428dd
+river: Leith
+section: 'Thrimby to Cliburn'
+km: 8.5
+grade:
+  text: '3'
+  value: 3
+desc: 'Narrow stream running through agricultural land. Lots of sheep fences to sneak and/or portage, but good fun if you like exploring.'
+directions: 'Coming from the A6, cross the bridge and take the bridleway on the left when the road turns right. Put in just downstream of the railway bridge. '
+putin:
+  lat: 54.5785914
+  lng: -2.6851959
+takeout:
+  lat: 54.6133057
+  lng: -2.6374455

@@ -1,0 +1,22 @@
+uuid: be64553d-aa78-4892-aa18-0009953e353c
+river: Wyre
+section: 'Tarnbrook to Abbeystead'
+km: 2.5
+grade:
+  text: '3'
+  value: 3
+desc: 'Lovely small tree lined gorge until Lee Bridge, where the river passes over a small weir. Below this the river widens out and increases in volume with the addition of several small tribs. Whilst the river is best saved for in medium-high water, it becomes a terrifyingly relentless tree avoidance mission in spate. '
+directions: 'From the takeout between the confluence of the two rivers at Abbeystead drive North East, taking a left turn down the hill to pass over the river at Lee Bridge where you can hop out to inspect the weir below. Turn right and drive up the river right bank. Parking is minimal, except for a large grassy area about 500m south of Tarnbrook itself. This misses out a small weir under the bridge at Ouzel Thorn, but saves hassle!'
+putin:
+  lat: 53.9946339
+  lng: -2.6306754
+takeout:
+  lat: 53.9834812
+  lng: -2.6673023
+measures:
+  -
+    low: 0.3
+    medium: 0.4
+    high: 0.5
+    huge: 0.6
+    data_url: 'rloi://5001'

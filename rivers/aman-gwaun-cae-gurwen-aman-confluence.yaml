@@ -1,0 +1,15 @@
+uuid: 6a50b4b6-7c13-4ade-b8e3-59bf7edbf161
+river: Aman
+section: 'Gwaun-Cae-Gurwen To Aman Confluence'
+km: 4
+grade:
+  text: '5'
+  value: 5
+desc: 'Reputedly has a series of large grade 5 falls, but little information is available. The stream itself runs through Gwaun-Cae-Gurwen to join the Aman, and doesn''t itself have a name.'
+directions: null
+putin:
+  lat: 51.7921041
+  lng: -3.8847465
+takeout:
+  lat: 51.8049262
+  lng: -3.9116276

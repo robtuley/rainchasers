@@ -1,0 +1,21 @@
+uuid: b69a309e-8243-426a-9f9a-3f1dc40e1aa2
+river: Coquet
+section: 'Blindburn to Low Alwinton'
+km: 14
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A spate run with a few harder falls and rapids near the source.'
+directions: 'Follow the road from Alnwinton up into the Cheviots. The road follows the river and water levels will dictate how far up you drive before putting on, with Blindburn being the highest point. Get out at the bridge in Low Alnwinton.'
+putin:
+  lat: 55.3897703
+  lng: -2.278914
+takeout:
+  lat: 55.3446499
+  lng: -2.1233029
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    high: 2.2
+    data_url: 'rloi://8008'

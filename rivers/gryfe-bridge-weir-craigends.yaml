@@ -1,0 +1,24 @@
+uuid: 3aae5101-27b6-4523-81f8-72f27a356719
+river: Gryfe
+section: 'Bridge of Weir to Craigends'
+km: 4
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Watch out for a couple of weirs, especially the one at Houston (portage/inspect river left). The main fall is about 2km in, followed by a km of fast shallow gd3 before it eases off.'
+directions: 'To reach the putin take the minor road west from Bridge of Weir towards Quarriers Village (heading upstream under the railway bridge). Putin after about 1km, carrying the boats down through the fields to the river. Takeout at the small bridge in the Craigsend estate, just east of Houston.'
+putin:
+  lat: 55.8599501
+  lng: -4.5992629
+takeout:
+  lat: 55.8635627
+  lng: -4.5303874
+measures:
+  -
+    scrape: 0.3
+    low: 0.4
+    medium: 0.5
+    high: 0.6
+    huge: 0.8
+    data_url: 'sepa://133073'

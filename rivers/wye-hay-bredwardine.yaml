@@ -1,0 +1,15 @@
+uuid: 579aa55a-75a8-4de2-82a1-7a5ab21300f8
+river: Wye
+section: 'Hay to Bredwardine'
+km: 25
+grade:
+  text: '1'
+  value: 1
+desc: 'Beautiful touring run, Whitney makes a good lunch stop.'
+directions: 'Putin in Hay-on-Wye: access is a little awkward but there is a footpath on either river left or right just downstream of the bridge. Takeout at the bridge near Bredwardine.'
+putin:
+  lat: 52.0763966
+  lng: -3.1274784
+takeout:
+  lat: 52.0968451
+  lng: -2.9695538

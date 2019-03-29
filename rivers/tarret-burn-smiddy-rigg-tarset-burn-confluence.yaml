@@ -1,0 +1,15 @@
+uuid: 46ba4957-f6ca-4efd-878f-1cc48ea400ec
+river: 'Tarret Burn'
+section: 'Smiddy Well Rigg to Tarset Burn Confluence'
+km: 2
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A short Kielder Burn with a walk in and a couple of small falls.'
+directions: null
+putin:
+  lat: 55.1965472
+  lng: -2.2998829
+takeout:
+  lat: 55.1862827
+  lng: -2.3300953

@@ -1,0 +1,15 @@
+uuid: a31bbe43-4c02-46ed-b11d-14ae2fc900d9
+river: 'How Stean Beck'
+section: 'How Stean Gorge'
+km: 1
+grade:
+  text: 5/6
+  value: 5.5
+desc: 'A brilliant canyoning gorge, in places 15m deep and 2m wide, not the place for a kayak... or is it? Highly recommended on an inner tube when water is up a bit, though you will need it partially inflated for some of the tighter slides and flumes. Not recommended in high water. The only escape from the gorge is halfway down through the hidden cave... if you can find it. No ropes required.'
+directions: 'Head for Lofthouse in Upper Nidderdale. The village of Stean is nearby, with a couple of tourist car parks.'
+putin:
+  lat: 54.1585266
+  lng: -1.8651759
+takeout:
+  lat: 54.1557875
+  lng: -1.8517899

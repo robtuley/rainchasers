@@ -1,0 +1,16 @@
+uuid: fae3c284-85fc-4c7a-ab28-b29d05ac8d49
+river: Tryweryn
+section: 'Tyn-y-bont to Bala'
+km: 6
+grade:
+  text: '3 (4-)'
+  value: 3
+  max: 3.75
+desc: 'A good run, especially when combined with the upper section. The harder drop is Bala Mill Falls just before the takeout on river right.'
+directions: 'Between Bala and Llyn Celyn along the A4212 take the signposted turn into the the national whitewater centre, and putin at the bottom of the harder upper section, or continue up the Dam for a full run. Takeout in the main carpark in Bala just doenstream of the A494 bridge on river right.'
+putin:
+  lat: 52.9466351
+  lng: -3.6495221
+takeout:
+  lat: 52.9123389
+  lng: -3.5933996

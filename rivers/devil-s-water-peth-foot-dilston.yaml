@@ -1,0 +1,15 @@
+uuid: 50b6f618-bdd9-43f7-a3ba-a776c1235c75
+river: 'Devil''s Water'
+section: 'Peth Foot to Dilston'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'Technical stuff for the first few hundred metres, before droping back with only a 6ft horseshoe weir about 2/3 of the way down to worry about.'
+directions: 'Head for Juniper, where it''s possible to put on either of the two major tribs, although fences could be an issue. Instead put on at Peth Foot. Take out at the A695 road bridge.'
+putin:
+  lat: 54.9251307
+  lng: -2.0813248
+takeout:
+  lat: 54.9667639
+  lng: -2.0399692

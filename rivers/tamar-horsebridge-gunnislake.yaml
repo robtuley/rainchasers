@@ -1,0 +1,15 @@
+uuid: 2ee8e39f-fa67-41a6-9e21-bfa44153979a
+river: Tamar
+section: 'Horsebridge to Gunnislake'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Fun touring section. Watch out for 2 large weirs that need inspection (on river left is easiest for both).'
+directions: 'Putin at Horsebridge (just upstream of Luckett). Takeout on river right just downstream on of the main road bridge at Gunnislake (on a quite lane just off the main road).'
+putin:
+  lat: 50.5516577
+  lng: -4.2598434
+takeout:
+  lat: 50.5279586
+  lng: -4.2120931

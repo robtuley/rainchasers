@@ -1,0 +1,15 @@
+uuid: 47ee18ec-7f9a-4058-95f2-64eabf71cbf0
+river: 'Harthope Burn'
+section: 'Langleeford to Wooler'
+km: 10
+grade:
+  text: '3'
+  value: 3
+desc: 'This run starts on Harthope Burn and turns into Wooler water after 4km. Starting off small, there''s a small gorge after the confluence, the odd small fall and weirs towards the end. Higher up the valley a walk in will reveal Harthope Linn - a 20ft waterfall which may not yet have seen a descent.'
+directions: null
+putin:
+  lat: 55.49006
+  lng: -2.085238
+takeout:
+  lat: 55.5475198
+  lng: -2.0109086

@@ -1,0 +1,23 @@
+uuid: 51ba2033-759c-49a0-a115-57c0fd494375
+river: 'Esk (Borders)'
+section: 'Langholm to Canonbie'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'Grade 1 down to Skippers Bridge. After the bridge is a 300m gd 3 rapid (''Skippers''), and a couple of gd 2/3 rapids round Dog and Irvine mid-stream islands (stay river right). Keep an eye out for ''The Slabs'' (gd 3+) at Hollows Bridge, and decent rapids follow down to Canonbie. '
+directions: 'Putin in Langholm at the car park, which puts you straight into a canalised stretch that opens out to let you float through the town. Alternatively, putin just downstream at Skipper''s Bridge. Takeout at the Canonbie, where you can park in the village hall car park.'
+putin:
+  lat: 55.1523447
+  lng: -3.0011624
+takeout:
+  lat: 55.0797007
+  lng: -2.9486806
+measures:
+  -
+    scrape: 0.6
+    low: 0.8
+    medium: 1.1
+    high: 1.3
+    huge: 1.7
+    data_url: 'sepa://133148'

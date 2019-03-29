@@ -1,0 +1,15 @@
+uuid: 7323498a-1a8b-487a-b662-059b0ef271de
+river: 'Gwendraeth Fawr'
+section: 'Pontybarem to Pont-Newydd'
+km: 8
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A flat and fast run. Watch out for low bridges.'
+directions: 'Putin at the bridge in Pontyberem, parking in the carpark on river left upstream of the bridge. Takeout at Pont Newydd, where there are two impossibly low bridges. This is just east of Carway and downstream of Pontyates, where the disused railway crosses the river.'
+putin:
+  lat: 51.7791358
+  lng: -4.1742783
+takeout:
+  lat: 51.7429573
+  lng: -4.2505523

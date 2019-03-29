@@ -1,0 +1,15 @@
+uuid: d9b576ef-f1a3-46f5-a3d8-05ae805225cf
+river: 'Artle Beck'
+section: 'Crossgill to Caton'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Artle Beck starts with a bang - a cheeky drop immediately after the put-in. The river then makes its way into a steep sided gorge with more fun grade 3 rapids. Beware of trees throughout and a deer fence just above Gresgarth Hall. Just next to the hall is the biggest drop on the river - a large bowl shaped weir.'
+directions: 'From Caton, head eastwards towards Brookhouse and turn left up the hill. Follow the road all the way to Crossgill, parking just over the far side of the bridge in a convenient bay, big enough to hold 3 or 4 cars.'
+putin:
+  lat: 54.0544655
+  lng: -2.6825776
+takeout:
+  lat: 54.0737584
+  lng: -2.7132741

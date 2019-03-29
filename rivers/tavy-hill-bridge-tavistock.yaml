@@ -1,0 +1,24 @@
+uuid: 142acf32-b4cb-4edf-b7fb-36c9bcf46fac
+river: Tavy
+section: 'Hill Bridge to Tavistock'
+km: 8
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: null
+directions: null
+putin:
+  lat: 50.6046195
+  lng: -4.0759077
+takeout:
+  lat: 50.5490505
+  lng: -4.1435423
+measures:
+  -
+    scrape: 0.45
+    low: 0.5
+    medium: 0.65
+    high: 0.75
+    huge: 1
+    data_url: 'rloi://3185'

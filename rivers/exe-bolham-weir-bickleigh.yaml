@@ -1,0 +1,15 @@
+uuid: 19840aaf-953f-4d2d-a9be-c58509bbc135
+river: Exe
+section: 'Bolham Weir to Bickleigh'
+km: 9
+grade:
+  text: '2'
+  value: 2
+desc: 'Putin below Bolham weir, as it is usually nasty. Down to Tiverton are numerous small rapids and weirs. Takeout on river left just downstream of Bickleigh weir.'
+directions: 'Putin at Bolham weir, about 2km north of Tiverton on the A386. Takeout at the road bridge near Bickleigh, where there''s a nice pub near the weir.'
+putin:
+  lat: 50.9273645
+  lng: -3.4971635
+takeout:
+  lat: 50.8578319
+  lng: -3.5111435

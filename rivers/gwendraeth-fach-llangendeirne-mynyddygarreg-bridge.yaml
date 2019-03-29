@@ -1,0 +1,15 @@
+uuid: 53482ee2-13dd-4d04-b123-1a05a22a26f4
+river: 'Gwendraeth Fach'
+section: 'Llangendeirne to Mynyddygarreg bridge'
+km: 11
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A beautiful flat river, good for beginners or touring.'
+directions: 'Putin at the small bridge just downstream of the Llangyndeyrn (B4306) road bridge. Takeout at Llanadog bridge, the first bridge upstream of the main A484 bridge.'
+putin:
+  lat: 51.799843
+  lng: -4.2455523
+takeout:
+  lat: 51.7460623
+  lng: -4.2895405

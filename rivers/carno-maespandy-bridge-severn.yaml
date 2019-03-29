@@ -1,0 +1,15 @@
+uuid: 11a8859f-064f-4e6c-aa2a-0fab294f8b00
+river: Carno
+section: 'Maespandy Bridge to Severn'
+km: 6
+grade:
+  text: '2'
+  value: 2
+desc: 'Decent grade 2 run, with a couple of weirs.'
+directions: 'Take a small road off the A470 just north of Clatter to reach the put-in bridge. Takeout just above the Severn confluence at the B4569 road brideg near Caersws.'
+putin:
+  lat: 52.5498016
+  lng: -3.4868577
+takeout:
+  lat: 52.515554
+  lng: -3.4356167

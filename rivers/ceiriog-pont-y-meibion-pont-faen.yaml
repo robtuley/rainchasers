@@ -1,0 +1,15 @@
+uuid: 2b51e4d1-bd60-4511-97f4-49b804b2bfc1
+river: Ceiriog
+section: 'Pont-y-Meibion to Pont Faen'
+km: 11
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Good paddle, one weir to watch out for just before the village of Glyn Ceiriog.'
+directions: 'Take a small road off the B4500 about a km upstream of Pandy, this leads down to the putin with parking. Takeout at a small bridge off the B4500 just before reaching Chirk.'
+putin:
+  lat: 52.9077024
+  lng: -3.1973081
+takeout:
+  lat: 52.9262592
+  lng: -3.0722206

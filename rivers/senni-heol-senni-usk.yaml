@@ -1,0 +1,16 @@
+uuid: 8c9ab9bf-258e-41fe-bdf7-04c1dbf2a42f
+river: Senni
+section: 'Heol Senni to Usk'
+km: 7
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Fun grade 2 run, with a harder grade 3 section at the end as you approach the Usk confluence. Watch out for a sloping weir under a bridge halfway down the run.'
+directions: 'Takeout at the Usk in Sennybridge: take the turning into the Army barracks and then head down a small road just to the right of the barracks next to the river. The hardest rapid is at the confluence with the Usk: it is difficult to scout from the river so worth taking a look from the A40 road bridge before you get on. To reach the putin head south along the A4215 and then take a minor road through Cefnfedw to a bridge at Heol Senni.'
+putin:
+  lat: 51.8977032
+  lng: -3.5633192
+takeout:
+  lat: 51.9458789
+  lng: -3.5725836

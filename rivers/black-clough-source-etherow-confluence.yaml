@@ -1,0 +1,15 @@
+uuid: d6a14563-1fb9-434b-8a90-8617f86d34e2
+river: 'Black Clough'
+section: 'Source to Etherow Confluence'
+km: 0.5
+grade:
+  text: '4'
+  value: 4
+desc: 'A small trib of the Etherow filled with boulder gardens and slides'
+directions: 'Walk-in up the path from the Etherow and put on as high as you like.'
+putin:
+  lat: 53.4889305
+  lng: -1.8271096
+takeout:
+  lat: 53.4925562
+  lng: -1.8246242

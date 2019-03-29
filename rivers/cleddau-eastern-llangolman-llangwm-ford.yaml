@@ -1,0 +1,22 @@
+uuid: 6f5ca0ef-8d46-409c-9d21-0f8c0bf4e011
+river: 'Cleddau (Eastern)'
+section: 'Llangolman to Llangwm Ford'
+km: 6
+grade:
+  text: 3/4
+  value: 3.3
+desc: 'The best paddling comes in the form of a small gorge, about 1km after the put-in. This can reach 4 in spate, but at normal levels is a bouldery grade 3. The river eases off the closer to the takeout you get. Beware of trees.'
+directions: 'Shuttle along the A478. Turning off onto the B-road at Efailwen to reach the put-in at the bridge in Llangolman. Retrace your steps and take the right in the centre of Llandissilio onto a small lane that crosses the river at Llangwm. The road at the takeout is narrow so try to minimise leaving cars here... oh, and don''t try driving through the ford if the river is up!'
+putin:
+  lat: 51.9138984
+  lng: -4.7208064
+takeout:
+  lat: 51.8683223
+  lng: -4.7517266
+measures:
+  -
+    scrape: 0.85
+    low: 0.95
+    medium: 1.2
+    high: 1.5
+    data_url: 'rloi://4085'

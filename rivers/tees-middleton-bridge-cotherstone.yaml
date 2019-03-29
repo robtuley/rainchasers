@@ -1,0 +1,23 @@
+uuid: bfbb0571-748f-4a7b-af7d-4673873cbfd3
+river: Tees
+section: 'Middleton Bridge to Cotherstone'
+km: 11
+grade:
+  text: '3'
+  value: 3
+desc: 'Best when the river is in flood, but remains paddleable at low levels. Flat down to Eggleston Bridge, followed by bouncy grade 3.'
+directions: 'Putin at Middleton bridge. Takeout at Cotherstone, head along the track beside the Balder to the river, the turning is easy to miss. It is possible to extend and takeout in Barnard Castle itself.'
+putin:
+  lat: 54.6228177
+  lng: -2.0835837
+takeout:
+  lat: 54.5759832
+  lng: -1.9810861
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.8
+    high: 1.1
+    huge: 1.8
+    data_url: 'rloi://8138'

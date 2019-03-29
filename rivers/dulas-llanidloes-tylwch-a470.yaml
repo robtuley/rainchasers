@@ -1,0 +1,15 @@
+uuid: 2a66ce71-2411-4995-9d9f-2b7518a425d2
+river: 'Dulas (Llanidloes)'
+section: 'Tylwch to A470'
+km: 4
+grade:
+  text: 4/5
+  value: 4.25
+desc: 'Starts off as bouncy gd2 and gradually gets harder before the river narrows into Tylwch gorge. Excellent grade 4 for the next km with a flourish at the end. The last km is back to bouncy gd3 to the takeout.'
+directions: 'Takeout at the A470 bridge just south of Llanidloes. To reach the putin head out of Llanidloes on the B4518 to a small road bridge at Tylwch.'
+putin:
+  lat: 52.4092497
+  lng: -3.5158086
+takeout:
+  lat: 52.4298577
+  lng: -3.544637

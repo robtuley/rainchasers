@@ -1,0 +1,22 @@
+uuid: d70bdb6f-06ec-4e8c-9a8c-fec320cb4959
+river: Ceirw
+section: 'Ystrad Bach Bridge to Maerdy'
+km: 8
+grade:
+  text: '2/3 (5)'
+  value: 2.5
+  max: 5
+desc: 'Pleasant easy paddle until the stiff grade 5 gorge. This can be portaged, but is best inspected before getting on (from the road to Gaer-gerrig and the old A5). From here to the confluence is an excellent paddle with just a few weirs to keep an eye out for. The gnarly gorge is a good trip in it''s own right, although you''ve got to catch the water levels just right.'
+directions: 'River runs alongside the A5 just west of Corwen. Takeout at Meardy, and putin at the first bridge west of Ty Nant.'
+putin:
+  lat: 52.9973371
+  lng: -3.5272104
+takeout:
+  lat: 52.9879167
+  lng: -3.4626979
+measures:
+  -
+    low: 0.6
+    medium: 0.7
+    high: 0.9
+    data_url: 'rloi://4166'

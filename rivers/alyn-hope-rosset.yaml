@@ -1,0 +1,21 @@
+uuid: 237d4ac6-feb8-42b3-b761-b4248079dc04
+river: Alyn
+section: 'Hope to Rosset'
+km: 11
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Worth doing if you''re in the area, but not inspiring. Some bouncy rapids, and a few weirs to watch out for.'
+directions: 'The takeout is just off the A483 Chester to Wrexham road, reach the putin by heading up A541 towards Pontblyddyn and taking the furthest north small road to Hope.'
+putin:
+  lat: 53.119179
+  lng: -3.0452666
+takeout:
+  lat: 53.1078965
+  lng: -2.9535135
+measures:
+  -
+    low: 0.45
+    medium: 0.65
+    high: 1
+    data_url: 'rloi://4182'

@@ -1,0 +1,15 @@
+uuid: 0474e9ef-aa55-4f25-9b88-328b9be83f3a
+river: 'Eden (Lakes)'
+section: 'Armathwaite to Wetheral'
+km: 11
+grade:
+  text: 1/2
+  value: 1.25
+desc: 'Easy scenic run, ideal for beginners.'
+directions: 'Put-in river right just below the bridge in Armathwaite - if you''re feeling adventurous you can put in ~0.5km upstream on river left to take on the mighty Armathwaite weir. Takeout on river left just downstream of Wetheral, upstream of the weir.'
+putin:
+  lat: 54.8068719
+  lng: -2.7666301
+takeout:
+  lat: 54.8892002
+  lng: -2.8315646

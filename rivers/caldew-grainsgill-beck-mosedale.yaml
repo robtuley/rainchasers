@@ -1,0 +1,21 @@
+uuid: 98bd16c6-4d14-4da1-a5e1-735612d9d16c
+river: Caldew
+section: 'Grainsgill beck to Mosedale'
+km: 3
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Relentless fun grade 3 with drops of 4 for the first ~1km especially in high water. Eases to grade 2/3 for the latter ~2km. It is possible to put in higher up if you want a warm up, you''ll need to walk for it though.'
+directions: 'From Mosedale bridge, head north a matter of metres, before taking a left up the small road towards Swineside. There is a reasonable parking area at the put-in near Grainsgill Beck, but be careful if your car doesn''t have much ground clearance!'
+putin:
+  lat: 54.6830549
+  lng: -3.046993
+takeout:
+  lat: 54.6781919
+  lng: -2.9971719
+measures:
+  -
+    low: 1.3
+    high: 2
+    data_url: 'rloi://5125'

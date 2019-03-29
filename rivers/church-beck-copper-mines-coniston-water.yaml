@@ -1,0 +1,15 @@
+uuid: 51e19cd2-21b1-4553-9042-5422fc16ff68
+river: 'Church Beck'
+section: 'Copper Mines to Coniston Water'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'The top section consists of a series of hard falls and slides, before levelling off to grade 3/4 through Coniston and down to the lake.'
+directions: 'Follow the road/track upstream from Coniston for about 2km to the mines. Take out either in Coniston or on the lake.'
+putin:
+  lat: 54.3768205
+  lng: -3.0962977
+takeout:
+  lat: 54.3631704
+  lng: -3.0668149

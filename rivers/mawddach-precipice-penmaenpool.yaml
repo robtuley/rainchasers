@@ -1,0 +1,15 @@
+uuid: 993a2b27-06e3-4647-8e8f-c4f60780c32b
+river: Mawddach
+section: 'Precipice to Penmaenpool'
+km: 7
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A pleasant touring paddle. The run will be easier on an outgoing tide but this is not essential.'
+directions: 'Takeout in the carpark river left downstream of Penmaenpool toll bridge (connecting the A493 and A496). Reach the putin by heading upstream along the river left bank from the A470 past Cymmer Abbey. Get in about 3km above the Abbey as the road comes close to the river.'
+putin:
+  lat: 52.7703933
+  lng: -3.8869874
+takeout:
+  lat: 52.7476654
+  lng: -3.9366029

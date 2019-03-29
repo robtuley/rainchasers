@@ -1,0 +1,15 @@
+uuid: bcd5941c-0a97-464a-a835-d2820cb87708
+river: 'Marchlyn Mawr'
+section: 'Mynydd Llandegai to spilling weir'
+km: 2
+grade:
+  text: '4'
+  value: 4
+desc: 'Excellent steep continuous paddle, watch out for trees and a wire across the river.'
+directions: 'This flows into the Ogwen at Bethesda from the south-west. Putin at a small bridge at the top of a steep road up to Mynydd Llandegai. Takeout at the small reservoir, a tunnel downstream makes proceeding to the Ogwen not worthwhile.'
+putin:
+  lat: 53.168181
+  lng: -4.0867207
+takeout:
+  lat: 53.1744352
+  lng: -4.0748814

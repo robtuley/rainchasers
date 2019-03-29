@@ -1,0 +1,15 @@
+uuid: ecf64492-92a9-4e60-bf64-3832a4719125
+river: Sirhowy
+section: 'Argoed to Watsville'
+km: 14
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Grade 2 interspersed with small broken weirs. One weir just after the A472 is larger and a possible portage.'
+directions: 'Putin at the bridge in Argoed, just north of Blackwood/Coed Duod on the A4048. Takeout at Wattsville, just upstream of Risca: take a small road swinging back down to river left just downstream of the A467 bridge.'
+putin:
+  lat: 51.6912738
+  lng: -3.1884144
+takeout:
+  lat: 51.6163608
+  lng: -3.1325155

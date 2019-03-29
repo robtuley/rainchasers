@@ -1,0 +1,23 @@
+uuid: bf4b98e9-4687-424c-8660-5cd94ef89bff
+river: Ure
+section: 'Slenningford Water Mill'
+km: 0.3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Well maintained site next to a campsite. A 300m section of grade 2, perfect for introducing beginners to moving water at low levels. Possible to lap multiple times by walking up the river right bank. In high water the mighty Slen-bezi is unleased - surf city.'
+directions: 'The turning to Slenningford Water Mill is an obvious left turn when travelling south from West Tanfield.'
+putin:
+  lat: 54.2005957
+  lng: -1.5726855
+takeout:
+  lat: 54.1992859
+  lng: -1.5676787
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.6
+    high: 1
+    huge: 1.6
+    data_url: 'rloi://8133'

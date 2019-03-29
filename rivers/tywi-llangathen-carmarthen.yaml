@@ -1,0 +1,15 @@
+uuid: dbada223-b014-405f-8ad7-9b66a7d6fd62
+river: Tywi
+section: 'Llangathen to Carmarthen'
+km: 25
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'An easy touring run through beautiful countryside, with the opportunity to stop at a castle.'
+directions: 'Putin at the bridge downstream of the Llandeilo A483 bridge, on a minor road between Llangathen and Golden Grove. Takeout upstream of Carmarthen before the Gwili confluence: follow the B4300 out of Carmarthen along river left and access the river from a layby near Wenallt.'
+putin:
+  lat: 51.8735231
+  lng: -4.0501575
+takeout:
+  lat: 51.8576506
+  lng: -4.2716041

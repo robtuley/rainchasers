@@ -1,0 +1,15 @@
+uuid: c4c46b72-3794-4b91-9910-55a406fbaa17
+river: Walkham
+section: 'Merrivale Bridge to Huckworthy Bridge'
+km: 4.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Relentless choss with it''s fair share of branches thrown in to make sure it stays exciting. The first 500m is particularly tree ridden and it might be worth walking round.'
+directions: 'At Merrivale there is a small bridge just upstream of the main road with good parking. The takeout has far less parking, so best to leave one car here and the rest at the top.'
+putin:
+  lat: 50.5574039
+  lng: -4.0488836
+takeout:
+  lat: 50.5161622
+  lng: -4.0731344

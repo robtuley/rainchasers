@@ -1,0 +1,16 @@
+uuid: e6df7bfe-1c75-4c34-b574-897d80eb6d11
+river: Dugoed
+section: 'Tafolog bridge to Mallwyd'
+km: 4
+grade:
+  text: '3 (5)'
+  value: 3
+  max: 5
+desc: 'The run starts as a fun grade 3, but after the main road bridge begins to gorge up. Trees are usually a problem, and it can be difficult to stop and portage. The hardest drop is the last drop in the gorge just before the takeout. If you want to avoid the harder bits, it is possible to takeout at the A458 road bridge.'
+directions: 'Takeout at the A470 road bridge just north of Mallwyd. To reach the putin head upstream along the A458 crossing from river left to river right. Take a small road towards Tafolog to a bridge where you can get on.'
+putin:
+  lat: 52.6961688
+  lng: -3.6422708
+takeout:
+  lat: 52.700065
+  lng: -3.6861115

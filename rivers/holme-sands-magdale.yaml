@@ -1,0 +1,22 @@
+uuid: abec2b46-f168-4980-bb95-d96c8d27e7d7
+river: Holme
+section: 'Sands to Magdale'
+km: 4.8
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'The Holme is rarely paddled – probably due to the scarcity of a decent amount of water. However, if deep enough, it offers a picturesque paddle with a frequent variety of features. Its course is heavily wooded for the most part and you will be unaware that in some sections you are passing through a small town. The occasional bankside mill and the number of weirs give a clue to the industrial past of the area. At lower levels, some parts can be a little ‘scrapey’ but the most notable and enjoyable features are the rapids which occur in several short sections. The best of these is at Smithy Place in Brockholes just after the road bridge which links the A616 and A6024. There are another potentially quite gnarly set at the take out directly below the second vertical weir described above.'
+directions: "Sands playing fields are on the outskirts of Holmfirth next to Holmfirth Swimming Baths on the A6024. There is a large free car park right next to the river here. However, this may be busy on winter Sunday mornings due to the adjacent football pitches. The adventurous can put in above the footbridge and tackle the almost immediate 1.7m vertical drop. For the more sedate, (and those of us who have noticed shopping trolleys in the weir before now, ) it is very easy to cross the footbridge, walk a few metres downstream and put in in the adjacent woodland. Look out for the Herons which often feed here.\nThe take-out is at the confluence with Mag Brook just before Steps Industrial Park to the north of Honley. Take the A6024 from Holmfirth. About half-a-mile after this joins the A616, there is a road to the left which is signposted “Magdale”. On-street parking is available here before the bridge. The take-out is reached via the public footpath which runs along the front of the houses on the Western bank. Get out on the left bank at the junction of the two rivers.\n"
+putin:
+  lat: 53.5819108
+  lng: -1.7786065
+takeout:
+  lat: 53.6091886
+  lng: -1.7898111
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 0.8
+    high: 0.9
+    data_url: 'rloi://8165'

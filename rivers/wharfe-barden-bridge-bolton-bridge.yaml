@@ -1,0 +1,23 @@
+uuid: fa530fbf-f1cf-4f8e-8ef9-ee23df7166c5
+river: Wharfe
+section: 'Barden Bridge to Bolton Bridge'
+km: 6
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'The highlight of the run is the section preceding Bolton Abbey where the river runs through a pretty gorge which is a popular and well maintained tourist walk. This gorge contains "The Strid", which although not difficult is worth treating with care at low water due to undercuts hidden beneath the surface. Don''t let this put you off though as it is easily portageable, and washes out in higher levels.'
+directions: 'Put on at Barden Bridge via the public footpath. Get out on river right 100m downstream of Bolton Bridge.'
+putin:
+  lat: 54.0125617
+  lng: -1.921906
+takeout:
+  lat: 53.9700755
+  lng: -1.893209
+measures:
+  -
+    low: 0.5
+    medium: 0.8
+    high: 1.2
+    huge: 1.8
+    data_url: 'rloi://8001'

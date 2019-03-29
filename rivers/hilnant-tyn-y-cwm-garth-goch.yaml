@@ -1,0 +1,16 @@
+uuid: 4f095aa0-c6b2-4656-becc-d7e98a60712b
+river: Hilnant
+section: 'Tyn y Cwm to Garth Goch'
+km: 4
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Trees and fences make this run more painful than enjoyable, although there are a couple of nice drops.'
+directions: 'Takeout at the B4403 bridge just east of Bala. To reach the putin head up minor roads to Rhos-y-gwaliau, cross to river left and head upstream for another 2km to a large lay-by next to the river.'
+putin:
+  lat: 52.8906602
+  lng: -3.5553749
+takeout:
+  lat: 52.9083832
+  lng: -3.5628904

@@ -1,0 +1,15 @@
+uuid: 853f7dd9-10ec-4920-9368-bce529527509
+river: Ure
+section: 'Appersett to Aysgarth Falls'
+km: 20
+grade:
+  text: '2'
+  value: 2
+desc: 'Fairly flat and meandering upper section of the Ure.'
+directions: null
+putin:
+  lat: 54.3114159
+  lng: -2.220469
+takeout:
+  lat: 54.2931857
+  lng: -1.990661

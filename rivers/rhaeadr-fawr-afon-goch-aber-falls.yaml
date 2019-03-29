@@ -1,0 +1,15 @@
+uuid: e85f7224-aed3-4880-8612-38ae699f61ae
+river: 'Rhaeadr Fawr'
+section: 'Afon Goch to Aber Falls'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'Bonkers, hard and exciting run with an arduous walkin. Make sure you takeout above Aber waterfall.'
+directions: 'Drive upstream from Abergwyngregyn along small roads as far as you can and then continue on foot. Climb up past Aber Falls, the takeout for this section is just upstream, and continue upriver as far as you wish.'
+putin:
+  lat: 53.1965583
+  lng: -3.9734697
+takeout:
+  lat: 53.209411
+  lng: -3.9946753

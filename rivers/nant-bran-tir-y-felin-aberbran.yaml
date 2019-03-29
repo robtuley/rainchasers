@@ -1,0 +1,16 @@
+uuid: 82372e27-06c1-48c5-aa96-7ed33acb39b7
+river: 'Nant Bran'
+section: 'Tir-y-Felin to Aberbran'
+km: 4
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'A nasty start as you have to portage 3 or 4 riverwide hanging fences in the first 200m but after this the river is a good run with the best bit being a good series of ledges that can have quite sticky holes in high water.'
+directions: 'Takeout in Aberbran at a small stone bridge just before the confluence with the Usk. To reach the putin keep heading upstream along the small road on river left to a bridge at Tir-y-Felin.'
+putin:
+  lat: 51.9780016
+  lng: -3.5082467
+takeout:
+  lat: 51.9531306
+  lng: -3.4755821

@@ -1,0 +1,15 @@
+uuid: 41a18a45-b7ec-49d8-bd73-51648858a6b5
+river: 'Widdale Beck'
+section: 'Widdale Bridge to Appersett'
+km: 4
+grade:
+  text: '2'
+  value: 2
+desc: 'Small spate trib of the Upper Ure.'
+directions: null
+putin:
+  lat: 54.2863723
+  lng: -2.2678941
+takeout:
+  lat: 54.3116161
+  lng: -2.2205584

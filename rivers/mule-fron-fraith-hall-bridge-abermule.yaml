@@ -1,0 +1,15 @@
+uuid: 729ef535-2465-49d3-97cf-cc1c8891d2a1
+river: Mule
+section: 'Fron Fraith Hall bridge to Abermule'
+km: 2
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A lovely short gd2 paddle, with a couple of sloping weirs that might get sticky in high water.'
+directions: 'Takeout at the B4368 bridge in Abermule, or paddle down into the Severn. Putin at a small bridge off the B4365 just downstream of the Llenmerewig turn-off.'
+putin:
+  lat: 52.5334496
+  lng: -3.2290003
+takeout:
+  lat: 52.543344
+  lng: -3.237236

@@ -1,0 +1,24 @@
+uuid: 9a417b1b-464e-4f49-be17-bbb38241e500
+river: 'North Tyne'
+section: 'Chollerford to Hexham'
+km: 8
+grade:
+  text: '3'
+  value: 3
+desc: 'Scene of the annual "Tyne Tour". Highlight is Warden''s Gorge, a short 100m of bouncy grade 3 with a good slab drop at the end.'
+directions: 'Putin at Chollerford bridge on river left. Takeout on river right at the landing area just upstream of the weir in Hexham.'
+putin:
+  lat: 55.0288472
+  lng: -2.1267045
+takeout:
+  lat: 54.9765093
+  lng: -2.0957086
+measures:
+  -
+    scrape: 0.4
+    low: 0.6
+    medium: 1.1
+    high: 1.9
+    huge: 2.5
+    toohigh: 3
+    data_url: 'rloi://8166'

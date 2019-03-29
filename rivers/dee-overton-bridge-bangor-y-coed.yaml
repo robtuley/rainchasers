@@ -1,0 +1,15 @@
+uuid: c82ba5d4-57c1-4fdb-9d62-0a6553338bac
+river: Dee
+section: 'Overton Bridge to Bangor-is-y-Coed'
+km: 9
+grade:
+  text: '1'
+  value: 1
+desc: 'A touring section, very flat but quite pretty.'
+directions: 'Putin at the pub next to the A528 road bridge between Erbistock and Overton. Takeout in Bangor-is-y-Coed at the narrow bridge just downstream of the main A525 road bridge.'
+putin:
+  lat: 52.9777546
+  lng: -2.9629213
+takeout:
+  lat: 53.0028173
+  lng: -2.9135767

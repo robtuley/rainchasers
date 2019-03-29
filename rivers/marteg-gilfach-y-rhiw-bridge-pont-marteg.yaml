@@ -1,0 +1,15 @@
+uuid: df69d81f-ff64-4ced-98e7-8a2acc8c22cf
+river: Marteg
+section: 'Gilfach y Rhiw bridge to Pont Marteg'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'A grade 3 run, but is usually paddled for its well-known one-hit wonder grade 5 gorge.'
+directions: 'Takeout at picnic spot just upstream of the A470 bridge on river right (on the road between Llangurig and Rhayader). To reach the putin head upstream on river right until you can turn down to the river at Gilfach-y-Rhiw.'
+putin:
+  lat: 52.3393181
+  lng: -3.5072039
+takeout:
+  lat: 52.3315315
+  lng: -3.5376738

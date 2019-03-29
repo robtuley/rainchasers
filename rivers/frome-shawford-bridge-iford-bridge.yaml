@@ -1,0 +1,16 @@
+uuid: 35e04a17-1cc1-4007-b612-222cdcc22493
+river: Frome
+section: 'Shawford bridge to Iford bridge'
+km: 9
+grade:
+  text: '1 (2)'
+  value: 1
+  max: 2
+desc: 'A pleasant touring or beginners run, flat apart from weirs and other man-made rapids.'
+directions: 'Putin at Shawford bridge, the A36 bridge just south of Woolverton. Parking is tricky here. Takeout at Iford bridge (the minor road bridge east of Westwood), or continue for an extra 2km to takeout at a bridge in Freshford.'
+putin:
+  lat: 51.2799935
+  lng: -2.2974053
+takeout:
+  lat: 51.328834
+  lng: -2.2881313

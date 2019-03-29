@@ -1,0 +1,23 @@
+uuid: 5eee3587-7341-46ee-b17c-f3596298183b
+river: 'Whitsundale Beck'
+section: 'Ravenseat to Swale Confluence'
+km: 2
+grade:
+  text: '3'
+  value: 3
+desc: 'An interesting addition to the Upper Swale in high water. Continuous grade three with plenty of rapids hidden round blind bends.'
+directions: 'Take the left turning up a small road west of Hoggarths Bridge, follow to the end and put in next to the farm yard. The beck ends at the confluence with the Upper Swale, which you''ll want to paddle as well unless it''s massive!'
+putin:
+  lat: 54.4248675
+  lng: -2.2132148
+takeout:
+  lat: 54.4078116
+  lng: -2.1975078
+measures:
+  -
+    scrape: 0.9
+    low: 1
+    medium: 1.5
+    high: 2
+    huge: 2.2
+    data_url: 'rloi://8159'

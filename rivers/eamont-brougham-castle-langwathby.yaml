@@ -1,0 +1,16 @@
+uuid: 338189e7-5af2-4b4b-964d-324f22c7f259
+river: Eamont
+section: 'Brougham Castle to Langwathby'
+km: 10
+grade:
+  text: '1 (2)'
+  value: 1
+  max: 2
+desc: 'A very scenic float trip with a couple of grade 2 rapids to keep things interesting, the first of which is immediately after the put-in. '
+directions: 'The river is a short walk southwards from a small road just off the westbound A66. Takeout just after the bridge in Langwathby.'
+putin:
+  lat: 54.6547757
+  lng: -2.7237794
+takeout:
+  lat: 54.6943424
+  lng: -2.6753316

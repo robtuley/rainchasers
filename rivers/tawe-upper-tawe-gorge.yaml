@@ -1,0 +1,21 @@
+uuid: 5de70842-3db1-4bf3-a6d9-215d4452a3af
+river: Tawe
+section: 'Upper Tawe Gorge'
+km: 6
+grade:
+  text: '5'
+  value: 5
+desc: 'Decent water leads down into the gorge with a 5m waterfall shortly after the entrance. Plenty more excellent drops follow, but watch out for trees. The river eases off to grade 3/4 as the banks open out, and you pass the Tywynni confluence before taking out river right just above the bridge at Glyntawe or carrying on downstream straight onto the next section.'
+directions: 'Takeout at the A4067 bridge at Glyntawe (or better, paddle the section downstream). To reach the putin turn off the A4067 along a minor road up river left just north of Glyntawe and continue for a few km until the road comes close to the river.'
+putin:
+  lat: 51.8740494
+  lng: -3.6683546
+takeout:
+  lat: 51.8369933
+  lng: -3.6758675
+measures:
+  -
+    scrape: 0.85
+    low: 1
+    high: 1.4
+    data_url: 'rloi://4091'

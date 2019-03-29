@@ -1,0 +1,15 @@
+uuid: 9f50a7bf-229c-453a-9a91-63b24e6e8e66
+river: 'Twrch (Bala)'
+section: 'Talardd to Llanuwchllyn'
+km: 4.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A fun run whose difficultly depends very much on the levels. Starting with 2km of grade 3/4 the run hots up after reaching a 1.5m horseshoe weir. Downstream is hard grade 4 and two grade 5 falls. The 2nd grade 5 is about 50m above the takeout bridge, and it is easy to walk up and have a quick look-see before you get on.'
+directions: 'Takeout at the B4403 bridge in Llanuwchllyn, at the SW end of Llyn Tegid near Bala. To reach the put-in head upstream along a steep road on river right to Talardd and get-on at the the bridge.'
+putin:
+  lat: 52.8285456
+  lng: -3.6422664
+takeout:
+  lat: 52.8536585
+  lng: -3.6649059

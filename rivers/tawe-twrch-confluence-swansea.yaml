@@ -1,0 +1,15 @@
+uuid: 056ee5e2-47c9-4e73-99f2-58797181483a
+river: Tawe
+section: 'Twrch Confluence to Swansea'
+km: 20
+grade:
+  text: '2'
+  value: 2
+desc: 'Watch out for the large sloping weir about a km below the putin.'
+directions: 'Putin on river right at the confluence with the Twrch (between Ystragynlais and Ystalyfera). To reach the takeout head into Swansea along the A4067 from junction 45 on the M4. At the next junction take the sliproad up the the roundabout and take the 2nd exit as if to return the A4067 but instead take the small road off to the right part way down the sliproad from where you can access the river.'
+putin:
+  lat: 51.7606071
+  lng: -3.7825504
+takeout:
+  lat: 51.6688048
+  lng: -3.9173247

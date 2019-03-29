@@ -1,0 +1,15 @@
+uuid: b1d9def1-f049-4347-8068-3308aa2a470a
+river: Wye
+section: 'Hereford to Ross-on-Wye'
+km: 49
+grade:
+  text: '1'
+  value: 1
+desc: 'A long touring section that is usually broken into shorter sections: there are plenty of alternative putin/takeouts.'
+directions: 'Putin at Hereford just downstream of the A49 bridge on river right. Takeout at the B4260 bridge near Ross-on-Wye (about a km downstream of the A40 bridge).'
+putin:
+  lat: 52.0521332
+  lng: -2.7168952
+takeout:
+  lat: 51.9147508
+  lng: -2.5985103

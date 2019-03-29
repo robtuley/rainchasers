@@ -1,0 +1,15 @@
+uuid: 09a8b305-b978-4cbe-a4a1-89b615d7e6bd
+river: 'Dulas (Builth)'
+section: 'Glan Dulas Bridge to Garth'
+km: 5
+grade:
+  text: '2'
+  value: 2
+desc: 'An easy spate trib of the Irfon. A few fences to avoid, and an obvious weir halfway down.'
+directions: 'Takeout at the A483 road bridge near Garth. To reach the putin head back to Beulah and then north along the B4358, putting in where it crosses the river.'
+putin:
+  lat: 52.1662243
+  lng: -3.5405648
+takeout:
+  lat: 52.1337594
+  lng: -3.5367561

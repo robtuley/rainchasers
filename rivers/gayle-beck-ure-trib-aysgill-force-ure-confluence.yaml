@@ -1,0 +1,16 @@
+uuid: 2f47999a-d130-43a4-b853-b8de12d5ca5e
+river: 'Gayle Beck (Ure Trib)'
+section: 'Aysgill Force to Ure Confluence'
+km: 2.5
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: 'Rumour has it that Aysgill Force has been run, but only in high water by the very brave. The rest of the beck contains many small rapids and shelf drops, particuarly from above the village of Gayle and into Hawes itself, some of which have shallow landings.'
+directions: "Take the footpath from the Beggarmans road in Sleddale to Aysgill Force and put on below this.\n\nTake out either in Hawes where parking is available (although you may have to fight the tourists), or continue onto the Ure and take out at Hayland Bridge."
+putin:
+  lat: 54.2890216
+  lng: -2.2109466
+takeout:
+  lat: 54.3053506
+  lng: -2.1930116

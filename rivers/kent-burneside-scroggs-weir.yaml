@@ -1,0 +1,15 @@
+uuid: 3d978cf2-3ca0-4502-9be4-d736241199c2
+river: Kent
+section: 'Burneside to Scroggs Weir'
+km: 8
+grade:
+  text: '2'
+  value: 2
+desc: 'One weir in Kendal to be aware of in high flows, the remainder is a fun float through Kendal and a nice way to make a full day out of a trip down the Sprint, Mint or upper Kent by linking it with the lower Kent.'
+directions: 'Downstream of the bridge (river right) in Burneside is a small park and area for parking; an ideal put-in spot. Traverse Kendal, and just as you leave the residential area heading south on the A6, a small road turns off from a lay-by on the left. Drive right down to the end and there''s a fairly sizeable parking area next to the river.'
+putin:
+  lat: 54.3535392
+  lng: -2.7607495
+takeout:
+  lat: 54.308496
+  lng: -2.7510114

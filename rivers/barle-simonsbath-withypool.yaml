@@ -1,0 +1,15 @@
+uuid: 3abd42e7-3c00-4323-b19d-02eb63d874b3
+river: Barle
+section: 'Simonsbath to Withypool'
+km: 10
+grade:
+  text: '2'
+  value: 2
+desc: 'Unusual and undemanding run: mediocre whitewater but fun as an exploratory adventure. First 500m often portaged along the footpath river left to avoid 2 sheep fences, before continuous gd2 through open moorland. Landacre bridge is an alternative takeout as it is flat from there down to Withypool.'
+directions: 'Putin at the small bridge in Simonsbath, and takeout at the main bridge in Withypool. Lanacre bridge bridge is a possible alternative takeout (a few km upstream of Withypool) as it is flat from here down.'
+putin:
+  lat: 51.1379138
+  lng: -3.756679
+takeout:
+  lat: 51.1066736
+  lng: -3.6510305

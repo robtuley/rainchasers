@@ -1,0 +1,23 @@
+uuid: 0526f5d9-7bb3-48d4-a2c8-cdccce024b91
+river: Tees
+section: 'High Force to Scooberry Bridge'
+km: 2.5
+grade:
+  text: '4'
+  value: 4
+desc: 'Classic upper section of the Tees. Ledge drop in nature with two larger rapids: "Dog Leg" and "Low Force". Remains fun at low levels, making it a popular run.'
+directions: 'Putin at the High Force Hotel, using the footpath just downstream of the footpath to High Force itself. The hotel may try to charge you for access, a contentious issue. To avoid this, there is a car park 600m downstream at the junction with the road up Ettersgill Beck. Takeout either at Wynch Bridge just downstream of Low Force, or continue down to Scooberry Bridge near Newbiggin.'
+putin:
+  lat: 54.6515234
+  lng: -2.1786654
+takeout:
+  lat: 54.6410929
+  lng: -2.1405358
+measures:
+  -
+    scrape: 0.35
+    low: 0.5
+    medium: 0.75
+    high: 1.1
+    huge: 1.3
+    data_url: 'rloi://8138'

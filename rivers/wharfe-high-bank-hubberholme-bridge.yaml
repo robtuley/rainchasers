@@ -1,0 +1,23 @@
+uuid: a8deca0b-3b1a-473f-aba8-cc1c8ba2f88c
+river: Wharfe
+section: 'High Bank to Hubberholme Bridge'
+km: 6
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Continuous spate run: the first 2km are the hardest as the river drops over a series of limestone ledges. Can be scouted from the road on the way up, so you can then blast down.'
+directions: 'Takeout at Hubberholme road bridge. The road heads upstream alongside the river so you can scout on the way. When the road swings away from the river at High Bank take a small LH turn and get-on at the bridge you reach almost immediately (at the end of the road before the farm buildings).'
+putin:
+  lat: 54.2180507
+  lng: -2.1942823
+takeout:
+  lat: 54.1996232
+  lng: -2.1147012
+measures:
+  -
+    scrape: 0.95
+    low: 1
+    medium: 1.25
+    high: 1.5
+    huge: 1.8
+    data_url: 'rloi://8110'

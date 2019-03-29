@@ -1,0 +1,22 @@
+uuid: f65385b8-da2d-4738-aa47-02221182920e
+river: Rhymney
+section: 'Pontlottyn to Llanbradach'
+km: 24
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Exciting but serious paddle. Watch out for the tunnel after about 4km, which you will probably want to portage on river right and need to spot early. There is a nasty weir at Bargoed at a boxed in section of the river, it is worth inspecting before getting on as you need to break out a long way above.'
+directions: 'Putin at the B4256 bridge between Pontlottyn and Rhymney. It is worth inspecting the weir in Bargoed during the shuttle: turn off the A469 down the road to Gilfach railway station, then head left down a track to a bridge over the river. Walk up the river for about 500m where you''ll find the weir just upstream of a bridge. Takeout in Llanbradach, find a convenient route down to the river from estate next to the A469 bridge.'
+putin:
+  lat: 51.7490129
+  lng: -3.2797649
+takeout:
+  lat: 51.6010793
+  lng: -3.2290734
+measures:
+  -
+    low: 0.5
+    medium: 0.7
+    high: 0.9
+    data_url: 'rloi://4222'

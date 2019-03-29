@@ -1,0 +1,23 @@
+uuid: afa8b715-27c5-42a3-abe9-2d8b1aa417fb
+river: Ure
+section: 'Aysgarth Falls'
+km: 0.8
+grade:
+  text: '5'
+  value: 5
+desc: 'A series of three difficult falls, runnable in high water.'
+directions: "Park in the car park on the northern bank and walk down to the road and onto the footpath back upstream for the first fall.\nGet out river left after the final fall and follow the footpaths back to the car park."
+putin:
+  lat: 54.2922432
+  lng: -1.9860859
+takeout:
+  lat: 54.295349
+  lng: -1.9714089
+measures:
+  -
+    scrape: 0.25
+    low: 0.8
+    medium: 1.1
+    high: 1.3
+    huge: 1.6
+    data_url: 'rloi://8011'

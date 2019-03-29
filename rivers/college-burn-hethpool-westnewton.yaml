@@ -1,0 +1,15 @@
+uuid: 951724be-bc72-4110-9343-d25935916835
+river: 'College Burn'
+section: 'Hethpool to Westnewton'
+km: 2.5
+grade:
+  text: '4'
+  value: 4
+desc: 'A small trib of the Glen, the main interest is several falls in Hethpool gorge - the hardest of which is the constricted Hethpool Linn.'
+directions: null
+putin:
+  lat: 55.5462368
+  lng: -2.1664456
+takeout:
+  lat: 55.5670384
+  lng: -2.1478204

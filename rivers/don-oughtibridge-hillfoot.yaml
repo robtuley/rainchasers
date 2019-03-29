@@ -1,0 +1,15 @@
+uuid: 2c3db25d-b3e3-4512-a6dd-ff752d1e1c29
+river: Don
+section: 'Oughtibridge to Hillfoot'
+km: 7
+grade:
+  text: '2'
+  value: 2
+desc: 'Watch out for the weirs, some have nasty tow-back.'
+directions: 'Putin at the bridge in Oughtibridge, and takeout in Hillfoot near Sheffield''s dry ski slope.'
+putin:
+  lat: 53.4363051
+  lng: -1.5381489
+takeout:
+  lat: 53.3970953
+  lng: -1.4867614

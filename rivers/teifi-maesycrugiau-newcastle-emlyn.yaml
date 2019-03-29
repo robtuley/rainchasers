@@ -1,0 +1,16 @@
+uuid: 3e24c0e3-d2af-4b15-adc8-371e0f7ba838
+river: Teifi
+section: 'Maesycrugiau to Newcastle Emlyn'
+km: 25
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'A relaxed run with occasional grade 2/3 rapids. Watch out for a weir at the bridge just upstream of Llangeler, it can be nasty at high levels. 3km below this weir is the hardest drop, the grade 3+ Henllan Falls.'
+directions: 'Putin just above or below the grade 3 drop at the bridge in Maesycrygiau, along minor roads just north-west of Llanllwni. Takeout on river right at the carpark by the rugby ground in Newcastle Emlyn, just upstream of the main bridge along the A475.'
+putin:
+  lat: 52.0488622
+  lng: -4.2294547
+takeout:
+  lat: 52.040547
+  lng: -4.4594535

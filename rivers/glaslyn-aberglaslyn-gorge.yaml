@@ -1,0 +1,23 @@
+uuid: dd4ffef9-2563-43be-91e4-b262367ec6ca
+river: Glaslyn
+section: 'Aberglaslyn Gorge'
+km: 1.5
+grade:
+  text: '4'
+  value: 4
+desc: 'Short and sweet continuous blast of a run. "Gorge" is a slight misnomer as the entire run is escapable & inspectable on river left where a path runs along the bank. Can also inspect from the road on river right, there is a decent spectator point river right by the largest single drop about halfway down (known as the "Breaker")'
+directions: 'The putin is at a large layby about a mile from Beddgelert along the A498 towards Porthmadog. The takeout is at Pont Aberglasyn, at the junction of the A4085/A498. It is possible to takeout on river left just before the bridge, but an easier takeout is 50m upstream on river right where you can hop over the wall back onto the road. There is no parking at the takeout: park at the putin and walk back up.'
+putin:
+  lat: 53.00031
+  lng: -4.0986819
+takeout:
+  lat: 52.9950474
+  lng: -4.0958119
+measures:
+  -
+    scrape: 0.52
+    low: 0.65
+    medium: 0.8
+    high: 1.2
+    huge: 2
+    data_url: 'rloi://4155'

@@ -1,0 +1,23 @@
+uuid: 46d5940d-9e8c-4098-a8ed-9c069495c4eb
+river: Kent
+section: 'Scroggs Weir to Park Head'
+km: 6
+grade:
+  text: '4'
+  value: 4
+desc: 'A classic. Short and sharp with a few falls, finishing with a flourish at Force Falls.'
+directions: "Putin at Scroggs weir which can be reached by heading down a small lane south of Kendal (the first turnoff after the coming off the A591 dual carriageway if you are heading north). Takeout on river right immediately after Force Falls underneath the A591 bridge (exit at the Sedgewick junction and head along the minor roads to the river).\n\nIf levels are low (below about 0.5) it is better to get in at Prizet Bridge as most of the interest is below this point (and it's mostly scrapey above here at these levels). There is limited parking here though, so you're best leaving most cars at the takeout."
+putin:
+  lat: 54.3083004
+  lng: -2.7507006
+takeout:
+  lat: 54.2718672
+  lng: -2.7571387
+measures:
+  -
+    scrape: 0.25
+    low: 0.4
+    medium: 0.7
+    high: 1
+    huge: 1.2
+    data_url: 'rloi://5126'

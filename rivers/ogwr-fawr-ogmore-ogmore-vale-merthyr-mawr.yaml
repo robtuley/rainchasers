@@ -1,0 +1,23 @@
+uuid: 7f66edc9-11f9-4df1-8d62-4a2a26b82532
+river: 'Ogwr Fawr (Ogmore)'
+section: 'Ogmore Vale to Merthyr Mawr'
+km: 20
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fun section, with good ledge drops and waves for beginners to practice on. Keep an eye out for the weirs, the one near the putin is boxed in.'
+directions: 'Takeout at Merthyr Mawr, just south-west of Bridgend. Putin at Ogmore Vale (on the A4061).'
+putin:
+  lat: 51.6002073
+  lng: -3.5422271
+takeout:
+  lat: 51.4842339
+  lng: -3.609049
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.65
+    high: 0.75
+    huge: 1.5
+    data_url: 'rloi://4083'

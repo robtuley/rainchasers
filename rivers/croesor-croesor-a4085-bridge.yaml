@@ -1,0 +1,15 @@
+uuid: 70d14abe-b7f1-48cf-ab83-af03d5081900
+river: Croesor
+section: 'Croesor to A4085 Bridge'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'Good waterfall run when its up. The first 500m is a rocky grade 2/3, before you reach a series of drops with deep plunge pools. The hardest is probably the last, and you can inspect from the takeout by walking up river right.'
+directions: 'From the A4085 turn off at Garreg Llanfrothen and head up to the putin in the village of Croesor. Takeout by the cliffs  of Carreg Hyll Drem on the A4085.'
+putin:
+  lat: 52.9818783
+  lng: -4.0401789
+takeout:
+  lat: 52.9675908
+  lng: -4.0632781

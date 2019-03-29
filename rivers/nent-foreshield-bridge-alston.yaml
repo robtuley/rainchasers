@@ -1,0 +1,16 @@
+uuid: 2a3ee2f8-0513-4376-9b8d-18566e26f8da
+river: Nent
+section: 'Foreshield Bridge to Alston'
+km: 3
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'A very rarely run spate trib of the upper South Tyne with several waterfalls including one very tricky 3m slide into 5m drop with a shallow landing!'
+directions: 'It''s possible to paddle from Nenthead, but is flat until the put-in on the road bridge where the B6294 crosses the river. Get out in Alston, or continue down the South Tyne.'
+putin:
+  lat: 54.8149911
+  lng: -2.3923974
+takeout:
+  lat: 54.8139723
+  lng: -2.4413458

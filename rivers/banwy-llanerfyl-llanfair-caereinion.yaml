@@ -1,0 +1,20 @@
+uuid: d4f8d1e1-4de6-49a1-9b08-d8e1478ed66f
+river: Banwy
+section: 'Llanerfyl to Llanfair Caereinion'
+km: 12
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Pleasant touring paddle. One natural weir step towards the end of the run can reach gd3 in flood.'
+directions: 'Putin where the A458 crosses the river at Llanerfyl from the little road heading upstream. Takeout in the town of Llanfair aereinion at the bridge.'
+putin:
+  lat: 52.6771457
+  lng: -3.4337729
+takeout:
+  lat: 52.6494694
+  lng: -3.3259806
+measures:
+  -
+    scrape: 1.25
+    high: 2.1
+    data_url: 'rloi://2062'

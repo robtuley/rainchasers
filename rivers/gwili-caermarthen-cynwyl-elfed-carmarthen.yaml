@@ -1,0 +1,23 @@
+uuid: 9be21f92-b646-4161-9d5e-fe1849a2d8dc
+river: 'Gwili (Caermarthen)'
+section: 'Cynwyl Elfed to Carmarthen'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Fun run with a few good playspots in good water. Note that the run down from further upstream at Llanpumsaint is not recommended due to trees.'
+directions: 'Putin on the Afon Duad at a small bridge in Cynwyl Elfed (on the A484 just upstream of its confluence with the Gwili), near the "Rock and Fountain" pub. Takeout just east of Carmarthen at the last bridge before the confluence with the Towy (just downstream of the main A40 bridge, on Abergwili Road).'
+putin:
+  lat: 51.9219305
+  lng: -4.3673109
+takeout:
+  lat: 51.8657606
+  lng: -4.2763907
+measures:
+  -
+    scrape: 0.65
+    low: 0.8
+    medium: 1.1
+    high: 1.4
+    huge: 1.7
+    data_url: 'rloi://4199'

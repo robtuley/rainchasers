@@ -1,0 +1,16 @@
+uuid: 9ba172dd-cd25-4875-b1f4-4dd28770fbe4
+river: Wnion
+section: 'Bontnewydd to A493 bridge'
+km: 10
+grade:
+  text: '2 (3+)'
+  value: 2
+  max: 3.5
+desc: 'Fun grade 2 run with 1 grade 3+ ledge drop about 1km from the putin.'
+directions: 'Putin at the B4416 bridge just off the A494 at Bont Newydd. Takeout just downstream of Dolgellau at the A493 bridge.'
+putin:
+  lat: 52.7648336
+  lng: -3.8227016
+takeout:
+  lat: 52.7463204
+  lng: -3.9063219

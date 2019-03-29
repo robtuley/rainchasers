@@ -1,0 +1,24 @@
+uuid: c16148b0-8629-49b1-84e1-49c1fadd73a9
+river: Mint
+section: 'Patton Bridge to Mint Bridge'
+km: 8
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Sister river to the Sprint, but a fair bit easier. Getting in higher up is possible, but higher water would be required as a minimum and trees tend to be more of a problem.'
+directions: 'Takeout at the recycle area of the Morrisons on the A6 just north of Kendal. Putin on river left at Patton Bridge, if there''s not enough space to park, try the minor road on the other side of the river which heads off upstream.'
+putin:
+  lat: 54.3700946
+  lng: -2.6825991
+takeout:
+  lat: 54.3414641
+  lng: -2.7363944
+measures:
+  -
+    scrape: 0.45
+    low: 0.55
+    medium: 0.78
+    high: 0.95
+    huge: 1.2
+    data_url: 'rloi://5098'

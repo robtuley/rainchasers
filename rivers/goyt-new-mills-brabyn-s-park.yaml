@@ -1,0 +1,16 @@
+uuid: b213ea00-28ba-42b1-9895-4e3e833f24dc
+river: Goyt
+section: 'New Mills to Brabyn''s Park'
+km: 8.4
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: null
+directions: null
+putin:
+  lat: 53.3647091
+  lng: -2.0039982
+takeout:
+  lat: 53.402759
+  lng: -2.0550281

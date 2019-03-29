@@ -1,0 +1,22 @@
+uuid: 5c594c49-0f44-4adf-9ea9-68cb094c0b60
+river: Dart
+section: Loop
+km: 5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Hugely popular classic grade 2/3 often used to introduce beginners to whitewater.'
+directions: 'Putin at the National Park car park at Newbridge. Take out at the River Dart Country Park. '
+putin:
+  lat: 50.523802
+  lng: -3.8202981
+takeout:
+  lat: 50.5136156
+  lng: -3.786111
+measures:
+  -
+    scrape: 0.3
+    low: 0.45
+    medium: 0.74
+    high: 1.2
+    data_url: 'rloi://3212'

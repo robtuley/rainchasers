@@ -1,0 +1,15 @@
+uuid: 524be301-6a5e-438a-afe1-8910ca10ae99
+river: Cynon
+section: 'Mountain Ash to Taff confluence'
+km: 8
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant run with a few weirs to watch out for. Although the surroundings are certainly not idyllic, the last 2km in particular is good water. Takeout after the confluence with the Taff.'
+directions: 'This is a busy valley! Putin at the small bridge just off the A4059 upstream of Mountain Ash. Takeout after the confluence with the Taff from a layby on river right just downstream of Abercynon.'
+putin:
+  lat: 51.6881347
+  lng: -3.3946081
+takeout:
+  lat: 51.630778
+  lng: -3.3307018

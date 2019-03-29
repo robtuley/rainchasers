@@ -1,0 +1,21 @@
+uuid: d3988bfe-34a1-476e-a53a-0eae39ed2a75
+river: Ystwyth
+section: 'Afon Diliw to Cwmystwyth'
+km: 9
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A spate run down the Diliw into the Ystwyth, full of boulder gardens and boulder-choked drops.'
+directions: 'Takeout at the bridge in Cwmystwyth. To reach the putin on tarmac you''ll need to loop round through Llangurig and head down a small road off the A44 through Glangwy. Much shorter is to head directly upstream from Cwmystwyth and then take a rough track up the Diliw at Blaenycwm (this would be tough without a 4x4). It is also possible to putin on the upper Ystwyth by by continuing upstream along the road from Blaenycwm, or just putin at the Diliw confluence and avoid all the faff!'
+putin:
+  lat: 52.3812013
+  lng: -3.7015587
+takeout:
+  lat: 52.3484083
+  lng: -3.7794465
+measures:
+  -
+    low: 0.5
+    medium: 0.65
+    high: 0.8
+    data_url: 'rloi://4094'

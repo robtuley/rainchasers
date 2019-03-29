@@ -1,0 +1,24 @@
+uuid: f4ca5292-201f-4af3-aec8-8e5523e53f44
+river: Wnion
+section: 'Dolddeuli Bridge to Bontnewydd'
+km: 6
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'An excellent committing gorge run, gets sketchy in flood. Can be inspected on the way up from the dismantled railways that criss-crosses its path.'
+directions: 'Takeout at the B4416 bridge just off the A494 at Bont Newydd (just east of Dolgellau). Putin at the minor road bridge at the bridge just off the A494 at Dolddeuli, a couple of kilometres upstream of Rhydymain.'
+putin:
+  lat: 52.7977638
+  lng: -3.7434908
+takeout:
+  lat: 52.7648277
+  lng: -3.8227058
+measures:
+  -
+    scrape: 1.6
+    low: 1.75
+    medium: 1.9
+    high: 2.15
+    huge: 2.7
+    data_url: 'rloi://4151'

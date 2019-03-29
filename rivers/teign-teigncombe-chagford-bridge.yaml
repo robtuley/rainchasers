@@ -1,0 +1,16 @@
+uuid: 1a963c7a-31d0-438b-91cd-eb7364ff59a5
+river: Teign
+section: 'Teigncombe to Chagford Bridge'
+km: 4
+grade:
+  text: '4/5 (5)'
+  value: 4.25
+  max: 5
+desc: 'Fast, frantic and fun: eases off after the weir.'
+directions: 'Takeout at Chagford Bridge, just north of Chagford itself. To reach the putin head upstream along the minor road south of the river: at the last sharp left bend before the road end take the steep footpath down to the river. It is possible to putin 2.5km higher by continuing to Batworthy at the end of the road and walking in over the hill.'
+putin:
+  lat: 50.6723343
+  lng: -3.8818639
+takeout:
+  lat: 50.6765051
+  lng: -3.8502721

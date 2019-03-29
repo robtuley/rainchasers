@@ -1,0 +1,21 @@
+uuid: 8a4126dc-ae00-40a2-bb8f-e789ccd4cc76
+river: 'Rhondda Fawr'
+section: 'Blaencwm to Porth'
+km: 20
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A pleasant run, but watch out for low pipes across the river.'
+directions: 'Putin at the bridge in Blaencwm, just north of Treherbert. Takeout somewhere convenient in Porth, or continue straight onto the lower section to Hopkinson. There are plenty of bridges over the river, so would be easy to cut the run short if needed.'
+putin:
+  lat: 51.6800163
+  lng: -3.5524695
+takeout:
+  lat: 51.613791
+  lng: -3.4107429
+measures:
+  -
+    low: 0.35
+    medium: 0.45
+    high: 0.6
+    data_url: 'rloi://4057'

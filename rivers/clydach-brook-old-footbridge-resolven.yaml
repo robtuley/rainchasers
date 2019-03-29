@@ -1,0 +1,15 @@
+uuid: 5d6a18da-2eef-43e3-9e4d-a179918f62bb
+river: 'Clydach Brook'
+section: 'Old footbridge to Resolven'
+km: 2.5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Hard fast run, excellent adventure.'
+directions: 'Takeout in Resolven either at the confluence with the Neath or somewhere in the village. To get to the putin stay on river right and head upstream on small roads -- keeping right you will end up in a gravel area with plenty of room to park.'
+putin:
+  lat: 51.7074344
+  lng: -3.6744796
+takeout:
+  lat: 51.7127761
+  lng: -3.6958622

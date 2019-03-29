@@ -1,0 +1,16 @@
+uuid: ac43f71c-7019-430c-83e1-7f0d595b3280
+river: 'Barbon Beck'
+section: 'Blindbeck Bridge to Barbon'
+km: 3
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: "A fun spate ditch with a continuous feel. Grade 2/3 at the start leads into woodland. The river picks up after a km or so leading to a series of slabs near some footbridges. Keep your eyes pealed for trees and the crux rapids which most will portage and all will if there's still trees in them. These consist of one large fall, a big slide into a boily pool, followed by another big slide.\n\nOnce clear of the woods there are series of sheep fences to be ducked and some more grade 3 rapids through the village. Beware the last drop which is a small slot funnelling river right which will hold a boat and swimmer. The take out is 200m on the left after this."
+directions: 'Drive through the village of Barbon up the valley. The road crosses a stream and parking can be found on the left near a footbridge. Take out just west of Barbon where there is a big layby just before the A683 on river left.'
+putin:
+  lat: 54.2400734
+  lng: -2.5285518
+takeout:
+  lat: 54.2378413
+  lng: -2.5787198

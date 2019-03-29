@@ -1,0 +1,23 @@
+uuid: b11cb493-0d32-4cba-9e0d-2e3866ba181e
+river: Brathay
+section: 'Elterwater to Ambleside'
+km: 6
+grade:
+  text: '2/3 (4)'
+  value: 2.5
+  max: 4
+desc: 'Mostly flat from Elterwater lake down to Skelwith Force (can portage river left). From there are occasional rapids down to Brathay Pool. It is possible to takeout here, or carry on down to the confluence with the Rothay and onto Windermere, heading across the lake to takeout at the pier.'
+directions: 'Lots of possible put-ins, or indeed paddle straight onto this run from Great Langdale Beck. The putin marked is at the carpark at the road bridge over Great Langdale Beck at Elterwater village. Alternatively find somewhere to putin at the lake, or below Skelwith Falls. Takeout at the pier on Windermere Lake, just outside Ambleside.'
+putin:
+  lat: 54.4336153
+  lng: -3.03721
+takeout:
+  lat: 54.4195259
+  lng: -2.9628146
+measures:
+  -
+    scrape: 1.1
+    low: 1.2
+    medium: 1.4
+    high: 1.6
+    data_url: 'rloi://5161'

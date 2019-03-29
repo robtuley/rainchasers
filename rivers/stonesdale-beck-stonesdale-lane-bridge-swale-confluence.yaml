@@ -1,0 +1,21 @@
+uuid: 94eccab6-ad3c-433a-867d-5643b1e769d5
+river: 'Stonesdale Beck'
+section: 'Stonesdale Lane Bridge to Swale Confluence'
+km: 3
+grade:
+  text: '3/4 (5)'
+  value: 3.5
+  max: 5
+desc: "Small, steep trib of the Upper Swale with plenty of small drops, fences and a short walled-in gorge containing some siphons near the end. Finishes with Currack Force waterfall which has a very shallow landing in all but spate levels.\nThanks to Dave Peel for info."
+directions: "In high water put-in at road bridge on Stonesdale Lane when driving towards Tan Hill. Also possible to put in from bridleway about 1km further down the valley with a short walk-in.\nEither take-out above Currack Force or carry on down the Swale where it merges just below Rainby Force (although easy to get out and run Rainby too)."
+putin:
+  lat: 54.435502
+  lng: -2.1791793
+takeout:
+  lat: 54.4087107
+  lng: -2.1747198
+measures:
+  -
+    low: 1
+    high: 2
+    data_url: 'rloi://8159'

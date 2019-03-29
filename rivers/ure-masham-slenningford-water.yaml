@@ -1,0 +1,23 @@
+uuid: b465ac97-1a4e-4f71-93af-80bc32e575d5
+river: Ure
+section: 'Masham to Slenningford Water Mill'
+km: 6.5
+grade:
+  text: '3'
+  value: 3
+desc: 'A classic introduction to whitewater with Hack Falls and Slenningford Rapids being the highlights. Care should be taken at a number of weirs, in particular Tanfield wier just before Slenningford Rapids'
+directions: 'There are several options for the put-in: the most hassle-free is to park at the public car park above Hack Falls and access via the public footpath; Mickley village if you want to avoid Hack Falls; or from Masham for a longer run. Takeout at Slenningford Water Mill, which has a shop, toilets and changing area and may require payment for use of the facilities.'
+putin:
+  lat: 54.1928536
+  lng: -1.6477021
+takeout:
+  lat: 54.1998189
+  lng: -1.5718773
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.85
+    high: 1.3
+    huge: 2.2
+    data_url: 'rloi://8133'

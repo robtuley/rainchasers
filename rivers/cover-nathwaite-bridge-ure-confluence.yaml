@@ -1,0 +1,15 @@
+uuid: 074e7884-fba8-4e4e-b8c2-e6e07b653527
+river: Cover
+section: 'Nathwaite Bridge to Ure Confluence'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fairly constant gradient, makes this fast moving in high water, but beware of trees.'
+directions: null
+putin:
+  lat: 54.2491977
+  lng: -1.8999229
+takeout:
+  lat: 54.2785987
+  lng: -1.7734084

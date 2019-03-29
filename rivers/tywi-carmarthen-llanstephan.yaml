@@ -1,0 +1,15 @@
+uuid: 61060376-8c49-431d-8999-a4dfbde84da8
+river: Tywi
+section: 'Carmarthen to Llanstephan'
+km: 19
+grade:
+  text: '1'
+  value: 1
+desc: 'A relaxed touring paddle. You will want to time your run with the tide: the last 5km will be much easier if timed to be just after high tide, but be quick otherwise you''ll have to struggle through the mud banks to get out.'
+directions: 'Putin at the quayside in Carmarthen itself, or follow the B4300 out of Carmarthen along river left and access the river from a layby near Wenallt. Takeout at Llansteffan: either from one of the carparks or the boat house itself.'
+putin:
+  lat: 51.8576397
+  lng: -4.2716921
+takeout:
+  lat: 51.7751285
+  lng: -4.3793707

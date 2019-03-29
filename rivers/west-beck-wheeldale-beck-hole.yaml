@@ -1,0 +1,15 @@
+uuid: 124b20f7-5f8f-4837-adc8-91b986c252dd
+river: 'West Beck'
+section: 'Wheeldale to Beck Hole'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Spate trib of the Yorkshire Esk. Lots of boulder garden type rapids, but beware of trees. Nelly Ayre Foss can be run in high water if putting in above the road.'
+directions: "Either put in where the beck goes under the road at New Wath Bridge in Scar Wood, or continue up the valley and walk down the path from Hunt Ho to where Wheeldale Beck joins.\nGet out at Beck Hole at the confluence with Eller Beck."
+putin:
+  lat: 54.3806292
+  lng: -0.7518756
+takeout:
+  lat: 54.4074888
+  lng: -0.7365119

@@ -1,0 +1,22 @@
+uuid: c6ead2cd-f2a1-4d1d-9555-f60ed1c9e965
+river: Ehen
+section: 'Wath Brow Bridge to Low Mill'
+km: 8
+grade:
+  text: 2/3
+  value: 2.2
+desc: 'The river is a pleasant run through fields and a couple of villages. The gradient remains fairly consistent throughout keeping interest all the way. A couple of weirs in Egremont can be easily shot and only become nasty in the highest of water levels, when both can be portaged. Downstream of Egremont, a small broken weir can form a nice play-wave, getting really good at levels between 1.5 and 2m. Those wanting to extend the trip can continue on down to Braystones (or even to the Sellafield site), though the river is easier on this section.'
+directions: 'For the put-in, park in the large parking area just downstream and river right of the picturesque Wath Brow bridge. Drive southwards past Egremont, taking your first right after Thornhill to reach the take-out. Parking here is more limited.'
+putin:
+  lat: 54.5157765
+  lng: -3.4978917
+takeout:
+  lat: 54.4608474
+  lng: -3.5333463
+measures:
+  -
+    scrape: 0.55
+    low: 0.65
+    medium: 0.95
+    high: 1.25
+    data_url: 'rloi://5047'

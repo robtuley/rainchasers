@@ -1,0 +1,15 @@
+uuid: 14f40747-17b0-4099-af65-3c0d7a097a70
+river: Tarell
+section: 'Old Glanrhyd Bridge to Usk confluence'
+km: 10
+grade:
+  text: '3'
+  value: 3
+desc: 'Fun run. Watch out for a steep 1m weir about halfway down, and the hardest drop is a sticky slot near the end, just underneath a bridge off the A470 to the industrial estate.'
+directions: 'Takeout at the outskirts of Brecon at the minor bridge just downstream of the A40 bridge. Putin at Old Glanrhyd: head upstream along the A470 from Brecon and take a minor road on the left immediately after the RH A4215 turn-off.'
+putin:
+  lat: 51.9060273
+  lng: -3.4774272
+takeout:
+  lat: 51.945555
+  lng: -3.4075078

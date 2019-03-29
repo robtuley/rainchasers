@@ -1,0 +1,15 @@
+uuid: c45d62ce-155b-4442-b827-622680531a69
+river: 'Cwm Nantcol'
+section: 'Pont Cerrig to Artro confluence'
+km: 5
+grade:
+  text: '5'
+  value: 5
+desc: 'A tough run. The top 3km is ditch-bashing, but contains some good drops. As you reach the first of the Nantcol gorges, the drops get more difficult, followed by easier second gorge. Takeout at the confluence with the Artro.'
+directions: 'Takeout at the road bridge just after the confluence with the Artro near Pentre Gwynfryn. Head upstream and putin at the second road bridge over the river.'
+putin:
+  lat: 52.8156001
+  lng: -4.0283911
+takeout:
+  lat: 52.8250905
+  lng: -4.0789937

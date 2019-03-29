@@ -1,0 +1,15 @@
+uuid: 109b3f8d-2f77-4807-ac00-eb071ad03ac0
+river: 'Cwm Gwrelych'
+section: 'Rhigos slag heap to Glyn Neath'
+km: 2.5
+grade:
+  text: '5'
+  value: 5
+desc: 'Unusual run: paddle through the guts of a slag heap, 4m drop onto rock, three amphitheatre-shaped falls...'
+directions: 'Takeout at the main road bridge over the river Neath in Glyn-Neath (just off the A465). To find the putin head up small roads away from Glyn-Neath towards Rhigos slag heap. Putin a small road bridge as the river runs into the slag heap itself.'
+putin:
+  lat: 51.7355917
+  lng: -3.5867796
+takeout:
+  lat: 51.7473771
+  lng: -3.6166273

@@ -1,0 +1,15 @@
+uuid: f9f8c315-23f6-4ef8-9467-f4eb824abeaa
+river: 'Dulais (Halfway)'
+section: 'Pyllau-cochion Bridge to Brynwgan Bridge'
+km: 5
+grade:
+  text: '1'
+  value: 1
+desc: 'A lazy summer afternoon paddle.'
+directions: 'Takeout at the A483 roadbridge just east of Llandeilo and Rhosmaen. To reach the putin head north along the B4302 from Llandeilo and take  the first of two very close right turns after Taliaris.'
+putin:
+  lat: 51.9418338
+  lng: -3.956866
+takeout:
+  lat: 51.9022305
+  lng: -3.968362

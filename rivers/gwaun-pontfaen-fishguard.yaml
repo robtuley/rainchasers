@@ -1,0 +1,19 @@
+uuid: 9b6c78cb-7103-41ab-8b71-49d06b05406a
+river: Gwaun
+section: 'Pontfaen to Fishguard'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fun easy spate run. Don''t try to get on any higher than the recommended putin, upstream is filled with trees.'
+directions: 'Takeout in the harbour at Fishguard. To reach the putin head up the Gwaun along the B4313 and putin at Pontfaen. Sometimes the upper half of the river can be a little tree choked: an alternative put-in is the bridge halfway down at Llanychaer.'
+putin:
+  lat: 51.9692972
+  lng: -4.876721
+takeout:
+  lat: 51.9955537
+  lng: -4.9697078
+measures:
+  -
+    low: 0.6
+    data_url: 'rloi://4088'

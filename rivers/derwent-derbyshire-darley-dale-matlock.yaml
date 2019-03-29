@@ -1,0 +1,22 @@
+uuid: 18a0638c-07bd-4804-891c-3a1d0226f354
+river: 'Derwent (Derbyshire)'
+section: 'Darley Dale to Matlock'
+km: 6
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Mostly gentle paddle, with a few bits of continuous grade 2, including the slalom site near the take-out.'
+directions: null
+putin:
+  lat: 53.1549936
+  lng: -1.5970926
+takeout:
+  lat: 53.1218093
+  lng: -1.5579967
+measures:
+  -
+    scrape: 0.3
+    low: 0.45
+    medium: 1
+    high: 1.25
+    data_url: 'rloi://2103'

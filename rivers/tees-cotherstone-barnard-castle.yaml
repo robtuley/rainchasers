@@ -1,0 +1,23 @@
+uuid: c1f6d4da-16a8-41ae-a7e1-0a1f13ca769e
+river: Tees
+section: 'Cotherstone to Barnard Castle'
+km: 5
+grade:
+  text: '2'
+  value: 2
+desc: 'Gentle section of the Tees which runs when other sections are too low, or combined with them to make for a longer trip. A couple of surf waves help to maintain the interest.'
+directions: "Put on where the Balder joins the Tees. Plenty of parking down a small lane in Cotherstone, sign posted \"to the river.\"\n\nTake out either above the big weir before Barnard Castle, using HMYO car park, or at various points in BC or combine with Abbey Rapids for an exciting finish."
+putin:
+  lat: 54.5759837
+  lng: -1.9811408
+takeout:
+  lat: 54.5449106
+  lng: -1.9302212
+measures:
+  -
+    scrape: 0.45
+    low: 0.5
+    medium: 0.7
+    high: 1
+    huge: 1.8
+    data_url: 'rloi://8138'

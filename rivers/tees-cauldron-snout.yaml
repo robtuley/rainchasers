@@ -1,0 +1,15 @@
+uuid: 3708b4be-8056-491f-a23b-dcf060a5171d
+river: Tees
+section: 'Cauldron Snout'
+km: 0.1
+grade:
+  text: 5/6
+  value: 5.5
+desc: 'Silly waterfall/slide/rocky ditch. Has only seen a handful of descents.'
+directions: 'Turn off the B6277 at Langdon Beck (~ 8km north of High Force) onto a minor road signposted to Cow Green reservoir. Park at the reservoir and walk-in 3km to the dam. The falls are just below the dam.'
+putin:
+  lat: 54.6532121
+  lng: -2.2893945
+takeout:
+  lat: 54.6519882
+  lng: -2.2891921

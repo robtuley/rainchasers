@@ -1,0 +1,15 @@
+uuid: 45edda95-dced-4a09-9bc9-439156c934e0
+river: 'Dyfi (Dovey)'
+section: 'Aberangell to Machynlleth'
+km: 16
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'An easy and beautiful touring section. If you want a shorter trip it is possible to get on/off at the B4404 bridge about halfway down.'
+directions: 'Putin at the bridge in Aberangell. Takeout at the A487 bridge just north of Machynlleth.'
+putin:
+  lat: 52.6727736
+  lng: -3.7065523
+takeout:
+  lat: 52.6001515
+  lng: -3.8556939

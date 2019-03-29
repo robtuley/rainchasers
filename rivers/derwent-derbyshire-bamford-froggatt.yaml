@@ -1,0 +1,23 @@
+uuid: 4b9133e8-3e60-4284-8494-79cc65c13fa3
+river: 'Derwent (Derbyshire)'
+section: 'Bamford to Froggatt'
+km: 12
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: null
+directions: null
+putin:
+  lat: 53.3391759
+  lng: -1.6939379
+takeout:
+  lat: 53.2740029
+  lng: -1.6321991
+measures:
+  -
+    scrape: 1.25
+    low: 1.5
+    medium: 1.7
+    high: 1.9
+    data_url: 'rloi://2118'

@@ -1,0 +1,23 @@
+uuid: fbed3751-17b4-4baa-bab2-2ffb64ee96ea
+river: 'Usway Burn'
+section: 'Davidson''s Linn to Coquet Confluence'
+km: 12
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Exploratory paddling in the Cheviots: starts with a 10m fall followed by lots of little grade 3/4 gorges.'
+directions: 'Access to the putin is via a forestry track that branches off the minor road up the Coquet at NT860114. The track passes two small farms marked as Trows and Rowhope on the OS map. Cross the ford (OK for cars at medium 0.6 gauge flows, but take care at higher levels) and follow the track up to park at the fork (NT880142). To access Davidson''s Linn follow the left fork on foot, across a locked gate, and uphill through the forest for about 1.5km. After the gradient starts a slight decline take a descending path on the right for 500m to Davidson''s Linn. Takeout at the confluence with the Coquet at Shillmoor.'
+putin:
+  lat: 55.4349976
+  lng: -2.1844469
+takeout:
+  lat: 55.3625701
+  lng: -2.1807169
+measures:
+  -
+    scrape: 0.3
+    low: 0.4
+    medium: 0.6
+    high: 0.7
+    huge: 1
+    data_url: 'rloi://8182'

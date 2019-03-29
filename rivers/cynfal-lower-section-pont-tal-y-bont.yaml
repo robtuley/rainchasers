@@ -1,0 +1,15 @@
+uuid: 1f9f1e31-e20b-4d36-9783-98321c4b92dc
+river: Cynfal
+section: 'Lower Section to Pont Tal y Bont'
+km: 1
+grade:
+  text: '5'
+  value: 5
+desc: 'First up is a constriction finishing into a boxed in weir. Can scout right/portage right if its low enough. 50m later is a clean 20ft drop which is hard to scout, best taken middle or left. Second 20fter take on river right as there is a tree on river left. Still a clean line. The final 500m is grade 2/3 through a jungle of trees. Has been done without portages - but good luck!'
+directions: 'Walk up from the bottom on river left. There should be a trail leading down into the gorge at the second style/gate. Get on after the tree choke. '
+putin:
+  lat: 52.9555754
+  lng: -3.9429868
+takeout:
+  lat: 52.9549792
+  lng: -3.9557004

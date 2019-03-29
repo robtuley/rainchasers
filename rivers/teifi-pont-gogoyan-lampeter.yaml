@@ -1,0 +1,15 @@
+uuid: 8b2c139e-0a06-4b4e-96e5-e6116f23cb4a
+river: Teifi
+section: 'Pont Gogoyan to Lampeter'
+km: 14
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'A beautiful touring section with no nasties.'
+directions: 'Takeout at the A482 bridge at Lampeter. Putin at Pont Gogoyan, a minor road bridge just east of Llanddewi-Brefi just downstream of the confluence with Afon Brefi.'
+putin:
+  lat: 52.1717378
+  lng: -3.987503
+takeout:
+  lat: 52.10867
+  lng: -4.0734536

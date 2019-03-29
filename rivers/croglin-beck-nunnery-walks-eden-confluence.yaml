@@ -1,0 +1,15 @@
+uuid: e39c8800-ff86-4b95-b463-63afd26f25b2
+river: 'Croglin Beck'
+section: 'Nunnery Walks to Eden Confluence'
+km: 0.8
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A series of four waterfalls. The first is a big 10m straight drop into a big plunge pool. The second is a twisty double drop consisting of two 1.5/2m falls. The third is 4m and should only be run in high water. The last drop is a simple river wide 1.5m high ledge. The beck then levels out until you join the Eden.'
+directions: 'Either walk up the side of the beck as part of an Eden trip or find the beck next to Nunnery Walks in Staffield.'
+putin:
+  lat: 54.7781675
+  lng: -2.7181195
+takeout:
+  lat: 54.7718059
+  lng: -2.7242135

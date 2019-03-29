@@ -1,0 +1,15 @@
+uuid: f06e99d9-6c50-48da-9db6-10d20cd5fe1f
+river: 'Horner Water'
+section: 'West Luccombe'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'Constant gradient flume-type run: great fun but challenging at the grade (nothing hard, just continuous).'
+directions: 'Takeout just upstream of West Luccombe. Keep heading up the steepest lanes until reaching the putin at the highest road access. '
+putin:
+  lat: 51.1905801
+  lng: -3.6112063
+takeout:
+  lat: 51.197653
+  lng: -3.5797138

@@ -1,0 +1,16 @@
+uuid: 69b19db7-c5a2-4370-9338-9d831cff4e18
+river: 'West Okement'
+section: 'Dam to Okehampton Castle'
+km: 5
+grade:
+  text: '3 (4-)'
+  value: 3
+  max: 3.75
+desc: 'Fun continuous grade 3 run. Watch out for two tight slots below 3 ledge drops just after the railway bridge.'
+directions: 'Takeout at Okehampton Castle where there is plenty of parking. Putin just below the dam, reached by heading west along the B3260 from the castle.'
+putin:
+  lat: 50.7078482
+  lng: -4.0385951
+takeout:
+  lat: 50.7320777
+  lng: -4.0067283

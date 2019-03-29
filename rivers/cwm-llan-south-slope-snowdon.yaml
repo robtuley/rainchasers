@@ -1,0 +1,16 @@
+uuid: d16d7663-a804-4df8-8d4b-069e86d819c1
+river: 'Cwm Llan'
+section: 'South Slope of Snowdon'
+km: 0.5
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Slightly bonkers continuous run down a Snowdon runoff ditch. Steep and continuous, and lots of fun apart from the walkin.'
+directions: 'Park at a small layby about halfway between Llyn Dinas and Beddgelert from where a major footpath heads up towards Snowdon. Walk the boats in up this path as it climbs to meet the river (about 2km).'
+putin:
+  lat: 53.0266774
+  lng: -4.0811259
+takeout:
+  lat: 53.0242485
+  lng: -4.0832463

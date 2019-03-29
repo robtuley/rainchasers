@@ -1,0 +1,16 @@
+uuid: 9fca4851-b34a-4784-8fe1-b914eb9c2fc2
+river: 'Rhondda Fach'
+section: 'Pontygwaith to Porth'
+km: 5
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Good run, even if a little litter-filled. Watch out for a few low pipes over the river.'
+directions: 'Putin at the minor road bridge between Wattstown and Pontygwaith. It is possible to takeout at the confluence with the Rhondda Fawr in Porth, or continue another 5km along the lower section of the Rhondda Fawr to Hopkinstown.'
+putin:
+  lat: 51.6357754
+  lng: -3.4290477
+takeout:
+  lat: 51.6154886
+  lng: -3.4106893

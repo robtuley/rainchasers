@@ -1,0 +1,15 @@
+uuid: 8881434b-ec0c-4712-9ce2-719036a5489a
+river: Wye
+section: 'Monmouth to Chepstow'
+km: 33
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'OK touring section. Below Tintern the run is tidal so you will want to time your descent to go with the flow.'
+directions: 'Putin in Monmouth at the rowing club (just off the A40). Takeout in Chepstow just upstream of the A48 bridge on river right.'
+putin:
+  lat: 51.8128839
+  lng: -2.7086284
+takeout:
+  lat: 51.6450977
+  lng: -2.6694169

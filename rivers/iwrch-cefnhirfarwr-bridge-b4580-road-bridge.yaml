@@ -1,0 +1,15 @@
+uuid: 819d2303-942c-4bab-89ad-ebb9906312b4
+river: Iwrch
+section: 'Cefnhirfarwr bridge to B4580 road bridge'
+km: 3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Good fun continuous grade 2/3 run.'
+directions: 'Takeout at the B4396 bridge just before the confluence with Afon Tanat (just east of Llanrhaeadr ym Mochnant). Putin at the 3rd road bridge upstream along a minor road just before a steep hill.'
+putin:
+  lat: 52.83084
+  lng: -3.28683
+takeout:
+  lat: 52.8139962
+  lng: -3.2711816

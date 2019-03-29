@@ -1,0 +1,15 @@
+uuid: a1824060-04b7-44ce-ae6b-4aaad7e88a6a
+river: Dee
+section: 'Llangollen to Trevor'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Pleasant section ending in the historic Trevor rocks.'
+directions: 'Putin from the carpark on river left just downstream of the main bridge in Llangollen (just below the weir). To reach the takeout head downstream along the A5 and turn off towards Trevor (B5434) at Froncysyllte. The takeout is where this road crosses the river at a narrow bridge.'
+putin:
+  lat: 52.9705246
+  lng: -3.1674058
+takeout:
+  lat: 52.9707992
+  lng: -3.0913679

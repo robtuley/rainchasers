@@ -1,0 +1,15 @@
+uuid: e3f6095a-394a-4f55-aa96-591eddca055b
+river: Cammarch
+section: 'Roman fort bridge to Irfon confluence'
+km: 5
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant beginner''s run, and makes a good alternative start for the lower Irfon.'
+directions: 'Putin at the A483 bridge over the river just west of Garth. Takeout just before the confluence with the Irfon at the bridge in Llangammarch Wells.'
+putin:
+  lat: 52.1409184
+  lng: -3.5704038
+takeout:
+  lat: 52.1135755
+  lng: -3.5573415

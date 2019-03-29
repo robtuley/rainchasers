@@ -1,0 +1,15 @@
+uuid: 685344cc-d369-4f43-839f-8284e259dda3
+river: 'Rhondda Fawr'
+section: 'Porth to Hopkinstown'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A good finish to the upper Rhondda Fawr or the Rhondda Fach. Highlight is a series of semi-natural ledges under the railway bridge. Takeout river left just above Hopkinstown.'
+directions: 'Putin somewhere convenient in Porth, or paddle down from the section above or the Rhondda Fawr. Takeout at the carpark just off the A4058 in Hopkinstown.'
+putin:
+  lat: 51.6133937
+  lng: -3.4106093
+takeout:
+  lat: 51.6045071
+  lng: -3.3561363

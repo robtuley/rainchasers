@@ -1,0 +1,15 @@
+uuid: af88c940-b08a-4b62-b8ed-c3b98c296e2b
+river: Einion
+section: 'Cwm Einion to Furnace Falls'
+km: 2
+grade:
+  text: '5'
+  value: 5
+desc: 'Hard and serious, but excellent. Takeout just above Furnace Falls.'
+directions: 'Takeout at the A487 bridge at Furnace. To reach the putin head up a small steep road along river left until it crosses the river.'
+putin:
+  lat: 52.5320005
+  lng: -3.9164311
+takeout:
+  lat: 52.5384956
+  lng: -3.9402564

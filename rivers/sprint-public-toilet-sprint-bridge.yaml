@@ -1,0 +1,23 @@
+uuid: 883b999a-63be-461b-899b-d2d449a71069
+river: Sprint
+section: 'Public Toilet to Sprint Bridge'
+km: 8
+grade:
+  text: '4'
+  value: 4
+desc: 'A Cumbrian classic. Small and fast with numerous bedrock falls and rapids.'
+directions: 'Takeout at the bridge just east of Burneside. To reach the putin head upstream through Garnett Bridge to the public toilets just north of Yewbarrow Hall.'
+putin:
+  lat: 54.4187976
+  lng: -2.7707374
+takeout:
+  lat: 54.3575413
+  lng: -2.7506631
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.65
+    high: 0.8
+    huge: 1
+    data_url: 'rloi://5130'

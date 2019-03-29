@@ -1,0 +1,23 @@
+uuid: 17b9c2ff-d3d7-47ca-8526-a071ba767ab4
+river: Lwyd
+section: 'Pontypool to Caerleon'
+km: 17
+grade:
+  text: '2'
+  value: 2
+desc: 'A fun touring run: there are a few weirs which are mostly friendly but one requires care in high water.'
+directions: 'Putin just downstream of Pontypool just downstream of the A4042 bridge: there is a minor road bridge as you head towards New Inn. Takeout after the confluence with the Usk at the B4236 bridge just south of Caerleon. The river is tidal at this point so it is probably worth timing your run correctly.'
+putin:
+  lat: 51.6889974
+  lng: -3.0156712
+takeout:
+  lat: 51.6073012
+  lng: -2.9527224
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.7
+    high: 0.8
+    huge: 1
+    data_url: 'rloi://4047'

@@ -1,0 +1,16 @@
+uuid: ee1c5738-7e2a-453c-954a-3a9cc5a17384
+river: Haffes
+section: 'Scwd Ddu to Glyntawe'
+km: 2
+grade:
+  text: '5 (6)'
+  value: 5
+  max: 6
+desc: 'Outstanding run that is rarely in condition. Requires a 2.5km walkin up the left bank so you can scout the river on the way in. Putin just below a large waterfall: Scwd Ddu (the Black Waterfall). Takeout at above the bridge in Glyntawe, as their is nasty fence just below. '
+directions: 'Park somewhere near the A4067 bridge at Glyntawe (there''s also a smaller bridge just downstream that may be easier to park near). From here you need to walk the boats in up the footpath on river left. Keep going for 2.5km until you reach the plungepool of a large waterfall.'
+putin:
+  lat: 51.8480107
+  lng: -3.70082
+takeout:
+  lat: 51.8351378
+  lng: -3.6775974

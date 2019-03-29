@@ -1,0 +1,16 @@
+uuid: 603131b7-a62c-450e-9b72-97b5b3798ed2
+river: Rhiw
+section: 'Manafon to Berriew'
+km: 11
+grade:
+  text: '2 (3+)'
+  value: 2
+  max: 3.5
+desc: 'Pleasant run. Watch out for the concrete ford in the caravan park in Pant-y-Ffrid, the hole can be sticky. The harder rapid is at the end, just above the bridge in Berriew.'
+directions: 'Putin at the caravan park just off the B4390 in Manafon (ask permission!). Takeout at the main bridge in Berriew.'
+putin:
+  lat: 52.6119863
+  lng: -3.3093217
+takeout:
+  lat: 52.5987595
+  lng: -3.2022399

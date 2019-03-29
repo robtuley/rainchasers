@@ -1,0 +1,15 @@
+uuid: c80c59d7-5b49-456e-95dd-4b5a27025fcc
+river: Bain
+section: 'Semer Water to Ure Confluence'
+km: 4
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Supposedly England''s shortest river! The main rapids of interest are the falls in Bainbridge.'
+directions: null
+putin:
+  lat: 54.2849638
+  lng: -2.1224393
+takeout:
+  lat: 54.3123615
+  lng: -2.1008099

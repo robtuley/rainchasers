@@ -1,0 +1,16 @@
+uuid: c516c8c0-e59b-4258-bb35-c971e2bef6f6
+river: Doe
+section: 'Beezleys to Ingleton'
+km: 2
+grade:
+  text: '4/5 (6)'
+  value: 4.5
+  max: 6
+desc: 'Hard beck with lots of falls and tight rapids in a closed-in gorge. At least one portage. Inspect the whole thing before paddling - spate levels would probably be suicide!'
+directions: 'Follow Oddie''s Lane up the hill and park near the farm after it flattens out. Take the footpath down to the beck.'
+putin:
+  lat: 54.1681927
+  lng: -2.4508513
+takeout:
+  lat: 54.1540712
+  lng: -2.469734

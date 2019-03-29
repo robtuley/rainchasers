@@ -1,0 +1,16 @@
+uuid: 9aea3a48-3578-411a-90c2-01ab5fa1955b
+river: Goedal
+section: 'Wooden bridge to Teigl confluence'
+km: 3
+grade:
+  text: '5 (6)'
+  value: 5
+  max: 6
+desc: 'A serious undertaking.'
+directions: 'Takeout at the confluence with the Teigl where there is a footpath out to the road. Head upstream along the A496 and get on at a small bridge off the main road as soon as it comes back to the river. If you head up higher than this there is a really nasty drop under the next bridge upstream.'
+putin:
+  lat: 52.9770845
+  lng: -3.9476827
+takeout:
+  lat: 52.9614351
+  lng: -3.9525054

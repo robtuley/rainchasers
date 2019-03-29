@@ -1,0 +1,16 @@
+uuid: db86fa6d-a457-4d7a-9495-4a422f1db216
+river: Teifi
+section: 'Newcastle Emlyn to Cardigan'
+km: 23
+grade:
+  text: '2 (4+)'
+  value: 2
+  max: 4.5
+desc: 'A gentle flat run, with one harder rapid Cenarth Falls that are often park''n''hucked on their own.'
+directions: 'Putin on river right at the carpark by the rugby ground in Newcastle Emlyn, just upstream of the main bridge along the A475. Takeout at the carpark on river right in Cardigan, downstream of both bridges.'
+putin:
+  lat: 52.0405871
+  lng: -4.4594459
+takeout:
+  lat: 52.0819566
+  lng: -4.6644545

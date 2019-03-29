@@ -1,0 +1,22 @@
+uuid: 0f53c3d3-99a1-4a02-b334-657cf3f0497c
+river: Barle
+section: 'Tarr Steps to Dulverton'
+km: 10
+grade:
+  text: '2'
+  value: 2
+desc: 'The classic gd2 run of the south-west, and an excellent introduction to whitewater for beginners. The first km down from Tarr Steps holds the best rapids.'
+directions: 'Putin at Tarr Steps, on the minor road between Hawkridge and Liscombe (south-east of Withypool). Takeout in Dulverton on river left just before the main bridge, using the public carpark rather than the limited parking by the river.'
+putin:
+  lat: 51.0771443
+  lng: -3.6170718
+takeout:
+  lat: 51.0394854
+  lng: -3.5529143
+measures:
+  -
+    scrape: 0.55
+    low: 0.6
+    medium: 0.9
+    high: 1.4
+    data_url: 'rloi://3257'

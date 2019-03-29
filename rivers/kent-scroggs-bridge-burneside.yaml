@@ -1,0 +1,21 @@
+uuid: b5d3fffa-76f9-40d7-a84d-7eac0b47166f
+river: Kent
+section: 'Scroggs Bridge to Burneside'
+km: 7
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Two grade 4 rapids and four significant weirs. The run starts with a bang at Scroggs Bridge, putting in below is possible if you''d rather a more sedate warm up. A couple of weirs appear through Staveley. The undoubted highlight of the section is the rapid through the Cowan Head complex. A weir drops into a long steep powerful (and really fun) rapid.'
+directions: 'Take the small turning in Staveley signposted to Kentmere. When the road crosses to river left as you head north, you''ve reached Scroggs Bridge, the put-in. Driving south from Staveley, look for signs to the left to Burneside. There''s three options so don''t worry if you miss the first one. Downstream of the bridge (river right) in Burneside is a small park and area for parking.'
+putin:
+  lat: 54.387744
+  lng: -2.8220937
+takeout:
+  lat: 54.3533441
+  lng: -2.7604708
+measures:
+  -
+    low: 0.5
+    high: 0.95
+    data_url: 'rloi://5017'

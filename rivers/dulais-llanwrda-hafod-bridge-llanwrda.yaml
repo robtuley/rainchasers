@@ -1,0 +1,15 @@
+uuid: 7203c978-8513-4494-a1a3-14905ed0eb5e
+river: 'Dulais (Llanwrda)'
+section: 'Hafod Bridge to Llanwrda'
+km: 6
+grade:
+  text: '3'
+  value: 3
+desc: 'A fun duck-n-dive paddle. Expect lots of trees, mixed with plenty of grade 3 gorge enclosed drops.'
+directions: 'Takeout at the war memorial in Llanwrda just upstream of the A40/A482 junction. To reach the putin head upstream along the A482, and get on at the fifth bridge across the river.'
+putin:
+  lat: 52.0039234
+  lng: -3.896976
+takeout:
+  lat: 51.9688819
+  lng: -3.8747734

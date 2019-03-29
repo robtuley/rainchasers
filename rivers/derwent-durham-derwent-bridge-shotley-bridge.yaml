@@ -1,0 +1,15 @@
+uuid: 2ca984a1-3ebd-4eb4-9474-da3de487a71e
+river: 'Derwent (Co Durham)'
+section: 'Derwent Bridge to Shotley Bridge'
+km: 14.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fairly low grade river, which is generally only paddled in spate due to the reservoir holding back the water. The main interest is from small bouldery rapids, weirs and a couple of small falls at the end. Trees may be problematic.'
+directions: null
+putin:
+  lat: 54.8550247
+  lng: -1.9525658
+takeout:
+  lat: 54.8693547
+  lng: -1.8600657

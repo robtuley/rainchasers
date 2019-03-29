@@ -1,0 +1,16 @@
+uuid: 27240a26-8fe6-49aa-8b95-271dfb4eebf3
+river: Hepste
+section: 'Bryn Cul farm to Dinas Rock'
+km: 6
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'An alternative start for the Mellte that requires a short walkin to reach. A difficult run with a number of waterfalls. Watch out for a number of gorge sections that often end in something nasty/impossible. In general river right is best for scouting/portaging. You join the Mellte about halfway down, and continue down to the normal Mellte takeout at Dinas Rock carpark.'
+directions: 'Park at a layby on the A4059 north of Penderyn (just north of a cattle grid next to a rpivate road that heads towards a farmhouse near the river). From here walkin to the river along a footpath, don''t use the private road. There is an alternative footpath in from Penderyn itself, but you miss out on the top bit of the run. The takeout is at a large carpark by a small stone bridge that you''ll reach if you keep driving through the Pontneddfechan towards the river (east).'
+putin:
+  lat: 51.7789781
+  lng: -3.5312594
+takeout:
+  lat: 51.7595601
+  lng: -3.5795143

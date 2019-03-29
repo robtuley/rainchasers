@@ -1,0 +1,15 @@
+uuid: a263862a-1060-4a51-a5a6-ff6b1043cbf9
+river: Wye
+section: 'Llyswen bridge to Hay on Wye'
+km: 16
+grade:
+  text: '1'
+  value: 1
+desc: 'Pleasant and easy touring run.'
+directions: 'Putin in Llyswen just upstream of the bridge on river right. Takeout in Hay-on-Wye: access is a little awkward but there is a footpath on either river left or right just downstream of the bridge.'
+putin:
+  lat: 52.0380925
+  lng: -3.2717671
+takeout:
+  lat: 52.0763965
+  lng: -3.1274736

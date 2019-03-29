@@ -1,0 +1,21 @@
+uuid: ac50080a-db8b-44f1-8063-2ad4b80923ca
+river: Afan
+section: 'Blaengwynfi/Cymmer to Pontrhydyfen'
+km: 11
+grade:
+  text: '3'
+  value: 3
+desc: 'Fast bouncy fun. Watch out for a couple of pipes across the river above and below an obvious football pitch.'
+directions: 'The A4107 running inland from Port Talbot runs alongside the river. The putin is just off the main road at Cymer, and the takeout is near the junction with the B4287.'
+putin:
+  lat: 51.6540579
+  lng: -3.6469527
+takeout:
+  lat: 51.6331525
+  lng: -3.7411519
+measures:
+  -
+    low: 0.5
+    medium: 0.6
+    high: 0.7
+    data_url: 'rloi://4092'

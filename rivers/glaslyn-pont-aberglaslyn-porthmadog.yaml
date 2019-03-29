@@ -1,0 +1,15 @@
+uuid: b41e6019-df4d-4375-aa89-6f2616ec8224
+river: Glaslyn
+section: 'Pont Aberglaslyn to Porthmadog'
+km: 11
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant touring run.'
+directions: 'The putin in a bit tricky. You need to get on somewhere downstream of the A498/A4085 Pont Aberglaslyn junction. There are a few laybys downstream with access to the river. Takeout river left near Porthmadog where the A487 runs alongside the river.'
+putin:
+  lat: 52.9903783
+  lng: -4.0946327
+takeout:
+  lat: 52.9252424
+  lng: -4.1249726

@@ -1,0 +1,16 @@
+uuid: 7979860f-1c12-4bfa-bb42-8325e9309495
+river: 'Deepdale Beck (Dentdale Dee)'
+section: 'Gastack Beck to Dee Confluence'
+km: 3
+grade:
+  text: '3 (4+)'
+  value: 3
+  max: 4.5
+desc: 'Fast flowing grade 1 and 2 leads to a bridge, which may require ducking under. A small bedrock fall follows shortly, and leads into boulder rapids in the trees. From here the amount of bedrock picks up, and shallow slides as well as boulder rapids make up the run. Further downstream the river enters a wooded area, and the hardest rapid on the run in a mini gorge. Inspection sensible, due to trees and undercuts. After this, the river continues on downstream through a series of mini bedrock gorges, with nice class 3 rapids, until the take out. Alternatively, carry on into the Dee.'
+directions: "Park at the waterfall where Deepdale lane crosses Gastack Beck - head to the river from here. The waterfall at the layby at gastack beck may be runnable if it's big water - somewhere between 15 - 20ft.\n\nTake Out at Dyke Hall Lane or carry on into the Dee.\n\n"
+putin:
+  lat: 54.2489443
+  lng: -2.4268236
+takeout:
+  lat: 54.2745368
+  lng: -2.4363545

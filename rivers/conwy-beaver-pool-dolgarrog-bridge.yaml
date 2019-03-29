@@ -1,0 +1,15 @@
+uuid: 3ca08dce-e82d-4c91-9358-f3387a3fcdd0
+river: Conwy
+section: 'Beaver Pool to Dolgarrog Bridge'
+km: 14
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant touring run, most excitement in the top half before the confluence with the Llugwy.'
+directions: 'Putin at the A470 road bridge just outside Betws-y-Coed. To reach the takeout head downstream along the A470 past Llanrwst then take a small road towards Dolgarrog that crosses the river at the confluence with the Afon Ddu.'
+putin:
+  lat: 53.0757761
+  lng: -3.795969
+takeout:
+  lat: 53.184457
+  lng: -3.8263316

@@ -1,0 +1,15 @@
+uuid: d1b6ebdc-a5fc-4b67-8a46-07fdaa1e2d8b
+river: 'Eller Beck'
+section: 'Goathland to Beck Hole'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Rarely paddled hard spate trib of the Yorkshire Esk. Falls, slides and rapids abound in this short gem. '
+directions: 'Put in near the Station in Goathland. Get out at the confluence with west Beck at Beck Hole.'
+putin:
+  lat: 54.4001521
+  lng: -0.7124649
+takeout:
+  lat: 54.4089374
+  lng: -0.7355678

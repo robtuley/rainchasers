@@ -1,0 +1,15 @@
+uuid: 5395dce2-f9dc-46aa-822b-088ca4250b79
+river: Nidd
+section: 'Wath to Darley'
+km: 12
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Low grade paddle with the odd weir.'
+directions: null
+putin:
+  lat: 54.1033852
+  lng: -1.7774648
+takeout:
+  lat: 54.0335766
+  lng: -1.6861875

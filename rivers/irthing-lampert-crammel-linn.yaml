@@ -1,0 +1,16 @@
+uuid: 4ad70bf0-c0f3-4850-9cf5-2210e3caf9f7
+river: Irthing
+section: 'Lampert to Crammel Linn'
+km: 10
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'A pretty and remote feeling run, with two rapids of note and a monster of a drop at the takeout. Inspection/portage up the steep bank on river right.'
+directions: 'Drive past the put-in for the Crammel Linn section, and continue on up to Butterburn. The takeout above Crammel Linn requires a walk downstream and away from the river, following the footpath to your waiting car.'
+putin:
+  lat: 55.0623496
+  lng: -2.5009373
+takeout:
+  lat: 55.0204916
+  lng: -2.5603786

@@ -1,0 +1,15 @@
+uuid: 229cdb09-337a-4a90-9d9a-1c665a0c750b
+river: 'Needlehouse Gill'
+section: 'Above footbridge to Upper Rawthey Confluence'
+km: 0.5
+grade:
+  text: '5'
+  value: 5
+desc: 'An alternative start to the Upper Rawthey. A 2.5m fall, a 7m slide and a tight difficult gorge that''s probably blocked with trees!'
+directions: "From Rawthey Bridge carry on upstream and take a small road on the right. After 1km, turn right again, and then park where the road forks. Walk the boats down the left fork to a bridge over Needlehouse Gill and choose where's best to put on above this.\nThis would only be run if you intended carrying on down the Upper Rawthey.\n"
+putin:
+  lat: 54.3671854
+  lng: -2.415247
+takeout:
+  lat: 54.3657603
+  lng: -2.4209369

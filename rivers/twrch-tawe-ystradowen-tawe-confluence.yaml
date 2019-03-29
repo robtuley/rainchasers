@@ -1,0 +1,15 @@
+uuid: 1d868be0-abf6-4759-b527-6f6a5e2e617d
+river: 'Twrch (Tawe)'
+section: 'Ystradowen to Tawe Confluence'
+km: 7
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'Fast and bouncy in big water; lots of weirs. At lost levels, all the weirs are runnable, the biggest being a sloping weir directly under the bridge in Ystalyfera. This is a possible takeout, or continue downstream to the Tawe confluence.'
+directions: 'Putin in Ystradowen at a bridge down a small road off the A4068 just south of Cwmllynfell. Takeout in Ystalyfera, either at the bridge with the large weir underneath, or further downstream at the confluence with the Tawe.'
+putin:
+  lat: 51.7977218
+  lng: -3.8061632
+takeout:
+  lat: 51.7606
+  lng: -3.7824952

@@ -1,0 +1,15 @@
+uuid: 42b276d0-8c81-4f0b-b69b-d1c358654da1
+river: 'Lune (Tees)'
+section: 'Grassholme Reservoir to Tees Confluence'
+km: 3
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A short Tees trib which runs when the reservoir is releasing, usually in high water levels. Trees are always going to be an issue here! The river splits a few hundred metres before the Tees, with the right channel taking more water.'
+directions: 'Put-in below the dam, next to the Caravan site. If you''re running this ditch you''ll probably combine it with a section of the Tees, getting out at Eggleston Bridge (difficult access) or Cotherstone.'
+putin:
+  lat: 54.6027503
+  lng: -2.081377
+takeout:
+  lat: 54.6203711
+  lng: -2.0527096

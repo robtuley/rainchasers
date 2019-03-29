@@ -1,0 +1,15 @@
+uuid: 4f025619-a2f1-46be-99ad-27d7581a0c63
+river: Crai
+section: 'Felin Crai to Sennybridge'
+km: 7
+grade:
+  text: '3'
+  value: 3
+desc: 'Good intermediate paddle, with a lively gorge to finish off the trip.'
+directions: 'Turn off the A4067 out 2km downstream of the cray reservoir and follow small roads back up towards the reservoir to reach a small bridge. There is not much space to park here. Takeout at the Usk in Sennybridge: take the turning into the Army barracks and then head down a small road just to the right of the barracks next to the river.'
+putin:
+  lat: 51.8994163
+  lng: -3.6275276
+takeout:
+  lat: 51.946051
+  lng: -3.5726014

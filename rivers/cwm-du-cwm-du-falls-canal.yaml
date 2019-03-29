@@ -1,0 +1,15 @@
+uuid: a55c946c-df94-43c6-a94b-a4bcb25b6b26
+river: 'Cwm Du'
+section: 'Cwm Du Falls to Canal'
+km: 1
+grade:
+  text: '4'
+  value: 4
+desc: 'Short and sweet Tawe trib, good if you have extra time after the Tawe.'
+directions: 'Takeout in the village of Cilmaengwyn, just before the river sumps under the canal. To reach the putin head upstream through an estate and once you''ve gone as far as you can continue to walkin for 10 minutes or so until you reach a 4m fall.'
+putin:
+  lat: 51.7462954
+  lng: -3.8281887
+takeout:
+  lat: 51.7370777
+  lng: -3.8243317

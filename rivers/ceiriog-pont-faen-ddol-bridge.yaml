@@ -1,0 +1,15 @@
+uuid: a1a7ae25-28ce-472c-8d21-cfaf86e99248
+river: Ceiriog
+section: 'Pont Faen to Ddol Bridge'
+km: 5
+grade:
+  text: '3'
+  value: 3
+desc: 'A few frustrating fences and weirs that slow you down, but otherwise good gd3 run.'
+directions: 'Putin at a bridge over the river just off the B4500 just upstream of Chirk. To reach the takeout cross the A5 and follow small roads to the bridge over the river just before the confluence.'
+putin:
+  lat: 52.9262724
+  lng: -3.0722321
+takeout:
+  lat: 52.9458977
+  lng: -3.0198808

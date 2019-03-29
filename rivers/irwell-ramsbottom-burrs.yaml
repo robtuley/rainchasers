@@ -1,0 +1,23 @@
+uuid: bd54fe74-0ac3-476c-b6ec-6d6c4e0781d2
+river: Irwell
+section: 'Ramsbottom to the Burrs'
+km: 7
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'The full run from Ramsbottom contains a collection of weirs to shoot. The Burrs site itself has been developed for paddlers, with a collection of playable waves and stoppers. Careful of the big weir at the top of the Burrs site in high water. The stopper can become nasty.'
+directions: 'The put-in from Ramsbottom is upstream of the main road bridge. The Burrs site itself can be used as a take-out, or a base to do laps.'
+putin:
+  lat: 53.6474904
+  lng: -2.3128511
+takeout:
+  lat: 53.6076297
+  lng: -2.3014854
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    medium: 0.7
+    high: 0.9
+    huge: 1.1
+    data_url: 'rloi://5026'

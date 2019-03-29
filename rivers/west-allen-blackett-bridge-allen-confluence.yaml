@@ -1,0 +1,16 @@
+uuid: d9250155-88ce-4080-a311-faca9f4a1a69
+river: 'West Allen'
+section: 'Blackett Bridge to Allen Confluence'
+km: 6
+grade:
+  text: '3 (4)'
+  value: 3
+  max: 4
+desc: 'Mid-grade spate beck with weirs and one interesting 4m fall.'
+directions: 'Follow A686 past Whitfield, turn left for Nenthead is seen, follow road till a bridge over the river is crossed. Park in layby on right for the get in. Take out is at Cupola Bridge, or carry on down the Allen.'
+putin:
+  lat: 54.8808335
+  lng: -2.3443238
+takeout:
+  lat: 54.9266044
+  lng: -2.3137764

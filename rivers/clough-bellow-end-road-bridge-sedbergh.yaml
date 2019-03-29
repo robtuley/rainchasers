@@ -1,0 +1,23 @@
+uuid: 4b50bd9e-9c88-4795-93e0-b1e5c213e9ed
+river: Clough
+section: 'Bellow End Road Bridge to Sedbergh'
+km: 6
+grade:
+  text: '4'
+  value: 4
+desc: 'Lovely run with plenty of interest at the grade. One cheeky hole in particular has been known to catch a few people unawares. A weir about 1/2 way down is runnable, but worth keeping an eye out for as can be retentive at bigger levels.'
+directions: 'If driving upstream from the takeout in Sedbergh, put in at the first bridge the A684 crosses the river. The takeout if about 1km after the confluence with the Rawthey, on river right just below the A684 bridge just east of Sedbergh.'
+putin:
+  lat: 54.310562
+  lng: -2.4403227
+takeout:
+  lat: 54.3217768
+  lng: -2.5174452
+measures:
+  -
+    scrape: 1
+    low: 1.4
+    medium: 1.85
+    high: 2.2
+    huge: 2.6
+    data_url: 'rloi://5020'

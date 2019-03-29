@@ -1,0 +1,23 @@
+uuid: 9a2cb0ae-1460-4b08-b40d-76b4d8f5f421
+river: Gain
+section: 'Cattle grid to Pistyll y Cain'
+km: 8
+grade:
+  text: '4/5 (5+)'
+  value: 4.5
+  max: 5.5
+desc: 'A brilliant run. Flat down to the first bridge, after which it starts to steepen up. Another km further down you reach the harder stuff. Watch out for a stone arched bridge: a tricky fall lurks underneath with more just round the corner. A tricky gorge follows this, be careful as it ends in Pistyll y Cain, a monster waterfall that you will need to portage (river right). It is possible to get out here, but easier to join the Mawddach and carry on down its lower gorge to takeout just below public toilet falls.'
+directions: 'Takeout at the public toilets in Ganllwyd, from here there is easy access down the bank to the river. To reach the putin head north along the A470 and take a small right at Bronaber and keep going until you reach a bridge over the river.'
+putin:
+  lat: 52.8626565
+  lng: -3.882212
+takeout:
+  lat: 52.8014935
+  lng: -3.8900961
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 0.95
+    high: 1.3
+    data_url: 'rloi://4150'

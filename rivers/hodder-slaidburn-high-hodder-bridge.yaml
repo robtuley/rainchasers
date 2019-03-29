@@ -1,0 +1,15 @@
+uuid: 65283db4-8b46-4381-b949-2a4ff5702c1e
+river: Hodder
+section: 'Slaidburn to High Hodder Bridge'
+km: 24
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Touring run with the occasional weir.'
+directions: 'Putin at the B6478 bridge at Slaidburn. Takeout at High Hodder Bridge, which is the road bridge directly east of Clitheroe.'
+putin:
+  lat: 53.9663276
+  lng: -2.4367562
+takeout:
+  lat: 53.848135
+  lng: -2.450988

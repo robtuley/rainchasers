@@ -1,0 +1,16 @@
+uuid: 8155b956-e083-4de0-b267-1ce34f7b1012
+river: Doethie
+section: 'Blaendoithie to Junction Pool'
+km: 10
+grade:
+  text: '4 (6)'
+  value: 4
+  max: 6
+desc: 'A fun wilderness adventure. The river is mostly pooldrop grade 3/4, but there are 2 waterfalls in the middle.'
+directions: 'A long shuttle that probably requires an OS map. Takeout at "junction pool" at the confluence with the Tywi between Ystradffin and Rhandirmwyn. The putin is at a small bridge as far upstream as possible which is difficult to find.'
+putin:
+  lat: 52.1724307
+  lng: -3.8415973
+takeout:
+  lat: 52.1045373
+  lng: -3.7862151

@@ -1,0 +1,15 @@
+uuid: 12e62ff1-25ce-4307-b2cb-d948642b9fce
+river: 'Bow Lee Beck'
+section: 'Gibson''s Cave to Bowlees'
+km: 0.4
+grade:
+  text: '4'
+  value: 4
+desc: 'A series of three waterfalls, below Gibson''s Cave (a 30ft fall onto rock!), only paddleable in spate.'
+directions: 'Park in the nature reserve signposted from Bowlees and inspect the falls from the car park. Flushimere Beck has also been paddled above Gibson''s Cave from high up on the moors.'
+putin:
+  lat: 54.6525555
+  lng: -2.1442779
+takeout:
+  lat: 54.6484835
+  lng: -2.1440633

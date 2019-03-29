@@ -1,0 +1,23 @@
+uuid: aedc77e4-7bac-4ad0-8dce-3c39e0a8ab00
+river: Colwyn
+section: 'Hafod Ruffydd Isaf to Beddgelert'
+km: 4
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Fun high water run, continuous interest all the way down with regular tricky drops to provide spice.'
+directions: 'Take out at the confluence with the Glaslyn in Beddgelert (or at the end of the Aberglasyn Gorge, which will be at a great level). To get to the putin head towards Carnarfeon from Beddgelert up the A4085. After 1.5 miles take a small left turn down towards the river and follow it to a small bridge over the river. Be subtle and leave as few vehicles here as possible as there is a farm right next to this bridge.'
+putin:
+  lat: 53.0278109
+  lng: -4.126461
+takeout:
+  lat: 53.0116102
+  lng: -4.102064
+measures:
+  -
+    low: 0.54
+    medium: 0.7
+    high: 0.9
+    huge: 1.6
+    data_url: 'rloi://4144'

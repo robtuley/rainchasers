@@ -1,0 +1,22 @@
+uuid: e3091eb4-af48-4cb2-8067-63ab6b8d6018
+river: 'Grwyne Fawr'
+section: 'Lower Cwm bridge to Glangrwyney'
+km: 6
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A fun trib of the Usk. Inspect the weir just downstream of Llangenny on the way up as it is very obvious from the road, this is the only weir to watch out for, especially at high flows.'
+directions: 'Takeout river left at the main A40 road bridge (just can park at the village hall). To reach the put-in head up small roads along river left, cross the river at Llangenny and then stay right until you reach the Lower Cwm Bridge (over a trib) from where it is <200m to the main river.'
+putin:
+  lat: 51.8731913
+  lng: -3.0985761
+takeout:
+  lat: 51.8407649
+  lng: -3.1069419
+measures:
+  -
+    low: 0.3
+    medium: 0.4
+    high: 0.5
+    huge: 0.6
+    data_url: 'rloi://4043'

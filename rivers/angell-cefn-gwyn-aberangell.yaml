@@ -1,0 +1,15 @@
+uuid: 9e97ac4f-44ae-4a98-b891-a976e0d23b98
+river: Angell
+section: 'Cefn Gwyn to Aberangell'
+km: 2
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Good steep fun, but usually full of trees.'
+directions: 'Turn off the A470 to the village of Aberangell and follow a steep road up out of the village until you get to the river. Putin as the river nears the road at a phonebox and bridge.'
+putin:
+  lat: 52.6774358
+  lng: -3.7151579
+takeout:
+  lat: 52.674323
+  lng: -3.7086294

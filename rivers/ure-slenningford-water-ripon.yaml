@@ -1,0 +1,21 @@
+uuid: d0a2da78-591c-4c3b-b129-b655ec531359
+river: Ure
+section: 'Slenningford Water Mill to Ripon'
+km: 10.5
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Mostly mellow water, with a couple of shingly rapids and a playwave at the get out.'
+directions: 'Put in at the Slenningford Mill site and take out on the land between the north bridge and the A61 in Ripon where the BCU has purchased some land for this purpose.'
+putin:
+  lat: 54.2005077
+  lng: -1.572649
+takeout:
+  lat: 54.1425285
+  lng: -1.515146
+measures:
+  -
+    scrape: 0.2
+    low: 0.3
+    high: 1
+    data_url: 'rloi://8176'

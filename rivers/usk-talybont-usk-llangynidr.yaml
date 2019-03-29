@@ -1,0 +1,22 @@
+uuid: 024d0ca7-1e16-4133-9df7-e4706a5599e8
+river: Usk
+section: 'Talybont-on-Usk to Llangynidr'
+km: 6
+grade:
+  text: '3'
+  value: 3
+desc: 'Combined with the section below is the classic Usk paddle. An excellent play-run when in flood, still a good paddle at low levels. Highlight is Mill Falls, a fun blast in the middle. Takeout on river left at the bridge or continue downstream.'
+directions: 'Putin at the bridge on the minor road off the A40 heading towards Talybont-on-Usk. Parking is a bit tight as you have to just tuck the car into the roadside on the river-right side of the bridge. A stile leads into the field on upstream river-right from which you can access the river just above the bridge. Takeout at Llangynidr bridge or continue straight onto the next section which has probably the best whitewater. Parking at Llangynidr is also slightly tricky, you will have to head up the hill in either direction from the bridge and park in the village or on the verge.'
+putin:
+  lat: 51.9016172
+  lng: -3.2769597
+takeout:
+  lat: 51.8750109
+  lng: -3.2329757
+measures:
+  -
+    scrape: 0.7
+    low: 0.85
+    high: 2
+    huge: 3.2
+    data_url: 'rloi://4041'

@@ -1,0 +1,23 @@
+uuid: 77af822c-a276-49fb-8577-c27e10d17287
+river: 'Bedburn Beck'
+section: 'Source to Wear Confluence'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'Spate beck formed from the confluence of Euden and Spurlswood Becks in Hamsterley forest. A few gorgy sections of grade 3. Obviously trees can be an issue!'
+directions: 'Put-in points at various places within Hamsterley forest. The highest available being the confluence of Euden and Spurlswood at Grove Park. Follow the Forest Drive through Hamsterley, use one of the car parks and put-on as high up as you feel like. Multiple get-outs from the bridge in Bedburn down to the Wear itself where it passes under the A68.'
+putin:
+  lat: 54.6639217
+  lng: -1.8981235
+takeout:
+  lat: 54.671144
+  lng: -1.7767625
+measures:
+  -
+    scrape: 0.45
+    low: 0.5
+    medium: 0.6
+    high: 0.8
+    huge: 1
+    data_url: 'rloi://8018'

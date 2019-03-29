@@ -1,0 +1,15 @@
+uuid: 66415d94-c08c-4bb2-a4c1-f6396609dc77
+river: Tawe
+section: 'Abercraf to Twrch Confluence'
+km: 10
+grade:
+  text: '3'
+  value: 3
+desc: 'A good run, with an excellent gorge between nasty weirs. Watch out for Abercraf weir on a left-hand bend not far from the putin: it needs to be portaged early on river right. It can be inspecting by walking through the children''s playground in the village. A great gorge follows before a double weir under a bridge just downstream of Ystradgynlais and the confluence with the Giedd. This can be difficult to stop above and so may be worth inspecting before you putin. A few easier weirs lead down the takeout on river right at the Twrch confluence.'
+directions: 'Putin along a footpath on river left at the upstream A4067 bridge in Abercraf. Takeout on river right at the confluence with the Twrch (between Ystragynlais and Ystalyfera).'
+putin:
+  lat: 51.8006519
+  lng: -3.7038873
+takeout:
+  lat: 51.7605722
+  lng: -3.7825203

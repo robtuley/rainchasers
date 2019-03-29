@@ -1,0 +1,16 @@
+uuid: bc8092c2-6e33-4092-b7d8-2c057db1911e
+river: Nantygywryd
+section: 'A4086 to Garth Farm Bridge'
+km: 5
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Fast and fiercely continuous spate ditch across a featureless moor. About 1km into the run is a harder slot-like drop, inspect river right: be careful as there are few eddies and little warning. After this the river eases until a weir just before the takeout.'
+directions: 'Putin at the layby by the junction of A4086/A498 at the eastern foot of Llanberis Pass. Takeout at the first lake you reach heading towards Capel Curig from the putin.'
+putin:
+  lat: 53.0840515
+  lng: -3.9968642
+takeout:
+  lat: 53.0974517
+  lng: -3.9414471

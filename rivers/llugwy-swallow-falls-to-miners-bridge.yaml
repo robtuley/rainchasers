@@ -1,0 +1,16 @@
+uuid: d160fb60-5a80-45df-a238-e175cef781bc
+river: Llugwy
+section: 'Swallow Falls to Miner''s Bridge'
+km: 2
+grade:
+  text: '4 (5)'
+  value: 4
+  max: 5
+desc: 'Swallows Falls can be paddled as a park-n-slide in low conditions, at higher levels you would normally getin underneath the main falls. These falls are usually sneaked down the river right channel, although it has been main-lined down the centre. A kilomtre or so of easier water follows until you reach another 500m of tough drops culminating at Miner''s bridge, a footbridge across the river. Either getout here or continue down a short stretch of easier water to Betws-y-Coed. If you do continue downstream, there is another tough drop behind the chip-shop in the middle of town.'
+directions: 'Putin at Swallow Falls on the A5 just north of Betws-y-Coed: there is a large layby opposite the Swallow Falls Hotel. Takeout at Miner''s Bridge just at the outskirts of Betws-y-Coed or continue down into the town.'
+putin:
+  lat: 53.1025357
+  lng: -3.8442787
+takeout:
+  lat: 53.0956251
+  lng: -3.8235506

@@ -1,0 +1,15 @@
+uuid: 851c6fd9-3160-49ef-9467-502c34ed261a
+river: 'Cowside Beck'
+section: 'Source to Arncliffe'
+km: 5
+grade:
+  text: 3/4
+  value: 3.5
+desc: 'A spate beck with an excellent continuous gorge nestled between easier sections.'
+directions: 'Park on side of road where the Pennine Way crosses the Malham/Arncliffe road. Only really room for one vehicle. Walk downhill for approx 100 metres, through gate and across fields towards the beck. Put on as soon as there''s enough water to float. Take out at the road bridge in Arncliffe.'
+putin:
+  lat: 54.1152641
+  lng: -2.1787986
+takeout:
+  lat: 54.1432775
+  lng: -2.1083316

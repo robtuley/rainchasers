@@ -1,0 +1,15 @@
+uuid: 68b8411f-3bac-417f-a471-7c92208f1a6a
+river: Vyrnwy
+section: 'Pontrobert to A490'
+km: 13
+grade:
+  text: '1'
+  value: 1
+desc: 'A touring run best done in low to medium flows due to the 3 weirs.'
+directions: 'Putin from the carpark near the bridge in Pontrobert, and takeout at the A490 bridge.'
+putin:
+  lat: 52.7046266
+  lng: -3.3222153
+takeout:
+  lat: 52.7322948
+  lng: -3.1925804

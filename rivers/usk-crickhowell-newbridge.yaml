@@ -1,0 +1,15 @@
+uuid: a2f357f0-cfa1-4bb9-8515-3555d00ba81a
+river: Usk
+section: 'Crickhowell to Newbridge'
+km: 44
+grade:
+  text: '2'
+  value: 2
+desc: 'A pleasant touring run with a few small weirs to negotiate.'
+directions: 'Easy to make shorter or longer as desired. Putin at the A4077 bridge at Crickhowell, at the meadows in Abergavenny, or any of the bridges down to Usk. The takeout at Newbridge can be made conveniently straight into the pub beer garden on river right (with permission!), or it is possible to continue downstream even as far as Caerleon.'
+putin:
+  lat: 51.8563422
+  lng: -3.1434353
+takeout:
+  lat: 51.6486599
+  lng: -2.8901378

@@ -1,0 +1,15 @@
+uuid: f9f9ef75-876b-42ab-810b-aaad279c46cb
+river: 'Ogwr Fach'
+section: 'Evanstown to Blackmill'
+km: 7
+grade:
+  text: '3'
+  value: 3
+desc: 'The river needs to be at least bank full, at such levels it will be a fun run with plenty of trees to dodge and a couple of weirs.'
+directions: 'Putin just downstream of the tunnel under the B4564 at Evanstown. Takeout at the small bridge off the A4093 at Blackmill.'
+putin:
+  lat: 51.5923735
+  lng: -3.4749809
+takeout:
+  lat: 51.5688252
+  lng: -3.5402944

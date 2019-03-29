@@ -1,0 +1,22 @@
+uuid: 6a77101f-8394-4914-89f1-2773e6edd01f
+river: Goyt
+section: 'Brabyn''s Park to MCC site'
+km: 2.5
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A collection of weirs coupled with MCC''s slalom site. Possible to extend the trip with more weirs in high water by starting as far up as Whalley Bridge or getting out as far down as Stockport. In spate some weirs will need portaging.'
+directions: null
+putin:
+  lat: 53.4017269
+  lng: -2.0546577
+takeout:
+  lat: 53.4017394
+  lng: -2.0968732
+measures:
+  -
+    scrape: 0.45
+    low: 0.5
+    medium: 0.6
+    high: 0.8
+    data_url: 'rloi://5096'

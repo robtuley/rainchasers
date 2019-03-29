@@ -1,0 +1,15 @@
+uuid: e9262506-2303-4da8-99cf-0976fe269373
+river: Dee
+section: 'Farndon to Chester'
+km: 20
+grade:
+  text: '1'
+  value: 1
+desc: 'Pleasant flat touring paddle, forming the border between England and Wales for much of its length.'
+directions: 'Putin at the narrow road bridge in the village of Farndon (just downstream of where the A534 crosses the river). There are various possible takeouts in Chester.'
+putin:
+  lat: 53.0835543
+  lng: -2.8798087
+takeout:
+  lat: 53.1937614
+  lng: -2.9056839

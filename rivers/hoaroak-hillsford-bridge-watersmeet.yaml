@@ -1,0 +1,15 @@
+uuid: 022740c8-ab84-43b9-9a5d-b913e54a325d
+river: Hoaroak
+section: 'Hillsford Bridge to Watersmeet'
+km: 1
+grade:
+  text: '5'
+  value: 5
+desc: 'Tight, steep and technical with numerous crunchy waterfalls. It is worth inspecting the whole run from the footpath on river right before you get on.'
+directions: 'Putin at Hillsford Bridge near the junction between the A39 and the B3223, where you can climb down to the river. The Hoaroak ends at the confluence with the East Lyn where it is possible to get out although most will want to continue down the East Lyn to Lynmouth.'
+putin:
+  lat: 51.2151595
+  lng: -3.8043914
+takeout:
+  lat: 51.2250106
+  lng: -3.79903

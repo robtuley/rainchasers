@@ -1,0 +1,23 @@
+uuid: ba4f8f8c-e02b-45ab-a383-b6173c79cfbd
+river: 'Arkle Beck'
+section: 'Whaw to Swale Confluence'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A trib of the Swale, which runs in high water. Starts off as fast continuous grade 3 from Whaw in decent water, with few eddies. Mellows a bit in the middle, and gets shallow where the river splits into various channels. Steeps up a bit again as you approach Reeth. There''s one sheep fence to be aware of and trees are always going to be an issue, particuarly towards the end.'
+directions: "If the water is high put in at the road bridge in Whaw where there's space for a couple of cars, otherwise use the road bridge above Langthwaite. In very high water it may be possible to put-in even higher up for added fast grade 3.\nTake out either in Reeth or in Grinton after the Swale confluence, or continue down the Swale."
+putin:
+  lat: 54.4351324
+  lng: -2.0287241
+takeout:
+  lat: 54.3820351
+  lng: -1.9298513
+measures:
+  -
+    scrape: 0.55
+    low: 0.6
+    medium: 0.75
+    high: 0.9
+    huge: 1.1
+    data_url: 'rloi://8168'

@@ -1,0 +1,15 @@
+uuid: dc1b7ec0-1354-4eb5-95af-943d5bed923a
+river: Machno
+section: 'Penmachno to Penmachno Mill'
+km: 4
+grade:
+  text: '1'
+  value: 1
+desc: 'A fun meandering paddle, good for beginners. Be careful to make the takeout.'
+directions: 'Putin from a small footpath just off the B4406 about a km upstream of Penmachno. Takeout just ABOVE the bridge at Penmachno Woollen Mill just before the confluence with the Conwy. This final section to the confluence is pot-holed grade 5, best avoided.'
+putin:
+  lat: 53.0288937
+  lng: -3.8123564
+takeout:
+  lat: 53.0589226
+  lng: -3.7830613

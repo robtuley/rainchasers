@@ -1,0 +1,23 @@
+uuid: 07d02d65-e964-4b41-aff0-306a904a968f
+river: Clough
+section: 'Garsdale Head to Bellow End Bridge'
+km: 8
+grade:
+  text: '4'
+  value: 4
+desc: 'Steep and continuous with regular bedrock falls including the infamous Lemmings drop which is notoriously difficult to stop in time to inspect.'
+directions: 'Putin at on of the many A684 bridges near Garsdale Station if there is enough water (it''s obvious just by looking at the river, what you see is what you get). The section is best combined with the lower section of the river.'
+putin:
+  lat: 54.321866
+  lng: -2.3322994
+takeout:
+  lat: 54.3106228
+  lng: -2.441026
+measures:
+  -
+    scrape: 1.4
+    low: 1.85
+    medium: 2
+    high: 2.2
+    huge: 2.6
+    data_url: 'rloi://5020'

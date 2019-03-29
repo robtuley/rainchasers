@@ -1,0 +1,16 @@
+uuid: ba918894-4727-4a01-8b8e-ab3a89e07d60
+river: Loughor
+section: 'Capel Dewi bridge to Pontardulais'
+km: 19
+grade:
+  text: '2 (5)'
+  value: 2
+  max: 5
+desc: 'The top section is fast but tree-infested, but soon turns into a pleasant touring paddle. Watch out for a 8m waterfall about 5km down just below a small bridge over the river (inspect from the footpath on river left).'
+directions: 'Takeout at the main road bridge in Pontardulais, just before the confluence with the Gwili. Putin at the bridge about a km upstream of Dre-fach. The top section can be tree-infested and there are a number of small bridges further downstream if you want to shorten the trip.'
+putin:
+  lat: 51.8359351
+  lng: -3.9462712
+takeout:
+  lat: 51.7159837
+  lng: -4.0459126

@@ -1,0 +1,15 @@
+uuid: baa78320-0189-49f5-899d-744308375c9a
+river: Lugg
+section: 'Bridge End to Combe'
+km: 15
+grade:
+  text: '1'
+  value: 1
+desc: 'A pleasant touring run with a lot of weirs and fences to negotiate.'
+directions: 'Putin at the B4357 road bridge just south of Whitton (the next bridge downstream of the A488 Monaughty bridge). Takeout just before the confluence with the Wye at a small road bridge just off the B4362 near Combe.'
+putin:
+  lat: 52.2957499
+  lng: -3.0746777
+takeout:
+  lat: 52.2709663
+  lng: -2.9559577

@@ -1,0 +1,23 @@
+uuid: b517b40b-d725-48d5-a087-aaa663ea9099
+river: Lowther
+section: 'Crookwath Bridge to Brougham Castle'
+km: 9
+grade:
+  text: '3'
+  value: 3
+desc: 'Bouldery grade 2/3 rapids in pleasant woodland. '
+directions: "To put-in, take the public footpath down to the river at Crookwath Bridge.\nGet out on the right bank above Brougham Castle Bridge.\n\nAlternatively, for a shorter run get on at Askham Bridge and get off at the A6 Bridge at the entrance to Lowther Caravan Site."
+putin:
+  lat: 54.5931544
+  lng: -2.7488705
+takeout:
+  lat: 54.654664
+  lng: -2.7173458
+measures:
+  -
+    scrape: 0.8
+    low: 0.9
+    medium: 1.1
+    high: 1.3
+    huge: 1.6
+    data_url: 'rloi://5169'

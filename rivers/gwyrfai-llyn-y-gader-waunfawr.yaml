@@ -1,0 +1,16 @@
+uuid: f733630f-7b60-42ec-aa7a-8329f2efb6b6
+river: Gwyrfai
+section: 'Llyn Y Gader to Waunfawr'
+km: 7
+grade:
+  text: '2 (4)'
+  value: 2
+  max: 4
+desc: 'A mixed bag. From Llyn Y Gader to Llyn Cwellyn is a scrappy gd 4, but then it''s a slog across the lake (you can takeout at the start of the lake and just do this top section though). The section from Llyn Cwellyn to Waunfawr is unremarkable gd2 mostly, but there is a nice gd4 drop at Betws Garmon.'
+directions: 'Takeout at either of the two A4085 road bridges (the lower one being near Waunfawr). Putin on Llyn Y Gader, the smaller lake after Llyn Cwellyn as you continue upstream along the A4085.'
+putin:
+  lat: 53.0475764
+  lng: -4.1306681
+takeout:
+  lat: 53.1079544
+  lng: -4.2032245

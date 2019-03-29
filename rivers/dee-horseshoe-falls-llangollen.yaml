@@ -1,0 +1,22 @@
+uuid: 75148ca0-ee5e-4344-8534-db9a59ed4cd0
+river: Dee
+section: "Horseshoe Falls to Llangollen"
+km: 3
+grade:
+  text: 3/4
+  value: 3.5
+desc: "The classic section of the Dee. At low to medium levels a pool-drop run often used to introduce beginners to grade 3 paddling, at high to spate flows an excellent playrun. The hardest rapid (Town Falls) is right at the takeout under the main bridge in Llangollen: take care as the small weir just below this is reputed to contain metal spikes. Takeout ~100m after the bridge on river left. The rapids at Mile End Mill at the outskirts of Llangollen provide an early takeout (or simply a park and playspot) if you want to miss out Town Falls."
+directions: "Cross the river from the A5 at Berwyn along the B5103 and park for the putin in the carpark on river left. To reach Horseshoe Falls (a weir) walk 5 minutes upstream from the carpark, it is possible to walk out the back the highest parking area down a long grass slope to the river. Takeout in the carpark on river left just downstream of the main bridge in Llangollen. Alternatively, if you only have one car, Park in Llangollen, paddle up the canal to the put-in, then back down the river. Lovely."
+putin:
+  lat: 52.9807333
+  lng: -3.1989739
+takeout:
+  lat: 52.9703498
+  lng: -3.1683108
+measures:
+  - scrape: 0.45
+    low: 0.52
+    medium: 0.65
+    high: 0.95
+    huge: 1.25
+    data_url: "rloi://4163"

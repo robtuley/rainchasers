@@ -1,0 +1,16 @@
+uuid: db2486ba-cb39-4c2b-b448-7c7bee2679b9
+river: 'Dyfi (Dovey)'
+section: 'Dinas Mawddwy to Aberangell'
+km: 12
+grade:
+  text: '2/3 (3+)'
+  value: 2.5
+  max: 3.5
+desc: 'A gentle run, the hardest rapid is just after the confluence with the Dugoed.'
+directions: 'Putin in Dinas Mawddwy. To reach the takeout head south along the A470 and get out at the bridge in Aberangell.'
+putin:
+  lat: 52.7273325
+  lng: -3.6717232
+takeout:
+  lat: 52.6727618
+  lng: -3.7065329

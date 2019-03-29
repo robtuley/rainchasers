@@ -1,0 +1,15 @@
+uuid: b85e618b-cac0-44be-956e-570db65971d8
+river: Giedd
+section: 'Dorwen ar Giedd to Tawe confluence'
+km: 5
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Good gorge section, combined with the Nant Cyw makes a good day.'
+directions: 'Takeout at the A4067 bridge in Cwmgiedd. Head upstream along small roads on river left and get on from a layby near the Nant Cyw confluence.'
+putin:
+  lat: 51.8009813
+  lng: -3.752846
+takeout:
+  lat: 51.7846571
+  lng: -3.7560941

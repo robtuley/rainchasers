@@ -1,0 +1,23 @@
+uuid: 67f01d6c-1679-40f9-bbe8-b3f8fcb86cab
+river: Glaslyn
+section: 'Llyn Dinas to A498 roadside'
+km: 4.5
+grade:
+  text: '2 (3)'
+  value: 2
+  max: 3
+desc: 'Pleasant run with no nasties. Can be combined with the gorge below to provide interest for a mixed group of beginners and experts. Hardest section is about a mile above Beddgelert as the river passes under a bridge, you can stop and take a peek on the shuttle to confirm levels are OK.'
+directions: 'Putin from any of a number of laybys off the A498 next to Llyn Dinas, a few miles north of Beddgelert. Takeout either in Beddgelert itself, or from another layby off the A498 about a mile south of Beddgelert before the gorge.'
+putin:
+  lat: 53.025213
+  lng: -4.0683409
+takeout:
+  lat: 53.0003295
+  lng: -4.0986767
+measures:
+  -
+    scrape: 0.6
+    low: 0.7
+    medium: 0.95
+    high: 1.5
+    data_url: 'rloi://4155'

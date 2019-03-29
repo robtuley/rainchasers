@@ -1,0 +1,15 @@
+uuid: 4a233832-9bf2-409a-92e6-9e2aa240bf01
+river: Gwynant
+section: 'Cader car park to Abergwynant main road bridge'
+km: 4
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'A tough little stream that drains off the flanks of Cader Idris. The hardest section of the river is downstream from the Kings YH (the 2nd half), with the top half a gd3/4 warm-up. Watch out for a nasty weir about 200m upstream of the takeout bridge.'
+directions: 'Takeout at the A493 road bridge near Abergwynant. To reach the putin follow a small road upstream. About 2km upstream (after crossing from river right to river left) are two bridges off the road at the Kings Youth Hostel, it is possible to putin here if you wish. Alternatively carry on looping away and then back to the river (keep going left!) to the Ty Nant carpark and picnic spot.'
+putin:
+  lat: 52.7193658
+  lng: -3.9293732
+takeout:
+  lat: 52.7359586
+  lng: -3.9586495

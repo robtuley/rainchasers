@@ -1,0 +1,15 @@
+uuid: adfbb742-63ea-4c63-910e-46f52d150cb7
+river: 'Eden (Lakes)'
+section: 'Sands Rapid'
+km: 0.2
+grade:
+  text: '2'
+  value: 2
+desc: 'An easily accessible spot for practicing and introducing beginners to moving water without the need for a shuttle.'
+directions: 'Park in the Sands Leisure Centre car-park. Head to the river and walk ~100m upstream to the rapid.'
+putin:
+  lat: 54.9021469
+  lng: -2.9320691
+takeout:
+  lat: 54.9007403
+  lng: -2.9337571

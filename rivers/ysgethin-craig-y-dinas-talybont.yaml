@@ -1,0 +1,15 @@
+uuid: eb72fef2-f094-445c-99a6-fc12caf69b5c
+river: Ysgethin
+section: 'Craig y Dinas to Talybont'
+km: 4
+grade:
+  text: 4/5
+  value: 4.5
+desc: 'Steep and continuous, rarely paddled due to the walkin and high water required.'
+directions: 'Takeout in Talybont at the carpark just upstream river right of the A496 bridge. The putin requires a walkin: head upstream along the road opposite the church off the A486 north of Talybont as far as you can, then continue on foot before cutting down to the river.'
+putin:
+  lat: 52.7852027
+  lng: -4.0470217
+takeout:
+  lat: 52.7753593
+  lng: -4.0920623

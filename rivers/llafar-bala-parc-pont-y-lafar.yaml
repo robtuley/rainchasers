@@ -1,0 +1,15 @@
+uuid: 019f69f1-2e2e-43a4-9820-c23bf4c2e1aa
+river: 'Llafar (Bala)'
+section: 'Parc to Pont y Lafar'
+km: 2.5
+grade:
+  text: '2'
+  value: 2
+desc: 'Fun continuous but easy spate run. Watch out for fences on the way down.'
+directions: 'Takeout at the A494 road bridge just before the river meets the lake. Putin at the small bridge in Parc, it''s a bit tight and probably worth changing before you get there.'
+putin:
+  lat: 52.890996
+  lng: -3.6715624
+takeout:
+  lat: 52.8782098
+  lng: -3.6463148

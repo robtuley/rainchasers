@@ -1,0 +1,23 @@
+uuid: fdadced7-944c-4fd0-bd1b-b7c81d002888
+river: Tavy
+section: 'Tavistock to Denham Bridge'
+km: 10
+grade:
+  text: 2/3
+  value: 2.5
+desc: 'A quieter version of the Dart Loop. Mostly grade two, with one notable grade three after the Walkham confluence.'
+directions: null
+putin:
+  lat: 50.5435963
+  lng: -4.151267
+takeout:
+  lat: 50.4907238
+  lng: -4.1488086
+measures:
+  -
+    scrape: 0.3
+    low: 0.45
+    medium: 0.6
+    high: 1
+    huge: 1.25
+    data_url: 'rloi://3185'

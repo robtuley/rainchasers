@@ -1,0 +1,15 @@
+uuid: 10bbb691-06f2-4789-81f5-fc8cd0cc7e34
+river: 'Buckden Beck'
+section: 'Waterfall to Buckden'
+km: 0.5
+grade:
+  text: '4'
+  value: 4
+desc: 'A short, steep mountain-surfing stunt if you''ve done everything else in upper Wharfedale and it''s still raining. Point downstream and hold on - that''s about it. Be sure to find the eddy below the long slide and take out.... there''s a fence just below.'
+directions: 'From Buckden village, carry up the beck a couple of hundred yards to below the waterfall, putting on at the (too shallow) plungepool. '
+putin:
+  lat: 54.1936528
+  lng: -2.0840942
+takeout:
+  lat: 54.1913429
+  lng: -2.0881319

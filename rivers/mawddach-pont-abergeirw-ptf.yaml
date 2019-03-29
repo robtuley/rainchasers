@@ -1,0 +1,23 @@
+uuid: c2219ed7-8c0e-4be5-81b4-0901d6d92663
+river: Mawddach
+section: 'Pont Abergeirw to PTF'
+km: 9
+grade:
+  text: '5'
+  value: 5
+desc: 'A superb run. There are two good grade 5 feature drops before reaching the awesome Rhaeadr Mawddach waterfall, portage river right down a track to the confluence with the Gain. Two further gorges follow: the first is known as the "three nasties" (scout river left), the 2nd fun but easier. The run finishes with a bang with a 2m waterfall at the confluence with the Eden, then watch out for the weir immediately below. Takeout just after the next rapid "Public Toilet Falls" (PTF) up the bank on river right to the carpark by the toilets.'
+directions: 'Takeout at the public toilets in Ganllwyd, from here there is easy access down the bank to the river. A OS map is useful to find the putin along a maze of small roads to Pont Aber-Geirw.'
+putin:
+  lat: 52.8453008
+  lng: -3.8302145
+takeout:
+  lat: 52.8024541
+  lng: -3.8897167
+measures:
+  -
+    scrape: 0.5
+    low: 0.6
+    medium: 0.85
+    high: 1.1
+    huge: 1.4
+    data_url: 'rloi://4150'

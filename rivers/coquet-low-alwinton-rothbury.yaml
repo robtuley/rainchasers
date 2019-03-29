@@ -1,0 +1,21 @@
+uuid: 7a083f33-4a6f-461e-b52b-9251ced1ecc7
+river: Coquet
+section: 'Low Alwinton to Rothbury'
+km: 22
+grade:
+  text: '2'
+  value: 2
+desc: 'Fast flowing to begin with, before slowing down to touring pace as the river plateaus in the flood plains.'
+directions: 'Put in off the road bridge in Low Alnwinton and get out at the bridge in Rothbury. Thropton Bridge may be used as a put-in for a shorter trip.'
+putin:
+  lat: 55.344601
+  lng: -2.1234317
+takeout:
+  lat: 55.3081192
+  lng: -1.9087745
+measures:
+  -
+    scrape: 0.4
+    low: 0.5
+    high: 2.2
+    data_url: 'rloi://8008'

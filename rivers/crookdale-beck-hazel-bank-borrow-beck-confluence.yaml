@@ -1,0 +1,15 @@
+uuid: c747bdda-326f-46f4-ad0f-78e39d943989
+river: 'Crookdale Beck'
+section: 'Hazel Bank to Borrow Beck confluence'
+km: 1
+grade:
+  text: '4'
+  value: 4
+desc: 'A series of bedrock rapids and drops, with two of note. One is a rocky 5 foot drop immediately followed by a narrow slot and a boiling hole. The second is a chossy slide dropping with a couple of overhanging trees to keep things jazzy.'
+directions: 'Best run as an addition to Borrow Beck, the put-in can be found by taking a right hand turn onto a farm track about 1km south of the A6 bridge over Borrow Beck. Follow this parallel to the A6, over Borrow Beck, continuing until you can see the flat upper reaches of Crookdale Beck. Park in the area where there is no wall to cross and walk 100m to the put-in.'
+putin:
+  lat: 54.4384627
+  lng: -2.6903892
+takeout:
+  lat: 54.4294604
+  lng: -2.6927745

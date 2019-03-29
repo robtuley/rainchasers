@@ -1,0 +1,15 @@
+uuid: d7260d15-de05-4262-9a40-faf69b27fbd7
+river: Caldew
+section: 'Sebergham to Dalston'
+km: 10
+grade:
+  text: 1/2
+  value: 1.2
+desc: 'Meandering grade 1 with bits of 2, one large weir near the end which is a prudent portage (left) at high levels, though good fun to run when the stopper at the bottom doesn''t look too mean.'
+directions: 'Carpark just below the bridge on river left at Sebergham. From here drive west to the B5299 and turn right to Dalston. There is a footbridge and small car park on river left near the centre of town.'
+putin:
+  lat: 54.7675971
+  lng: -3.0007265
+takeout:
+  lat: 54.8394788
+  lng: -2.9818045

@@ -1,0 +1,22 @@
+uuid: 4996cdf7-332f-4fbe-8b05-4ad5c4d9c35a
+river: 'Esk (Yorkshire)'
+section: 'Houlsyke to Egton Bridge'
+km: 10
+grade:
+  text: '3'
+  value: 3
+desc: 'An expedition into the Yorkshire Moors in heavy rain may result in finding this river up. It consists of three gorges running at grade 3 (possibly 4 in high levels) connected by flat water. '
+directions: 'It is possible to put in at Castleton, but this only adds another 10km of arduous flat water. The normal put-in is therefore a mile or two above Lealholm, under a railway bridge and along a footpath across a field. Parking here is difficult, we dropped the boats and parked in a layby a few hundred metres further up the road on the left. Get out river right at Egton Bridge.'
+putin:
+  lat: 54.4573827
+  lng: -0.8489864
+takeout:
+  lat: 54.4350989
+  lng: -0.7622367
+measures:
+  -
+    low: 0.4
+    medium: 0.5
+    high: 1
+    huge: 1.5
+    data_url: 'rloi://8232'

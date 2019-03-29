@@ -1,0 +1,15 @@
+uuid: f7525636-87f9-43ff-8154-386172947498
+river: Dee
+section: 'Trevor to Erbistock/Overton Bridge'
+km: 16
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'An excellent touring section, just a couple of weirs to watch out for in the last 2km of the run.'
+directions: 'Putin at the B5434 narrow road bridge over the river just outside Trevor. Takeout at the pub next to the A528 road bridge between Erbistock and Overton.'
+putin:
+  lat: 52.9707963
+  lng: -3.0913668
+takeout:
+  lat: 52.9777673
+  lng: -2.9629587

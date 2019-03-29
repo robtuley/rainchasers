@@ -1,0 +1,20 @@
+uuid: f762dc95-8b54-45e8-9780-85e9304416af
+river: Teme
+section: 'Ludlow to Ashford Carbonell'
+km: 5
+grade:
+  text: 1/2
+  value: 1.5
+desc: 'Relaxing bimble with a few weirs.'
+directions: null
+putin:
+  lat: 52.3636086
+  lng: -2.7200927
+takeout:
+  lat: 52.3358563
+  lng: -2.7053092
+measures:
+  -
+    medium: 1.75
+    high: 2
+    data_url: 'rloi://2086'

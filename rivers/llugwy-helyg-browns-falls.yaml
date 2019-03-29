@@ -1,0 +1,15 @@
+uuid: b1b4f185-acc4-451c-8678-9b127fa216c7
+river: Llugwy
+section: 'Helyg to Brown''s Falls'
+km: 4
+grade:
+  text: '4'
+  value: 4
+desc: 'Spate ditch, gets harder from start to finish with the final ("Brown''s") falls the highlight.'
+directions: 'Takeout behind Brown''s climbing shop at the junction between the A4086 and the A5 at Capel Curig. Find a convenient putin by heading north along the A5 from the takeout, you can see the river from the road.'
+putin:
+  lat: 53.122955
+  lng: -3.9665043
+takeout:
+  lat: 53.1056081
+  lng: -3.9128602
