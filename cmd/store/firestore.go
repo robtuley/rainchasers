@@ -135,6 +135,7 @@ func (fw *FireWriter) Store(ctx context.Context, record *Record) report.Span {
 	s := record.Section
 	object := algoliasearch.Object{
 		"objectID": uuid,
+		"slug":     s.Slug,
 		"section":  s.SectionName,
 		"river":    s.RiverName,
 		"grade":    s.Grade.Human,

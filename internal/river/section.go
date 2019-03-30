@@ -34,6 +34,7 @@ type Calibration struct {
 // Section is a paddleable river section
 type Section struct {
 	UUID        string        `firestore:"uuid" yaml:"uuid"`
+	Slug        string        `firestore:"slug"` // derived from filename not yaml
 	SectionName string        `firestore:"section" yaml:"section"`
 	RiverName   string        `firestore:"river" yaml:"river"`
 	KM          float32       `firestore:"km" yaml:"km"`

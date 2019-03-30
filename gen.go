@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 	"time"
 
@@ -30,6 +31,9 @@ func main() {
 		var r river.Section
 		err = yaml.Unmarshal(y, &r)
 		die(err)
+
+		// derive the url slug from the filepath
+		r.Slug = strings.TrimSuffix(filepath.Base(fn), ".yaml")
 
 		rivers = append(rivers, r)
 	}
