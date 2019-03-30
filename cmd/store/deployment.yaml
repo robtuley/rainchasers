@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rainchasers-firestore
+  name: rainchasers-store
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: rainchasers-firestore
+      name: rainchasers-store
   template:
     metadata:
       labels:
-        name: rainchasers-firestore
+        name: rainchasers-store
     spec:
       containers:
-        - name: rainchasers-firestore
-          image: eu.gcr.io/tuleyprod/gauge/firestore:latest
+        - name: rainchasers-store
+          image: eu.gcr.io/tuleyprod/gauge/store:latest
           env:
             - name: GET_HOSTS_FROM
               value: dns
