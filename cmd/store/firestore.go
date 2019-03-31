@@ -138,6 +138,7 @@ func (fw *FireWriter) Store(ctx context.Context, record *Record) report.Span {
 	// write to algolia
 	aSpan := report.StartSpan("algolia.store").Field("uuid", uuid)
 	s := record.Section
+	l := record.Level
 	object := algoliasearch.Object{
 		"objectID": uuid,
 		"slug":     s.Slug,
@@ -150,6 +151,9 @@ func (fw *FireWriter) Store(ctx context.Context, record *Record) report.Span {
 			"lat": s.Putin.Lat,
 			"lng": s.Putin.Lng,
 		},
+		"level_label":     l.Label,
+		"level_reason":    l.Reason,
+		"level_timestamp": l.EventTime,
 	}
 	_, err = fw.AlgoliaIndex.UpdateObject(object)
 	if err != nil {
