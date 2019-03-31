@@ -41,3 +41,24 @@ func (l Level) String() string {
 	}
 	return "unknown"
 }
+
+// StringToLevel converts a string to a level value
+func StringToLevel(str string) Level {
+	switch str {
+	case Empty.String():
+		return Empty
+	case Scrape.String():
+		return Scrape
+	case Low.String():
+		return Low
+	case Medium.String():
+		return Medium
+	case High.String():
+		return High
+	case Huge.String():
+		return Huge
+	case TooHigh.String():
+		return TooHigh
+	}
+	return Unknown
+}

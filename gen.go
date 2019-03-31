@@ -115,25 +115,25 @@ func yamlCalibrationToRiverCalibration(yc YamlCalibration) river.Calibration {
 	c := river.Calibration{
 		URL:         yc.URL,
 		Description: yc.Description,
-		Minimum:     make(map[river.Level]float32),
+		Minimum:     make(map[string]float32),
 	}
 	if yc.Scrape != nil {
-		c.Minimum[river.Scrape] = *yc.Scrape
+		c.Minimum[river.Scrape.String()] = *yc.Scrape
 	}
 	if yc.Low != nil {
-		c.Minimum[river.Low] = *yc.Low
+		c.Minimum[river.Low.String()] = *yc.Low
 	}
 	if yc.Medium != nil {
-		c.Minimum[river.Medium] = *yc.Medium
+		c.Minimum[river.Medium.String()] = *yc.Medium
 	}
 	if yc.High != nil {
-		c.Minimum[river.High] = *yc.High
+		c.Minimum[river.High.String()] = *yc.High
 	}
 	if yc.Huge != nil {
-		c.Minimum[river.Huge] = *yc.Huge
+		c.Minimum[river.Huge.String()] = *yc.Huge
 	}
 	if yc.TooHigh != nil {
-		c.Minimum[river.TooHigh] = *yc.TooHigh
+		c.Minimum[river.TooHigh.String()] = *yc.TooHigh
 	}
 	return c
 }

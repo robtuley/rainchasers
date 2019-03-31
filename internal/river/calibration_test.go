@@ -6,15 +6,15 @@ import (
 
 func TestLevelAt(t *testing.T) {
 	c := Calibration{
-		Minimum: make(map[Level]float32),
+		Minimum: make(map[string]float32),
 	}
 
 	if state := c.LevelAt(1.0); state != Unknown {
 		t.Fatal("no readings and has level", state)
 	}
 
-	c.Minimum[Scrape] = 1.2
-	c.Minimum[High] = 1.7
+	c.Minimum[Scrape.String()] = 1.2
+	c.Minimum[High.String()] = 1.7
 
 	expect := map[Level]float32{
 		Empty:  1.19,
