@@ -68,7 +68,7 @@ func (fw *FireWriter) LoadAndUpdate(ctx context.Context, s river.Section) (*Reco
 
 	// if river has not changed, do nothing
 	if record != nil {
-		if s.Checksum() == record.Section.Checksum() {
+		if checksum(s) == checksum(record.Section) {
 			return record, span.End()
 		}
 	}
@@ -77,6 +77,11 @@ func (fw *FireWriter) LoadAndUpdate(ctx context.Context, s river.Section) (*Reco
 	// definition has changed
 	new := Record{
 		Section: s,
+		Level: Level{
+			Label:  river.Unknown.String(),
+			Reason: "Not yet calibrated against nearby gauges",
+		},
+		Measures: make([]Measure, 0),
 	}
 	sp = fw.Store(ctx, &new)
 	span = span.Child(sp)

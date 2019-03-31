@@ -1,10 +1,8 @@
 package main
 
 import (
-	"crypto/sha1"
-	"encoding/gob"
-	"encoding/hex"
 	"sort"
+	"strconv"
 	"time"
 
 	"github.com/rainchasers/content/internal/gauge"
@@ -28,11 +26,11 @@ func (rs readingSorter) Less(i, j int) bool {
 // Record is the river as written to firestore
 type Record struct {
 	Section  river.Section `firestore:"section"`
-	Level    *Level        `firestore:"level,omitempty"`
+	Level    Level         `firestore:"level"`
 	Measures []Measure     `firestore:"measures"`
 }
 
-// Level is the calculated river current state
+// Level is the calculated river current level state
 type Level struct {
 	EventTime     time.Time `firestore:"event_time"`     // time when this was true
 	ProcessedTime time.Time `firestore:"processed_time"` // time when this was processed
@@ -48,11 +46,24 @@ type Measure struct {
 	ProcessedTime time.Time         `firestore:"processed_time"`
 }
 
-// Checksum provides a checksum of current state
-func (m Measure) Checksum() string {
-	b := sha1.New()
-	gob.NewEncoder(b).Encode(m)
-	return hex.EncodeToString(b.Sum(nil))
+// LatestLevel returns the latest level calibration if available
+func (m Measure) LatestLevel() Level {
+	if len(m.Readings) == 0 {
+		return Level{
+			Label:  river.Unknown.String(),
+			Reason: "No readings currently available from " + m.Station.Name,
+		}
+	}
+
+	// readings are always sorted by most recent first by convention
+	r := m.Readings[0]
+	v := strconv.FormatFloat(float64(r.Value), 'f', 2, 32)
+	return Level{
+		EventTime:     r.EventTime,
+		ProcessedTime: m.ProcessedTime,
+		Label:         m.Calibration.LevelAt(r.Value).String(),
+		Reason:        v + " at " + m.Station.Name,
+	}
 }
 
 func merge(a []gauge.Reading, b []gauge.Reading) []gauge.Reading {

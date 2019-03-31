@@ -70,7 +70,7 @@ updateLoop:
 	for _, s := range content.Sections {
 		// get firestore info for the section
 		// (& update if necessary)
-		river, span := c.Writer.LoadAndUpdate(ctx, s)
+		record, span := c.Writer.LoadAndUpdate(ctx, s)
 		d.Trace(span)
 		if err := span.Err(); err != nil {
 			return err
@@ -78,15 +78,16 @@ updateLoop:
 
 		// if calibration exists then launch goroutine
 		// to listen to snapshots and update river
-		if len(s.Measures) > 0 {
+		calibrations, isCalibrated := content.Calibrations[s.UUID]
+		if isCalibrated {
 			ch := make(chan *gauge.Snapshot)
 
 			// add to routing table
-			for _, m := range s.Measures {
+			for _, m := range calibrations {
 				c.SnapRoute[m.URL] = append(c.SnapRoute[m.URL], ch)
 			}
 
-			fn := c.CreateSnapshotsWriter(*river, s.Measures, ch)
+			fn := c.CreateSnapshotsWriter(*record, calibrations, ch)
 			d.Run(context.Background(), fn)
 		}
 
@@ -170,20 +171,24 @@ func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibr
 			span = span.Field("alias_url", snap.Station.AliasURL)
 
 			m := record.Measures[index]
-			checksum := m.Checksum()
+			prevChecksum := checksum(m)
 
+			// merge snapshot into the measure
 			m.Readings = merge(m.Readings, snap.Readings)
 			expiry := time.Now().Add(-4 * 24 * time.Hour)
 			removeOlderThan(expiry, &m.Readings)
 			m.Station = snap.Station
-
-			if checksum == m.Checksum() {
+			if prevChecksum == checksum(m) {
 				// measure has not changed wait for next one
 				continue nextSnapshot
 			}
 			m.ProcessedTime = snap.ProcessedTime
-
 			record.Measures[index] = m
+
+			// use updated measure to re-calulate level state
+			record.Level = m.LatestLevel()
+
+			// write the update to firestore
 			wSpan := c.Writer.Store(ctx, &record)
 			span = span.Child(wSpan)
 			c.Log.Trace(span.End())

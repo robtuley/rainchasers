@@ -19,23 +19,52 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type YamlCalibration struct {
+	URL         string   `yaml:"data_url"`
+	Description string   `yaml:"desc"`
+	Scrape      *float32 `yaml:"scrape,omitempty"`
+	Low         *float32 `yaml:"low,omitempty"`
+	Medium      *float32 `yaml:"medium,omitempty"`
+	High        *float32 `yaml:"high,omitempty"`
+	Huge        *float32 `yaml:"huge,omitempty"`
+	TooHigh     *float32 `yaml:"toohigh,omitempty"`
+}
+
+type YamlMeasures struct {
+	Measures []YamlCalibration `yaml:"measures"`
+}
+
 func main() {
 	files, err := filepath.Glob("./rivers/*.yaml")
 	die(err)
 
-	var rivers []river.Section
+	var sections []river.Section
+	calibrations := make(map[string][]river.Calibration)
+
+nextFile:
 	for _, fn := range files {
 		y, err := ioutil.ReadFile(fn)
 		die(err)
 
-		var r river.Section
-		err = yaml.Unmarshal(y, &r)
+		// parse a section from yaml
+		var s river.Section
+		err = yaml.Unmarshal(y, &s)
 		die(err)
+		s.Slug = strings.TrimSuffix(filepath.Base(fn), ".yaml")
+		sections = append(sections, s)
 
-		// derive the url slug from the filepath
-		r.Slug = strings.TrimSuffix(filepath.Base(fn), ".yaml")
-
-		rivers = append(rivers, r)
+		// parse a calibration from yaml
+		var m YamlMeasures
+		err = yaml.Unmarshal(y, &m)
+		die(err)
+		if len(m.Measures) == 0 {
+			continue nextFile
+		}
+		var all []river.Calibration
+		for _, yc := range m.Measures {
+			all = append(all, yamlCalibrationToRiverCalibration(yc))
+		}
+		calibrations[s.UUID] = all
 	}
 
 	f, err := os.Create("rivers.go")
@@ -43,11 +72,13 @@ func main() {
 	defer f.Close()
 
 	packageTemplate.Execute(f, struct {
-		Timestamp time.Time
-		Rivers    []river.Section
+		Timestamp    time.Time
+		Sections     []river.Section
+		Calibrations map[string][]river.Calibration
 	}{
-		Timestamp: time.Now(),
-		Rivers:    rivers,
+		Timestamp:    time.Now(),
+		Sections:     sections,
+		Calibrations: calibrations,
 	})
 }
 
@@ -65,9 +96,44 @@ package content
 
 import "github.com/rainchasers/content/internal/river"
 
+// Calibrations define those sections calibrated in uuid keyed map
+var Calibrations = map[string][]river.Calibration{
+{{- range $key, $value := .Calibrations }}
+	{{ printf "%#v" $key }}: {{ printf "%#v" $value }},
+{{- end }}
+}
+
+// Sections are the river sectionn definitions
 var Sections = []river.Section{
-{{- range .Rivers }}
+{{- range .Sections }}
 	{{ printf "%#v" . }},
 {{- end }}
 }
 `))
+
+func yamlCalibrationToRiverCalibration(yc YamlCalibration) river.Calibration {
+	c := river.Calibration{
+		URL:         yc.URL,
+		Description: yc.Description,
+		Minimum:     make(map[river.Level]float32),
+	}
+	if yc.Scrape != nil {
+		c.Minimum[river.Scrape] = *yc.Scrape
+	}
+	if yc.Low != nil {
+		c.Minimum[river.Low] = *yc.Low
+	}
+	if yc.Medium != nil {
+		c.Minimum[river.Medium] = *yc.Medium
+	}
+	if yc.High != nil {
+		c.Minimum[river.High] = *yc.High
+	}
+	if yc.Huge != nil {
+		c.Minimum[river.Huge] = *yc.Huge
+	}
+	if yc.TooHigh != nil {
+		c.Minimum[river.TooHigh] = *yc.TooHigh
+	}
+	return c
+}
