@@ -2,9 +2,9 @@ package river
 
 // Calibration is a referenced gauge related to a section
 type Calibration struct {
-	URL         string
-	Description string
-	Minimum     map[Level]float32
+	URL         string            `firestore:"data_url"`
+	Description string            `firestore:"desc"`
+	Minimum     map[Level]float32 `firestore:"-"`
 }
 
 // LevelAt provides the level state at a certain reading
