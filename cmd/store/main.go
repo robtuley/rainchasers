@@ -104,6 +104,23 @@ updateLoop:
 
 func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibration, ch chan *gauge.Snapshot) func(ctx context.Context, d *daemon.Supervisor) error {
 	return func(ctx context.Context, d *daemon.Supervisor) error {
+		// the calibrations may have changed on previously inited measures
+		// that have been pulled from firestore, so reset the calibrations
+		// stored against each measure. if a calibration no longer exists, the
+		// measure should be deleted.
+		for i := range record.Measures {
+			cal, exists := findCalibrationForStation(calibrations, record.Measures[i].Station)
+			if exists {
+				record.Measures[i].Calibration = cal
+			} else {
+				// delete this index from the slice
+				record.Measures = append(record.Measures[:i], record.Measures[i+1:]...)
+			}
+		}
+
+		// now we have updated the measures, we start building the map of where to
+		// route snapshots too. Where a snapshot misses (i.e. a new measure), this
+		// is lazy-inited as we need to wait for a snapshot with the station info in
 		aliasURLToIndex := make(map[string]int)
 		for i, m := range record.Measures {
 			aliasURLToIndex[m.Station.AliasURL] = i
@@ -128,25 +145,16 @@ func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibr
 			}
 			ticker.Stop()
 
-			// which measure index does this snapshot relate to, or is this
-			// the very first snapshot?
+			// route snap to existing or create new measure
 			index, ok := aliasURLToIndex[snap.Station.AliasURL]
 			if !ok {
-				// this must be the first snapshot, search for an appropriate
-				// calibration to map to it
-				var cal river.Calibration
-				for _, c := range calibrations {
-					if c.URL == snap.Station.DataURL {
-						cal = c
-					}
-					if c.URL == snap.Station.AliasURL {
-						cal = c
-					}
-					if c.URL == snap.Station.HumanURL {
-						cal = c
-					}
-				}
-				if cal.URL == "" {
+				// this must be the first snapshot of a lazy-inited measure
+				// so we need to search for the calibration and then setup
+				// the new measure ready to receive further snapshots
+				cal, exists := findCalibrationForStation(calibrations, snap.Station)
+				if !exists {
+					// this must be code logic as this routine should only receive
+					// snaps that have a calibration for (even if that calibration is empty)
 					msg := record.Section.UUID + " with snap " + snap.Station.AliasURL
 					return errors.New("incorrectly routed snapshot: " + msg)
 				}
@@ -241,4 +249,22 @@ func (c *cache) SnapshotRouter(ctx context.Context, err error, s *gauge.Snapshot
 	}
 
 	return nil
+}
+
+func findCalibrationForStation(calibrations []river.Calibration, station gauge.Station) (cal river.Calibration, exists bool) {
+	for _, c := range calibrations {
+		if c.URL == station.DataURL {
+			exists = true
+			cal = c
+		}
+		if c.URL == station.AliasURL {
+			exists = true
+			cal = c
+		}
+		if c.URL == station.HumanURL {
+			exists = true
+			cal = c
+		}
+	}
+	return
 }
