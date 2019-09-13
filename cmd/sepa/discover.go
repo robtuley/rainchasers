@@ -93,12 +93,13 @@ func csvRecordToSnapshot(r []string) (gauge.Station, error) {
 	s.RiverName = r[5]
 	s.Type = "level"
 
-	var err error
-	s.Lat, s.Lg, err = gridRef2LatLg(r[3])
-	if err != nil {
-		return s, err
+	lat, lg, err := gridRef2LatLg(r[3])
+	if err == nil {
+		// ignore the error as some stations do not have a
+		// valid grid reference in the provided dataset.
+		s.Lat = lat
+		s.Lg = lg
 	}
-
 	s.Unit = r[17]
 
 	return s, nil
