@@ -186,8 +186,15 @@ func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibr
 
 			// merge snapshot into the measure
 			m.Readings = merge(m.Readings, snap.Readings)
-			expiry := time.Now().Add(-4 * 24 * time.Hour)
+
+			// we need to clean up old data, but don't want the cleanup to result in
+			// more data pushes to firestore/algolia than necessary. so we "round"
+			// the expiry to the nearest midnight so a data push for cleanup should
+			// happen max once a day
+			expiry := time.Now().Add(-3 * 24 * time.Hour).Truncate(24 * time.Hour)
 			removeOlderThan(expiry, &m.Readings)
+
+			// work out if this has resulted in a change
 			m.Station = snap.Station
 			if prevChecksum == checksum(m.Readings, m.Station) {
 				// measure has not changed wait for next one
