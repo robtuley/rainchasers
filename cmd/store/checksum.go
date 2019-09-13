@@ -7,8 +7,11 @@ import (
 )
 
 // Checksum provides a checksum of current state
-func checksum(v interface{}) string {
+func checksum(values ...interface{}) string {
 	b := sha1.New()
-	gob.NewEncoder(b).Encode(v)
+	encoder := gob.NewEncoder(b)
+	for _, v := range values {
+		encoder.Encode(v)
+	}
 	return hex.EncodeToString(b.Sum(nil))
 }

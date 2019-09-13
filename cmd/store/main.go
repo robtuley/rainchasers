@@ -179,14 +179,17 @@ func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibr
 			span = span.Field("alias_url", snap.Station.AliasURL)
 
 			m := record.Measures[index]
-			prevChecksum := checksum(m)
+			// checksum only the readings and station (as they are being potentially
+			// changed). If checksum the whole measure, the processedTim field will
+			// force a push on every snapshot received.
+			prevChecksum := checksum(m.Readings, m.Station)
 
 			// merge snapshot into the measure
 			m.Readings = merge(m.Readings, snap.Readings)
 			expiry := time.Now().Add(-4 * 24 * time.Hour)
 			removeOlderThan(expiry, &m.Readings)
 			m.Station = snap.Station
-			if prevChecksum == checksum(m) {
+			if prevChecksum == checksum(m.Readings, m.Station) {
 				// measure has not changed wait for next one
 				continue nextSnapshot
 			}
