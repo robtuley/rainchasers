@@ -140,13 +140,14 @@ func (fw *FireWriter) Store(ctx context.Context, record *Record) report.Span {
 	s := record.Section
 	l := record.Level
 	object := algoliasearch.Object{
-		"objectID": uuid,
-		"slug":     s.Slug,
-		"section":  s.SectionName,
-		"river":    s.RiverName,
-		"grade":    s.Grade.Human,
-		"desc":     s.Description,
-		"km":       s.KM,
+		"objectID":      uuid,
+		"slug":          s.Slug,
+		"section":       s.SectionName,
+		"river":         s.RiverName,
+		"grade":         s.Grade.Human,
+		"grade_numeric": s.Grade.Average,
+		"desc":          s.Description,
+		"km":            s.KM,
 		"_geoloc": map[string]float32{
 			"lat": s.Putin.Lat,
 			"lng": s.Putin.Lng,
