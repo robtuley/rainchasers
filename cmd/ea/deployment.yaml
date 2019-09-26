@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rainchasers-ea
+  name: ea
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: rainchasers-ea
+      name: ea
   template:
     metadata:
       labels:
-        name: rainchasers-ea
+        name: ea
     spec:
       containers:
-        - name: rainchasers-ea
-          image: eu.gcr.io/tuleyprod/gauge/ea:latest
+        - name: ea
+          image: eu.gcr.io/rainchasers/gauge/ea:latest
           env:
             - name: PROJECT_ID
-              value: tuleyprod
+              value: rainchasers
             - name: PUBSUB_TOPIC
-              value: com.rainchasers.gauge
+              value: gauge
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:

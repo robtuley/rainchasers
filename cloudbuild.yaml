@@ -1,5 +1,5 @@
 # requires a substite variable of _APP to build
-# e.g. ea, sepa, etc 
+# e.g. ea, sepa, etc
 steps:
   # compile binary using make, then dockerise
   - name: "golang"
@@ -22,11 +22,14 @@ steps:
       [
         "set",
         "image",
-        "deployment/rainchasers-${_APP}",
-        "rainchasers-${_APP}=eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
+        "deployment/${_APP}",
+        "${_APP}=eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}",
       ]
     env:
-      ["CLOUDSDK_COMPUTE_ZONE=europe-west1-c", "CLOUDSDK_CONTAINER_CLUSTER=euc"]
+      [
+        "CLOUDSDK_COMPUTE_ZONE=europe-west2-b",
+        "CLOUDSDK_CONTAINER_CLUSTER=prod",
+      ]
 images:
   - "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:${COMMIT_SHA}"
   - "eu.gcr.io/$PROJECT_ID/gauge/${_APP}:latest"

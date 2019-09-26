@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rainchasers-nrw
+  name: nrw
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: rainchasers-nrw
+      name: nrw
   template:
     metadata:
       labels:
-        name: rainchasers-nrw
+        name: nrw
     spec:
       containers:
-        - name: rainchasers-nrw
-          image: eu.gcr.io/tuleyprod/gauge/nrw:latest
+        - name: nrw
+          image: eu.gcr.io/rainchasers/gauge/nrw:latest
           env:
             - name: PROJECT_ID
-              value: tuleyprod
+              value: rainchasers
             - name: PUBSUB_TOPIC
-              value: com.rainchasers.gauge
+              value: gauge
             - name: NRW_API_KEY
               valueFrom:
                 secretKeyRef:

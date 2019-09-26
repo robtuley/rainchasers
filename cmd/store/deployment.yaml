@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rainchasers-store
+  name: store
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: rainchasers-store
+      name: store
   template:
     metadata:
       labels:
-        name: rainchasers-store
+        name: store
     spec:
       containers:
-        - name: rainchasers-store
-          image: eu.gcr.io/tuleyprod/gauge/store:latest
+        - name: store
+          image: eu.gcr.io/rainchasers/gauge/store:latest
           env:
             - name: GET_HOSTS_FROM
               value: dns
             - name: PROJECT_ID
-              value: tuleyprod
+              value: rainchasers
             - name: PUBSUB_TOPIC
-              value: com.rainchasers.gauge
+              value: gauge
             - name: ALGOLIA_APP_ID
               valueFrom:
                 secretKeyRef:
