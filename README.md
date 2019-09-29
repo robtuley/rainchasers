@@ -33,9 +33,17 @@ This is not used yet.
 Deployed onto k8s (GKE), with a continuous deliovery pipeline via Google Cloud Build.
 
 - Create a Google Pub/Sub topic `gauge` for the snapshot updates
+- Create a service account that can access Pub/Sub topic for the applications
 - Add the relevant GKE secrets for Honeycomb, NRW & Algolia
 - Create Google Cloud build deployments for each application using the templated `cloudbuild.yaml` and the `_APP` subsitution variable.
 - Deploy to k8s cluster using the relavnt `deployment.yaml`
+
+### Pub/Sub & Firestore Permissions via Service Account
+
+Following [this process to allow access to pub/sub from the deamons](https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform.
+
+- Create a rainchasers-app [service account](https://console.cloud.google.com/iam-admin/serviceaccounts) in the project. Grant the `Pub/Sub Editor` and `Cloud Datastore User` roles.
+- load the json key file as a secret `kubectl create secret generic service-accn-key --from-file=key.json=<filename>.json`
 
 ### Honeycomb
 

@@ -12,10 +12,19 @@ spec:
       labels:
         name: ea
     spec:
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: service-accn-key
       containers:
         - name: ea
           image: eu.gcr.io/rainchasers/gauge/ea:latest
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
           env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
             - name: PROJECT_ID
               value: rainchasers
             - name: PUBSUB_TOPIC

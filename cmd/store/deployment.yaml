@@ -12,10 +12,19 @@ spec:
       labels:
         name: store
     spec:
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: service-accn-key
       containers:
         - name: store
           image: eu.gcr.io/rainchasers/gauge/store:latest
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
           env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
             - name: GET_HOSTS_FROM
               value: dns
             - name: PROJECT_ID
