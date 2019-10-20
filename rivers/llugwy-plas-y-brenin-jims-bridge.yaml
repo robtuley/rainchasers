@@ -1,13 +1,13 @@
 uuid: 71f205f9-ce66-46a6-8ac7-6af7e942bcdb
 river: Llugwy
-section: 'Plas-y-Brenin to Jim''s Bridge'
+section: "Plas-y-Brenin to Jim's Bridge"
 km: 2
 grade:
-  text: '1/2 (2+)'
+  text: "1/2 (2+)"
   value: 1.5
   max: 2.5
-desc: 'Good introduction to moving water for beginners which finishes with a flourish through Jim''s bridge.'
-directions: 'Putin by parking along the road near Plas-y-Brenin near Capel Curig and walk the boats down a footpath to the end of the lake. The takeout is down the A5 towards Betws-y-Coed, take a small track opposite an Esso Garage to reach Jim''s bridge.'
+desc: "Good introduction to moving water for beginners which finishes with a flourish through Jim's bridge."
+directions: "Putin by parking along the road near Plas-y-Brenin near Capel Curig and walk the boats down a footpath to the end of the lake. The takeout is down the A5 towards Betws-y-Coed, take a small track opposite Siabod Cafe to reach Jim's bridge."
 putin:
   lat: 53.1013738
   lng: -3.9184995
