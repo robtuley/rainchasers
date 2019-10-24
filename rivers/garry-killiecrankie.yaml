@@ -1,0 +1,23 @@
+uuid: fc7489a1-f70d-47fd-b38f-58586d38add0
+river: Garry (Perthshire)
+section: "Killiecrankie to Garry Bridge"
+km: 2
+grade:
+  text: 2/3(5)
+  value: 2.5
+  max: 5
+desc: "Fun scenic gorge, with 3 technical sections. The 1st is just above the bridge, and can be inspected as you put-in. The 2nd is Dog Leg Falls 50m below the bridge. The 3rd is Soldier's Leap (gd 5), 500m below the bridge. This is worth inspecting before getting on as it is hard to spot from river level with scarce eddies. It is usually a portage in low flows and opens up in higher flows. Below the Leap grade 1/2 leads to the takeout 200m after an metal footbridge on river right, just before the road bridge. A popular tourist walk follows the river so the run is easily pre-inspected."
+directions: "The put-in is in Killecrankie where a small road off the B8079 crosses the river. Walk 100m upstream on river left to get on. Takeout at Garry Bridge near the junction of the B8019 & B8079 where there is a convenient carpark."
+putin:
+  lat: 56.7437
+  lng: -3.7808
+takeout:
+  lat: 56.7279
+  lng: -3.7775
+measures:
+  - scrape: 0.4
+    low: 0.6
+    medium: 0.8
+    high: 1.0
+    huge: 1.6
+    data_url: "sepa://234189"
