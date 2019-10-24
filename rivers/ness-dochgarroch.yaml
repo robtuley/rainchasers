@@ -1,0 +1,22 @@
+uuid: 5dd5ebbb-dba1-424e-ae40-3fb6a9e811d8
+river: Ness
+section: "Dochgarroch to Bught Park"
+km: 9
+grade:
+  text: 1/2
+  value: 1.5
+desc: "A series of well spaced short rapids and a couple of weirs."
+directions: "Park at the carpark in Dochgarroch and paddle up the canal to the river. Alternatively park at Lochend to add an extra 3km of loch paddling. Takeout in Bught Park (Inverness), by the end of the playing fields or the white suspension bridge at the islands."
+putin:
+  lat: 57.4327
+  lng: -4.3036
+takeout:
+  lat: 57.4665
+  lng: -4.2300
+measures:
+  - scrape: 0.3
+    low: 0.9
+    medium: 1.3
+    high: 1.6
+    huge: 2.2
+    data_url: "sepa://234287"
