@@ -1,16 +1,24 @@
 uuid: e141ef28-362e-4beb-adfb-c51b35651be9
 river: Tweed
-section: 'Peel to Fairnilee Farm'
+section: "Peel to Fairnilee Farm"
 km: 8
 grade:
-  text: '1 (2)'
+  text: "1 (2)"
   value: 1
   max: 2
-desc: 'Fun grade 1 run, with the grade 2 Fairnilee rapid at the end to round the trip off.'
-directions: 'Takeout at the A707 bridge at Fairnilee Farm, where the B7060 joins the A707. Putin at the minor road bridge just off the A707 at Peel (near the A72/A707 jct).'
+desc: "Fun grade 1 run, with the grade 2 Fairnilee rapid at the end to round the trip off."
+directions: "Takeout at the A707 bridge at Fairnilee Farm, where the B7060 joins the A707. Putin at the minor road bridge just off the A707 at Peel (near the A72/A707 jct)."
 putin:
   lat: 55.6059903
   lng: -2.8925945
 takeout:
   lat: 55.5833053
   lng: -2.8555622
+measures:
+  - scrape: 0.0
+    low: 1.2
+    medium: 1.7
+    high: 2.0
+    huge: 3.0
+    data_url: "sepa://9514"
+    desc: "Old gauge near the sea but calibrated for Fairnilee"
