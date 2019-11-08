@@ -17,13 +17,14 @@ import (
 func main() {
 	d := daemon.New("firestore")
 	app := &cache{
-		ProjectID:     os.Getenv("PROJECT_ID"),
-		TopicName:     os.Getenv("PUBSUB_TOPIC"),
-		AlgoliaAppID:  os.Getenv("ALGOLIA_APP_ID"),
-		AlgoliaAPIKey: os.Getenv("ALGOLIA_API_KEY"),
-		ReadyC:        make(chan struct{}),
-		Log:           d.Logger,
-		SnapRoute:     make(map[string][]chan *gauge.Snapshot),
+		ProjectID:      os.Getenv("PROJECT_ID"),
+		TopicName:      os.Getenv("PUBSUB_TOPIC"),
+		AlgoliaAppID:   os.Getenv("ALGOLIA_APP_ID"),
+		AlgoliaAPIKey:  os.Getenv("ALGOLIA_API_KEY"),
+		ReadyC:         make(chan struct{}),
+		Log:            d.Logger,
+		SnapRoute:      make(map[string][]chan *gauge.Snapshot),
+		StationUpdated: make(map[string]bool),
 	}
 
 	d.Run(context.Background(), app.Init)
@@ -38,15 +39,16 @@ func main() {
 }
 
 type cache struct {
-	ProjectID     string
-	TopicName     string
-	AlgoliaAppID  string
-	AlgoliaAPIKey string
-	ReadyC        chan struct{}
-	Log           *report.Logger
-	FireWriter    *FireWriter
-	AlgoliaWriter *AlgoliaWriter
-	SnapRoute     map[string][]chan *gauge.Snapshot
+	ProjectID      string
+	TopicName      string
+	AlgoliaAppID   string
+	AlgoliaAPIKey  string
+	ReadyC         chan struct{}
+	Log            *report.Logger
+	FireWriter     *FireWriter
+	AlgoliaWriter  *AlgoliaWriter
+	SnapRoute      map[string][]chan *gauge.Snapshot
+	StationUpdated map[string]bool
 }
 
 func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
@@ -248,6 +250,20 @@ func (c *cache) SnapshotRouter(ctx context.Context, err error, s *gauge.Snapshot
 			"error": err.Error(),
 		})
 		return nil // error with decoding so do not retry delivery
+	}
+
+	// if not attempted already, update the station definition in algolia
+	_, isUpdated := c.StationUpdated[s.Station.DataURL]
+	if !isUpdated {
+		c.StationUpdated[s.Station.DataURL] = true
+		span := c.AlgoliaWriter.StoreStation(ctx, s.Station)
+		if err := span.Err(); err != nil {
+			// log the non-critical error but continue and do not prevent
+			// the forward flow. Note we are *not* logging the span telemetry
+			c.Log.Action("algolia.station.store", report.Data{
+				"error": err.Error(),
+			})
+		}
 	}
 
 	// search any of data URL, alias URL, or human URL to route to

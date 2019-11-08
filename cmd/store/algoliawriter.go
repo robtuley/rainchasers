@@ -5,13 +5,14 @@ import (
 	"time"
 
 	"github.com/algolia/algoliasearch-client-go/algoliasearch"
+	"github.com/rainchasers/content/internal/gauge"
 	"github.com/rainchasers/report"
 )
 
 // AlgoliaWriter handles algolia writes
 type AlgoliaWriter struct {
 	RiverIndex   algoliasearch.Index
-	MeasureIndex algoliasearch.Index
+	StationIndex algoliasearch.Index
 	Timeout      time.Duration
 }
 
@@ -20,7 +21,7 @@ func NewAlgoliaWriter(appID string, APIKey string) *AlgoliaWriter {
 	client := algoliasearch.NewClient(appID, APIKey)
 	return &AlgoliaWriter{
 		RiverIndex:   client.InitIndex("rivers"),
-		MeasureIndex: client.InitIndex("measures"),
+		StationIndex: client.InitIndex("stations"),
 		Timeout:      10 * time.Second,
 	}
 }
@@ -53,6 +54,32 @@ func (aw *AlgoliaWriter) StoreRecord(ctx context.Context, record *Record) report
 		"level_timestamp": l.EventTime,
 	}
 	_, err := aw.RiverIndex.UpdateObject(object)
+	if err != nil {
+		return span.End(err)
+	}
+
+	return span.End()
+}
+
+// StoreStation saves a measure record to algolia
+func (aw *AlgoliaWriter) StoreStation(ctx context.Context, station gauge.Station) report.Span {
+	ctx, cancel := context.WithTimeout(ctx, aw.Timeout)
+	defer cancel()
+
+	span := report.StartSpan("algolia.store").Field("data_url", station.DataURL)
+	object := algoliasearch.Object{
+		"objectID":  station.DataURL,
+		"alias_url": station.AliasURL,
+		"human_url": station.HumanURL,
+		"name":      station.Name,
+		"river":     station.RiverName,
+		"type":      station.Type,
+		"_geoloc": map[string]float32{
+			"lat": station.Lat,
+			"lng": station.Lg,
+		},
+	}
+	_, err := aw.StationIndex.UpdateObject(object)
 	if err != nil {
 		return span.End(err)
 	}
