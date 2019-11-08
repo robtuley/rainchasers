@@ -44,7 +44,8 @@ type cache struct {
 	AlgoliaAPIKey string
 	ReadyC        chan struct{}
 	Log           *report.Logger
-	Writer        *FireWriter
+	FireWriter    *FireWriter
+	AlgoliaWriter *AlgoliaWriter
 	SnapRoute     map[string][]chan *gauge.Snapshot
 }
 
@@ -55,13 +56,14 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 		return nil
 	}
 
-	// connect to firestore
-	fw, span := NewFireWriter(c.ProjectID, c.AlgoliaAppID, c.AlgoliaAPIKey)
+	// connect to firestore & algolia
+	fw, span := NewFireWriter(c.ProjectID)
 	d.Trace(span)
 	if err := span.Err(); err != nil {
 		return err
 	}
-	c.Writer = fw
+	c.FireWriter = fw
+	c.AlgoliaWriter = NewAlgoliaWriter(c.AlgoliaAppID, c.AlgoliaAPIKey)
 
 	// update catalogue in firestore (rate limited)
 	ticker := time.NewTicker(50 * time.Millisecond)
@@ -69,8 +71,12 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 updateLoop:
 	for _, s := range content.Sections {
 		// get firestore info for the section
-		// (& update if necessary)
-		record, span := c.Writer.LoadAndUpdate(ctx, s)
+		// (& update if necessary and in algolia if changed)
+		hasChanged, record, span := c.FireWriter.LoadAndUpdate(ctx, s)
+		if hasChanged {
+			aSpan := c.AlgoliaWriter.StoreRecord(ctx, record)
+			span = span.FollowedBy(aSpan)
+		}
 		d.Trace(span)
 		if err := span.Err(); err != nil {
 			return err
@@ -206,9 +212,10 @@ func (c *cache) CreateSnapshotsWriter(record Record, calibrations []river.Calibr
 			// use updated measure to re-calulate level state
 			record.Level = m.LatestLevel()
 
-			// write the update to firestore
-			wSpan := c.Writer.Store(ctx, &record)
-			span = span.Child(wSpan)
+			// write the update to firestore & algolia
+			fSpan := c.FireWriter.Store(ctx, &record)
+			aSpan := c.AlgoliaWriter.StoreRecord(ctx, &record)
+			span = span.Child(fSpan).Child(aSpan)
 			c.Log.Trace(span.End())
 		}
 	}
