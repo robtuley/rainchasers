@@ -4,22 +4,14 @@ import (
 	"strconv"
 
 	"github.com/rainchasers/content"
+	"github.com/rainchasers/content/internal/river"
 )
 
 func main() {
-	r := result{}
+	r := &result{}
 	for _, s := range content.Sections {
-		r.Count++
-		measures, isCalibrated := content.Calibrations[s.UUID]
-		if isCalibrated {
-			if len(measures) > 1 {
-				r.CountCalibratedMany++
-			}
-			if len(measures) == 1 {
-				r.CountCalibratedOne++
-			}
-
-		}
+		cals, _ := content.Calibrations[s.UUID]
+		r.AddToStats(s, cals)
 	}
 	r.Print()
 }
@@ -30,7 +22,17 @@ type result struct {
 	CountCalibratedMany int
 }
 
-func (r result) Print() {
+func (r *result) AddToStats(s river.Section, cals []river.Calibration) {
+	r.Count++
+	if len(cals) > 1 {
+		r.CountCalibratedMany++
+	}
+	if len(cals) == 1 {
+		r.CountCalibratedOne++
+	}
+}
+
+func (r *result) Print() {
 	println("Content Lint")
 	println("============")
 	println("Total: " + strconv.Itoa(r.Count))
