@@ -1,15 +1,18 @@
 uuid: 52951931-ac48-411d-8a23-19721c2de2ea
 river: Aeron
-section: 'Llangeitho to Ciliau Aeron'
+section: "Llangeitho to Ciliau Aeron"
 km: 15
 grade:
-  text: '1'
+  text: "1"
   value: 1
-desc: 'Gentle touring trip through open pastureland.'
-directions: 'Take the A482 Aberaeron to Lampeter road, turning off on the B4342 to reach the putin in Llangeitho.'
+desc: "Gentle touring trip through open pastureland."
+directions: "Take the A482 Aberaeron to Lampeter road, turning off on the B4342 to reach the putin in Llangeitho."
 putin:
   lat: 52.2185901
   lng: -4.0253409
 takeout:
   lat: 52.2151194
   lng: -4.1974743
+measures:
+  - data_url: "rloi://4129"
+    desc: "Pont Talsarn gauge in the middle of the run."
