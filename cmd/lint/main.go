@@ -1,17 +1,36 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"strconv"
 
+	"github.com/algolia/algoliasearch-client-go/algoliasearch"
 	"github.com/rainchasers/content"
 	"github.com/rainchasers/content/internal/river"
 )
 
 func main() {
 	r := &result{}
+
+sectionLoop:
 	for _, s := range content.Sections {
 		cals, _ := content.Calibrations[s.UUID]
 		r.AddToStats(s, cals)
+
+		if len(cals) == 0 {
+			fmt.Print(".")
+			c, err := findCandidateForCalibration(s)
+			if err != nil {
+				log.Fatal(err)
+			}
+			if c != "" {
+				fmt.Println("\nRiver " + s.Slug + " has a candidate gauge:")
+				fmt.Println(c + "\n")
+				break sectionLoop
+			}
+			// no candidate found, move on
+		}
 	}
 	r.Print()
 }
@@ -38,4 +57,22 @@ func (r *result) Print() {
 	println("Total: " + strconv.Itoa(r.Count))
 	println("Calibrated with One: " + strconv.Itoa(r.CountCalibratedOne))
 	println("Calibrated with Many: " + strconv.Itoa(r.CountCalibratedMany))
+}
+
+func findCandidateForCalibration(s river.Section) (string, error) {
+	// public search-only algolia app and API keys
+	appID := "68SCVTV3KD"
+	apiKey := "99fe024e02d9f69215cfc5634e5466dc"
+	index := algoliasearch.NewClient(appID, apiKey).InitIndex("stations")
+
+	// search for closest gauge, ideally upstream to the putin
+	res, err := index.Search(s.RiverName, algoliasearch.Map{})
+	if err != nil {
+		return "", err
+	}
+	for _, hit := range res.Hits {
+		return "Gauge " + fmt.Sprintf("%v", hit["objectID"]) + " at " + fmt.Sprintf("%v", hit["human_url"]), nil
+	}
+
+	return "", nil
 }
