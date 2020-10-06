@@ -6,7 +6,7 @@ import (
 )
 
 func TestUpdatingFromAStation(t *testing.T) {
-	readings, span := getReadings(context.Background(), "http://apps.sepa.org.uk/database/riverlevels/116011-SG.csv")
+	readings, span := getReadings(context.Background(), "https://www2.sepa.org.uk/waterlevels/CSVs/116011-SG.csv")
 
 	if err := span.Err(); err != nil {
 		t.Error("Update stations error", err)

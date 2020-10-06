@@ -24,9 +24,11 @@ This is an authenticated API and requires an API key to be stored in k8s:
 - Recent levels polled in `/cmd/sepa`
 - Station identifiers is an integer "location code" which appears in the data URL
 
-## [EA Catchment Data API](https://environment.data.gov.uk/catchment-planning/ui/reference)
+## Not Used Yet
 
-This is not used yet.
+- [SEPA Rainfall Data](https://www2.sepa.org.uk/rainfall/)
+- [Other SEPA Datasets](https://www.sepa.org.uk/environment/environmental-data/)
+- [EA Catchment Data API](https://environment.data.gov.uk/catchment-planning/ui/reference)
 
 ## Deployment
 

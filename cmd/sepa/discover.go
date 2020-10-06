@@ -19,7 +19,7 @@ func discover(ctx context.Context) ([]gauge.Station, report.Span) {
 	defer cancel()
 
 	span := report.StartSpan("sepa.discover")
-	url := "http://apps.sepa.org.uk/database/riverlevels/SEPA_River_Levels_Web.csv"
+	url := "https://www2.sepa.org.uk/waterlevels/CSVs/SEPA_River_Levels_Web.csv"
 
 	resp, err := daemon.CSV(ctx, url)
 	if err != nil {
@@ -86,9 +86,9 @@ func csvRecordToSnapshot(r []string) (gauge.Station, error) {
 		return s, errors.New(strconv.Itoa(len(r)) + " rows in " + strings.Join(r, ","))
 	}
 
-	s.DataURL = "http://apps.sepa.org.uk/database/riverlevels/" + r[2] + "-SG.csv"
+	s.DataURL = "https://www2.sepa.org.uk/waterlevels/CSVs/" + r[2] + "-SG.csv"
 	s.AliasURL = "sepa://" + r[2]
-	s.HumanURL = "http://apps.sepa.org.uk/waterlevels/default.aspx?sd=t&lc=" + r[2]
+	s.HumanURL = "https://www2.sepa.org.uk/waterlevels/default.aspx?sd=t&lc=" + r[2]
 	s.Name = r[1]
 	s.RiverName = r[5]
 	s.Type = "level"
