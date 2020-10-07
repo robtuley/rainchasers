@@ -9,12 +9,12 @@ Responsible for retrieving updates from various flavours of river gauges and pro
 
 The [EA Hydrology API](https://environment.data.gov.uk/hydrology/doc/reference) provides access to quality checked historical data. This is not used yet.
 
-## [NRW Levels API](https://api-portal.naturalresources.wales/docs/services/577521aed81b570928363e10/operations/577521e0d81b570928363e11)
+## [NRW Levels API](https://api-portal.naturalresources.wales/docs/services/open-data-river-level-rainfall-and-sea-data-api)
 
 - Recent levels polled in `/cmd/nrw`
 - Station identifier is `RLOIid`
 
-This is an authenticated API and requires an API key to be stored in k8s:
+This is an authenticated API and requires an API key ([from your profile](https://api-portal.naturalresources.wales/developer)) to be stored in k8s:
 
     kubectl create secret generic -n default nrw-apikey \
     --from-literal=key=<your API Key>

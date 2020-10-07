@@ -1,6802 +1,10853 @@
 package main
 
+// curl -v -X GET "https://api.naturalresources.wales/rivers-and-seas/v1/api/StationData"
+//      -H "Ocp-Apim-Subscription-Key: {subscription key}"
+
 const jsonResponseFromAPI = `
-{
-  "type" : "FeatureCollection", 
-  "crs" : 
-  {
-    "type" : "name", 
-    "properties" : 
-    {
-      "name" : "EPSG:4326"
-    }
-  }, 
-  "features" : [
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.16663310593962, 51.6973802584378
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4268", 
-        "LatestValue" : "0.214", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Trebeddrod", 
-        "NameCY" : "Trebeddrod", 
-        "NGR" : "SN5036002070", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Offline", 
-        "StatusCY" : "All-lein", 
-        "TitleEN" : "Trebeddrod Reservoir Level", 
-        "TitleCY" : "Trebeddrod Cronfa Ddwr Lefel", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4268"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.08019174558596, 53.1006247513997
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4177", 
-        "LatestValue" : "0.873", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Nant Peris", 
-        "NameCY" : "Nant Peris", 
-        "NGR" : "SH6082557958", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Offline", 
-        "StatusCY" : "All-lein", 
-        "TitleEN" : "Peris at Nant Peris", 
-        "TitleCY" : "Afon Peris yn Nant Peris", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4177"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.67056558678914, 51.6464877290809
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4009", 
-        "LatestValue" : "-5.451", 
-        "LatestTime" : "24/10/2017 08:30", 
-        "NameEN" : "Chepstow Bridge", 
-        "NameCY" : "Pont Cas-gwent", 
-        "NGR" : "ST5370094400", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Offline", 
-        "StatusCY" : "All-lein", 
-        "TitleEN" : "Wye at Chepstow Bridge", 
-        "TitleCY" : "Afon Gwy ym Mhont Cas-gwent", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4009"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.44572425903852, 52.0462808165848
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4052", 
-        "LatestValue" : "0.182", 
-        "LatestTime" : "25/09/2018 08:00", 
-        "NameEN" : "Upper Chapel", 
-        "NameCY" : "Capel Uchaf", 
-        "NGR" : "SO0095039640", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Offline", 
-        "StatusCY" : "All-lein", 
-        "TitleEN" : "Honddu at Upper Chapel", 
-        "TitleCY" : "Afon Honddu yng Nghapel Uchaf", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4052"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.87137949358349, 53.1341524390619
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4173", 
-        "LatestValue" : "5.798", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ironbridge", 
-        "NameCY" : "Ironbridge", 
-        "NGR" : "SJ4180060020", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Ironbridge", 
-        "TitleCY" : "Afon Ddyfrdwy yn Ironbridge", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4173"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.8470514914182, 53.1200261615446
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4174", 
-        "LatestValue" : "1.524", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Lea Hall", 
-        "NameCY" : "Lea Hall", 
-        "NGR" : "SJ4340958429", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Aldford brook at Lea Hall", 
-        "TitleCY" : "Aldford Brook yn Lea Hall", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4174"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.79722869286302, 53.1371147919168
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4175", 
-        "LatestValue" : "5.188", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont Fawr", 
-        "NameCY" : "Pont Fawr", 
-        "NGR" : "SH7987061504", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Conwy at Pont Fawr", 
-        "TitleCY" : "Afon Conwy ym Mhont Fawr", 
-        "Units" : "mAOD", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4175"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.23671845639978, 52.9624521227109
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4171", 
-        "LatestValue" : "0.423", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Garndolbenmaen", 
-        "NameCY" : "Garndolbenmaen", 
-        "NGR" : "SH4986742906", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dwyfor at Garndolbenmaen", 
-        "TitleCY" : "Afon Dwyfor yng Ngarndolbenmaen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4171"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.97163670304611, 52.9666580214283
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4176", 
-        "LatestValue" : "1.422", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Manley Hall", 
-        "NameCY" : "Manley Hall", 
-        "NGR" : "SJ3484041474", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Manley Hall", 
-        "TitleCY" : "Afon Ddyfrdwy ym Manley Hall", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4176"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.87914121827605, 53.0830991035745
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4170", 
-        "LatestValue" : "8.092", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Farndon", 
-        "NameCY" : "Farndon", 
-        "NGR" : "SJ4121154347", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Farndon", 
-        "TitleCY" : "Afon Ddyfrdwy yn Rhedynfre", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4170"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.67459548716969, 52.8629934405363
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4178", 
-        "LatestValue" : "0.913", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "New Inn", 
-        "NameCY" : "New Inn", 
-        "NGR" : "SH8736130814", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at New Inn", 
-        "TitleCY" : "Afon Ddyfrdwy yn New Inn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4178"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.25204147199603, 53.1363814763128
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4179", 
-        "LatestValue" : "0.890", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Peblic Mill", 
-        "NameCY" : "Melin Peblig", 
-        "NGR" : "SH4944662283", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Seiont at Peblic Mill", 
-        "TitleCY" : "Afon Seiont ym Melin Peblig", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4179"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.43447503675377, 53.2624644169437
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4180", 
-        "LatestValue" : "2.879", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont Dafydd", 
-        "NameCY" : "Pont Dafydd", 
-        "NGR" : "SJ0441574900", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clwyd at Pont Dafydd", 
-        "TitleCY" : "Afon Clwyd ym Mhont Dafydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4180"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.39476551389685, 53.2276427536778
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4181", 
-        "LatestValue" : "1.521", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont y Cambwll", 
-        "NameCY" : "Pont y Cambwll", 
-        "NGR" : "SJ0698870974", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clwyd at Pont y Cambwll", 
-        "TitleCY" : "Afon Clwyd ym Mhont y Cambwll", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4181"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.99374556617948, 53.0794102975451
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4182", 
-        "LatestValue" : "0.537", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont y Capel", 
-        "NameCY" : "Pont y Capel", 
-        "NGR" : "SJ3352954037", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alyn at Pont y Capel", 
-        "TitleCY" : "Afon Alun ym Mhont y Capel", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4182"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.57095988431466, 53.2327225832398
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4183", 
-        "LatestValue" : "0.877", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont y Gwyddel", 
-        "NameCY" : "Pont y Gwyddel", 
-        "NGR" : "SH9523971783", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Elwy at Pont y Gwyddel", 
-        "TitleCY" : "Afon Elwy ym Mhont y Gwyddel", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4183"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.47501956126953, 53.293496047503
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4185", 
-        "LatestValue" : "2.980", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Rhuddlan", 
-        "NameCY" : "Rhuddlan", 
-        "NGR" : "SJ0178278407", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clwyd at Rhuddlan", 
-        "TitleCY" : "Afon Clwyd yn Rhuddlan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4185"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.95273409308966, 51.8982777105896
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4205", 
-        "LatestValue" : "2.208", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Manorafon", 
-        "NameCY" : "Manorafon", 
-        "NGR" : "SN6574023994", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Manorafon", 
-        "TitleCY" : "Afon Tywi ym Manorafon", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4205"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.76444162097235, 52.1217832690926
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4204", 
-        "LatestValue" : "0.164", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llyn Brianne Reservoir", 
-        "NameCY" : "Argae Llyn Brianne", 
-        "NGR" : "SN7929848520", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Llyn Brianne Reservoir", 
-        "TitleCY" : "Afon Tywi yn Argae Llyn Brianne", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4204"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.87258297801958, 51.9673262523653
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4203", 
-        "LatestValue" : "0.577", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanwrda", 
-        "NameCY" : "Llanwrda", 
-        "NGR" : "SN7145231528", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulais at Llanwrda", 
-        "TitleCY" : "Afon Dulais yn Llanwrda", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4203"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.88438637782952, 51.9401980511352
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4202", 
-        "LatestValue" : "0.773", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llangadog", 
-        "NameCY" : "Llangadog", 
-        "NGR" : "SN7056328532", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Bran at Llangadog", 
-        "TitleCY" : "Afon Brân yn Llangadog", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4202"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.79100080596327, 51.9938897536961
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4201", 
-        "LatestValue" : "0.720", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llandovery", 
-        "NameCY" : "Llanymddyfri", 
-        "NGR" : "SN7712934341", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Bran at Llandovery", 
-        "TitleCY" : "Afon Brân yn Llanymddyfri", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4201"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.28151642131484, 51.8739519232382
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4199", 
-        "LatestValue" : "1.057", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Glan Gwili", 
-        "NameCY" : "Glan Gwili", 
-        "NGR" : "SN4303621947", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwili at Glan Gwili", 
-        "TitleCY" : "Afon Gwili yng Nglan Gwili", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4199"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.87421675573465, 51.9227452353643
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4198", 
-        "LatestValue" : "0.520", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Felin Y Cwm", 
-        "NameCY" : "Felin y Cwm", 
-        "NGR" : "SN7121226573", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Sawdde at Felin Y Cwm", 
-        "TitleCY" : "Afon Sawdde yn Felin y Cwm", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4198"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.16804286396231, 51.8809816163193
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4197", 
-        "LatestValue" : "1.492", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Felin Mynachdy", 
-        "NameCY" : "Felin Mynachdy", 
-        "NGR" : "SN5087022490", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cothi at Felin Mynachdy", 
-        "TitleCY" : "Afon Cothi yn Felin Mynachdy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4197"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.80540161712309, 52.0107811360719
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4196", 
-        "LatestValue" : "0.907", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Dolau Hirion", 
-        "NameCY" : "Dolau Hirion", 
-        "NGR" : "SN7618736244", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Dolau Hirion", 
-        "TitleCY" : "Afon Tywi yn Nolau Hirion", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4196"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.9710973519009, 52.0777753499051
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4195", 
-        "LatestValue" : "0.564", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Ddol Las", 
-        "NameCY" : "Ddol Las", 
-        "NGR" : "SN6501843990", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Twrch at Ddol Las", 
-        "TitleCY" : "Afon Twrch yn Nôl-Las", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4195"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.79247385631598, 52.1094194630717
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4194", 
-        "LatestValue" : "0.728", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Craig Clungwyn", 
-        "NameCY" : "Craig Clungwyn", 
-        "NGR" : "SN7734547192", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Doethie at Craig Clungwyn", 
-        "TitleCY" : "Afon Doethie yng Nghraig Clungwyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4194"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.20147699475324, 51.8631489147549
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4193", 
-        "LatestValue" : "2.631", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Capel Dewi", 
-        "NameCY" : "Capel Dewi", 
-        "NGR" : "SN4850920576", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Capel Dewi", 
-        "TitleCY" : "Afon Tywi yng Nghapel Dewi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4193"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.86629875952559, 53.0078353513566
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4192", 
-        "LatestValue" : "1.179", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Wych Brook", 
-        "NameCY" : "Nant Wych", 
-        "NGR" : "SJ4197045964", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wych Brook at Wych Brook", 
-        "TitleCY" : "Nant Wych yn Nant Wych", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4192"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.82413088005124, 53.1602149531495
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4191", 
-        "LatestValue" : "2.372", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Trefriw", 
-        "NameCY" : "Trefriw", 
-        "NGR" : "SH7813664119", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Conwy at Trefriw", 
-        "TitleCY" : "Afon Conwy yn Nhrefriw", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4191"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.44956083695488, 53.2621110999647
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4188", 
-        "LatestValue" : "1.654", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "St Asaph", 
-        "NameCY" : "Llanelwy", 
-        "NGR" : "SJ0340874881", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Elwy at St Asaph", 
-        "TitleCY" : "Afon Elwy yn Llanelwy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4188"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.31375140491492, 53.1228822945446
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4187", 
-        "LatestValue" : "0.627", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ruthin Weir", 
-        "NameCY" : "Cored Rhuthun", 
-        "NGR" : "SJ1218259218", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clwyd at Ruthin Weir", 
-        "TitleCY" : "Afon Clwyd yng Nghored Rhuthun", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4187"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.19280913825219, 53.1918555042545
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4186", 
-        "LatestValue" : "0.954", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Rhydymwyn", 
-        "NameCY" : "Rhydymwyn", 
-        "NGR" : "SJ2040366749", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alyn at Rhydymwyn", 
-        "TitleCY" : "Afon Alun yn Rhyd-y-mwyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4186"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.97005830034082, 51.820376651159
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4124", 
-        "LatestValue" : "1.339", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Prendergast Mill", 
-        "NameCY" : "Melin Prendergast", 
-        "NGR" : "SM9540217700", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Western Cleddau at Prendergast Mill", 
-        "TitleCY" : "Afon Cleddau Wen ym Melin Prendergast", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4124"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.71575233304566, 51.70148849291
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4125", 
-        "LatestValue" : "0.791", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Resolven", 
-        "NameCY" : "Resolfen", 
-        "NGR" : "SN8152901698", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Neath at Resolven", 
-        "TitleCY" : "Afon Nedd yn Resolfen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4125"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.49630724475289, 51.8199919518917
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4126", 
-        "LatestValue" : "0.804", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "St Clears", 
-        "NameCY" : "Sanclêr", 
-        "NGR" : "SN2804616432", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cynin at St Clears", 
-        "TitleCY" : "Afon Cynin yn Sanclêr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4126"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.69841024489968, 51.7367161685326
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4127", 
-        "LatestValue" : "0.329", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Stepaside", 
-        "NameCY" : "Stepaside", 
-        "NGR" : "SN1377607669", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Fords Lake at Stepaside", 
-        "TitleCY" : "Fords Lake yn Stepaside", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4127"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.13063664313552, 52.1846377826151
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4129", 
-        "LatestValue" : "0.679", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Talsarn", 
-        "NameCY" : "Tal-sarn", 
-        "NGR" : "SN5443556183", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Aeron at Talsarn", 
-        "TitleCY" : "Afon Aeron yn Nhal-sarn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4129"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.99775099596336, 51.7957118581956
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4131", 
-        "LatestValue" : "0.940", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Tir Y Dail", 
-        "NameCY" : "Tir y Dail", 
-        "NGR" : "SN6233012672", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Loughor at Tir Y Dail", 
-        "TitleCY" : "Afon Llwchwr yn Nhir y Dail", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4131"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.60961303975858, 51.8190054376294
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4132", 
-        "LatestValue" : "0.531", 
-        "LatestTime" : "13/03/2019 19:15", 
-        "NameEN" : "Whitland", 
-        "NameCY" : "Hendy-Gwyn", 
-        "NGR" : "SN2023416596", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gronw at Whitland", 
-        "TitleCY" : "Afon Gronw yn Hendy-gwyn ar Daf", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4132"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.69564786943242, 51.7122292595859
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4133", 
-        "LatestValue" : "0.299", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Ynys Fach Bridge", 
-        "NameCY" : "Pont Ynys Fach", 
-        "NGR" : "SN8294602860", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clydach Brook at Ynys Fach Bridge", 
-        "TitleCY" : "Nant Clydach ym Mhont Ynys Fach", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4133"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.90269962518433, 51.6815229453174
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4134", 
-        "LatestValue" : "0.973", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Ynystanglws", 
-        "NameCY" : "Ynystanglws", 
-        "NGR" : "SS6855399798", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tawe at Ynystanglws", 
-        "TitleCY" : "Afon Tawe yn Ynystanglws", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4134"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.75001400070845, 52.731460880215
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4143", 
-        "LatestValue" : "0.227", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llawr Cae", 
-        "NameCY" : "Llawr Cae", 
-        "NGR" : "SH8192816305", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cerist at Llawr Cae", 
-        "TitleCY" : "Afon Cerist yn Llawr Cae", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4143"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.12662359497553, 53.0313659932012
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4144", 
-        "LatestValue" : "0.144", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Hafod Wydr", 
-        "NameCY" : "Hafod Wydr", 
-        "NGR" : "SH5748850346", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Colwyn at Hafod Wydr", 
-        "TitleCY" : "Afon Colwyn yn Hafod Wydr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4144"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.79220469420364, 53.1054910739533
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4145", 
-        "LatestValue" : "1.293", 
-        "LatestTime" : "13/03/2019 19:15", 
-        "NameEN" : "Cwmlanerch", 
-        "NameCY" : "Cwmlanerch", 
-        "NGR" : "SH8011857978", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Conwy at Cwmlanerch", 
-        "TitleCY" : "Afon Conwy yng Nghwm Llannerch", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4145"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.85509738453768, 52.600609536898
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4146", 
-        "LatestValue" : "1.968", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Dyfi Bridge", 
-        "NameCY" : "Pont Dyfi", 
-        "NGR" : "SH7445801929", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dyfi at Dyfi Bridge", 
-        "TitleCY" : "Afon Dyfi ym Mhont Dyfi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4146"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.01175961246602, 52.4732965698391
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4147", 
-        "LatestValue" : "0.343", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Dolybont", 
-        "NameCY" : "Dol y bont", 
-        "NGR" : "SN6345488054", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Leri at Dolybont", 
-        "TitleCY" : "Afon Tyleri yn Nôl-y-bont", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4147"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.81315674321152, 53.0676751714313
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4148", 
-        "LatestValue" : "0.693", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont Gethin", 
-        "NameCY" : "Pont Gethin", 
-        "NGR" : "SH7860953807", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lledr at Pont Gethin", 
-        "TitleCY" : "Afon Lledr ym Mhont Gethin", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4148"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.32830560842612, 53.0456772228517
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4149", 
-        "LatestValue" : "0.495", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont y Cim", 
-        "NameCY" : "Pont y Cim", 
-        "NGR" : "SH4401752358", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llyfni at Pont y Cim", 
-        "TitleCY" : "Afon Llyfni ym Mhont y Cim", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4149"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.38216393609564, 52.9368583688443
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4169", 
-        "LatestValue" : "0.209", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pencaenewydd", 
-        "NameCY" : "Pencaenewydd", 
-        "NGR" : "SH4000540374", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Erch at Pencaenewydd", 
-        "TitleCY" : "Afon Erch ym Mhencaenewydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4169"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.86643125136116, 53.0077534808529
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4168", 
-        "LatestValue" : "1.172", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Emral Brook", 
-        "NameCY" : "Emral Brook", 
-        "NGR" : "SJ4196145955", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Emral Brook at Emral Brook", 
-        "TitleCY" : "Emral Brook yn Emral Brook", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4168"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.0242246091118, 52.6397465863591
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4167", 
-        "LatestValue" : "0.923", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont y Garth", 
-        "NameCY" : "Pont y Garth", 
-        "NGR" : "SH6312706590", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dysynni at Pont y Garth", 
-        "TitleCY" : "Afon Dysynni ym Mhont y Garth", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4167"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.43015973105281, 52.9812626324417
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4166", 
-        "LatestValue" : "0.881", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Druid", 
-        "NameCY" : "Druid", 
-        "NGR" : "SJ0407843614", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alwen at Druid", 
-        "TitleCY" : "Afon Alwen yn y Ddwyryd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4166"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.59271354592463, 52.9031022220421
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4165", 
-        "LatestValue" : "1.878", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Dee Bridge", 
-        "NameCY" : "Pont y Dee", 
-        "NGR" : "SH9297235150", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Dee Bridge", 
-        "TitleCY" : "Afon Ddyfrdwy ym Mhont Dyfrdwy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4165"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.72491028642943, 52.9632801474328
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4164", 
-        "LatestValue" : "0.375", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Cynefail", 
-        "NameCY" : "Cynefail", 
-        "NGR" : "SH8424242049", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Gelyn Level at Cynefail", 
-        "TitleCY" : "Lefel Afon Gelyn yng Nghynefail", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4164"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.38793885472605, 52.9791561272538
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4163", 
-        "LatestValue" : "1.139", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Corwen", 
-        "NameCY" : "Corwen", 
-        "NGR" : "SJ0690843324", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Corwen", 
-        "TitleCY" : "Afon Ddyfrdwy yng Nghorwen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4163"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.0500785359914, 52.9287196192119
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4162", 
-        "LatestValue" : "0.716", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Brynkinalt", 
-        "NameCY" : "Brynkinalt", 
-        "NGR" : "SJ2951037328", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ceiriog at Brynkinalt", 
-        "TitleCY" : "Afon Ceiriog ym Mryncunallt", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4162"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.81352480908163, 53.0814534140253
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4160", 
-        "LatestValue" : "0.349", 
-        "LatestTime" : "13/03/2019 15:00", 
-        "NameEN" : "Carden Brook", 
-        "NameCY" : "Carden Brook", 
-        "NGR" : "SJ4560454112", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Carden Brook at Carden Park", 
-        "TitleCY" : "Carden Brook yn Parc Carden", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4160"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.26692214694896, 53.1146106028814
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4158", 
-        "LatestValue" : "0.624", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bontnewydd", 
-        "NameCY" : "Bontnewydd", 
-        "NGR" : "SH4837459893", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwyrfai at Bontnewydd", 
-        "TitleCY" : "Afon Gwyrfai yn y Bontnewydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4158"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.3565432000415, 53.2655996814072
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4157", 
-        "LatestValue" : "0.546", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bodffordd", 
-        "NameCY" : "Bodfford", 
-        "NGR" : "SH4293076880", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Frogwy at Bodffordd", 
-        "TitleCY" : "Afon Frogwy ym Modffordd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4157"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.34209214586927, 53.2314120193653
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4156", 
-        "LatestValue" : "0.348", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bodfari", 
-        "NameCY" : "Bodfari", 
-        "NGR" : "SJ1051271326", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wheeler at Bodfari", 
-        "TitleCY" : "Afon Chwiler ym Modfari", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4156"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.10025726942165, 53.0086923895686
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4155", 
-        "LatestValue" : "0.723", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Beddgelert", 
-        "NameCY" : "Beddgelert", 
-        "NGR" : "SH5918247772", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Glaslyn at Beddgelert", 
-        "TitleCY" : "Afon Glaslyn ym Meddgelert", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4155"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.5897852221493, 52.9104325519676
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4153", 
-        "LatestValue" : "1.045", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bala Weir X", 
-        "NameCY" : "Gored X Y Bala", 
-        "NGR" : "SH9318735961", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tryweryn at Bala Weir X", 
-        "TitleCY" : "Afon Tryweryn yng Nghored X y Bala", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4153"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.57621432485281, 52.9085636740457
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4152", 
-        "LatestValue" : "1.079", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bala", 
-        "NameCY" : "Y Bala", 
-        "NGR" : "SH9409535733", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Bala", 
-        "TitleCY" : "Afon Ddyfrdwy yn y Bala", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4152"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.8841350570093, 52.7444107261397
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4151", 
-        "LatestValue" : "1.881", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Dolgellau", 
-        "NameCY" : "Dolgellau", 
-        "NGR" : "SH7291017974", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wnion at Dolgellau", 
-        "TitleCY" : "Afon Wnion yn Nolgellau", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4151"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.87709834229229, 52.8201978092437
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4150", 
-        "LatestValue" : "0.430", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Tyddyn Gwladys", 
-        "NameCY" : "Tyddyn Gwladys", 
-        "NGR" : "SH7360526391", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Mawddach at Tyddyn Gwladys", 
-        "TitleCY" : "Afon Mawddach yn Nhyddyn Gwladys", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4150"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.48853348575924, 52.4552098085026
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4260", 
-        "LatestValue" : "0.901", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Dolwen", 
-        "NameCY" : "Dolwen", 
-        "NGR" : "SN9894985181", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Severn at Dolwen", 
-        "TitleCY" : "Afon Hafren yn Dolwen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4260"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.26459894220742, 52.7636499669963
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4261", 
-        "LatestValue" : "0.578", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanfyllin (Cain)", 
-        "NameCY" : "Llanfyllin (Cain)", 
-        "NGR" : "SJ1476719199", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cain at Llanfyllin", 
-        "TitleCY" : "Afon Cain yn Llanfyllin", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4261"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.17421357968211, 52.7759427278334
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4262", 
-        "LatestValue" : "1.342", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llansantffraid", 
-        "NameCY" : "Llansantffraid", 
-        "NGR" : "SJ2088820463", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cain at Llansantffraid", 
-        "TitleCY" : "Afon Cain yn Llansantffraid", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4262"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.16132298231808, 52.5916730081122
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4263", 
-        "LatestValue" : "1.377", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Pont-y-Gaer", 
-        "NameCY" : "Pont-y-Gaer", 
-        "NGR" : "SO2142799952", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Camlad at Pont-y-Gaer", 
-        "TitleCY" : "Afon Camlad ym Mhont-y-Gaer", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4263"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.96695796079973, 51.8795890675344
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4264", 
-        "LatestValue" : "0.667", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Treffgarne", 
-        "NameCY" : "Treffgarne", 
-        "NGR" : "SM9588424275", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Western Cleddau at Treffgarne", 
-        "TitleCY" : "Afon Cleddau orllewin yn Nhrefgarn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4264"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.79097836266495, 51.5930249298056
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4265", 
-        "LatestValue" : "3.285", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Green Park Weir", 
-        "NameCY" : "Cored Green Park", 
-        "NGR" : "SS7603589761", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Afan at Greenpark Weir", 
-        "TitleCY" : "Afon Afan yng Nghored Green Park", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4265"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.95275370196628, 51.8330214487512
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4266", 
-        "LatestValue" : "0.352", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Forge Bridge", 
-        "NameCY" : "Pont Forge", 
-        "NGR" : "SN6554416737", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Loughor at Forge Bridge", 
-        "TitleCY" : "Llwchwr ym Mhont Forge", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4266"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.98262382118228, 52.4831936405391
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4267", 
-        "LatestValue" : "0.455", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Tal y Bont Leri", 
-        "NameCY" : "Tal y Bont Leri", 
-        "NGR" : "SN6546389100", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Leri at Tal y Bont", 
-        "TitleCY" : "Leri yn Nhal y Bont", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4267"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.61663025814182, 51.7475487884619
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4269", 
-        "LatestValue" : "0.927", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Glynneath", 
-        "NameCY" : "Glyn-nedd", 
-        "NGR" : "SN8849206664", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Neath at Glynneath", 
-        "TitleCY" : "Afon Nedd yng Nglyn-nedd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4269"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.00514719397918, 51.8208721957131
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4270", 
-        "LatestValue" : "0.418", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llandybie", 
-        "NameCY" : "Llandybie", 
-        "NGR" : "SN6189715484", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Marlas at Llandybie", 
-        "TitleCY" : "Afon Marlas yn Llandybie", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4270"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.76112760758422, 51.7724207799259
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4271", 
-        "LatestValue" : "0.621", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ystradgynlais", 
-        "NameCY" : "Ystradgynlais", 
-        "NGR" : "SN7858409661", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tawe at Ystradgynlais", 
-        "TitleCY" : "Afon Tawe yn Ystradgynlais", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4271"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.08123318196923, 51.6978728575757
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4272", 
-        "LatestValue" : "0.510", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llangennech", 
-        "NameCY" : "Llangennech", 
-        "NGR" : "SN5626301953", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Morlais at Llangennech", 
-        "TitleCY" : "Afon Morlais yn Llangennech", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4272"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.18937075870349, 51.6893596785415
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4273", 
-        "LatestValue" : "0.381", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Stradey Home Farm", 
-        "NameCY" : "Fferm garter y Strade ", 
-        "NGR" : "SN4876201225", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulais at Stradey Home Farm", 
-        "TitleCY" : "Dulais yn Fferm Gartre'r Strade", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4273"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.53137727526098, 51.7992232727052
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4274", 
-        "LatestValue" : "0.317", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llanddowror", 
-        "NameCY" : "Llanddowror", 
-        "NGR" : "SN2554914206", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llanddowror Brook at Llanddowror", 
-        "TitleCY" : "Nant Llanddowror yn Llanddowror", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4274"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.45980000712406, 51.4105855828611
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4275", 
-        "LatestValue" : "0.620", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llanmaes", 
-        "NameCY" : "Llanmaes", 
-        "NGR" : "SS9857068962", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llanmaes Brook at Llanmaes", 
-        "TitleCY" : "Nant Llanmaes yn Llanmaes", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4275"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.49608513556602, 51.8091115995248
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4276", 
-        "LatestValue" : "0.272", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Esgair Carnau", 
-        "NameCY" : "Esgair Carnau", 
-        "NGR" : "SN9695413333", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Hepste at Esgair Carnau", 
-        "TitleCY" : "Afon Hepste yn Esgair Carnau", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4276"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.47802734355623, 51.4166606344064
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4277", 
-        "LatestValue" : "0.439", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Frampton Court", 
-        "NameCY" : "Frampton Court", 
-        "NGR" : "SS9731669663", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llanmaes Brook at Frampton Court", 
-        "TitleCY" : "Nant Llanmaes yn Frampton Court", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4277"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.90568525454533, 51.6640923275258
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4278", 
-        "LatestValue" : "0.307", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Clarion Close", 
-        "NameCY" : "Clarion Close", 
-        "NGR" : "SS6829697865", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Nant y Fendrod at Clarion Close", 
-        "TitleCY" : "Nant y Fendrod yn Clarion Close", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4278"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.1920276361203, 51.6859558304325
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4279", 
-        "LatestValue" : "0.754", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bassett Terrace", 
-        "NameCY" : "Teras Bassett", 
-        "NGR" : "SN4856700852", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulais at Bassett Terrace", 
-        "TitleCY" : "Afon Dulais yn Teras Bassett", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4279"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.9826517771426, 52.4844699420033
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4280", 
-        "LatestValue" : "0.338", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Tal y Bont Ceulan", 
-        "NameCY" : "Tal y Bont Ceulan", 
-        "NGR" : "SN6546589242", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ceulan at Tal y Bont", 
-        "TitleCY" : "Ceulan yn Nhal y Bont", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4280"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.68934466772945, 51.9477903303331
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4281", 
-        "LatestValue" : "0.383", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Usk Reservoir", 
-        "NameCY" : "Cronfa Ddŵr Wysg", 
-        "NGR" : "SN8398929047", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Usk Reservoir", 
-        "TitleCY" : "Afon Wysg wrth Gronfa Ddwr Wysg", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4281"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.434089766848, 51.7904263072903
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4282", 
-        "LatestValue" : "1.055", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llwynon Compensation Flume", 
-        "NameCY" : "Sianel Gydadferol Llwynon", 
-        "NGR" : "SO0118711169", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llwynon Compensation Flume", 
-        "TitleCY" : "Sianel Gydadferol Llwynon", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4282"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.36355901095099, 51.7960222777109
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4283", 
-        "LatestValue" : "0.393", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pontsticill ", 
-        "NameCY" : "Pontsticill ", 
-        "NGR" : "SO0606311698", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Pontsticill", 
-        "TitleCY" : "Pontsticill", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4283"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.57175177339546, 51.5130879418767
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4284", 
-        "LatestValue" : "0.488", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Springfield Gardens", 
-        "NameCY" : "Gerddi Springfield", 
-        "NGR" : "SS9102980522", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Morfa Brook at Springfield Gardens", 
-        "TitleCY" : "Nant y Morfa yn Gerddi Springfield", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4284"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.77462299269288, 51.585297268211
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4285", 
-        "LatestValue" : "0.542", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Westend", 
-        "NameCY" : "Westend", 
-        "NGR" : "SS7714788874", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ffrwdwyllt at Westend", 
-        "TitleCY" : "Ffrwdwyllt yn Westend               ", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4285"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.39516451323965, 51.9482824614861
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4286", 
-        "LatestValue" : "0.999", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Brecon Promenade", 
-        "NameCY" : "Promenâd Aberhonddu", 
-        "NGR" : "SO0420828673", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Usk at Brecon Promenade", 
-        "TitleCY" : "Afon Wysg wrth Bromenâd Aberhonddu", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4286"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.95918240710075, 51.8041294443289
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4288", 
-        "LatestValue" : "0.489", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Cartlett Brook", 
-        "NameCY" : "Cartlett Brook", 
-        "NGR" : "SM9607815863", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cartlett Brook at Cartlett (Haverfordwest)", 
-        "TitleCY" : "Cartlett Brook yn Cartlett (Hwlffordd)", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4288"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.60237652165803, 52.4707594927638
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4289", 
-        "LatestValue" : "0.037", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Clywedog Reservoir Level", 
-        "NameCY" : "Lefel Llyn Clywedog", 
-        "NGR" : "SN9125287076", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clywedog Reservoir Level", 
-        "TitleCY" : "Lefel Llyn Clywedog", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4289"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.33026164661818, 53.1642132336763
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4291", 
-        "LatestValue" : "1.761", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Dwyran Braint", 
-        "NameCY" : "Dwyran Afon Braint", 
-        "NGR" : "SH4431565546", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Braint at Dwyran", 
-        "TitleCY" : "Afon Braint ar Dwyran", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4291"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.31767863055247, 53.2562741767195
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4292", 
-        "LatestValue" : "8.775", 
-        "LatestTime" : "12/03/2019 10:30", 
-        "NameEN" : "Llangefni", 
-        "NameCY" : "Llangefni", 
-        "NGR" : "SH4548875758", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cefni at Llangefni", 
-        "TitleCY" : "Afon Cefni at Llangefni", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4292"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.18823383387365, 51.7439134694682
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4293", 
-        "LatestValue" : "0.393", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Cwm, Elm Street", 
-        "NameCY" : "Cwm,Stryd Elm", 
-        "NGR" : "SO1805905691", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "River Ebbw at Cwm, Elm Street", 
-        "TitleCY" : "Afon Ebwy yn Cwm, Stryd Elm", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4293"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.3143897972761, 53.1656287679909
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4294", 
-        "LatestValue" : "2.186", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Dwyran Rhyd Y Valley", 
-        "NameCY" : "Dwyran Rhyd-Y-Valley", 
-        "NGR" : "SH4538165669", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Afon Rhyd Y Valley at Dwyran", 
-        "TitleCY" : "Afon Rhyd-Y-Valley yn Nwyran", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4294"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.77999655661545, 51.992977629508
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4206", 
-        "LatestValue" : "0.957", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont Felindre", 
-        "NameCY" : "Pont Felindre", 
-        "NGR" : "SN7788234221", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwydderig at Pont Felindre", 
-        "TitleCY" : "Afon Gwydderig ym Mhont Felindre", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4206"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.31017232017473, 51.8539593575695
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4207", 
-        "LatestValue" : "3.565", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pothouse Wharf", 
-        "NameCY" : "Pothouse Wharf", 
-        "NGR" : "SN4099319786", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Pothouse Wharf", 
-        "TitleCY" : "Afon Tywi yn Pothouse Wharf", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4207"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.19218416629047, 51.8617128827449
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4208", 
-        "LatestValue" : "2.849", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Ty Castell", 
-        "NameCY" : "Ty Castell", 
-        "NGR" : "SN4914420397", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Ty Castell", 
-        "TitleCY" : "Afon Tywi yn Nhy Castell", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4208"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.77477339948646, 52.110127930859
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4209", 
-        "LatestValue" : "0.460", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ystradffin", 
-        "NameCY" : "Ystradffin", 
-        "NGR" : "SN7855947241", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tywi at Ystradffin", 
-        "TitleCY" : "Afon Tywi yn Ystradffin", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4209"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.56175386323039, 52.0454127179634
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4210", 
-        "LatestValue" : "2.375", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Glan Teifi", 
-        "NameCY" : "Glan Teifi", 
-        "NGR" : "SN2441941655", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Teifi at Glan Teifi", 
-        "TitleCY" : "Afon Teifi yng Nglan Teifi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4210"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.3173167015523, 52.0365201946406
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4211", 
-        "LatestValue" : "0.836", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llandysul", 
-        "NameCY" : "Llandysul", 
-        "NGR" : "SN4114840103", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tyweli at Llandysul", 
-        "TitleCY" : "Afon Tyweli yn Llandysul", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4211"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.28571329664483, 52.0421016553278
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4212", 
-        "LatestValue" : "1.440", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanfair", 
-        "NameCY" : "Llanfair", 
-        "NGR" : "SN4333540655", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Teifi at Llanfair", 
-        "TitleCY" : "Afon Teifi yn Llanfair", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4212"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.97312303820593, 52.1937356170609
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4213", 
-        "LatestValue" : "1.605", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont Llanio", 
-        "NameCY" : "Pont Llanio", 
-        "NGR" : "SN6523056890", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Teifi at Pont Llanio", 
-        "TitleCY" : "Afon Teifi ym Mhont Llanio", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4213"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.86281014147683, 52.2820278889324
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4214", 
-        "LatestValue" : "0.857", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pontrhydfendigaid", 
-        "NameCY" : "Pontrhydfendigaid", 
-        "NGR" : "SN7302266510", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Teifi at Pontrhydfendigaid", 
-        "TitleCY" : "Afon Teifi ym Mhontrhydfendigaid", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4214"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.93334099563108, 52.2203803223271
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4216", 
-        "LatestValue" : "0.478", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Tregaron", 
-        "NameCY" : "Tregaron", 
-        "NGR" : "SN6802859780", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Brennig at Tregaron", 
-        "TitleCY" : "Afon Brenig yn Nhregaron", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4216"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.44610002329767, 51.4621548777044
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4217", 
-        "LatestValue" : "0.454", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Cowbridge", 
-        "NameCY" : "Y Bont-faen", 
-        "NGR" : "SS9963674678", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Thaw at Cowbridge", 
-        "TitleCY" : "Afon Ddawan yn y Bont-faen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4217"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.4150140753905, 51.4354139428283
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4218", 
-        "LatestValue" : "0.431", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Gigman Bridge", 
-        "NameCY" : "Pont Gigman", 
-        "NGR" : "ST0173871662", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Thaw at Gigman Bridge", 
-        "TitleCY" : "Afon Ddawan ym Mhont Gigman", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4218"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.29210971472949, 51.5749950955312
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4219", 
-        "LatestValue" : "1.014", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Upper Boat Bridge", 
-        "NameCY" : "Pont Glan-bad", 
-        "NGR" : "ST1055587027", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Upper Boat Bridge", 
-        "TitleCY" : "Afon Taf ym Mhont Glan-bad", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4219"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.33796098908586, 51.6051254957445
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4220", 
-        "LatestValue" : "0.771", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontypridd, Sion Street", 
-        "NameCY" : "Pontypridd, Stryd Sion", 
-        "NGR" : "ST0743990435", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Pontypridd, Sion Street", 
-        "TitleCY" : "Afon Taf ym Mhontypridd, Stryd Sion", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4220"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.33210211671385, 51.6521024755485
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4221", 
-        "LatestValue" : "0.605", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Abercynon", 
-        "NameCY" : "Abercynon", 
-        "NGR" : "ST0794095652", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cynon at Abercynon", 
-        "TitleCY" : "Afon Cynon yn Abercynon", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4221"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.22212602228144, 51.6778371296206
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4222", 
-        "LatestValue" : "0.457", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Bargoed", 
-        "NameCY" : "Bargoed", 
-        "NGR" : "ST1559698381", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhymney at Bargoed", 
-        "TitleCY" : "Afon Rhymni ym Margod", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4222"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.6617249900991, 52.0811186306836
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4224", 
-        "LatestValue" : "0.199", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Cardigan Quay", 
-        "NameCY" : "Cei Aberteifi", 
-        "NGR" : "SN1771045872", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Teifi at Cardigan Quay", 
-        "TitleCY" : "Afon Teifi yng Nghei Aberteifi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4224"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.75756897236294, 51.7804320031736
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4225", 
-        "LatestValue" : "0.803", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Teddy Bear Bridge", 
-        "NameCY" : "Teddy Bear Bridge", 
-        "NGR" : "SN7885110546", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tawe at Teddy Bear Bridge", 
-        "TitleCY" : "Afon Tawe yn Teddy Bear Bridge", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4225"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.7679867867421, 51.5913413694961
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4226", 
-        "LatestValue" : "0.243", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Taibach", 
-        "NameCY" : "Tai-bach", 
-        "NGR" : "SS7762389535", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ffrwdwyllt at Taibach", 
-        "TitleCY" : "Afon Ffrwdwyllt yn Nhai-bach", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4226"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.1455104324261, 51.6990180893329
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4227", 
-        "LatestValue" : "0.507", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Felinfoel", 
-        "NameCY" : "Felin-foel", 
-        "NGR" : "SN5182502209", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lliedi at Felinfoel", 
-        "TitleCY" : "Afon Lliedi yn Felin-foel", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4227"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.13489976102129, 51.6829708322472
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4228", 
-        "LatestValue" : "0.277", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Halfway", 
-        "NameCY" : "Halfway", 
-        "NGR" : "SN5250600403", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dafen at Halfway", 
-        "TitleCY" : "Afon Dafen yn Halfway", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4228"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.05524549228697, 51.6551305064569
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4229", 
-        "LatestValue" : "3.212", 
-        "LatestTime" : "13/03/2019 16:15", 
-        "NameEN" : "Pont-y-Cob", 
-        "NameCY" : "Pont-y-Cob", 
-        "NGR" : "SS5792597149", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lliw at Pont-y-Cob", 
-        "TitleCY" : "Afon Lliw ym Mhont-y-Cob", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4229"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.05763152165099, 52.4033445231202
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4230", 
-        "LatestValue" : "0.637", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanbadarn Fawr", 
-        "NameCY" : "Llanbadarn Fawr", 
-        "NGR" : "SN6011780362", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rheidol at Llanbadarn Fawr", 
-        "TitleCY" : "Afon Rheidol yn Llanbadarn Fawr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4230"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.44068969617126, 51.7131335467888
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4231", 
-        "LatestValue" : "0.355", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Aberdare", 
-        "NameCY" : "Aberdâr", 
-        "NGR" : "SO0056202582", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cynon at Aberdare", 
-        "TitleCY" : "Afon Cynon yn Aberdâr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4231"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.14504818961958, 51.7063620581227
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4232", 
-        "LatestValue" : "0.635", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Aberbeeg", 
-        "NameCY" : "Aber-bîg", 
-        "NGR" : "SO2097501467", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ebbw at Aberbeeg", 
-        "TitleCY" : "Afon Ebwy yn Aber-bîg", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4232"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.39444766792092, 51.9476885322723
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4233", 
-        "LatestValue" : "0.924", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Brecon", 
-        "NameCY" : "Aberhonddu", 
-        "NGR" : "SO0425628606", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Brecon", 
-        "TitleCY" : "Afon Wysg yn Aberhonddu", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4233"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.3122045899421, 52.5158896064988
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4235", 
-        "LatestValue" : "1.150", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Newtown", 
-        "NameCY" : "Y Drenewydd", 
-        "NGR" : "SO1105391698", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Newtown", 
-        "TitleCY" : "Afon Hafren yn y Drenewydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4235"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.91122033250936, 53.000865275981
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4241", 
-        "LatestValue" : "14.280", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Bangor on Dee", 
-        "NameCY" : "Bangor is y Coed", 
-        "NGR" : "SJ3894645226", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dee at Bangor on Dee", 
-        "TitleCY" : "Afon Dyfrdwy am Bont Leadmill, Y Wyddgrug", 
-        "Units" : "mAOD", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4241"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.13749725679566, 53.1723952136431
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4242", 
-        "LatestValue" : "0.489", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Mold Leadmill Bridge", 
-        "NameCY" : "Bont Leadmill, Y Wyddgrug", 
-        "NGR" : "SJ2406464524", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alyn at Mold Leadmill Bridge", 
-        "TitleCY" : "Afon Alun ym Mhont Leadmill, Y Wyddgrug", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4242"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.08247241668301, 53.1373731035844
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4243", 
-        "LatestValue" : "0.925", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontblyddyn", 
-        "NameCY" : "Pontblyddyn", 
-        "NGR" : "SJ2768360571", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alyn at Pontblyddyn", 
-        "TitleCY" : "Afon Alun ym Mhontblyddyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4243"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.95209924947991, 53.1073122857276
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4244", 
-        "LatestValue" : "0.437", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Rossett Alyn Bridge", 
-        "NameCY" : "Bont Alyn, Yr Orsedd", 
-        "NGR" : "SJ3636057103", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Alyn at Rossett Alyn Bridge", 
-        "TitleCY" : "Afon Alun am Mhont Alyn, Yr Orsedd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4244"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.27495705895706, 52.5360039682458
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4259", 
-        "LatestValue" : "0.931", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Aberbechan", 
-        "NameCY" : "Aberbechan", 
-        "NGR" : "SO1362093890", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Bechan Brook at Aberbechan", 
-        "TitleCY" : "Nant Bechan yn Aberbechan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4259"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.84983798165196, 51.9194702238894
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4015", 
-        "LatestValue" : "0.901", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Grosmont, Rhosllwyn", 
-        "NameCY" : "Y Grysmwnt, Rhosllwyn", 
-        "NGR" : "SO4165024890", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Monnow at Grosmont, Rhosllwyn", 
-        "TitleCY" : "Afon Mynwy yn y Grysmwnt, Rhosllwyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4015"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.12670208045574, 52.0765573414897
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4016", 
-        "LatestValue" : "1.474", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Hay On Wye", 
-        "NameCY" : "Y Gelli Gandryll", 
-        "NGR" : "SO2288042620", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Hay On Wye", 
-        "TitleCY" : "Afon Gwy yn y Gelli Gandryll", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4016"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.72019317627434, 52.0517639606718
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4017", 
-        "LatestValue" : "2.851", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Old Wye Bridge, Hereford", 
-        "NameCY" : "Old Wye Bridge, Hereford", 
-        "NGR" : "SO5071239508", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Wye at Old Wye Bridge, Hereford", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Gwy yn Bont Hen y Gwy, Henffordd", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4017"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.31466813787552, 52.3054087133497
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4018", 
-        "LatestValue" : "0.633", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanddewi", 
-        "NameCY" : "Llanddewi", 
-        "NGR" : "SO1046068290", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ithon at Llanddewi", 
-        "TitleCY" : "Afon Ieithon yn Llanddewi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4018"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.65999791619024, 52.0619345176754
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4019", 
-        "LatestValue" : "2.591", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Lugwardine", 
-        "NameCY" : "Lugwardine", 
-        "NGR" : "SO5485040600", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Lugg at Lugwardine", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Lugg yn Lugwardine", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4019"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.11295193872118, 52.1514026791906
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4020", 
-        "LatestValue" : "0.444", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Michaelchurch on Arrow", 
-        "NameCY" : "Llanfihangel Dyffryn Arwy", 
-        "NGR" : "SO2395050930", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Arrow at Michaelchurch on Arrow", 
-        "TitleCY" : "Afon Arwy yn Llanfihangel Dyffryn Arwy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4020"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.7228314398863, 51.7974109617377
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4021", 
-        "LatestValue" : "0.741", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Mitchel Troy", 
-        "NameCY" : "Llanfihangel Troddi", 
-        "NGR" : "SO5025011220", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Trothy at Mitchel Troy", 
-        "TitleCY" : "Afon Troddi yn Llanfihangel Troddi", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4021"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.11748510505652, 52.3088780218102
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4022", 
-        "LatestValue" : "0.435", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Monaughty", 
-        "NameCY" : "Monaughty", 
-        "NGR" : "SO2391068450", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lugg at Monaughty", 
-        "TitleCY" : "Afon Llugwy yn Monaughty", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4022"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.70324775908361, 51.8146399296267
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4023", 
-        "LatestValue" : "3.495", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Monmouth", 
-        "NameCY" : "Trefynwy", 
-        "NGR" : "SO5161913123", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Monmouth", 
-        "TitleCY" : "Afon Gwy yn Nhrefynwy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4023"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.72011350012918, 51.8088464220434
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4024", 
-        "LatestValue" : "2.892", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Monnow Gate", 
-        "NameCY" : "Porth Trefynwy", 
-        "NGR" : "SO5045012490", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Monnow at Monnow Gate", 
-        "TitleCY" : "Afon Mynwy ym Mhorth Trefynwy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4024"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.62988748136107, 52.0264060635522
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4025", 
-        "LatestValue" : "3.374", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Mordiford", 
-        "NameCY" : "Mordiford", 
-        "NGR" : "SO5688036630", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Wye at Mordiford", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Gwy yn Mordiford", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4025"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.7013246320372, 52.4283242645003
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4026", 
-        "LatestValue" : "0.327", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Pant Mawr", 
-        "NameCY" : "Pant Mawr", 
-        "NGR" : "SN8442082510", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Pant Mawr", 
-        "TitleCY" : "Afon Gwy ym Mhant Mawr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4026"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.95552128388676, 52.0413869426644
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4027", 
-        "LatestValue" : "0.470", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Peterchurch", 
-        "NameCY" : "Peterchurch", 
-        "NGR" : "SO3456038540", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Dore at Peterchurch", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Dore yn Peterchurch", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4027"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.68641733491972, 51.7963165609793
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4028", 
-        "LatestValue" : "3.938", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Redbrook", 
-        "NameCY" : "Redbrook", 
-        "NGR" : "SO5276011074", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Redbrook", 
-        "TitleCY" : "Afon Gwy yn Redbrook", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4028"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.58759357399661, 51.9153539190761
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4029", 
-        "LatestValue" : "3.441", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Ross On Wye", 
-        "NameCY" : "Ross On Wye", 
-        "NGR" : "SO5968224254", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Wye at Ross On Wye", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Gwy yn Rhosan ar Wy", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4029"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.05403416564727, 51.9587279654672
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4031", 
-        "LatestValue" : "0.402", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Tafalog", 
-        "NameCY" : "Tafalog", 
-        "NGR" : "SO2767029440", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Honddu at Tafalog", 
-        "TitleCY" : "Afon Honddu yn Nhafalog", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4031"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.21694052282439, 52.0305245735828
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4032", 
-        "LatestValue" : "0.676", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Three Cocks", 
-        "NameCY" : "Three Cocks", 
-        "NGR" : "SO1661037600", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llynfi at Three Cocks", 
-        "TitleCY" : "Afon Llynfi yn Three Cocks", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4032"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.74355289673673, 52.0691688355943
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4033", 
-        "LatestValue" : "0.140", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Three Elms", 
-        "NameCY" : "Three Elms", 
-        "NGR" : "SO4913041460", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Yazor Brook at Three Elms", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Nant Yazor yn Tri Llwyfen", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4033"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.98468738530035, 52.2205135673713
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4035", 
-        "LatestValue" : "0.697", 
-        "LatestTime" : "13/03/2019 19:02", 
-        "NameEN" : "Titley Mill", 
-        "NameCY" : "Titley Mill", 
-        "NGR" : "SO3283058490", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Arrow at Titley Mill", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Arrow yn Melin Titley", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4035"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.94853271076387, 51.7451850327998
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4039", 
-        "LatestValue" : "1.752", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Chainbridge", 
-        "NameCY" : "Pont Gadwyni", 
-        "NGR" : "SO3461005590", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Chainbridge", 
-        "TitleCY" : "Afon Wysg ym Mhont Gadwyni", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4039"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.14144448825858, 51.8568060507483
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4040", 
-        "LatestValue" : "0.756", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Crickhowell", 
-        "NameCY" : "Crucywel", 
-        "NGR" : "SO2148618195", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Crickhowell", 
-        "TitleCY" : "Afon Wysg yng Nghrucywel", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4040"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.26984919143344, 51.8758552347433
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4041", 
-        "LatestValue" : "1.485", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llandetty", 
-        "NameCY" : "Llanddeti", 
-        "NGR" : "SO1268020460", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Llandetty", 
-        "TitleCY" : "Afon Wysg yn Llanddeti", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4041"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.01826099666075, 51.8121265590792
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4042", 
-        "LatestValue" : "1.784", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanfoist Bridge", 
-        "NameCY" : "Pont Llan-ffwyst", 
-        "NGR" : "SO2990013100", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Llanfoist Bridge", 
-        "TitleCY" : "Afon Wysg ym Mhont Llan-ffwyst", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4042"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.10408513529358, 51.8515431519571
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4043", 
-        "LatestValue" : "0.389", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Millbrook", 
-        "NameCY" : "Millbrook", 
-        "NGR" : "SO2405017570", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Grwyne Fawr at Millbrook", 
-        "TitleCY" : "Afon Grwyne Fawr ym Millbrook", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4043"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.89154530630212, 51.7051701376807
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4044", 
-        "LatestValue" : "0.568", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Olway Inn", 
-        "NameCY" : "Olway Inn", 
-        "NGR" : "SO3849001090", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Olway Brook at Olway Inn", 
-        "TitleCY" : "Nant Olwy yn Olway Inn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4044"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.45177953643398, 51.9631259648504
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4045", 
-        "LatestValue" : "0.447", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont Ar Yscir", 
-        "NameCY" : "Pont-ar-ysgir", 
-        "NGR" : "SO0035030400", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Yscir at Pont Ar Yscir", 
-        "TitleCY" : "Afon Ysgir ym Mhont-ar-ysgir", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4045"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.55993052330926, 51.9171441197754
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4046", 
-        "LatestValue" : "0.403", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pont Hen Hafod", 
-        "NameCY" : "Pont Hen Hafod", 
-        "NGR" : "SN9281025440", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Senni at Pont Hen Hafod", 
-        "TitleCY" : "Afon Senni ym Mhont Hen Hafod", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4046"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.96577371270596, 51.6257906847335
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4047", 
-        "LatestValue" : "0.708", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ponthir", 
-        "NameCY" : "Pont-hir", 
-        "NGR" : "ST3324492327", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lwyd at Ponthir", 
-        "TitleCY" : "Afon Lwyd ym Mhont-hir", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4047"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.10290823245613, 51.6070754121534
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4048", 
-        "LatestValue" : "0.853", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Risca", 
-        "NameCY" : "Rhisga", 
-        "NGR" : "ST2372090380", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ebbw at Risca", 
-        "TitleCY" : "Afon Ebwy yn Rhisga", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4048"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.78868933478086, 51.8817739486529
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4049", 
-        "LatestValue" : "1.068", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Skenfrith", 
-        "NameCY" : "Ynysgynwraidd", 
-        "NGR" : "SO4581020650", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Monnow at Skenfrith", 
-        "TitleCY" : "Afon Mynwy yn Ynysgynwraidd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4049"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.53312660840343, 51.9540920852396
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4050", 
-        "LatestValue" : "0.778", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Trallong", 
-        "NameCY" : "Trallong", 
-        "NGR" : "SN9474029510", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Trallong", 
-        "TitleCY" : "Llan-ffwyst yn Nhrallong", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4050"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.93031817772053, 51.7328326693997
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4051", 
-        "LatestValue" : "1.056", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Trostrey Weir", 
-        "NameCY" : "Cored Trostre", 
-        "NGR" : "SO3585004200", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Trostrey Weir", 
-        "TitleCY" : "Afon Wysg yng Nghored Trostre", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4051"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.45517338076806, 52.7599452403766
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2003", 
-        "LatestValue" : "0.787", 
-        "LatestTime" : "13/03/2019 11:15", 
-        "NameEN" : "Vyrnwy Weir", 
-        "NameCY" : "Cored Efyrnwy", 
-        "NGR" : "SJ0190019030", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Vyrnwy at Vyrnwy Weir, Llanwddyn", 
-        "TitleCY" : "Afon Efyrnwy yng Nghored Efyrnwy, Llanwddyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2003"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.87222012384981, 52.7244922406375
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2004", 
-        "LatestValue" : "4.589", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Montford", 
-        "NameCY" : "Montford", 
-        "NGR" : "SJ4119014450", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Severn at Montford", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Hafren yn Montford", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2004"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.23357610411887, 52.5535243513983
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2009", 
-        "LatestValue" : "1.726", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Abermule", 
-        "NameCY" : "Aber-miwl", 
-        "NGR" : "SO1646095790", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Abermule", 
-        "TitleCY" : "Afon Hafren yn Aber-miwl", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2009"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.54577210461121, 52.4301011430118
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2017", 
-        "LatestValue" : "0.862", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Rhos Y Pentref", 
-        "NameCY" : "Rhos y Pentref", 
-        "NGR" : "SN9500082470", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulas at Rhos Y Pentref, Cwmbelan", 
-        "TitleCY" : "Afon Dulas yn Rhos y Pentref, Cwmbelan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2017"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.10877928783042, 52.7689939489148
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2020", 
-        "LatestValue" : "3.388", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanymynech", 
-        "NameCY" : "Llanymynech", 
-        "NGR" : "SJ2529019620", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Vyrnwy at Llanymynech", 
-        "TitleCY" : "Afon Efyrnwy yn Llanymynech", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2020"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.11031354290106, 52.7943312493527
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2025", 
-        "LatestValue" : "1", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanyblodwel", 
-        "NameCY" : "Llanyblodwel", 
-        "NGR" : "SJ2523022440", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Tanat at Llanyblodwel", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Tanat yn Llanyblodwel", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2025"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.80330122728246, 52.4060120995355
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2030", 
-        "LatestValue" : "1.409", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Onibury", 
-        "NameCY" : "Onibury", 
-        "NGR" : "SO4545078970", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Onny at Onibury", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Onny yn Onibury", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2030"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.53915397570606, 52.4512260870571
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2033", 
-        "LatestValue" : "1.473", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanidloes", 
-        "NameCY" : "Llanidloes", 
-        "NGR" : "SN9550084810", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Llanidloes", 
-        "TitleCY" : "Afon Hafren yn Llanidloes", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2033"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.42729774956555, 52.5143952206642
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2034", 
-        "LatestValue" : "1.717", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Caersws", 
-        "NameCY" : "Caersws", 
-        "NGR" : "SO0324091680", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Caersws", 
-        "TitleCY" : "Afon Hafren yng Nghaersws", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2034"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.25019653316631, 52.707353606471
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2035", 
-        "LatestValue" : "1.758", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Meifod", 
-        "NameCY" : "Meifod", 
-        "NGR" : "SJ1563012920", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Vyrnwy at Meifod", 
-        "TitleCY" : "Afon Efyrnwy ym Meifod", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2035"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.04396418050592, 52.3447939509578
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2053", 
-        "LatestValue" : "0.999", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Knighton", 
-        "NameCY" : "Knighton", 
-        "NGR" : "SO2898072370", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Teme at Knighton", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Teme yn Tref-y-clawdd", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2053"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.60069072833352, 52.4681210248754
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2054", 
-        "LatestValue" : "0.471", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Bryntail", 
-        "NameCY" : "Bryn Tail", 
-        "NGR" : "SN9136086780", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clywedog at Bryntail", 
-        "TitleCY" : "Afon Clywedog ym Mryntail", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2054"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.87616506441068, 52.3591040353141
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2057", 
-        "LatestValue" : "1.040", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Leintwardine", 
-        "NameCY" : "Leintwardine", 
-        "NGR" : "SO4043073810", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Teme at Leintwardine", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Teme yn Leintwardine", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2057"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.32175251805764, 52.7045993833102
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2060", 
-        "LatestValue" : "1.723", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Pont Robert", 
-        "NameCY" : "Pontrobert", 
-        "NGR" : "SJ1079012700", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Vyrnwy at Pont Robert", 
-        "TitleCY" : "Afon Efyrnwy ym Mhontrobert", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2060"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.04108357116374, 52.7458741089873
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2061", 
-        "LatestValue" : "5.604", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llandrinio", 
-        "NameCY" : "Llandrinio", 
-        "NGR" : "SJ2982016980", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Llandrinio", 
-        "TitleCY" : "Afon Hafren yn Llandrinio", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2061"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.43376690726623, 52.6766857269736
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2062", 
-        "LatestValue" : "1.446", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Llanerfyl", 
-        "NameCY" : "Llanerfyl", 
-        "NGR" : "SJ0316009740", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Banwy at Llanerfyl", 
-        "TitleCY" : "Afon Banw yn Llanerfyl", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2062"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.19668936848293, 52.0456573128299
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4014", 
-        "LatestValue" : "1.851", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Glasbury", 
-        "NameCY" : "Y Clas-ar-Wy", 
-        "NGR" : "SO1802739260", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Glasbury", 
-        "TitleCY" : "Afon Gwy yn y Clas-ar-Wy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4014"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.34988595064013, 52.0906387241628
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4013", 
-        "LatestValue" : "2.195", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Erwood", 
-        "NameCY" : "Erwyd", 
-        "NGR" : "SO0761444447", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Erwood", 
-        "TitleCY" : "Afon Gwy yn Erwyd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4013"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.42892429006082, 52.209675784547
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4012", 
-        "LatestValue" : "1.356", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Disserth", 
-        "NameCY" : "Betws Diserth", 
-        "NGR" : "SO0246057790", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ithon at Disserth", 
-        "TitleCY" : "Afon Ieithon ym Metws Diserth", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4012"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.50330543922833, 52.2963784294356
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4011", 
-        "LatestValue" : "0.980", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Ddol Farm", 
-        "NameCY" : "Fferm Ddôl", 
-        "NGR" : "SN9757867536", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Ddol Farm", 
-        "TitleCY" : "Afon Gwy yn Fferm Ddôl", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4011"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.46957644735914, 52.1465080454136
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4010", 
-        "LatestValue" : "1.046", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Cilmery", 
-        "NameCY" : "Cilmeri", 
-        "NGR" : "SN9954050820", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Irfon at Cilmery", 
-        "TitleCY" : "Afon Irfon yng Nghilmeri", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4010"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.57196514019698, 52.2690683202661
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4008", 
-        "LatestValue" : "0.810", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Caban Elan", 
-        "NameCY" : "Caban Elan", 
-        "NGR" : "SN9283064598", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Elan at Caban Elan", 
-        "TitleCY" : "Afon Elan yng Nghaban Elan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4008"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.93273045897402, 52.2768573493728
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4007", 
-        "LatestValue" : "0.900", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Byton", 
-        "NameCY" : "Byton", 
-        "NGR" : "SO3646064710", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Lugg at Byton", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Lugg yn Byton", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4007"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.411779258155, 52.1535979887997
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4005", 
-        "LatestValue" : "2.217", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Builth Wells", 
-        "NameCY" : "Llanfair-ym-Muallt", 
-        "NGR" : "SO0351051530", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wye at Builth Wells", 
-        "TitleCY" : "Afon Gwy yn Llanfair-ym-Muallt", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4005"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.96950158763215, 52.0965128006635
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4004", 
-        "LatestValue" : "2.831", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Bredwardine", 
-        "NameCY" : "Bredwardine", 
-        "NGR" : "SO3368344684", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Wye at Bredwardine", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Gwy yn Bredwardine", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4004"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.75222261994926, 52.0450993895226
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4002", 
-        "LatestValue" : "3.217", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Belmont", 
-        "NameCY" : "Belmont", 
-        "NGR" : "SO4850838789", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Wye at Belmont", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Gwy yn Belmont", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/4002"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.61804302914531, 52.1011086109713
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4001", 
-        "LatestValue" : "0.772", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Abernant", 
-        "NameCY" : "Abernant", 
-        "NGR" : "SN8926945987", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Irfon at Abernant", 
-        "TitleCY" : "Afon Irfon yn Abernant", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4001"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.0378880397439, 52.7797042194998
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2096", 
-        "LatestValue" : "1.243", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Maesbrook", 
-        "NameCY" : "Maesbrook", 
-        "NGR" : "SJ3009020740", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Flood Channel at Maesbrook", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Channel Llifogydd yn Maesbrook", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2096"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.16036608067714, 52.3948732684685
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2090", 
-        "LatestValue" : "0.588", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Dutlas", 
-        "NameCY" : "Dutlas", 
-        "NGR" : "SO2114078061", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Teme at Dutlas", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Teme yn Dutlas", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2090"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.15570951349207, 52.6604850935018
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2089", 
-        "LatestValue" : "0.324", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Welshpool", 
-        "NameCY" : "Y Trallwng", 
-        "NGR" : "SJ2193007600", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lledan Brook at Welshpool", 
-        "TitleCY" : "Nant Lledan yn y Trallwng", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2089"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.1668635678099, 52.6018494538365
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2072", 
-        "LatestValue" : "2.171", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Munlyn", 
-        "NameCY" : "Munlyn", 
-        "NGR" : "SJ2107001090", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Munlyn", 
-        "TitleCY" : "Afon Hafren ym Munlyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2072"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.11579833140952, 52.6724649654377
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2068", 
-        "LatestValue" : "4.032", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Buttington", 
-        "NameCY" : "Tal-y-bont", 
-        "NGR" : "SJ2465008890", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Severn at Buttington", 
-        "TitleCY" : "Afon Hafren yn Nhal-y-bont", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=2068"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.99433668549114, 52.7357571414149
-        ]
-      }, 
-      "properties" : {
-        "Location" : "2067", 
-        "LatestValue" : "5.509", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Crew Green", 
-        "NameCY" : "Crew Green", 
-        "NGR" : "SJ3296015810", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Environment Agency Station monitoring the Severn at Crew Green", 
-        "TitleCY" : "Gorsaf Asiantaeth yr Amgylchedd monitro'r Hafren yn Crew Green", 
-        "Units" : "m", 
-        "url" : "https://flood-warning-information.service.gov.uk/station/2067"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.68339548417901, 51.8261537326102
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4091", 
-        "LatestValue" : "0.586", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Craig y Nos", 
-        "NameCY" : "Craig y Nos", 
-        "NGR" : "SN8408515510", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tawe at Craig y Nos", 
-        "TitleCY" : "Afon Tawe yn Nghraig y Nos", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4091"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.7477339276186, 51.6225871403728
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4092", 
-        "LatestValue" : "0.391", 
-        "LatestTime" : "13/03/2019 19:45", 
-        "NameEN" : "Cwmafan", 
-        "NameCY" : "Cwmafan", 
-        "NGR" : "SS7910992976", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Afan at Cwmafan", 
-        "TitleCY" : "Afon Afan yng Nghwmafan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4092"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.9225047978525, 52.3969975086651
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4093", 
-        "LatestValue" : "1.158", 
-        "LatestTime" : "13/03/2019 19:45", 
-        "NameEN" : "Cwm Rheidol", 
-        "NameCY" : "Cwm Rheidol", 
-        "NGR" : "SN6929079403", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rheidol at Cwm Rheidol", 
-        "TitleCY" : "Afon Rheidol yng Nghwm Rheidol", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4093"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.77671281487062, 52.3480026563649
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4094", 
-        "LatestValue" : "0.437", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Cwmystwyth", 
-        "NameCY" : "Cwmystwyth", 
-        "NGR" : "SN7907573700", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ystwyth at Cwmystwyth", 
-        "TitleCY" : "Afon Ystwyth yng Nghwmystwyth", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4094"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.49617132149611, 51.5207937795814
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4095", 
-        "LatestValue" : "0.585", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Felindre Road", 
-        "NameCY" : "Ffordd Felindre", 
-        "NGR" : "SS9629181269", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ewenny Fawr at Felindre Road", 
-        "TitleCY" : "Afon Ewenni Fawr yn Ffordd Felindre", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4095"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.48326295583187, 51.8297738461957
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4096", 
-        "LatestValue" : "0.819", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Glasfryn Ford", 
-        "NameCY" : "Rhyd Glasfryn", 
-        "NGR" : "SN2898217489", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dewi Fawr at Glasfryn Ford", 
-        "TitleCY" : "Afon Dewi Fawr yn Rhyd Glasfryn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4096"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.78029314917681, 51.7688408834458
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4097", 
-        "LatestValue" : "0.563", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Gurnos", 
-        "NameCY" : "Y Gurnos", 
-        "NGR" : "SN7725209295", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Twrch at Gurnos", 
-        "TitleCY" : "Afon Twrch yn y Gurnos", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4097"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.97017321029636, 51.8044816554656
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4098", 
-        "LatestValue" : "0.753", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Haverfordwest", 
-        "NameCY" : "Hwlffordd", 
-        "NGR" : "SM9532215933", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Western Cleddau at Haverfordwest", 
-        "TitleCY" : "Afon Cleddau Wen yn Hwlffordd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4098"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.55718765369494, 51.4925552257676
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4099", 
-        "LatestValue" : "0.411", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Keepers Lodge", 
-        "NameCY" : "Keepers Lodge", 
-        "NGR" : "SS9199178217", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ewenny at Keepers Lodge", 
-        "TitleCY" : "Afon Ewenni yn Keepers Lodge", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4099"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.712328492759, 51.6716244569232
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4100", 
-        "LatestValue" : "0.575", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Kiln Park", 
-        "NameCY" : "Parc Kiln", 
-        "NGR" : "SN1254600467", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ritec at Kiln Park", 
-        "TitleCY" : "Afon Ritec ym Mharc Kiln", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4100"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.16480908076696, 51.6664431695091
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4102", 
-        "LatestValue" : "0.635", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Llanelli Tidal", 
-        "NameCY" : "Llanw Llanelli ", 
-        "NGR" : "SS5038498626", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llanelli at Llanelli Tidal", 
-        "TitleCY" : "Llanw Llanelli yn Llanelli ", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4102"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.24232052701974, 51.8006610637959
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4103", 
-        "LatestValue" : "0.754", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llangendeirne", 
-        "NameCY" : "Llangyndeyrn", 
-        "NGR" : "SN4548313713", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwendraeth Fach at Llangendeirne", 
-        "TitleCY" : "Afon Gwendraeth Fach yn Llangyndeyrn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4103"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.05656128309726, 52.4340512526554
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4104", 
-        "LatestValue" : "0.601", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llangorwen", 
-        "NameCY" : "Llangorwen", 
-        "NGR" : "SN6028783775", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clarach at Llangorwen", 
-        "TitleCY" : "Afon Clarach yn Llangorwen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4104"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.1401794439362, 52.3067545855822
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4105", 
-        "LatestValue" : "0.374", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanrhystud", 
-        "NameCY" : "Llanrhystud", 
-        "NGR" : "SN5418469783", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Wyre at Llanrhystud", 
-        "TitleCY" : "Afon Wyre yn Llanrhystud", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4105"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.66593958405323, 51.8790659485793
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4106", 
-        "LatestValue" : "1.284", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Login", 
-        "NameCY" : "Login", 
-        "NGR" : "SN1659723415", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taf at Login", 
-        "TitleCY" : "Afon Taf yn Login", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4106"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.64590105450514, 51.605814391654
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4107", 
-        "LatestValue" : "0.324", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Maesteg", 
-        "NameCY" : "Maesteg", 
-        "NGR" : "SS8611690947", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llynfi at Maesteg", 
-        "TitleCY" : "Afon Llynfi ym Maesteg", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4107"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.77569161130703, 51.6041829139214
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4108", 
-        "LatestValue" : "0.964", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Marcroft Weir", 
-        "NameCY" : "Cored Marcroft", 
-        "NGR" : "SS7712490976", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Afan at Marcroft Weir", 
-        "TitleCY" : "Afon Afan yn Nghored Marcroft", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4108"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.97870349628356, 51.7915033950793
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4109", 
-        "LatestValue" : "0.618", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Merlins Bridge", 
-        "NameCY" : "Pont Fadlen", 
-        "NGR" : "SM9467514514", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Merlin's Brook at Merlins Bridge", 
-        "TitleCY" : "Merlin’s Brook ym Mhont Fadlen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4109"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -5.18927373879647, 51.886197400083
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4110", 
-        "LatestValue" : "0.394", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Middle Mill", 
-        "NameCY" : "Felinganol", 
-        "NGR" : "SM8061825657", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Solfach at Middle Mill", 
-        "TitleCY" : "Afon Solfach yn Felinganol", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4110"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.93251625788289, 51.6421888498167
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4111", 
-        "LatestValue" : "3.584", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Morfa", 
-        "NameCY" : "Afon Morfa", 
-        "NGR" : "SS6637695478", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Tawe at Morfa", 
-        "TitleCY" : "Afon Tawe ym Morfa", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4111"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.80872225681624, 51.6649428370395
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4112", 
-        "LatestValue" : "1.406", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Neath Tidal", 
-        "NameCY" : "Llanw Nedd", 
-        "NGR" : "SS7500497789", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Neath at Neath Tidal", 
-        "TitleCY" : "Llanw Afon Nedd yn Nedd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4112"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.54100393159705, 51.6033002499126
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4113", 
-        "LatestValue" : "0.479", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ogmore Vale", 
-        "NameCY" : "Cwm Ogwr", 
-        "NGR" : "SS9337490509", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ogwr Fawr at Ogmore Vale", 
-        "TitleCY" : "Afon Ogwr Fawr yng Nghwm Ogwr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4113"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.48404762439329, 51.5220718473104
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4114", 
-        "LatestValue" : "0.254", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Old Mill", 
-        "NameCY" : "Old Mill", 
-        "NGR" : "SS9713581394", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ewnenny Fach at Old Mill", 
-        "TitleCY" : "Afon Ewnenni Fach yn Old Mill", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4114"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.61886247432994, 51.4768915374551
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4115", 
-        "LatestValue" : "-2.087", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Penybont", 
-        "NameCY" : "Pen-y-bont", 
-        "NGR" : "SS8767176568", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ogmore at Penybont", 
-        "TitleCY" : "Afon Ogwr ym Mhen-y-bont", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4115"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.9736773584201, 51.7953812454431
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4116", 
-        "LatestValue" : "0.809", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Pont Amman", 
-        "NameCY" : "Pontaman", 
-        "NGR" : "SN6398912590", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Amman at Pont Amman", 
-        "TitleCY" : "Afon Aman ym Mhontaman", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4116"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.07239242822378, 52.3754553915254
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4117", 
-        "LatestValue" : "1.542", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont Llolwyn", 
-        "NameCY" : "Pont Llolwyn", 
-        "NGR" : "SN5902477289", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ystwyth at Pont Llolwyn", 
-        "TitleCY" : "Afon Ystwyth ym Mhont Llolwyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4117"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -5.17241486147367, 51.898381957293
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4118", 
-        "LatestValue" : "0.687", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pont y Cerbyd", 
-        "NameCY" : "Pont y Cerbyd", 
-        "NGR" : "SM8183726961", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Solfach at Pont y Cerbyd", 
-        "TitleCY" : "Afon Solfach ym Mhont y Cerbyd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4118"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.84884465327097, 51.7184331869287
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4119", 
-        "LatestValue" : "0.435", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontardawe", 
-        "NameCY" : "Pontardawe", 
-        "NGR" : "SN7238003807", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Upper Clydach at Pontardawe", 
-        "TitleCY" : "Afon Clydach Uchaf ym Mhontardawe", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4119"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.02978666298624, 51.7156072935334
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4120", 
-        "LatestValue" : "0.385", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Pontardulais", 
-        "NameCY" : "Pontarddulais", 
-        "NGR" : "SN5987303825", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulais at Pontardulais", 
-        "TitleCY" : "Afon Dulais ym Mhontarddulais", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4120"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.57368168187079, 51.7617905434047
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4121", 
-        "LatestValue" : "0.521", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontneddfechan", 
-        "NameCY" : "Pontneddfechan", 
-        "NGR" : "SN9149108183", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Mellte at Pontneddfechan", 
-        "TitleCY" : "Afon Mellte ym Mhontneddfechan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4121"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.21905404637229, 51.7539634179743
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4122", 
-        "LatestValue" : "0.492", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontyates", 
-        "NameCY" : "Pont-iets", 
-        "NGR" : "SN4692908471", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwendraeth Fawr at Pontyates", 
-        "TitleCY" : "Afon Gwendraeth Fawr ym Mhont-iets", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4122"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.18429778930572, 51.7750459577244
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4123", 
-        "LatestValue" : "0.659", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontyberem", 
-        "NameCY" : "Pontyberem", 
-        "NGR" : "SN4939810743", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwendraeth Fawr at Pontyberem", 
-        "TitleCY" : "Afon Gwendraeth Fawr ym Mhontyberem", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4123"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -2.90645968746434, 51.7019809139542
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4054", 
-        "LatestValue" : "1.135", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Usk Town", 
-        "NameCY" : "Brynbuga", 
-        "NGR" : "SO3745500748", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Usk at Usk Town", 
-        "TitleCY" : "Llan-ffwyst ym Mrynbuga", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4054"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.18784111478001, 51.6244996739025
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4055", 
-        "LatestValue" : "0.566", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Ynysddu", 
-        "NameCY" : "Ynys-ddu", 
-        "NGR" : "ST1787092410", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Sirhowy at Ynysddu", 
-        "TitleCY" : "Afon Sirhywi yn Ynys-ddu", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4055"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.31796921242531, 51.6477661003841
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4056", 
-        "LatestValue" : "0.769", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Fiddlers Elbow", 
-        "NameCY" : "Fiddlers Elbow", 
-        "NGR" : "ST0890995152", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Fiddlers Elbow", 
-        "TitleCY" : "Afon Taf yn Fiddlers Elbow", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4056"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.47919995870414, 51.6441277704038
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4057", 
-        "LatestValue" : "0.258", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Gelli", 
-        "NameCY" : "Y Gelli", 
-        "NGR" : "SS9774694961", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhondda at Gelli", 
-        "TitleCY" : "Afon Rhondda yn y Gelli", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4057"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.39470653322665, 51.5347321538581
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4058", 
-        "LatestValue" : "0.452", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Lanelay", 
-        "NameCY" : "Glanelái", 
-        "NGR" : "ST0336082680", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ely at Lanelay", 
-        "TitleCY" : "Afon Elái yng Nglanelái", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4058"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.48286931839852, 51.676398393082
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4059", 
-        "LatestValue" : "0.224", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Maerdy", 
-        "NameCY" : "Y Maerdy", 
-        "NGR" : "SS9756598555", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhondda Fach at Maerdy", 
-        "TitleCY" : "Afon Rhondda Fach yn y Maerdy", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4059"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.33052802724707, 51.5988347781378
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4061", 
-        "LatestValue" : "1.059", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Pontypridd", 
-        "NameCY" : "Pontypridd", 
-        "NGR" : "ST0794189726", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Pontypridd", 
-        "TitleCY" : "Afon Taf ym Mhontypridd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4061"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.26761296132338, 51.4854600997534
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4062", 
-        "LatestValue" : "0.645", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "St Fagans", 
-        "NameCY" : "Sain Ffagan", 
-        "NGR" : "ST1208077040", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ely at St Fagans", 
-        "TitleCY" : "Afon Elái yn Sain Ffagan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4062"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.36883031618226, 51.6093103860422
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4063", 
-        "LatestValue" : "0.664", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Trehafod", 
-        "NameCY" : "Trehafod", 
-        "NGR" : "ST0531090940", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhondda at Trehafod", 
-        "TitleCY" : "Afon Rhondda yn Nhrehafod", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4063"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.34592371998524, 51.7087547487603
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4064", 
-        "LatestValue" : "0.701", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Troedyrhiw", 
-        "NameCY" : "Troed-y-rhiw", 
-        "NGR" : "SO0710001970", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Troedyrhiw", 
-        "TitleCY" : "Afon Taf yn Nhroed-y-rhiw", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4064"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.54516098612141, 51.6767821317465
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4065", 
-        "LatestValue" : "0.334", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Tynewydd", 
-        "NameCY" : "Tynewydd", 
-        "NGR" : "SS9325998687", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhondda at Tynewydd", 
-        "TitleCY" : "Afon Rhondda yn Nhynewydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4065"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.20988534441, 51.4973099653968
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4067", 
-        "LatestValue" : "1.314", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Western Avenue", 
-        "NameCY" : "Rhodfa'r Gorllewin", 
-        "NGR" : "ST1611078290", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Western Avenue", 
-        "TitleCY" : "Afon Taf ger Rhodfa'r Gorllewin", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4067"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.50683021552129, 51.73809224799
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4068", 
-        "LatestValue" : "0.446", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Hirwaun", 
-        "NameCY" : "Hirwaun", 
-        "NGR" : "SN9605005450", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Cynon at Hirwaun", 
-        "TitleCY" : "Afon Cynon yn Hirwaun", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4068"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.35349532796462, 51.6045247380961
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4069", 
-        "LatestValue" : "0.390", 
-        "LatestTime" : "03/07/2018 12:00", 
-        "NameEN" : "Hopkinstown", 
-        "NameCY" : "Trehopcyn", 
-        "NGR" : "ST0636290388", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhondda at Hopkinstown", 
-        "TitleCY" : "Afon Rhondda yn Nhrehopcyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4069"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.11970814308513, 51.5327344295043
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4070", 
-        "LatestValue" : "0.700", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Llanedeyrn", 
-        "NameCY" : "Llanedern", 
-        "NGR" : "ST2243082130", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhymney at Llanedeyrn", 
-        "TitleCY" : "Afon Rhymni yn Llanedern", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4070"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.16338002850152, 51.5887777951602
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4071", 
-        "LatestValue" : "0.579", 
-        "LatestTime" : "13/03/2019 19:00", 
-        "NameEN" : "Waterloo Bridge, Machen", 
-        "NameCY" : "Waterloo Bridge, Machen", 
-        "NGR" : "ST1950088410", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhymney at Waterloo Bridge, Machen", 
-        "TitleCY" : "Afon Rhymni yn Waterloo Bridge, Machen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4071"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.60144719704148, 51.5572514893908
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4090", 
-        "LatestValue" : "0.448", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Coytrahen", 
-        "NameCY" : "Goetre-hen", 
-        "NGR" : "SS8907685478", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llynfi at Coytrahen", 
-        "TitleCY" : "Afon Llynfi yng Nghoetre-hen", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4090"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.55719543746814, 51.8151036043277
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4089", 
-        "LatestValue" : "1.734", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Clog Y Fran", 
-        "NameCY" : "Clog y Fran", 
-        "NGR" : "SN2383116034", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taf at Clog Y Fran", 
-        "TitleCY" : "Afon Taf yng Nghlog y Fran", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4089"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.90614251952411, 51.9767907884681
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4088", 
-        "LatestValue" : "0.478", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Cilrhedyn Bridge", 
-        "NameCY" : "Pont Cilrhedyn", 
-        "NGR" : "SN0050134914", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Gwaun at Cilrhedyn Bridge", 
-        "TitleCY" : "Afon Gwaun ym Mhont Cilrhedyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4088"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.76863410049533, 51.6922783471249
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4087", 
-        "LatestValue" : "0.497", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Cilfrew", 
-        "NameCY" : "Cil-ffriw", 
-        "NGR" : "SN7785000761", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Dulais at Cilfrew", 
-        "TitleCY" : "Afon Dulais yng Nghil-ffriw", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4087"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.79738367464752, 51.8029579589644
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4085", 
-        "LatestValue" : "0.987", 
-        "LatestTime" : "13/03/2019 19:30", 
-        "NameEN" : "Canaston Bridge", 
-        "NameCY" : "Pont Canaston", 
-        "NGR" : "SN0722615292", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Eastern Cleddau at Canaston Bridge", 
-        "TitleCY" : "Afon Cleddau Ddu ym Mhont Canaston", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4085"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.58248966472803, 51.5480400322596
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4084", 
-        "LatestValue" : "0.606", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Brynmenyn", 
-        "NameCY" : "Brynmenyn", 
-        "NGR" : "SS9036884425", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ogmore at Brynmenyn", 
-        "TitleCY" : "Afon Ogwr ym Mrynmenyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4084"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.5807772380858, 51.5032100580336
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4083", 
-        "LatestValue" : "0.686", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Bridgend", 
-        "NameCY" : "Pen-y-bont ar Ogwr", 
-        "NGR" : "SS9037979437", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ogmore at Bridgend", 
-        "TitleCY" : "Afon Ogwr ym Mhen-y-bont ar Ogwr", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4083"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.46142471922831, 51.4078766455988
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4082", 
-        "LatestValue" : "0.591", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Upper Boverton", 
-        "NameCY" : "Trebeferad Uchaf", 
-        "NGR" : "SS9845168663", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Boverton Brook at Upper Boverton", 
-        "TitleCY" : "Nant Trebeferad yn Nhrebeferad Uchaf", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4082"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.99503075771987, 51.5981766277811
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4081", 
-        "LatestValue" : "0.713", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Blackpill", 
-        "NameCY" : "Dulais", 
-        "NGR" : "SS6191790700", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Clyne at Blackpill", 
-        "TitleCY" : "Afon Clun yn Nulais", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4081"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.08634618070258, 52.4115178888125
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4080", 
-        "LatestValue" : "0.439", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Aberystwyth Tidal", 
-        "NameCY" : "Llanw Aberystwyth ", 
-        "NGR" : "SN5819081327", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rheidol at Aberystwyth Tidal", 
-        "TitleCY" : "Llanw Afon Rheidol yn Aberystwyth ", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4080"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.59182131286845, 51.546807722402
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4079", 
-        "LatestValue" : "0.716", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Aberkenfig", 
-        "NameCY" : "Abercynffig", 
-        "NGR" : "SS8971884302", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Llynfi at Aberkenfig", 
-        "TitleCY" : "Afon Llynfi yn Abercynffig", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4079"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -4.2572716893136, 52.2378708292182
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4078", 
-        "LatestValue" : "0.733", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Aberaeron", 
-        "NameCY" : "Aberaeron", 
-        "NGR" : "SN4596362365", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Aeron at Aberaeron", 
-        "TitleCY" : "Afon Aeron yn Aberaeron", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4078"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.07140370539604, 51.5937898497827
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4076", 
-        "LatestValue" : "0.789", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Rhiwderin", 
-        "NameCY" : "Rhiwderyn", 
-        "NGR" : "ST2588088870", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Ebbw at Rhiwderin", 
-        "TitleCY" : "Afon Ebwy yn Rhiwderyn", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4076"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.05855453517739, 51.7178103725856
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4075", 
-        "LatestValue" : "0.470", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Pontnewynydd / Abersychan", 
-        "NameCY" : "Pontnewynydd / Abersychan", 
-        "NGR" : "SO2697002650", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Lwyd at Pontnewynydd / Abersychan", 
-        "TitleCY" : "Afon Lwyd ym Mhontnewynydd / Abersychan", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4075"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.24705084761182, 51.7237831401175
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4074", 
-        "LatestValue" : "0.318", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "New Tredegar", 
-        "NameCY" : "Tredegar Newydd", 
-        "NGR" : "SO1396003520", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Rhymney at New Tredegar", 
-        "TitleCY" : "Afon Rhymni yn Nhredegar Newydd", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4074"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.26061902426698, 51.7951213041503
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4073", 
-        "LatestValue" : "0.271", 
-        "LatestTime" : "13/03/2019 18:00", 
-        "NameEN" : "Nant Y Bwch", 
-        "NameCY" : "Nant-y-Bwch", 
-        "NGR" : "SO1316011470", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Sirhowy at Nant Y Bwch", 
-        "TitleCY" : "Afon Sirhywi yn Nant-y-Bwch", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4073"
-      }
-    }, 
-    {
-      "type" : "Feature", 
-      "geometry" : 
-      {
-        "type" : "Point", 
-        "coordinates" : [
-          -3.38762194366533, 51.7517894456581
-        ]
-      }, 
-      "properties" : {
-        "Location" : "4072", 
-        "LatestValue" : "0.584", 
-        "LatestTime" : "13/03/2019 18:45", 
-        "NameEN" : "Merthyr Tydfil", 
-        "NameCY" : "Merthyr Tudful", 
-        "NGR" : "SO0431006810", 
-        "ParamNameEN" : "River Level", 
-        "ParamNameCY" : "Lefel yr afon", 
-        "StatusEN" : "Online", 
-        "StatusCY" : "Ar-lein", 
-        "TitleEN" : "Taff at Merthyr Tydfil", 
-        "TitleCY" : "Afon Taf ym Merthyr Tudful", 
-        "Units" : "m", 
-        "url" : "http://rloi.naturalresources.wales/ViewDetails?station=4072"
-      }
-    }
-  ]
-}`
+[
+   {
+      "coordinates":{
+         "latitude":53.115798,
+         "longitude":-3.2966817
+      },
+      "location":1000,
+      "nameEN":"Brynhyfryd Ruthin School",
+      "nameCY":"Brynhyfryd Ruthin School",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1000",
+      "ngr":"SJ1330958410",
+      "titleEn":"Brynhyfryd Ruthin School raingauge",
+      "titleCy":"Mesurydd glaw Ysgol Brynhyfryd, Ruthin",
+      "parameters":[
+         {
+            "parameter":10095,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.777033,
+         "longitude":-3.3678892
+      },
+      "location":1001,
+      "nameEN":"Clawddnewydd",
+      "nameCY":"Clawddnewydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1001",
+      "ngr":"SJ0782520816",
+      "titleEn":"Clawddnewydd raingauge",
+      "titleCy":"Mesurydd glaw Clawddnewydd",
+      "parameters":[
+         {
+            "parameter":10096,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.13914,
+         "longitude":-3.6776504
+      },
+      "location":1002,
+      "nameEN":"Gwytherin",
+      "nameCY":"Gwytherin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1002",
+      "ngr":"SH8787361536",
+      "titleEn":"Gwytherin raingauge",
+      "titleCy":"Mesurydd glaw Gwytherin",
+      "parameters":[
+         {
+            "parameter":10097,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.21974,
+         "longitude":-3.2090409
+      },
+      "location":1003,
+      "nameEN":"Moel Y Crio",
+      "nameCY":"Moel Y Crio",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1003",
+      "ngr":"SJ1937069870",
+      "titleEn":"Moel Y Crio raingauge",
+      "titleCy":"Mesurydd glaw Moel Y Crio",
+      "parameters":[
+         {
+            "parameter":10098,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.168868,
+         "longitude":-3.5703166
+      },
+      "location":1004,
+      "nameEN":"Plas Pigot",
+      "nameCY":"Plas Pigot",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1004",
+      "ngr":"SH9512564680",
+      "titleEn":"Plas Pigot raingauge",
+      "titleCy":"Mesurydd glaw Plas Pigot",
+      "parameters":[
+         {
+            "parameter":10099,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.264584,
+         "longitude":-3.451024
+      },
+      "location":1005,
+      "nameEN":"St Asaph",
+      "nameCY":"St Asaph",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1005",
+      "ngr":"SJ0331575159",
+      "titleEn":"St Asaph raingauge",
+      "titleCy":"Mesurydd glaw Llanelwy",
+      "parameters":[
+         {
+            "parameter":10100,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.139911,
+         "longitude":-3.8020403
+      },
+      "location":1006,
+      "nameEN":"Llanrwst",
+      "nameCY":"Llanrwst",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1006",
+      "ngr":"SH7955561824",
+      "titleEn":"Llanrwst raingauge",
+      "titleCy":"Mesurydd glaw Llanrwst",
+      "parameters":[
+         {
+            "parameter":10101,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.994328,
+         "longitude":-3.7735611
+      },
+      "location":1007,
+      "nameEN":"Ysbyty Ifan",
+      "nameCY":"Ysbyty Ifan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1007",
+      "ngr":"SH8105945583",
+      "titleEn":"Ysbyty Ifan raingauge",
+      "titleCy":"Mesurydd glaw Ysbyty Ifan",
+      "parameters":[
+         {
+            "parameter":10102,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.025858,
+         "longitude":-2.9535249
+      },
+      "location":1008,
+      "nameEN":"Five Fords",
+      "nameCY":"Five Fords",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1008",
+      "ngr":"SJ3614348044",
+      "titleEn":"Five Fords raingauge",
+      "titleCy":"Mesurydd glaw Pump Rhyd",
+      "parameters":[
+         {
+            "parameter":10103,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.103689,
+         "longitude":-3.0905588
+      },
+      "location":1009,
+      "nameEN":"Llanfynydd",
+      "nameCY":"Llanfynydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1009",
+      "ngr":"SJ2708456833",
+      "titleEn":"Llanfynydd raingauge",
+      "titleCy":"Mesurydd glaw Llanfynydd",
+      "parameters":[
+         {
+            "parameter":10104,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T18:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.149188,
+         "longitude":-3.1968299
+      },
+      "location":1010,
+      "nameEN":"Loggerheads",
+      "nameCY":"Loggerheads",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1010",
+      "ngr":"SJ2005462008",
+      "titleEn":"Loggerheads raingauge",
+      "titleCy":"Mesurydd glaw Loggerheads",
+      "parameters":[
+         {
+            "parameter":10105,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.172387,
+         "longitude":-3.1374823
+      },
+      "location":1011,
+      "nameEN":"Mold",
+      "nameCY":"Mold",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1011",
+      "ngr":"SJ2406464524",
+      "titleEn":"Mold raingauge",
+      "titleCy":"Mesurydd glaw Yr Wyddgrug",
+      "parameters":[
+         {
+            "parameter":10106,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.07142,
+         "longitude":-3.1305951
+      },
+      "location":1012,
+      "nameEN":"Nant Y Ffrith",
+      "nameCY":"Nant Y Ffrith",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1012",
+      "ngr":"SJ2434753285",
+      "titleEn":"Nant Y Ffrith raingauge",
+      "titleCy":"Mesurydd glaw Nant Y Ffrith",
+      "parameters":[
+         {
+            "parameter":10107,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T18:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.20943,
+         "longitude":-3.1254213
+      },
+      "location":1013,
+      "nameEN":"Northop",
+      "nameCY":"Northop",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1013",
+      "ngr":"SJ2493568632",
+      "titleEn":"Northop raingauge",
+      "titleCy":"Mesurydd glaw Llaneurgain",
+      "parameters":[
+         {
+            "parameter":10108,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.800,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.907416,
+         "longitude":-3.5834893
+      },
+      "location":1014,
+      "nameEN":"Bala Climate",
+      "nameCY":"Bala Climate",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1014",
+      "ngr":"SH9360235617",
+      "titleEn":"Bala Climate raingauge",
+      "titleCy":"Mesurydd glaw Bala Climate",
+      "parameters":[
+         {
+            "parameter":10109,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.963273,
+         "longitude":-3.7248509
+      },
+      "location":1015,
+      "nameEN":"Cynefail",
+      "nameCY":"Cynefail",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1015",
+      "ngr":"SH8424542049",
+      "titleEn":"Cynefail raingauge",
+      "titleCy":"Mesurydd glaw Cynefail",
+      "parameters":[
+         {
+            "parameter":10110,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.063499,
+         "longitude":-3.5599289
+      },
+      "location":1016,
+      "nameEN":"Llyn Alwen",
+      "nameCY":"Llyn Alwen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1016",
+      "ngr":"SH9556452944",
+      "titleEn":"Llyn Alwen raingauge",
+      "titleCy":"Mesurydd glaw Llyn Alwen",
+      "parameters":[
+         {
+            "parameter":10111,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.828567,
+         "longitude":-3.7070105
+      },
+      "location":1017,
+      "nameEN":"Pant Gwyn",
+      "nameCY":"Pant Gwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1017",
+      "ngr":"SH8508727037",
+      "titleEn":"Pant Gwyn raingauge",
+      "titleCy":"Mesurydd glaw Pant Gwyn",
+      "parameters":[
+         {
+            "parameter":10112,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.945151,
+         "longitude":-3.6667397
+      },
+      "location":1018,
+      "nameEN":"Tryweryn Dam Pluvio and",
+      "nameCY":"Tryweryn Dam Pluvio and",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1018",
+      "ngr":"SH8810139941",
+      "titleEn":"Tryweryn Dam Pluvio and raingauge",
+      "titleCy":"Mesurydd glaw Argae Tryweryn",
+      "parameters":[
+         {
+            "parameter":10113,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.812674,
+         "longitude":-4.5096962
+      },
+      "location":1019,
+      "nameEN":"Abersoch",
+      "nameCY":"Abersoch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1019",
+      "ngr":"SH3095226856",
+      "titleEn":"Abersoch raingauge",
+      "titleCy":"Mesurydd glaw Abersoch",
+      "parameters":[
+         {
+            "parameter":10114,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.212105,
+         "longitude":-4.1423227
+      },
+      "location":1020,
+      "nameEN":"Afon Adda",
+      "nameCY":"Afon Adda",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1020",
+      "ngr":"SH5703670481",
+      "titleEn":"Afon Adda raingauge",
+      "titleCy":"Mesurydd glaw Afon Adda",
+      "parameters":[
+         {
+            "parameter":10115,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.0267,
+         "longitude":-4.1256637
+      },
+      "location":1021,
+      "nameEN":"Afon Colwyn",
+      "nameCY":"Afon Colwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1021",
+      "ngr":"SH5753649826",
+      "titleEn":"Afon Colwyn raingauge",
+      "titleCy":"Mesurydd glaw Afon Colwyn",
+      "parameters":[
+         {
+            "parameter":10116,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.168505,
+         "longitude":-4.0657308
+      },
+      "location":1022,
+      "nameEN":"Bethesda Quarry",
+      "nameCY":"Bethesda Quarry",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1022",
+      "ngr":"SH6201065481",
+      "titleEn":"Bethesda Quarry raingauge",
+      "titleCy":"Mesurydd glaw Cloddfa Bethesda",
+      "parameters":[
+         {
+            "parameter":10117,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.918085,
+         "longitude":-4.2493954
+      },
+      "location":1023,
+      "nameEN":"Criccieth",
+      "nameCY":"Criccieth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1023",
+      "ngr":"SH4886037999",
+      "titleEn":"Criccieth raingauge",
+      "titleCy":"Mesurydd glaw Criccieth",
+      "parameters":[
+         {
+            "parameter":10118,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.067313,
+         "longitude":-4.0113282
+      },
+      "location":1024,
+      "nameEN":"Cwm Dyli",
+      "nameCY":"Cwm Dyli",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1024",
+      "ngr":"SH6533054122",
+      "titleEn":"Cwm Dyli raingauge",
+      "titleCy":"Mesurydd glaw Cwm Dyli",
+      "parameters":[
+         {
+            "parameter":10119,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.954232,
+         "longitude":-4.4423451
+      },
+      "location":1025,
+      "nameEN":"Llithfaen",
+      "nameCY":"Llithfaen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1025",
+      "ngr":"SH3602642443",
+      "titleEn":"Llithfaen raingauge",
+      "titleCy":"Mesurydd glaw Llithfaen",
+      "parameters":[
+         {
+            "parameter":10120,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.339472,
+         "longitude":-4.4409252
+      },
+      "location":1026,
+      "nameEN":"Llyn Alaw",
+      "nameCY":"Llyn Alaw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1026",
+      "ngr":"SH3758385286",
+      "titleEn":"Llyn Alaw raingauge",
+      "titleCy":"Mesurydd glaw Llyn Alaw",
+      "parameters":[
+         {
+            "parameter":10121,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T18:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.268208,
+         "longitude":-4.3332764
+      },
+      "location":1027,
+      "nameEN":"Llyn Cefni",
+      "nameCY":"Llyn Cefni",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1027",
+      "ngr":"SH4449077120",
+      "titleEn":"Llyn Cefni raingauge",
+      "titleCy":"Mesurydd glaw Llyn Cefni",
+      "parameters":[
+         {
+            "parameter":10122,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.264115,
+         "longitude":-4.6131789
+      },
+      "location":1028,
+      "nameEN":"Trearddur Bay",
+      "nameCY":"Trearddur Bay",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1028",
+      "ngr":"SH2581077311",
+      "titleEn":"Trearddur Bay raingauge",
+      "titleCy":"Mesurydd glaw Bae Trearddur",
+      "parameters":[
+         {
+            "parameter":10123,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.679265,
+         "longitude":-3.8125868
+      },
+      "location":1029,
+      "nameEN":"Corris - Aberllefenni",
+      "nameCY":"Corris - Aberllefenni",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1029",
+      "ngr":"SH7755610605",
+      "titleEn":"Corris - Aberllefenni raingauge",
+      "titleCy":"Mesurydd glaw Corris - Aberllefenni",
+      "parameters":[
+         {
+            "parameter":10124,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.740274,
+         "longitude":-3.6463927
+      },
+      "location":1030,
+      "nameEN":"Llan Y Mawddwy",
+      "nameCY":"Llan Y Mawddwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1030",
+      "ngr":"SH8894617121",
+      "titleEn":"Llan Y Mawddwy raingauge",
+      "titleCy":"Mesurydd glaw Llan Y Mawddwy",
+      "parameters":[
+         {
+            "parameter":10125,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.648513,
+         "longitude":-3.5993058
+      },
+      "location":1031,
+      "nameEN":"Llanbrynmair",
+      "nameCY":"Llanbrynmair",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1031",
+      "ngr":"SH9189806843",
+      "titleEn":"Llanbrynmair raingauge",
+      "titleCy":"Mesurydd glaw Llanbrynmair",
+      "parameters":[
+         {
+            "parameter":10126,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.930315,
+         "longitude":-4.1223199
+      },
+      "location":1032,
+      "nameEN":"Porthmadog",
+      "nameCY":"Porthmadog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1032",
+      "ngr":"SH5744339099",
+      "titleEn":"Porthmadog raingauge",
+      "titleCy":"Mesurydd glaw Porthmadog",
+      "parameters":[
+         {
+            "parameter":10127,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.797615,
+         "longitude":-3.785006
+      },
+      "location":1033,
+      "nameEN":"Rhyd Y Main",
+      "nameCY":"Rhyd Y Main",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1033",
+      "ngr":"SH7974723722",
+      "titleEn":"Rhyd Y Main raingauge",
+      "titleCy":"Mesurydd glaw Rhyd Y Main",
+      "parameters":[
+         {
+            "parameter":10128,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.809656,
+         "longitude":-3.2167269
+      },
+      "location":1034,
+      "nameEN":"Carno Reservoir",
+      "nameCY":"Carno Reservoir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1034",
+      "ngr":"SO1621313036",
+      "titleEn":"Carno Reservoir raingauge",
+      "titleCy":"Mesurydd glaw Llyn Carno",
+      "parameters":[
+         {
+            "parameter":10129,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.755288,
+         "longitude":-3.1299887
+      },
+      "location":1035,
+      "nameEN":"Cwmtillery",
+      "nameCY":"Cwmtillery",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1035",
+      "ngr":"SO2209906893",
+      "titleEn":"Cwmtillery raingauge",
+      "titleCy":"Mesurydd glaw Cwmtillery",
+      "parameters":[
+         {
+            "parameter":10130,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.589311,
+         "longitude":-3.1640454
+      },
+      "location":1036,
+      "nameEN":"Machen Waterloo",
+      "nameCY":"Machen Waterloo",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1036",
+      "ngr":"ST1945488471",
+      "titleEn":"Machen Waterloo raingauge",
+      "titleCy":"Mesurydd glaw Machen Waterloo",
+      "parameters":[
+         {
+            "parameter":10131,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.651951,
+         "longitude":-3.2967281
+      },
+      "location":1037,
+      "nameEN":"Nelson",
+      "nameCY":"Nelson",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1037",
+      "ngr":"ST1038695592",
+      "titleEn":"Nelson raingauge",
+      "titleCy":"Mesurydd glaw Ffos y Gerddinen",
+      "parameters":[
+         {
+            "parameter":10132,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T18:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.534456,
+         "longitude":-3.2272079
+      },
+      "location":1038,
+      "nameEN":"Rhiwbina Res",
+      "nameCY":"Rhiwbina Res",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1038",
+      "ngr":"ST1497682442",
+      "titleEn":"Rhiwbina Res raingauge",
+      "titleCy":"Mesurydd glaw Llyn Rhiwbina",
+      "parameters":[
+         {
+            "parameter":10133,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.253424,
+         "longitude":-3.6387904
+      },
+      "location":1039,
+      "nameEN":"Rhymney Reservoir",
+      "nameCY":"Rhymney Reservoir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1039",
+      "ngr":"SO1048009910",
+      "titleEn":"Rhymney Reservoir raingauge",
+      "titleCy":"Mesurydd glaw Llyn Rhymney",
+      "parameters":[
+         {
+            "parameter":10134,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.718341,
+         "longitude":-3.0303118
+      },
+      "location":1040,
+      "nameEN":"Trevethin",
+      "nameCY":"Trevethin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1040",
+      "ngr":"SO2892102682",
+      "titleEn":"Trevethin raingauge",
+      "titleCy":"Mesurydd glaw Trevethin",
+      "parameters":[
+         {
+            "parameter":10135,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.689408,
+         "longitude":-3.2075244
+      },
+      "location":1041,
+      "nameEN":"Ty Fry",
+      "nameCY":"Ty Fry",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1041",
+      "ngr":"ST1662699652",
+      "titleEn":"Ty Fry raingauge",
+      "titleCy":"Mesurydd glaw Ty Fry",
+      "parameters":[
+         {
+            "parameter":10136,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.793003,
+         "longitude":-3.4337095
+      },
+      "location":1042,
+      "nameEN":"Llwynon Reservoir",
+      "nameCY":"Llwynon Reservoir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1042",
+      "ngr":"SO0121811456",
+      "titleEn":"Llwynon Reservoir raingauge",
+      "titleCy":"Mesurydd glaw Llwynon Reservoir",
+      "parameters":[
+         {
+            "parameter":10137,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.679039,
+         "longitude":-3.4881214
+      },
+      "location":1043,
+      "nameEN":"Maerdy WTW",
+      "nameCY":"Maerdy WTW",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1043",
+      "ngr":"SS9720798857",
+      "titleEn":"Maerdy WTW raingauge",
+      "titleCy":"Mesurydd glaw Maerdy WTW",
+      "parameters":[
+         {
+            "parameter":10138,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.657853,
+         "longitude":-3.3975177
+      },
+      "location":1044,
+      "nameEN":"Nant Yr Ysfa",
+      "nameCY":"Nant Yr Ysfa",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1044",
+      "ngr":"ST0342696377",
+      "titleEn":"Nant Yr Ysfa raingauge",
+      "titleCy":"Mesurydd glaw Nant Yr Ysfa",
+      "parameters":[
+         {
+            "parameter":10139,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.797889,
+         "longitude":-3.3662566
+      },
+      "location":1045,
+      "nameEN":"Pontsticill Upper",
+      "nameCY":"Pontsticill Upper",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1045",
+      "ngr":"SO0588011910",
+      "titleEn":"Pontsticill Upper raingauge",
+      "titleCy":"Mesurydd glaw Pontsticill Uchaf",
+      "parameters":[
+         {
+            "parameter":10140,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.48559,
+         "longitude":-3.2672733
+      },
+      "location":1046,
+      "nameEN":"St Fagans",
+      "nameCY":"St Fagans",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1046",
+      "ngr":"ST1210377055",
+      "titleEn":"St Fagans raingauge",
+      "titleCy":"Mesurydd glaw Sain Ffagan",
+      "parameters":[
+         {
+            "parameter":10141,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.684092,
+         "longitude":-3.2987023
+      },
+      "location":1047,
+      "nameEN":"Trelewis",
+      "nameCY":"Trelewis",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1047",
+      "ngr":"ST1031399169",
+      "titleEn":"Trelewis raingauge",
+      "titleCy":"Mesurydd glaw Trelewis",
+      "parameters":[
+         {
+            "parameter":10142,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.681388,
+         "longitude":-3.5444086
+      },
+      "location":1048,
+      "nameEN":"Tyn Y Waun Treherbert",
+      "nameCY":"Tyn Y Waun Treherbert",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1048",
+      "ngr":"SS9332199199",
+      "titleEn":"Tyn Y Waun Treherbert raingauge",
+      "titleCy":"Mesurydd glaw Tyn Y Waun Treherbert",
+      "parameters":[
+         {
+            "parameter":10143,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.939018,
+         "longitude":-3.4015996
+      },
+      "location":1049,
+      "nameEN":"Brecon",
+      "nameCY":"Brecon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1049",
+      "ngr":"SO0374527652",
+      "titleEn":"Brecon raingauge",
+      "titleCy":"Mesurydd glaw Aberhonddu",
+      "parameters":[
+         {
+            "parameter":10144,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.577237,
+         "longitude":-2.8022824
+      },
+      "location":1050,
+      "nameEN":"Collister Climate Station",
+      "nameCY":"Collister Climate Station",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1050",
+      "ngr":"ST4450186791",
+      "titleEn":"Collister Climate Station raingauge",
+      "titleCy":"Mesurydd glaw Collister Climate Station",
+      "parameters":[
+         {
+            "parameter":10145,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.887655,
+         "longitude":-3.6229202
+      },
+      "location":1051,
+      "nameEN":"Crai Reservoir",
+      "nameCY":"Crai Reservoir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1051",
+      "ngr":"SN8840422256",
+      "titleEn":"Crai Reservoir raingauge",
+      "titleCy":"Mesurydd glaw Crai Reservoir",
+      "parameters":[
+         {
+            "parameter":10146,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.757223,
+         "longitude":-3.060275
+      },
+      "location":1052,
+      "nameEN":"Cwmafon",
+      "nameCY":"Cwmafon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1052",
+      "ngr":"SO2691407036",
+      "titleEn":"Cwmafon raingauge",
+      "titleCy":"Mesurydd glaw Cwmafon",
+      "parameters":[
+         {
+            "parameter":10147,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.615371,
+         "longitude":-2.9808499
+      },
+      "location":1053,
+      "nameEN":"Lodge Farm Frog",
+      "nameCY":"Lodge Farm Frog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1053",
+      "ngr":"ST3218491183",
+      "titleEn":"Lodge Farm Frog raingauge",
+      "titleCy":"Mesurydd glaw Lodge Farm Frog",
+      "parameters":[
+         {
+            "parameter":10148,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T16:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.647988,
+         "longitude":-3.0549345
+      },
+      "location":1054,
+      "nameEN":"Maes Y Rhiw",
+      "nameCY":"Maes Y Rhiw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1054",
+      "ngr":"ST2710794882",
+      "titleEn":"Maes Y Rhiw raingauge",
+      "titleCy":"Mesurydd glaw Maes Y Rhiw",
+      "parameters":[
+         {
+            "parameter":10149,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.872726,
+         "longitude":-3.4792559
+      },
+      "location":1055,
+      "nameEN":"Storey Arms",
+      "nameCY":"Storey Arms",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1055",
+      "ngr":"SN9825720385",
+      "titleEn":"Storey Arms raingauge",
+      "titleCy":"Mesurydd glaw Storey Arms",
+      "parameters":[
+         {
+            "parameter":10150,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.926712,
+         "longitude":-3.1276293
+      },
+      "location":1056,
+      "nameEN":"Tal Y Maes",
+      "nameCY":"Tal Y Maes",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1056",
+      "ngr":"SO2255725956",
+      "titleEn":"Tal Y Maes raingauge",
+      "titleCy":"Mesurydd glaw Tal Y Maes",
+      "parameters":[
+         {
+            "parameter":10151,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.067549,
+         "longitude":-3.4469381
+      },
+      "location":1057,
+      "nameEN":"Upper Chapel No1",
+      "nameCY":"Upper Chapel No1",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1057",
+      "ngr":"SO0091342008",
+      "titleEn":"Upper Chapel No1 raingauge",
+      "titleCy":"Mesurydd glaw Capel Uchaf",
+      "parameters":[
+         {
+            "parameter":10152,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.946841,
+         "longitude":-3.69791
+      },
+      "location":1058,
+      "nameEN":"Usk Reservoir No2",
+      "nameCY":"Usk Reservoir No2",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1058",
+      "ngr":"SN8339728956",
+      "titleEn":"Usk Reservoir No2 raingauge",
+      "titleCy":"Mesurydd glaw Llyn Wysg",
+      "parameters":[
+         {
+            "parameter":10153,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.594504,
+         "longitude":-3.0319675
+      },
+      "location":1059,
+      "nameEN":"Ynysfro",
+      "nameCY":"Ynysfro",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1059",
+      "ngr":"ST2861288911",
+      "titleEn":"Ynysfro raingauge",
+      "titleCy":"Mesurydd glaw Ynysfro",
+      "parameters":[
+         {
+            "parameter":10154,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.419039,
+         "longitude":-3.2095882
+      },
+      "location":1060,
+      "nameEN":"Cogmoors",
+      "nameCY":"Cogmoors",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1060",
+      "ngr":"ST1598669586",
+      "titleEn":"Cogmoors raingauge",
+      "titleCy":"Mesurydd glaw Cogmoors",
+      "parameters":[
+         {
+            "parameter":10155,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.453264,
+         "longitude":-3.4452457
+      },
+      "location":1061,
+      "nameEN":"Cowbridge STW",
+      "nameCY":"Cowbridge STW",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1061",
+      "ngr":"SS9967573689",
+      "titleEn":"Cowbridge STW raingauge",
+      "titleCy":"Mesurydd glaw Bont Faen",
+      "parameters":[
+         {
+            "parameter":10156,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.554746,
+         "longitude":-3.4032689
+      },
+      "location":1062,
+      "nameEN":"Dyffryn Isaf, Llantrisant",
+      "nameCY":"Dyffryn Isaf, Llantrisant",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1062",
+      "ngr":"ST0280884918",
+      "titleEn":"Dyffryn Isaf, Llantrisant raingauge",
+      "titleCy":"Mesurydd glaw Dyffryn Isaf, Llantrisant",
+      "parameters":[
+         {
+            "parameter":10157,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.534929,
+         "longitude":-3.3377777
+      },
+      "location":1063,
+      "nameEN":"Rhiwsaeson STW",
+      "nameCY":"Rhiwsaeson STW",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1063",
+      "ngr":"ST0730882629",
+      "titleEn":"Rhiwsaeson STW raingauge",
+      "titleCy":"Mesurydd glaw Rhiwsaeson STW",
+      "parameters":[
+         {
+            "parameter":10158,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.101146,
+         "longitude":-3.61863
+      },
+      "location":1064,
+      "nameEN":"Abernant",
+      "nameCY":"Abernant",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1064",
+      "ngr":"SN8922845993",
+      "titleEn":"Abernant raingauge",
+      "titleCy":"Mesurydd glaw Abernant",
+      "parameters":[
+         {
+            "parameter":10159,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.800,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.301424,
+         "longitude":-3.1696106
+      },
+      "location":1065,
+      "nameEN":"Bleddfa",
+      "nameCY":"Bleddfa",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1065",
+      "ngr":"SO2034267678",
+      "titleEn":"Bleddfa raingauge",
+      "titleCy":"Mesurydd glaw Bleddfa",
+      "parameters":[
+         {
+            "parameter":10160,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.232077,
+         "longitude":-3.2010548
+      },
+      "location":1066,
+      "nameEN":"Break Your Neck Falls",
+      "nameCY":"Break Your Neck Falls",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1066",
+      "ngr":"SO1807060000",
+      "titleEn":"Break Your Neck Falls raingauge",
+      "titleCy":"Mesurydd glaw Break Your Neck Falls",
+      "parameters":[
+         {
+            "parameter":10161,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.361103,
+         "longitude":-3.4251721
+      },
+      "location":1067,
+      "nameEN":"Bwlch y Sarnau",
+      "nameCY":"Bwlch y Sarnau",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1067",
+      "ngr":"SO0304774628",
+      "titleEn":"Bwlch y Sarnau Raingauge",
+      "titleCy":"Mesurydd glaw Bwlch y Sarnau",
+      "parameters":[
+         {
+            "parameter":10162,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.253548,
+         "longitude":-3.6389414
+      },
+      "location":1068,
+      "nameEN":"Ciloerwynt",
+      "nameCY":"Ciloerwynt",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1068",
+      "ngr":"SN8822062974",
+      "titleEn":"Ciloerwynt raingauge",
+      "titleCy":"Mesurydd glaw Ciloerwynt",
+      "parameters":[
+         {
+            "parameter":10163,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.274175,
+         "longitude":-3.563221
+      },
+      "location":1069,
+      "nameEN":"Elan Village",
+      "nameCY":"Elan Village",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1069",
+      "ngr":"SN9343865154",
+      "titleEn":"Elan Village raingauge",
+      "titleCy":"Mesurydd glaw Elan Village",
+      "parameters":[
+         {
+            "parameter":10164,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.390532,
+         "longitude":-3.3284839
+      },
+      "location":1070,
+      "nameEN":"Llanbadarn Fynydd",
+      "nameCY":"Llanbadarn Fynydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1070",
+      "ngr":"SO0969177776",
+      "titleEn":"Llanbadarn Fynydd raingauge",
+      "titleCy":"Mesurydd glaw Llanbadarn Fynydd",
+      "parameters":[
+         {
+            "parameter":10165,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.83357,
+         "longitude":-3.6817437
+      },
+      "location":1071,
+      "nameEN":"Llanerch Yrfa",
+      "nameCY":"Llanerch Yrfa",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1071",
+      "ngr":"SN8361955503",
+      "titleEn":"Llanerch Yrfa raingauge",
+      "titleCy":"Mesurydd glaw Llanerch Yrfa",
+      "parameters":[
+         {
+            "parameter":10166,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.404212,
+         "longitude":-3.6068589
+      },
+      "location":1072,
+      "nameEN":"Llangurig",
+      "nameCY":"Llangurig",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1072",
+      "ngr":"SN9078279682",
+      "titleEn":"Llangurig raingauge",
+      "titleCy":"Mesurydd glaw Llangurig",
+      "parameters":[
+         {
+            "parameter":10167,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.251331,
+         "longitude":-3.3906523
+      },
+      "location":1073,
+      "nameEN":"Llanyre",
+      "nameCY":"Llanyre",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1073",
+      "ngr":"SO0516362373",
+      "titleEn":"Llanyre raingauge",
+      "titleCy":"Mesurydd glaw Llanyre",
+      "parameters":[
+         {
+            "parameter":10168,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.428262,
+         "longitude":-3.7013381
+      },
+      "location":1074,
+      "nameEN":"Station 1074 Name EN",
+      "nameCY":"Station 1074 Name CY",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1074",
+      "ngr":"SN8441882504",
+      "titleEn":"Station 1074 HoverTitle EN",
+      "titleCy":"Station 1074 HoverTitle CY",
+      "parameters":[
+         {
+            "parameter":10169,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.800,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.295116,
+         "longitude":-3.4987181
+      },
+      "location":1075,
+      "nameEN":"Rhyader STW",
+      "nameCY":"Rhyader STW",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1075",
+      "ngr":"SN9788767390",
+      "titleEn":"Rhyader STW raingauge",
+      "titleCy":"Mesurydd glaw Rhyader STW",
+      "parameters":[
+         {
+            "parameter":10170,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.959281,
+         "longitude":-3.053554
+      },
+      "location":1076,
+      "nameEN":"Station 1076 Name EN",
+      "nameCY":"Station 1076 Name CY",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1076",
+      "ngr":"SO2770329502",
+      "titleEn":"Station 1076 HoverTitle EN",
+      "titleCy":"Station 1076 HoverTitle CY",
+      "parameters":[
+         {
+            "parameter":10171,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.004936,
+         "longitude":-3.236804
+      },
+      "location":1077,
+      "nameEN":"Talgarth",
+      "nameCY":"Talgarth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1077",
+      "ngr":"SO1519834778",
+      "titleEn":"Talgarth raingauge",
+      "titleCy":"Mesurydd glaw Talgarth",
+      "parameters":[
+         {
+            "parameter":10172,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.033022,
+         "longitude":-3.1738457
+      },
+      "location":1078,
+      "nameEN":"Tregoyd",
+      "nameCY":"Tregoyd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1078",
+      "ngr":"SO1957037830",
+      "titleEn":"Tregoyd raingauge",
+      "titleCy":"Mesurydd glaw Tregoyd",
+      "parameters":[
+         {
+            "parameter":10173,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.819674,
+         "longitude":-3.8593012
+      },
+      "location":1079,
+      "nameEN":"Brynamman",
+      "nameCY":"Brynamman",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1079",
+      "ngr":"SN7194415085",
+      "titleEn":"Brynamman raingauge",
+      "titleCy":"Mesurydd glaw Brynamman",
+      "parameters":[
+         {
+            "parameter":10174,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.834186,
+         "longitude":-3.9601068
+      },
+      "location":1080,
+      "nameEN":"Bryncoch",
+      "nameCY":"Bryncoch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1080",
+      "ngr":"SN6504016881",
+      "titleEn":"Bryncoch raingauge",
+      "titleCy":"Mesurydd glaw Bryncoch",
+      "parameters":[
+         {
+            "parameter":10175,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.663436,
+         "longitude":-4.1102684
+      },
+      "location":1081,
+      "nameEN":"Bynea",
+      "nameCY":"Bynea",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1081",
+      "ngr":"SS5414598182",
+      "titleEn":"Bynea raingauge",
+      "titleCy":"Mesurydd glaw Bynea",
+      "parameters":[
+         {
+            "parameter":10176,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.699999,
+         "longitude":-4.1489598
+      },
+      "location":1082,
+      "nameEN":"Felinfoel",
+      "nameCY":"Felinfoel",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1082",
+      "ngr":"SN5158902326",
+      "titleEn":"Felinfoel raingauge",
+      "titleCy":"Mesurydd glaw Felinfoel",
+      "parameters":[
+         {
+            "parameter":10177,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.770371,
+         "longitude":-4.0004888
+      },
+      "location":1083,
+      "nameEN":"Garnswllt",
+      "nameCY":"Garnswllt",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1083",
+      "ngr":"SN6206309860",
+      "titleEn":"Garnswllt raingauge",
+      "titleCy":"Mesurydd glaw Garnswllt",
+      "parameters":[
+         {
+            "parameter":10178,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.800,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.811983,
+         "longitude":-4.0850684
+      },
+      "location":1084,
+      "nameEN":"Gorslas",
+      "nameCY":"Gorslas",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1084",
+      "ngr":"SN5636014651",
+      "titleEn":"Gorslas raingauge",
+      "titleCy":"Mesurydd glaw Gorslas",
+      "parameters":[
+         {
+            "parameter":10179,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.800749,
+         "longitude":-4.2424719
+      },
+      "location":1085,
+      "nameEN":"Station 1085 Name EN",
+      "nameCY":"Station 1085 Name CY",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1085",
+      "ngr":"SN4547213724",
+      "titleEn":"Station 1085 HoverTitle EN",
+      "titleCy":"Station 1085 HoverTitle CY",
+      "parameters":[
+         {
+            "parameter":10180,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.735134,
+         "longitude":-3.939118
+      },
+      "location":1086,
+      "nameEN":"Upper Lliw",
+      "nameCY":"Upper Lliw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1086",
+      "ngr":"SN6619305827",
+      "titleEn":"Upper Lliw raingauge",
+      "titleCy":"Mesurydd glaw Lliw Uchaf",
+      "parameters":[
+         {
+            "parameter":10181,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.679626,
+         "longitude":-3.6546251
+      },
+      "location":1087,
+      "nameEN":"Abercregan",
+      "nameCY":"Abercregan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1087",
+      "ngr":"SS8569799170",
+      "titleEn":"Abercregan raingauge",
+      "titleCy":"Mesurydd glaw Abercregan",
+      "parameters":[
+         {
+            "parameter":10182,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.720656,
+         "longitude":-3.7544117
+      },
+      "location":1088,
+      "nameEN":"Crynant",
+      "nameCY":"Crynant",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1088",
+      "ngr":"SN7890803894",
+      "titleEn":"Crynant raingauge",
+      "titleCy":"Mesurydd glaw Creunant",
+      "parameters":[
+         {
+            "parameter":10183,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.661741,
+         "longitude":-3.7060829
+      },
+      "location":1089,
+      "nameEN":"Fforch Dwm",
+      "nameCY":"Fforch Dwm",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1089",
+      "ngr":"SS8209397263",
+      "titleEn":"Fforch Dwm raingauge",
+      "titleCy":"Mesurydd glaw Fforch Dwm",
+      "parameters":[
+         {
+            "parameter":10184,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.400,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.749142,
+         "longitude":-3.5423442
+      },
+      "location":1090,
+      "nameEN":"Hirwaun",
+      "nameCY":"Hirwaun",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1090",
+      "ngr":"SN9362306731",
+      "titleEn":"Hirwaun raingauge",
+      "titleCy":"Mesurydd glaw Hirwaun",
+      "parameters":[
+         {
+            "parameter":10185,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.70922,
+         "longitude":-3.7023257
+      },
+      "location":1091,
+      "nameEN":"Resolven",
+      "nameCY":"Resolven",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1091",
+      "ngr":"SN8247602537",
+      "titleEn":"Resolven raingauge",
+      "titleCy":"Mesurydd glaw Resolfen",
+      "parameters":[
+         {
+            "parameter":10186,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.635761,
+         "longitude":-3.5252862
+      },
+      "location":1092,
+      "nameEN":"Blaenogwr",
+      "nameCY":"Blaenogwr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1092",
+      "ngr":"SS9453794097",
+      "titleEn":"Blaenogwr raingauge",
+      "titleCy":"Mesurydd glaw Blaenogwr",
+      "parameters":[
+         {
+            "parameter":10187,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.504862,
+         "longitude":-3.5398578
+      },
+      "location":1093,
+      "nameEN":"Brackla",
+      "nameCY":"Brackla",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1093",
+      "ngr":"SS9322279561",
+      "titleEn":"Brackla raingauge",
+      "titleCy":"Mesurydd glaw Bracla",
+      "parameters":[
+         {
+            "parameter":10188,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.644625,
+         "longitude":-3.6452708
+      },
+      "location":1094,
+      "nameEN":"Croeserw",
+      "nameCY":"Croeserw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1094",
+      "ngr":"SS8625695263",
+      "titleEn":"Croeserw raingauge",
+      "titleCy":"Mesurydd glaw Croeserw",
+      "parameters":[
+         {
+            "parameter":10189,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.581417,
+         "longitude":-3.6196189
+      },
+      "location":1095,
+      "nameEN":"Llety Brongu",
+      "nameCY":"Llety Brongu",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1095",
+      "ngr":"SS8787588194",
+      "titleEn":"Llety Brongu raingauge",
+      "titleCy":"Mesurydd glaw Llety Brongu",
+      "parameters":[
+         {
+            "parameter":10190,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.600,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.760836,
+         "longitude":-5.0170933
+      },
+      "location":1096,
+      "nameEN":"Bolton Hill",
+      "nameCY":"Bolton Hill",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1096",
+      "ngr":"SM9188611214",
+      "titleEn":"Bolton Hill raingauge",
+      "titleCy":"Mesurydd glaw Bolton Hill",
+      "parameters":[
+         {
+            "parameter":10191,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.851752,
+         "longitude":-4.8887233
+      },
+      "location":1097,
+      "nameEN":"Clarbeston Road",
+      "nameCY":"Clarbeston Road",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1097",
+      "ngr":"SN0114420964",
+      "titleEn":"Clarbeston Road raingauge",
+      "titleCy":"Mesurydd glaw Treglarbes",
+      "parameters":[
+         {
+            "parameter":10192,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.949257,
+         "longitude":-4.591997
+      },
+      "location":1098,
+      "nameEN":"Llanfyrnach",
+      "nameCY":"Llanfyrnach",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1098",
+      "ngr":"SN2196331037",
+      "titleEn":"Llanfyrnach raingauge",
+      "titleCy":"Mesurydd glaw Llanfyrnach",
+      "parameters":[
+         {
+            "parameter":10193,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.933469,
+         "longitude":-4.812237
+      },
+      "location":1099,
+      "nameEN":"Maenclochog",
+      "nameCY":"Maenclochog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1099",
+      "ngr":"SN0676229844",
+      "titleEn":"Maenclochog raingauge",
+      "titleCy":"Mesurydd glaw Maenclochog",
+      "parameters":[
+         {
+            "parameter":10194,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.942333,
+         "longitude":-5.0822954
+      },
+      "location":1100,
+      "nameEN":"Mathry",
+      "nameCY":"Mathry",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1100",
+      "ngr":"SM8824231582",
+      "titleEn":"Mathry raingauge",
+      "titleCy":"Mesurydd glaw Mathry",
+      "parameters":[
+         {
+            "parameter":10195,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.720185,
+         "longitude":-4.7250113
+      },
+      "location":1101,
+      "nameEN":"Pentlepoir",
+      "nameCY":"Pentlepoir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1101",
+      "ngr":"SN1187005900",
+      "titleEn":"Pentlepoir raingauge",
+      "titleCy":"Mesurydd glaw Pentlepoir",
+      "parameters":[
+         {
+            "parameter":10196,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.786916,
+         "longitude":-4.6363572
+      },
+      "location":1102,
+      "nameEN":"Tavernspite",
+      "nameCY":"Tavernspite",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1102",
+      "ngr":"SN1826113095",
+      "titleEn":"Tavernspite raingauge",
+      "titleCy":"Mesurydd glaw Tafarnspite",
+      "parameters":[
+         {
+            "parameter":10197,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.67497,
+         "longitude":-4.7279362
+      },
+      "location":1103,
+      "nameEN":"Tenby",
+      "nameCY":"Tenby",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1103",
+      "ngr":"SN1148000880",
+      "titleEn":"Tenby raingauge",
+      "titleCy":"Mesurydd glaw Dinbych-y-Pysgod",
+      "parameters":[
+         {
+            "parameter":10198,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.944699,
+         "longitude":-4.5026199
+      },
+      "location":1104,
+      "nameEN":"Trelech",
+      "nameCY":"Trelech",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1104",
+      "ngr":"SN2808730315",
+      "titleEn":"Trelech raingauge",
+      "titleCy":"Mesurydd glaw Trelech",
+      "parameters":[
+         {
+            "parameter":10199,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.456274,
+         "longitude":-3.939291
+      },
+      "location":1105,
+      "nameEN":"Bontgoch",
+      "nameCY":"Bontgoch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1105",
+      "ngr":"SN6832486027",
+      "titleEn":"Bontgoch raingauge",
+      "titleCy":"Mesurydd glaw Bontgoch",
+      "parameters":[
+         {
+            "parameter":10200,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.438418,
+         "longitude":-4.032387
+      },
+      "location":1106,
+      "nameEN":"Bow Street",
+      "nameCY":"Bow Street",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1106",
+      "ngr":"SN6194384215",
+      "titleEn":"Bow Street raingauge",
+      "titleCy":"Mesurydd glaw Bow Street",
+      "parameters":[
+         {
+            "parameter":10201,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.396077,
+         "longitude":-3.899963
+      },
+      "location":1107,
+      "nameEN":"Station 1107 Name EN",
+      "nameCY":"Station 1107 Name CY",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1107",
+      "ngr":"SN7082079261",
+      "titleEn":"Station 1107 HoverTitle EN",
+      "titleCy":"Station 1107 HoverTitle CY",
+      "parameters":[
+         {
+            "parameter":10202,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.43132,
+         "longitude":-3.8445516
+      },
+      "location":1108,
+      "nameEN":"Dinas",
+      "nameCY":"Dinas",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1108",
+      "ngr":"SN7469083083",
+      "titleEn":"Dinas raingauge",
+      "titleCy":"Mesurydd glaw Dinas",
+      "parameters":[
+         {
+            "parameter":10203,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.361068,
+         "longitude":-3.8778697
+      },
+      "location":1109,
+      "nameEN":"Frongoch",
+      "nameCY":"Frongoch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1109",
+      "ngr":"SN7222275328",
+      "titleEn":"Frongoch raingauge",
+      "titleCy":"Mesurydd glaw Frongoch",
+      "parameters":[
+         {
+            "parameter":10204,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.35856,
+         "longitude":-3.8033513
+      },
+      "location":1110,
+      "nameEN":"Pwll Peiran",
+      "nameCY":"Pwll Peiran",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1110",
+      "ngr":"SN7728974920",
+      "titleEn":"Pwll Peiran raingauge",
+      "titleCy":"Mesurydd glaw Pwll Peiran",
+      "parameters":[
+         {
+            "parameter":10205,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.675909,
+         "longitude":-3.8676233
+      },
+      "location":1111,
+      "nameEN":"Birchgrove",
+      "nameCY":"Birchgrove",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1111",
+      "ngr":"SS7096199112",
+      "titleEn":"Birchgrove raingauge",
+      "titleCy":"Mesurydd glaw Y Gellifedw",
+      "parameters":[
+         {
+            "parameter":10206,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.831788,
+         "longitude":-3.682432
+      },
+      "location":1112,
+      "nameEN":"Dan Yr Ogof",
+      "nameCY":"Dan Yr Ogof",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1112",
+      "ngr":"SN8416516136",
+      "titleEn":"Dan Yr Ogof raingauge",
+      "titleCy":"Mesurydd glaw Dan Yr Ogof",
+      "parameters":[
+         {
+            "parameter":10207,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.653591,
+         "longitude":-4.0321915
+      },
+      "location":1113,
+      "nameEN":"Gowerton",
+      "nameCY":"Gowerton",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1113",
+      "ngr":"SS5951496934",
+      "titleEn":"Gowerton raingauge",
+      "titleCy":"Mesurydd glaw Tregwyr",
+      "parameters":[
+         {
+            "parameter":10208,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.566161,
+         "longitude":-4.2683361
+      },
+      "location":1114,
+      "nameEN":"Pitton",
+      "nameCY":"Pitton",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1114",
+      "ngr":"SS4287887693",
+      "titleEn":"Pitton raingauge",
+      "titleCy":"Mesurydd glaw Pitton",
+      "parameters":[
+         {
+            "parameter":10209,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.570137,
+         "longitude":-4.0840957
+      },
+      "location":1115,
+      "nameEN":"Southgate",
+      "nameCY":"Southgate",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1115",
+      "ngr":"SS5565987755",
+      "titleEn":"Southgate raingauge",
+      "titleCy":"Mesurydd glaw Southgate",
+      "parameters":[
+         {
+            "parameter":10210,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.718996,
+         "longitude":-3.9246881
+      },
+      "location":1116,
+      "nameEN":"Spyte",
+      "nameCY":"Spyte",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1116",
+      "ngr":"SN6714204006",
+      "titleEn":"Spyte raingauge",
+      "titleCy":"Mesurydd glaw Spyte",
+      "parameters":[
+         {
+            "parameter":10211,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.705465,
+         "longitude":-3.8649473
+      },
+      "location":1117,
+      "nameEN":"Trebanos",
+      "nameCY":"Trebanos",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1117",
+      "ngr":"SN7123002394",
+      "titleEn":"Trebanos raingauge",
+      "titleCy":"Mesurydd glaw Trebanos",
+      "parameters":[
+         {
+            "parameter":10212,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.61241,
+         "longitude":-3.962119
+      },
+      "location":1118,
+      "nameEN":"Victoria Park",
+      "nameCY":"Victoria Park",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1118",
+      "ngr":"SS6423892222",
+      "titleEn":"Victoria Park raingauge",
+      "titleCy":"Mesurydd glaw Parc Victoria",
+      "parameters":[
+         {
+            "parameter":10213,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.818137,
+         "longitude":-3.5388527
+      },
+      "location":1119,
+      "nameEN":"Ystradfellte",
+      "nameCY":"Ystradfellte",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1119",
+      "ngr":"SN9402614399",
+      "titleEn":"Ystradfellte raingauge",
+      "titleCy":"Mesurydd glaw Ystradfellte",
+      "parameters":[
+         {
+            "parameter":10214,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.76356,
+         "longitude":-3.7769427
+      },
+      "location":1120,
+      "nameEN":"Ystradgynlais",
+      "nameCY":"Ystradgynlais",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1120",
+      "ngr":"SN7746808703",
+      "titleEn":"Ystradgynlais raingauge",
+      "titleCy":"Mesurydd glaw Ystradgynlais",
+      "parameters":[
+         {
+            "parameter":10215,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.784139,
+         "longitude":-3.8212604
+      },
+      "location":1121,
+      "nameEN":"Ystradowen",
+      "nameCY":"Ystradowen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1121",
+      "ngr":"SN7446711067",
+      "titleEn":"Ystradowen raingauge",
+      "titleCy":"Mesurydd glaw Ystradowen",
+      "parameters":[
+         {
+            "parameter":10216,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.122017,
+         "longitude":-4.0428775
+      },
+      "location":1122,
+      "nameEN":"Cellan",
+      "nameCY":"Cellan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1122",
+      "ngr":"SN6023749047",
+      "titleEn":"Cellan raingauge",
+      "titleCy":"Mesurydd glaw Cellan",
+      "parameters":[
+         {
+            "parameter":10217,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.112845,
+         "longitude":-4.6550283
+      },
+      "location":1123,
+      "nameEN":"Ferwig",
+      "nameCY":"Ferwig",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1123",
+      "ngr":"SN1829749384",
+      "titleEn":"Ferwig raingauge",
+      "titleCy":"Mesurydd glaw Ferwig",
+      "parameters":[
+         {
+            "parameter":10218,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.062139,
+         "longitude":-4.5848751
+      },
+      "location":1124,
+      "nameEN":"Llechryd",
+      "nameCY":"Llechryd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1124",
+      "ngr":"SN2289943572",
+      "titleEn":"Llechryd raingauge",
+      "titleCy":"Mesurydd glaw Llechryd",
+      "parameters":[
+         {
+            "parameter":10219,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.246116,
+         "longitude":-4.0669889
+      },
+      "location":1125,
+      "nameEN":"Penuwch",
+      "nameCY":"Penuwch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1125",
+      "ngr":"SN5898062895",
+      "titleEn":"Penuwch raingauge",
+      "titleCy":"Mesurydd glaw Penuwch",
+      "parameters":[
+         {
+            "parameter":10220,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.284198,
+         "longitude":-3.8660693
+      },
+      "location":1126,
+      "nameEN":"Pontrydfendigaid No2",
+      "nameCY":"Pontrydfendigaid No2",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1126",
+      "ngr":"SN7280566758",
+      "titleEn":"Pontrydfendigaid No2 raingauge",
+      "titleCy":"Mesurydd glaw Pontrydfendigaid No2",
+      "parameters":[
+         {
+            "parameter":10221,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.600,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.12733,
+         "longitude":-4.2502918
+      },
+      "location":1127,
+      "nameEN":"Rhos Ymryson",
+      "nameCY":"Rhos Ymryson",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1127",
+      "ngr":"SN4605750058",
+      "titleEn":"Rhos Ymryson raingauge",
+      "titleCy":"Mesurydd glaw Rhos Ymryson",
+      "parameters":[
+         {
+            "parameter":10222,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.98461,
+         "longitude":-4.0599328
+      },
+      "location":1128,
+      "nameEN":"Abergorlech",
+      "nameCY":"Abergorlech",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1128",
+      "ngr":"SN5863633799",
+      "titleEn":"Abergorlech raingauge",
+      "titleCy":"Mesurydd glaw Abergorlech",
+      "parameters":[
+         {
+            "parameter":10223,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.039591,
+         "longitude":-3.9334614
+      },
+      "location":1129,
+      "nameEN":"Caio",
+      "nameCY":"Caio",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1129",
+      "ngr":"SN6748339675",
+      "titleEn":"Caio raingauge",
+      "titleCy":"Mesurydd glaw Caio",
+      "parameters":[
+         {
+            "parameter":10224,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.044935,
+         "longitude":-3.7468461
+      },
+      "location":1130,
+      "nameEN":"Cynghordy",
+      "nameCY":"Cynghordy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1130",
+      "ngr":"SN8029639945",
+      "titleEn":"Cynghordy raingauge",
+      "titleCy":"Mesurydd glaw Cynghordy",
+      "parameters":[
+         {
+            "parameter":10225,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.89985,
+         "longitude":-3.7488421
+      },
+      "location":1131,
+      "nameEN":"Llynyfan",
+      "nameCY":"Llynyfan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1131",
+      "ngr":"SN7977123813",
+      "titleEn":"Llynyfan raingauge",
+      "titleCy":"Mesurydd glaw Llynyfan",
+      "parameters":[
+         {
+            "parameter":10226,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.952713,
+         "longitude":-3.7835835
+      },
+      "location":1132,
+      "nameEN":"Myddfai",
+      "nameCY":"Myddfai",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1132",
+      "ngr":"SN7752529750",
+      "titleEn":"Myddfai raingauge",
+      "titleCy":"Mesurydd glaw Myddfai",
+      "parameters":[
+         {
+            "parameter":10227,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.209938,
+         "longitude":-3.8141568
+      },
+      "location":1133,
+      "nameEN":"Nant Y Maen",
+      "nameCY":"Nant Y Maen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1133",
+      "ngr":"SN7613958409",
+      "titleEn":"Nant Y Maen raingauge",
+      "titleCy":"Mesurydd glaw Nant Y Maen",
+      "parameters":[
+         {
+            "parameter":10228,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T18:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.005407,
+         "longitude":-4.2669858
+      },
+      "location":1134,
+      "nameEN":"Pencader",
+      "nameCY":"Pencader",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1134",
+      "ngr":"SN4449136535",
+      "titleEn":"Pencader raingauge",
+      "titleCy":"Mesurydd glaw Pencader",
+      "parameters":[
+         {
+            "parameter":10229,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.911631,
+         "longitude":-4.2592189
+      },
+      "location":1135,
+      "nameEN":"Rhydargaeau",
+      "nameCY":"Rhydargaeau",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1135",
+      "ngr":"SN4470026090",
+      "titleEn":"Rhydargaeau raingauge",
+      "titleCy":"Mesurydd glaw Rhydargaeau",
+      "parameters":[
+         {
+            "parameter":10230,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.600,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.109203,
+         "longitude":-3.7717883
+      },
+      "location":1136,
+      "nameEN":"Ystradffin No1",
+      "nameCY":"Ystradffin No1",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1136",
+      "ngr":"SN7876047134",
+      "titleEn":"Ystradffin No1 raingauge",
+      "titleCy":"Mesurydd glaw Ystradffin No1",
+      "parameters":[
+         {
+            "parameter":10231,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":1.600,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.414662,
+         "longitude":-3.5058489
+      },
+      "location":1137,
+      "nameEN":"Llantwit Major",
+      "nameCY":"Llantwit Major",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1137",
+      "ngr":"SS9537669481",
+      "titleEn":"Llantwit Major raingauge",
+      "titleCy":"Mesurydd glaw Llanilltud Fawr",
+      "parameters":[
+         {
+            "parameter":10232,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.612343,
+         "longitude":-3.4172196
+      },
+      "location":1138,
+      "nameEN":"Cefn Coch",
+      "nameCY":"Cefn Coch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1138",
+      "ngr":"SJ0413702562",
+      "titleEn":"Cefn Coch raingauge",
+      "titleCy":"Mesurydd glaw Cefn Coch",
+      "parameters":[
+         {
+            "parameter":10233,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.500357,
+         "longitude":-3.6611167
+      },
+      "location":1139,
+      "nameEN":"Dolydd",
+      "nameCY":"Dolydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1139",
+      "ngr":"SN8733790459",
+      "titleEn":"Dolydd raingauge",
+      "titleCy":"Mesurydd glaw Dolydd",
+      "parameters":[
+         {
+            "parameter":10234,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.522556,
+         "longitude":-3.4298627
+      },
+      "location":1140,
+      "nameEN":"Henfryn",
+      "nameCY":"Henfryn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1140",
+      "ngr":"SO0308392592",
+      "titleEn":"Henfryn raingauge",
+      "titleCy":"Mesurydd glaw Henfryn",
+      "parameters":[
+         {
+            "parameter":10235,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.760714,
+         "longitude":-3.25586
+      },
+      "location":1141,
+      "nameEN":"Llanfyllin",
+      "nameCY":"Llanfyllin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1141",
+      "ngr":"SJ1535018863",
+      "titleEn":"Llanfyllin raingauge",
+      "titleCy":"Mesurydd glaw Llanfyllin",
+      "parameters":[
+         {
+            "parameter":10236,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.82135,
+         "longitude":-3.4081627
+      },
+      "location":1142,
+      "nameEN":"Llangynog",
+      "nameCY":"Llangynog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1142",
+      "ngr":"SJ0520525798",
+      "titleEn":"Llangynog raingauge",
+      "titleCy":"Mesurydd glaw Llangynog",
+      "parameters":[
+         {
+            "parameter":10237,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.380125,
+         "longitude":-3.5009052
+      },
+      "location":1143,
+      "nameEN":"Nantgwyn",
+      "nameCY":"Nantgwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1143",
+      "ngr":"SN9793476848",
+      "titleEn":"Nantgwyn raingauge",
+      "titleCy":"Mesurydd glaw Nantgwyn",
+      "parameters":[
+         {
+            "parameter":10238,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.400,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.717569,
+         "longitude":-3.5144498
+      },
+      "location":1144,
+      "nameEN":"Pen Y Coed",
+      "nameCY":"Pen Y Coed",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1144",
+      "ngr":"SH9780014400",
+      "titleEn":"Pen Y Coed raingauge",
+      "titleCy":"Mesurydd glaw Pen Y Coed",
+      "parameters":[
+         {
+            "parameter":10239,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.879647,
+         "longitude":-3.1591232
+      },
+      "location":1145,
+      "nameEN":"Penygwely",
+      "nameCY":"Penygwely",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1145",
+      "ngr":"SJ2209131983",
+      "titleEn":"Penygwely raingauge",
+      "titleCy":"Mesurydd glaw Penygwely",
+      "parameters":[
+         {
+            "parameter":10240,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Light Rain",
+            "parameterStatusCY":"Glaw golau glaw",
+            "units":"mm",
+            "latestValue":0.200,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.320487,
+         "longitude":-3.057786
+      },
+      "location":1146,
+      "nameEN":"Rhos Y Meirch",
+      "nameCY":"Rhos Y Meirch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1146",
+      "ngr":"SO2799869681",
+      "titleEn":"Rhos Y Meirch raingauge",
+      "titleCy":"Mesurydd glaw Rhos Y Meirch",
+      "parameters":[
+         {
+            "parameter":10241,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.50728,
+         "longitude":-3.1706195
+      },
+      "location":1147,
+      "nameEN":"Sarn",
+      "nameCY":"Sarn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1147",
+      "ngr":"SO2064490576",
+      "titleEn":"Sarn raingauge",
+      "titleCy":"Mesurydd glaw Sarn",
+      "parameters":[
+         {
+            "parameter":10242,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.757895,
+         "longitude":-3.4604257
+      },
+      "location":1148,
+      "nameEN":"Vyrnwy",
+      "nameCY":"Vyrnwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1148",
+      "ngr":"SJ0154018810",
+      "titleEn":"Vyrnwy raingauge",
+      "titleCy":"Mesurydd glaw Vyrnwy",
+      "parameters":[
+         {
+            "parameter":10243,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.657226,
+         "longitude":-3.1330043
+      },
+      "location":1149,
+      "nameEN":"Welshpool",
+      "nameCY":"Welshpool",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"1149",
+      "ngr":"SJ2345907214",
+      "titleEn":"Welshpool raingauge",
+      "titleCy":"Mesurydd glaw Y Trallwng",
+      "parameters":[
+         {
+            "parameter":10244,
+            "paramNameEN":"Rainfall",
+            "paramNameCY":"Glawiad",
+            "parameterStatusEN":"Rainfall Dry",
+            "parameterStatusCY":"Drws glaw",
+            "units":"mm",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.759937,
+         "longitude":-3.455159
+      },
+      "location":2003,
+      "nameEN":"Vyrnwy Weir",
+      "nameCY":"Cored Efyrnwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2003",
+      "ngr":"SJ0190019030",
+      "titleEn":"Vyrnwy at Vyrnwy Weir, Llanwddyn",
+      "titleCy":"Afon Efyrnwy yng Nghored Efyrnwy, Llanwddyn",
+      "parameters":[
+         {
+            "parameter":184,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.430,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.553516,
+         "longitude":-3.2335621
+      },
+      "location":2009,
+      "nameEN":"Abermule",
+      "nameCY":"Aber-miwl",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2009",
+      "ngr":"SO1646095790",
+      "titleEn":"Severn at Abermule",
+      "titleCy":"Afon Hafren yn Aber-miwl",
+      "parameters":[
+         {
+            "parameter":132,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.778,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.430093,
+         "longitude":-3.5457583
+      },
+      "location":2017,
+      "nameEN":"Rhos Y Pentref",
+      "nameCY":"Rhos y Pentref",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2017",
+      "ngr":"SN9500082470",
+      "titleEn":"Dulas at Rhos Y Pentref, Cwmbelan",
+      "titleCy":"Afon Dulas yn Rhos y Pentref, Cwmbelan",
+      "parameters":[
+         {
+            "parameter":49,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.958,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.768986,
+         "longitude":-3.108765
+      },
+      "location":2020,
+      "nameEN":"Llanymynech",
+      "nameCY":"Llanymynech",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2020",
+      "ngr":"SJ2529019620",
+      "titleEn":"Vyrnwy at Llanymynech",
+      "titleCy":"Afon Efyrnwy yn Llanymynech",
+      "parameters":[
+         {
+            "parameter":185,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.454,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.451218,
+         "longitude":-3.5391401
+      },
+      "location":2033,
+      "nameEN":"Llanidloes",
+      "nameCY":"Llanidloes",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2033",
+      "ngr":"SN9550084810",
+      "titleEn":"Severn at Llanidloes",
+      "titleCy":"Afon Hafren yn Llanidloes",
+      "parameters":[
+         {
+            "parameter":133,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.546,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.514387,
+         "longitude":-3.4272838
+      },
+      "location":2034,
+      "nameEN":"Caersws",
+      "nameCY":"Caersws",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2034",
+      "ngr":"SO0324091680",
+      "titleEn":"Severn at Caersws",
+      "titleCy":"Afon Hafren yng Nghaersws",
+      "parameters":[
+         {
+            "parameter":134,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.066,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.707346,
+         "longitude":-3.2501823
+      },
+      "location":2035,
+      "nameEN":"Meifod",
+      "nameCY":"Meifod",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2035",
+      "ngr":"SJ1563012920",
+      "titleEn":"Vyrnwy at Meifod",
+      "titleCy":"Afon Efyrnwy ym Meifod",
+      "parameters":[
+         {
+            "parameter":186,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.608,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.468113,
+         "longitude":-3.6006768
+      },
+      "location":2054,
+      "nameEN":"Bryntail",
+      "nameCY":"Bryn Tail",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2054",
+      "ngr":"SN9136086780",
+      "titleEn":"Clywedog at Bryntail",
+      "titleCy":"Afon Clywedog ym Mryntail",
+      "parameters":[
+         {
+            "parameter":26,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.356,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.704591,
+         "longitude":-3.3217383
+      },
+      "location":2060,
+      "nameEN":"Pont Robert",
+      "nameCY":"Pontrobert",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2060",
+      "ngr":"SJ1079012700",
+      "titleEn":"Vyrnwy at Pont Robert",
+      "titleCy":"Afon Efyrnwy ym Mhontrobert",
+      "parameters":[
+         {
+            "parameter":187,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.381,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.745866,
+         "longitude":-3.0410693
+      },
+      "location":2061,
+      "nameEN":"Llandrinio",
+      "nameCY":"Llandrinio",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2061",
+      "ngr":"SJ2982016980",
+      "titleEn":"Severn at Llandrinio",
+      "titleCy":"Afon Hafren yn Llandrinio",
+      "parameters":[
+         {
+            "parameter":135,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.651,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.676678,
+         "longitude":-3.4337527
+      },
+      "location":2062,
+      "nameEN":"Llanerfyl",
+      "nameCY":"Llanerfyl",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2062",
+      "ngr":"SJ0316009740",
+      "titleEn":"Banwy at Llanerfyl",
+      "titleCy":"Afon Banw yn Llanerfyl",
+      "parameters":[
+         {
+            "parameter":11,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.540,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.672457,
+         "longitude":-3.1157842
+      },
+      "location":2068,
+      "nameEN":"Buttington",
+      "nameCY":"Tal-y-bont",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2068",
+      "ngr":"SJ2465008890",
+      "titleEn":"Severn at Buttington",
+      "titleCy":"Afon Hafren yn Nhal-y-bont",
+      "parameters":[
+         {
+            "parameter":136,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.538,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.601841,
+         "longitude":-3.1668495
+      },
+      "location":2072,
+      "nameEN":"Munlyn",
+      "nameCY":"Munlyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2072",
+      "ngr":"SJ2107001090",
+      "titleEn":"Severn at Munlyn",
+      "titleCy":"Afon Hafren ym Munlyn",
+      "parameters":[
+         {
+            "parameter":137,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.986,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.660477,
+         "longitude":-3.1556953
+      },
+      "location":2089,
+      "nameEN":"Welshpool",
+      "nameCY":"Y Trallwng",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"2089",
+      "ngr":"SJ2193007600",
+      "titleEn":"Lledan Brook at Welshpool",
+      "titleCy":"Nant Lledan yn y Trallwng",
+      "parameters":[
+         {
+            "parameter":88,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.208,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.101101,
+         "longitude":-3.6180297
+      },
+      "location":4001,
+      "nameEN":"Abernant",
+      "nameCY":"Abernant",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4001",
+      "ngr":"SN8926945987",
+      "titleEn":"Irfon at Abernant",
+      "titleCy":"Afon Irfon yn Abernant",
+      "parameters":[
+         {
+            "parameter":83,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.220,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.15359,
+         "longitude":-3.4117659
+      },
+      "location":4005,
+      "nameEN":"Builth Wells",
+      "nameCY":"Llanfair-ym-Muallt",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4005",
+      "ngr":"SO0351051530",
+      "titleEn":"Wye at Builth Wells",
+      "titleCy":"Afon Gwy yn Llanfair-ym-Muallt",
+      "parameters":[
+         {
+            "parameter":193,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.338,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.26906,
+         "longitude":-3.5719515
+      },
+      "location":4008,
+      "nameEN":"Caban Elan",
+      "nameCY":"Caban Elan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4008",
+      "ngr":"SN9283064598",
+      "titleEn":"Elan at Caban Elan",
+      "titleCy":"Afon Elan yng Nghaban Elan",
+      "parameters":[
+         {
+            "parameter":57,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.381,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.646479,
+         "longitude":-2.6705531
+      },
+      "location":4009,
+      "nameEN":"Chepstow Bridge",
+      "nameCY":"Pont Cas-gwent",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4009",
+      "ngr":"ST5370094400",
+      "titleEn":"Wye at Chepstow Bridge",
+      "titleCy":"Afon Gwy ym Mhont Cas-gwent",
+      "parameters":[
+         {
+            "parameter":194,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":-8.674,
+            "latestTime":"2020-06-09T06:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.1465,
+         "longitude":-3.4695631
+      },
+      "location":4010,
+      "nameEN":"Cilmery",
+      "nameCY":"Cilmeri",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4010",
+      "ngr":"SN9954050820",
+      "titleEn":"Irfon at Cilmery",
+      "titleCy":"Afon Irfon yng Nghilmeri",
+      "parameters":[
+         {
+            "parameter":84,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.594,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.296371,
+         "longitude":-3.5032918
+      },
+      "location":4011,
+      "nameEN":"Ddol Farm",
+      "nameCY":"Fferm Ddôl",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4011",
+      "ngr":"SN9757867536",
+      "titleEn":"Wye at Ddol Farm",
+      "titleCy":"Afon Gwy yn Fferm Ddôl",
+      "parameters":[
+         {
+            "parameter":195,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.442,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.209668,
+         "longitude":-3.4289108
+      },
+      "location":4012,
+      "nameEN":"Disserth",
+      "nameCY":"Betws Diserth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4012",
+      "ngr":"SO0246057790",
+      "titleEn":"Ithon at Disserth",
+      "titleCy":"Afon Ieithon ym Metws Diserth",
+      "parameters":[
+         {
+            "parameter":85,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.896,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.090631,
+         "longitude":-3.3498727
+      },
+      "location":4013,
+      "nameEN":"Erwood",
+      "nameCY":"Erwyd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4013",
+      "ngr":"SO0761444447",
+      "titleEn":"Wye at Erwood",
+      "titleCy":"Afon Gwy yn Erwyd",
+      "parameters":[
+         {
+            "parameter":196,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.127,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.045649,
+         "longitude":-3.1966762
+      },
+      "location":4014,
+      "nameEN":"Glasbury",
+      "nameCY":"Y Clas-ar-Wy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4014",
+      "ngr":"SO1802739260",
+      "titleEn":"Wye at Glasbury",
+      "titleCy":"Afon Gwy yn y Clas-ar-Wy",
+      "parameters":[
+         {
+            "parameter":197,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.779,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.919462,
+         "longitude":-2.849825
+      },
+      "location":4015,
+      "nameEN":"Grosmont, Rhosllwyn",
+      "nameCY":"Y Grysmwnt, Rhosllwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4015",
+      "ngr":"SO4165024890",
+      "titleEn":"Monnow at Grosmont, Rhosllwyn",
+      "titleCy":"Afon Mynwy yn y Grysmwnt, Rhosllwyn",
+      "parameters":[
+         {
+            "parameter":105,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.859,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.076549,
+         "longitude":-3.1266888
+      },
+      "location":4016,
+      "nameEN":"Hay On Wye",
+      "nameCY":"Y Gelli Gandryll",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4016",
+      "ngr":"SO2288042620",
+      "titleEn":"Wye at Hay On Wye",
+      "titleCy":"Afon Gwy yn y Gelli Gandryll",
+      "parameters":[
+         {
+            "parameter":198,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.115,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.305401,
+         "longitude":-3.3146545
+      },
+      "location":4018,
+      "nameEN":"Llanddewi",
+      "nameCY":"Llanddewi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4018",
+      "ngr":"SO1046068290",
+      "titleEn":"Ithon at Llanddewi",
+      "titleCy":"Afon Ieithon yn Llanddewi",
+      "parameters":[
+         {
+            "parameter":86,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.557,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.151395,
+         "longitude":-3.1129386
+      },
+      "location":4020,
+      "nameEN":"Michaelchurch on Arrow",
+      "nameCY":"Llanfihangel Dyffryn Arwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4020",
+      "ngr":"SO2395050930",
+      "titleEn":"Arrow at Michaelchurch on Arrow",
+      "titleCy":"Afon Arwy yn Llanfihangel Dyffryn Arwy",
+      "parameters":[
+         {
+            "parameter":10,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.479,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.797403,
+         "longitude":-2.7228187
+      },
+      "location":4021,
+      "nameEN":"Mitchel Troy",
+      "nameCY":"Llanfihangel Troddi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4021",
+      "ngr":"SO5025011220",
+      "titleEn":"Trothy at Mitchel Troy",
+      "titleCy":"Afon Troddi yn Llanfihangel Troddi",
+      "parameters":[
+         {
+            "parameter":163,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.419,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.30887,
+         "longitude":-3.1174715
+      },
+      "location":4022,
+      "nameEN":"Monaughty",
+      "nameCY":"Monaughty",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4022",
+      "ngr":"SO2391068450",
+      "titleEn":"Lugg at Monaughty",
+      "titleCy":"Afon Llugwy yn Monaughty",
+      "parameters":[
+         {
+            "parameter":99,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.343,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.814631,
+         "longitude":-2.703235
+      },
+      "location":4023,
+      "nameEN":"Monmouth",
+      "nameCY":"Trefynwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4023",
+      "ngr":"SO5161913123",
+      "titleEn":"Wye at Monmouth",
+      "titleCy":"Afon Gwy yn Nhrefynwy",
+      "parameters":[
+         {
+            "parameter":199,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.835,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.808838,
+         "longitude":-2.7201007
+      },
+      "location":4024,
+      "nameEN":"Monnow Gate",
+      "nameCY":"Porth Trefynwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4024",
+      "ngr":"SO5045012490",
+      "titleEn":"Monnow at Monnow Gate",
+      "titleCy":"Afon Mynwy ym Mhorth Trefynwy",
+      "parameters":[
+         {
+            "parameter":106,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.245,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.428316,
+         "longitude":-3.7013108
+      },
+      "location":4026,
+      "nameEN":"Pant Mawr",
+      "nameCY":"Pant Mawr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4026",
+      "ngr":"SN8442082510",
+      "titleEn":"Wye at Pant Mawr",
+      "titleCy":"Afon Gwy ym Mhant Mawr",
+      "parameters":[
+         {
+            "parameter":200,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.540,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.796308,
+         "longitude":-2.6864046
+      },
+      "location":4028,
+      "nameEN":"Redbrook",
+      "nameCY":"Redbrook",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4028",
+      "ngr":"SO5276011074",
+      "titleEn":"Wye at Redbrook",
+      "titleCy":"Afon Gwy yn Redbrook",
+      "parameters":[
+         {
+            "parameter":201,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.991,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.95872,
+         "longitude":-3.0540211
+      },
+      "location":4031,
+      "nameEN":"Tafalog",
+      "nameCY":"Tafalog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4031",
+      "ngr":"SO2767029440",
+      "titleEn":"Honddu at Tafalog",
+      "titleCy":"Afon Honddu yn Nhafalog",
+      "parameters":[
+         {
+            "parameter":81,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.433,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.030516,
+         "longitude":-3.2169274
+      },
+      "location":4032,
+      "nameEN":"Three Cocks",
+      "nameCY":"Three Cocks",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4032",
+      "ngr":"SO1661037600",
+      "titleEn":"Llynfi at Three Cocks",
+      "titleCy":"Afon Llynfi yn Three Cocks",
+      "parameters":[
+         {
+            "parameter":93,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.626,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.745177,
+         "longitude":-2.94852
+      },
+      "location":4039,
+      "nameEN":"Chainbridge",
+      "nameCY":"Pont Gadwyni",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4039",
+      "ngr":"SO3461005590",
+      "titleEn":"Usk at Chainbridge",
+      "titleCy":"Afon Wysg ym Mhont Gadwyni",
+      "parameters":[
+         {
+            "parameter":176,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":1.245,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.856798,
+         "longitude":-3.1414316
+      },
+      "location":4040,
+      "nameEN":"Crickhowell",
+      "nameCY":"Crucywel",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4040",
+      "ngr":"SO2148618195",
+      "titleEn":"Usk at Crickhowell",
+      "titleCy":"Afon Wysg yng Nghrucywel",
+      "parameters":[
+         {
+            "parameter":177,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.512,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.875847,
+         "longitude":-3.2698363
+      },
+      "location":4041,
+      "nameEN":"Llandetty",
+      "nameCY":"Llanddeti",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4041",
+      "ngr":"SO1268020460",
+      "titleEn":"Usk at Llandetty",
+      "titleCy":"Afon Wysg yn Llanddeti",
+      "parameters":[
+         {
+            "parameter":178,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.193,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.812118,
+         "longitude":-3.0182482
+      },
+      "location":4042,
+      "nameEN":"Llanfoist Bridge",
+      "nameCY":"Pont Llan-ffwyst",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4042",
+      "ngr":"SO2990013100",
+      "titleEn":"Usk at Llanfoist Bridge",
+      "titleCy":"Afon Wysg ym Mhont Llan-ffwyst",
+      "parameters":[
+         {
+            "parameter":179,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.414,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.851535,
+         "longitude":-3.1040723
+      },
+      "location":4043,
+      "nameEN":"Millbrook",
+      "nameCY":"Millbrook",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4043",
+      "ngr":"SO2405017570",
+      "titleEn":"Grwyne Fawr at Millbrook",
+      "titleCy":"Afon Grwyne Fawr ym Millbrook",
+      "parameters":[
+         {
+            "parameter":73,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.373,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.705162,
+         "longitude":-2.8915327
+      },
+      "location":4044,
+      "nameEN":"Olway Inn",
+      "nameCY":"Olway Inn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4044",
+      "ngr":"SO3849001090",
+      "titleEn":"Olway Brook at Olway Inn",
+      "titleCy":"Nant Olwy yn Olway Inn",
+      "parameters":[
+         {
+            "parameter":114,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.219,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.963118,
+         "longitude":-3.4517664
+      },
+      "location":4045,
+      "nameEN":"Pont Ar Yscir",
+      "nameCY":"Pont-ar-ysgir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4045",
+      "ngr":"SO0035030400",
+      "titleEn":"Yscir at Pont Ar Yscir",
+      "titleCy":"Afon Ysgir ym Mhont-ar-ysgir",
+      "parameters":[
+         {
+            "parameter":203,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.523,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.917136,
+         "longitude":-3.5599175
+      },
+      "location":4046,
+      "nameEN":"Pont Hen Hafod",
+      "nameCY":"Pont Hen Hafod",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4046",
+      "ngr":"SN9281025440",
+      "titleEn":"Senni at Pont Hen Hafod",
+      "titleCy":"Afon Senni ym Mhont Hen Hafod",
+      "parameters":[
+         {
+            "parameter":131,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.423,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.625782,
+         "longitude":-2.9657612
+      },
+      "location":4047,
+      "nameEN":"Ponthir",
+      "nameCY":"Pont-hir",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4047",
+      "ngr":"ST3324492327",
+      "titleEn":"Lwyd at Ponthir",
+      "titleCy":"Afon Lwyd ym Mhont-hir",
+      "parameters":[
+         {
+            "parameter":100,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.604,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.607067,
+         "longitude":-3.1028958
+      },
+      "location":4048,
+      "nameEN":"Risca",
+      "nameCY":"Rhisga",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4048",
+      "ngr":"ST2372090380",
+      "titleEn":"Ebbw at Risca",
+      "titleCy":"Afon Ebwy yn Rhisga",
+      "parameters":[
+         {
+            "parameter":54,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.640,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.881766,
+         "longitude":-2.7886765
+      },
+      "location":4049,
+      "nameEN":"Skenfrith",
+      "nameCY":"Ynysgynwraidd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4049",
+      "ngr":"SO4581020650",
+      "titleEn":"Monnow at Skenfrith",
+      "titleCy":"Afon Mynwy yn Ynysgynwraidd",
+      "parameters":[
+         {
+            "parameter":107,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.938,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.954084,
+         "longitude":-3.5331135
+      },
+      "location":4050,
+      "nameEN":"Trallong",
+      "nameCY":"Trallong",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4050",
+      "ngr":"SN9474029510",
+      "titleEn":"Usk at Trallong",
+      "titleCy":"Llan-ffwyst yn Nhrallong",
+      "parameters":[
+         {
+            "parameter":180,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.728,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.732824,
+         "longitude":-2.9303055
+      },
+      "location":4051,
+      "nameEN":"Trostrey Weir",
+      "nameCY":"Cored Trostre",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4051",
+      "ngr":"SO3585004200",
+      "titleEn":"Usk at Trostrey Weir",
+      "titleCy":"Afon Wysg yng Nghored Trostre",
+      "parameters":[
+         {
+            "parameter":181,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.791,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.701973,
+         "longitude":-2.9064471
+      },
+      "location":4054,
+      "nameEN":"Usk Town",
+      "nameCY":"Brynbuga",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4054",
+      "ngr":"SO3745500748",
+      "titleEn":"Usk at Usk Town",
+      "titleCy":"Llan-ffwyst ym Mrynbuga",
+      "parameters":[
+         {
+            "parameter":182,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.666,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.624492,
+         "longitude":-3.1878286
+      },
+      "location":4055,
+      "nameEN":"Ynysddu",
+      "nameCY":"Ynys-ddu",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4055",
+      "ngr":"ST1787092410",
+      "titleEn":"Sirhowy at Ynysddu",
+      "titleCy":"Afon Sirhywi yn Ynys-ddu",
+      "parameters":[
+         {
+            "parameter":139,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.516,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.647758,
+         "longitude":-3.3179566
+      },
+      "location":4056,
+      "nameEN":"Fiddlers Elbow",
+      "nameCY":"Fiddlers Elbow",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4056",
+      "ngr":"ST0890995152",
+      "titleEn":"Taff at Fiddlers Elbow",
+      "titleCy":"Afon Taf yn Fiddlers Elbow",
+      "parameters":[
+         {
+            "parameter":145,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.713,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.64412,
+         "longitude":-3.4791874
+      },
+      "location":4057,
+      "nameEN":"Gelli",
+      "nameCY":"Y Gelli",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4057",
+      "ngr":"SS9774694961",
+      "titleEn":"Rhondda at Gelli",
+      "titleCy":"Afon Rhondda yn y Gelli",
+      "parameters":[
+         {
+            "parameter":119,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.293,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.534724,
+         "longitude":-3.3946941
+      },
+      "location":4058,
+      "nameEN":"Lanelay",
+      "nameCY":"Glanelái",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4058",
+      "ngr":"ST0336082680",
+      "titleEn":"Ely at Lanelay",
+      "titleCy":"Afon Elái yng Nglanelái",
+      "parameters":[
+         {
+            "parameter":60,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.530,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.67639,
+         "longitude":-3.4828567
+      },
+      "location":4059,
+      "nameEN":"Maerdy",
+      "nameCY":"Y Maerdy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4059",
+      "ngr":"SS9756598555",
+      "titleEn":"Rhondda Fach at Maerdy",
+      "titleCy":"Afon Rhondda Fach yn y Maerdy",
+      "parameters":[
+         {
+            "parameter":123,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.405,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.598827,
+         "longitude":-3.3305155
+      },
+      "location":4061,
+      "nameEN":"Pontypridd",
+      "nameCY":"Pontypridd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4061",
+      "ngr":"ST0794189726",
+      "titleEn":"Taff at Pontypridd",
+      "titleCy":"Afon Taf ym Mhontypridd",
+      "parameters":[
+         {
+            "parameter":146,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.939,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.485452,
+         "longitude":-3.2676007
+      },
+      "location":4062,
+      "nameEN":"St Fagans",
+      "nameCY":"Sain Ffagan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4062",
+      "ngr":"ST1208077040",
+      "titleEn":"Ely at St Fagans",
+      "titleCy":"Afon Elái yn Sain Ffagan",
+      "parameters":[
+         {
+            "parameter":61,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.690,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.609302,
+         "longitude":-3.3688178
+      },
+      "location":4063,
+      "nameEN":"Trehafod",
+      "nameCY":"Trehafod",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4063",
+      "ngr":"ST0531090940",
+      "titleEn":"Rhondda at Trehafod",
+      "titleCy":"Afon Rhondda yn Nhrehafod",
+      "parameters":[
+         {
+            "parameter":120,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.523,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.708747,
+         "longitude":-3.3459111
+      },
+      "location":4064,
+      "nameEN":"Troedyrhiw",
+      "nameCY":"Troed-y-rhiw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4064",
+      "ngr":"SO0710001970",
+      "titleEn":"Taff at Troedyrhiw",
+      "titleCy":"Afon Taf yn Nhroed-y-rhiw",
+      "parameters":[
+         {
+            "parameter":147,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.718,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.676774,
+         "longitude":-3.5451483
+      },
+      "location":4065,
+      "nameEN":"Tynewydd",
+      "nameCY":"Tynewydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4065",
+      "ngr":"SS9325998687",
+      "titleEn":"Rhondda at Tynewydd",
+      "titleCy":"Afon Rhondda yn Nhynewydd",
+      "parameters":[
+         {
+            "parameter":121,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.354,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.497302,
+         "longitude":-3.209873
+      },
+      "location":4067,
+      "nameEN":"Western Avenue",
+      "nameCY":"Rhodfa'r Gorllewin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4067",
+      "ngr":"ST1611078290",
+      "titleEn":"Taff at Western Avenue",
+      "titleCy":"Afon Taf ger Rhodfa'r Gorllewin",
+      "parameters":[
+         {
+            "parameter":148,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.107,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.738084,
+         "longitude":-3.5068175
+      },
+      "location":4068,
+      "nameEN":"Hirwaun",
+      "nameCY":"Hirwaun",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4068",
+      "ngr":"SN9605005450",
+      "titleEn":"Cynon at Hirwaun",
+      "titleCy":"Afon Cynon yn Hirwaun",
+      "parameters":[
+         {
+            "parameter":33,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.516,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.532726,
+         "longitude":-3.1196958
+      },
+      "location":4070,
+      "nameEN":"Llanedeyrn",
+      "nameCY":"Llanedern",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4070",
+      "ngr":"ST2243082130",
+      "titleEn":"Rhymney at Llanedeyrn",
+      "titleCy":"Afon Rhymni yn Llanedern",
+      "parameters":[
+         {
+            "parameter":124,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.549,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.58877,
+         "longitude":-3.1633676
+      },
+      "location":4071,
+      "nameEN":"Waterloo Bridge, Machen",
+      "nameCY":"Waterloo Bridge, Machen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4071",
+      "ngr":"ST1950088410",
+      "titleEn":"Rhymney at Waterloo Bridge, Machen",
+      "titleCy":"Afon Rhymni yn Waterloo Bridge, Machen",
+      "parameters":[
+         {
+            "parameter":125,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.511,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.751781,
+         "longitude":-3.3876092
+      },
+      "location":4072,
+      "nameEN":"Merthyr Tydfil",
+      "nameCY":"Merthyr Tudful",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4072",
+      "ngr":"SO0431006810",
+      "titleEn":"Taff at Merthyr Tydfil",
+      "titleCy":"Afon Taf ym Merthyr Tudful",
+      "parameters":[
+         {
+            "parameter":149,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.661,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.795113,
+         "longitude":-3.2606062
+      },
+      "location":4073,
+      "nameEN":"Nant Y Bwch",
+      "nameCY":"Nant-y-Bwch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4073",
+      "ngr":"SO1316011470",
+      "titleEn":"Sirhowy at Nant Y Bwch",
+      "titleCy":"Afon Sirhywi yn Nant-y-Bwch",
+      "parameters":[
+         {
+            "parameter":140,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.387,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.723775,
+         "longitude":-3.2470382
+      },
+      "location":4074,
+      "nameEN":"New Tredegar",
+      "nameCY":"Tredegar Newydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4074",
+      "ngr":"SO1396003520",
+      "titleEn":"Rhymney at New Tredegar",
+      "titleCy":"Afon Rhymni yn Nhredegar Newydd",
+      "parameters":[
+         {
+            "parameter":126,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.418,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.717802,
+         "longitude":-3.0585419
+      },
+      "location":4075,
+      "nameEN":"Pontnewynydd / Abersychan",
+      "nameCY":"Pontnewynydd / Abersychan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4075",
+      "ngr":"SO2697002650",
+      "titleEn":"Lwyd at Pontnewynydd / Abersychan",
+      "titleCy":"Afon Lwyd ym Mhontnewynydd / Abersychan",
+      "parameters":[
+         {
+            "parameter":101,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.325,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.593782,
+         "longitude":-3.0713913
+      },
+      "location":4076,
+      "nameEN":"Rhiwderin",
+      "nameCY":"Rhiwderyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4076",
+      "ngr":"ST2588088870",
+      "titleEn":"Ebbw at Rhiwderin",
+      "titleCy":"Afon Ebwy yn Rhiwderyn",
+      "parameters":[
+         {
+            "parameter":55,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.627,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.237863,
+         "longitude":-4.257258
+      },
+      "location":4078,
+      "nameEN":"Aberaeron",
+      "nameCY":"Aberaeron",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4078",
+      "ngr":"SN4596362365",
+      "titleEn":"Aeron at Aberaeron",
+      "titleCy":"Afon Aeron yn Aberaeron",
+      "parameters":[
+         {
+            "parameter":1,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.075,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.5468,
+         "longitude":-3.5918089
+      },
+      "location":4079,
+      "nameEN":"Aberkenfig",
+      "nameCY":"Abercynffig",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4079",
+      "ngr":"SS8971884302",
+      "titleEn":"Llynfi at Aberkenfig",
+      "titleCy":"Afon Llynfi yn Abercynffig",
+      "parameters":[
+         {
+            "parameter":94,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.487,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.41151,
+         "longitude":-4.0863323
+      },
+      "location":4080,
+      "nameEN":"Aberystwyth Tidal",
+      "nameCY":"Llanw Aberystwyth ",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4080",
+      "ngr":"SN5819081327",
+      "titleEn":"Rheidol at Aberystwyth Tidal",
+      "titleCy":"Llanw Afon Rheidol yn Aberystwyth ",
+      "parameters":[
+         {
+            "parameter":116,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.831,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.598169,
+         "longitude":-3.9950182
+      },
+      "location":4081,
+      "nameEN":"Blackpill",
+      "nameCY":"Dulais",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4081",
+      "ngr":"SS6191790700",
+      "titleEn":"Clyne at Blackpill",
+      "titleCy":"Afon Clun yn Nulais",
+      "parameters":[
+         {
+            "parameter":25,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.751,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.407869,
+         "longitude":-3.4614125
+      },
+      "location":4082,
+      "nameEN":"Upper Boverton",
+      "nameCY":"Trebeferad Uchaf",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4082",
+      "ngr":"SS9845168663",
+      "titleEn":"Boverton Brook at Upper Boverton",
+      "titleCy":"Nant Trebeferad yn Nhrebeferad Uchaf",
+      "parameters":[
+         {
+            "parameter":12,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.743,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.503202,
+         "longitude":-3.5807649
+      },
+      "location":4083,
+      "nameEN":"Bridgend",
+      "nameCY":"Pen-y-bont ar Ogwr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4083",
+      "ngr":"SS9037979437",
+      "titleEn":"Ogmore at Bridgend",
+      "titleCy":"Afon Ogwr ym Mhen-y-bont ar Ogwr",
+      "parameters":[
+         {
+            "parameter":110,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.078,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.548032,
+         "longitude":-3.5824772
+      },
+      "location":4084,
+      "nameEN":"Brynmenyn",
+      "nameCY":"Brynmenyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4084",
+      "ngr":"SS9036884425",
+      "titleEn":"Ogmore at Brynmenyn",
+      "titleCy":"Afon Ogwr ym Mrynmenyn",
+      "parameters":[
+         {
+            "parameter":111,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.591,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.802951,
+         "longitude":-4.7973706
+      },
+      "location":4085,
+      "nameEN":"Canaston Bridge",
+      "nameCY":"Pont Canaston",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4085",
+      "ngr":"SN0722615292",
+      "titleEn":"Eastern Cleddau at Canaston Bridge",
+      "titleCy":"Afon Cleddau Ddu ym Mhont Canaston",
+      "parameters":[
+         {
+            "parameter":53,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.093,
+            "latestTime":"2020-10-06T21:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.692271,
+         "longitude":-3.7686214
+      },
+      "location":4087,
+      "nameEN":"Cilfrew",
+      "nameCY":"Cil-ffriw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4087",
+      "ngr":"SN7785000761",
+      "titleEn":"Dulais at Cilfrew",
+      "titleCy":"Afon Dulais yng Nghil-ffriw",
+      "parameters":[
+         {
+            "parameter":46,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.479,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.976784,
+         "longitude":-4.9061292
+      },
+      "location":4088,
+      "nameEN":"Cilrhedyn Bridge",
+      "nameCY":"Pont Cilrhedyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4088",
+      "ngr":"SN0050134914",
+      "titleEn":"Gwaun at Cilrhedyn Bridge",
+      "titleCy":"Afon Gwaun ym Mhont Cilrhedyn",
+      "parameters":[
+         {
+            "parameter":74,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.442,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.815096,
+         "longitude":-4.5571824
+      },
+      "location":4089,
+      "nameEN":"Clog Y Fran",
+      "nameCY":"Clog y Fran",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4089",
+      "ngr":"SN2383116034",
+      "titleEn":"Taf at Clog Y Fran",
+      "titleCy":"Afon Taf yng Nghlog y Fran",
+      "parameters":[
+         {
+            "parameter":143,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.797,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.557244,
+         "longitude":-3.6014347
+      },
+      "location":4090,
+      "nameEN":"Coytrahen",
+      "nameCY":"Goetre-hen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4090",
+      "ngr":"SS8907685478",
+      "titleEn":"Llynfi at Coytrahen",
+      "titleCy":"Afon Llynfi yng Nghoetre-hen",
+      "parameters":[
+         {
+            "parameter":95,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.575,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.826146,
+         "longitude":-3.6833826
+      },
+      "location":4091,
+      "nameEN":"Craig y Nos",
+      "nameCY":"Craig y Nos",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4091",
+      "ngr":"SN8408515510",
+      "titleEn":"Tawe at Craig y Nos",
+      "titleCy":"Afon Tawe yn Nghraig y Nos",
+      "parameters":[
+         {
+            "parameter":152,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.757,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.622579,
+         "longitude":-3.7477213
+      },
+      "location":4092,
+      "nameEN":"Cwmafan",
+      "nameCY":"Cwmafan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4092",
+      "ngr":"SS7910992976",
+      "titleEn":"Afan at Cwmafan",
+      "titleCy":"Afon Afan yng Nghwmafan",
+      "parameters":[
+         {
+            "parameter":3,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.390,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.39699,
+         "longitude":-3.9224909
+      },
+      "location":4093,
+      "nameEN":"Cwm Rheidol",
+      "nameCY":"Cwm Rheidol",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4093",
+      "ngr":"SN6929079403",
+      "titleEn":"Rheidol at Cwm Rheidol",
+      "titleCy":"Afon Rheidol yng Nghwm Rheidol",
+      "parameters":[
+         {
+            "parameter":117,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.094,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.347995,
+         "longitude":-3.7766991
+      },
+      "location":4094,
+      "nameEN":"Cwmystwyth",
+      "nameCY":"Cwmystwyth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4094",
+      "ngr":"SN7907573700",
+      "titleEn":"Ystwyth at Cwmystwyth",
+      "titleCy":"Afon Ystwyth yng Nghwmystwyth",
+      "parameters":[
+         {
+            "parameter":204,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.750,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.520786,
+         "longitude":-3.4961589
+      },
+      "location":4095,
+      "nameEN":"Felindre Road",
+      "nameCY":"Ffordd Felindre",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4095",
+      "ngr":"SS9629181269",
+      "titleEn":"Ewenny Fawr at Felindre Road",
+      "titleCy":"Afon Ewenni Fawr yn Ffordd Felindre",
+      "parameters":[
+         {
+            "parameter":65,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.747,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.829767,
+         "longitude":-4.4832499
+      },
+      "location":4096,
+      "nameEN":"Glasfryn Ford",
+      "nameCY":"Rhyd Glasfryn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4096",
+      "ngr":"SN2898217489",
+      "titleEn":"Dewi Fawr at Glasfryn Ford",
+      "titleCy":"Afon Dewi Fawr yn Rhyd Glasfryn",
+      "parameters":[
+         {
+            "parameter":44,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.782,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.768833,
+         "longitude":-3.7802803
+      },
+      "location":4097,
+      "nameEN":"Gurnos",
+      "nameCY":"Y Gurnos",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4097",
+      "ngr":"SN7725209295",
+      "titleEn":"Twrch at Gurnos",
+      "titleCy":"Afon Twrch yn y Gurnos",
+      "parameters":[
+         {
+            "parameter":165,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.681,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.804475,
+         "longitude":-4.9701601
+      },
+      "location":4098,
+      "nameEN":"Haverfordwest",
+      "nameCY":"Hwlffordd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4098",
+      "ngr":"SM9532215933",
+      "titleEn":"Western Cleddau at Haverfordwest",
+      "titleCy":"Afon Cleddau Wen yn Hwlffordd",
+      "parameters":[
+         {
+            "parameter":188,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.694,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.492547,
+         "longitude":-3.5571753
+      },
+      "location":4099,
+      "nameEN":"Keepers Lodge",
+      "nameCY":"Keepers Lodge",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4099",
+      "ngr":"SS9199178217",
+      "titleEn":"Ewenny at Keepers Lodge",
+      "titleCy":"Afon Ewenni yn Keepers Lodge",
+      "parameters":[
+         {
+            "parameter":64,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.544,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.671617,
+         "longitude":-4.7123157
+      },
+      "location":4100,
+      "nameEN":"Kiln Park",
+      "nameCY":"Parc Kiln",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4100",
+      "ngr":"SN1254600467",
+      "titleEn":"Ritec at Kiln Park",
+      "titleCy":"Afon Ritec ym Mharc Kiln",
+      "parameters":[
+         {
+            "parameter":128,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.836,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.666436,
+         "longitude":-4.1647964
+      },
+      "location":4102,
+      "nameEN":"Llanelli Tidal",
+      "nameCY":"Llanw Llanelli ",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4102",
+      "ngr":"SS5038498626",
+      "titleEn":"Llanelli at Llanelli Tidal",
+      "titleCy":"Llanw Llanelli yn Llanelli ",
+      "parameters":[
+         {
+            "parameter":97,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.264,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.800654,
+         "longitude":-4.2423076
+      },
+      "location":4103,
+      "nameEN":"Llangendeirne",
+      "nameCY":"Llangyndeyrn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4103",
+      "ngr":"SN4548313713",
+      "titleEn":"Gwendraeth Fach at Llangendeirne",
+      "titleCy":"Afon Gwendraeth Fach yn Llangyndeyrn",
+      "parameters":[
+         {
+            "parameter":75,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.692,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.434044,
+         "longitude":-4.0565474
+      },
+      "location":4104,
+      "nameEN":"Llangorwen",
+      "nameCY":"Llangorwen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4104",
+      "ngr":"SN6028783775",
+      "titleEn":"Clarach at Llangorwen",
+      "titleCy":"Afon Clarach yn Llangorwen",
+      "parameters":[
+         {
+            "parameter":19,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.642,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.306747,
+         "longitude":-4.1401657
+      },
+      "location":4105,
+      "nameEN":"Llanrhystud",
+      "nameCY":"Llanrhystud",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4105",
+      "ngr":"SN5418469783",
+      "titleEn":"Wyre at Llanrhystud",
+      "titleCy":"Afon Wyre yn Llanrhystud",
+      "parameters":[
+         {
+            "parameter":202,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.431,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.879059,
+         "longitude":-4.6659264
+      },
+      "location":4106,
+      "nameEN":"Login",
+      "nameCY":"Login",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4106",
+      "ngr":"SN1659723415",
+      "titleEn":"Taf at Login",
+      "titleCy":"Afon Taf yn Login",
+      "parameters":[
+         {
+            "parameter":144,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.246,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.605807,
+         "longitude":-3.6458885
+      },
+      "location":4107,
+      "nameEN":"Maesteg",
+      "nameCY":"Maesteg",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4107",
+      "ngr":"SS8611690947",
+      "titleEn":"Llynfi at Maesteg",
+      "titleCy":"Afon Llynfi ym Maesteg",
+      "parameters":[
+         {
+            "parameter":96,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.349,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.604175,
+         "longitude":-3.7756791
+      },
+      "location":4108,
+      "nameEN":"Marcroft Weir",
+      "nameCY":"Cored Marcroft",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4108",
+      "ngr":"SS7712490976",
+      "titleEn":"Afan at Marcroft Weir",
+      "titleCy":"Afon Afan yn Nghored Marcroft",
+      "parameters":[
+         {
+            "parameter":4,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.974,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.791496,
+         "longitude":-4.9786904
+      },
+      "location":4109,
+      "nameEN":"Merlins Bridge",
+      "nameCY":"Pont Fadlen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4109",
+      "ngr":"SM9467514514",
+      "titleEn":"Merlin's Brook at Merlins Bridge",
+      "titleCy":"Merlin’s Brook ym Mhont Fadlen",
+      "parameters":[
+         {
+            "parameter":104,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.551,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.886191,
+         "longitude":-5.1892605
+      },
+      "location":4110,
+      "nameEN":"Middle Mill",
+      "nameCY":"Felinganol",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4110",
+      "ngr":"SM8061825657",
+      "titleEn":"Solfach at Middle Mill",
+      "titleCy":"Afon Solfach yn Felinganol",
+      "parameters":[
+         {
+            "parameter":141,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.278,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.642181,
+         "longitude":-3.9325036
+      },
+      "location":4111,
+      "nameEN":"Morfa",
+      "nameCY":"Afon Morfa",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4111",
+      "ngr":"SS6637695478",
+      "titleEn":"Tawe at Morfa",
+      "titleCy":"Afon Tawe ym Morfa",
+      "parameters":[
+         {
+            "parameter":153,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.522,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.664935,
+         "longitude":-3.8087096
+      },
+      "location":4112,
+      "nameEN":"Neath Tidal",
+      "nameCY":"Llanw Nedd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4112",
+      "ngr":"SS7500497789",
+      "titleEn":"Neath at Neath Tidal",
+      "titleCy":"Llanw Afon Nedd yn Nedd",
+      "parameters":[
+         {
+            "parameter":108,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.635,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.603292,
+         "longitude":-3.5409914
+      },
+      "location":4113,
+      "nameEN":"Ogmore Vale",
+      "nameCY":"Cwm Ogwr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4113",
+      "ngr":"SS9337490509",
+      "titleEn":"Ogwr Fawr at Ogmore Vale",
+      "titleCy":"Afon Ogwr Fawr yng Nghwm Ogwr",
+      "parameters":[
+         {
+            "parameter":113,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.308,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.522064,
+         "longitude":-3.4840352
+      },
+      "location":4114,
+      "nameEN":"Old Mill",
+      "nameCY":"Old Mill",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4114",
+      "ngr":"SS9713581394",
+      "titleEn":"Ewnenny Fach at Old Mill",
+      "titleCy":"Afon Ewnenni Fach yn Old Mill",
+      "parameters":[
+         {
+            "parameter":66,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.341,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.476884,
+         "longitude":-3.6188501
+      },
+      "location":4115,
+      "nameEN":"Penybont",
+      "nameCY":"Pen-y-bont",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4115",
+      "ngr":"SS8767176568",
+      "titleEn":"Ogmore at Penybont",
+      "titleCy":"Afon Ogwr ym Mhen-y-bont",
+      "parameters":[
+         {
+            "parameter":112,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.266,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.795374,
+         "longitude":-3.9736645
+      },
+      "location":4116,
+      "nameEN":"Pont Amman",
+      "nameCY":"Pontaman",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4116",
+      "ngr":"SN6398912590",
+      "titleEn":"Amman at Pont Amman",
+      "titleCy":"Afon Aman ym Mhontaman",
+      "parameters":[
+         {
+            "parameter":9,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.821,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.375448,
+         "longitude":-4.0723786
+      },
+      "location":4117,
+      "nameEN":"Pont Llolwyn",
+      "nameCY":"Pont Llolwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4117",
+      "ngr":"SN5902477289",
+      "titleEn":"Ystwyth at Pont Llolwyn",
+      "titleCy":"Afon Ystwyth ym Mhont Llolwyn",
+      "parameters":[
+         {
+            "parameter":205,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.947,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.898375,
+         "longitude":-5.1724016
+      },
+      "location":4118,
+      "nameEN":"Pont y Cerbyd",
+      "nameCY":"Pont y Cerbyd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4118",
+      "ngr":"SM8183726961",
+      "titleEn":"Solfach at Pont y Cerbyd",
+      "titleCy":"Afon Solfach ym Mhont y Cerbyd",
+      "parameters":[
+         {
+            "parameter":142,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.489,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.718425,
+         "longitude":-3.8488319
+      },
+      "location":4119,
+      "nameEN":"Pontardawe",
+      "nameCY":"Pontardawe",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4119",
+      "ngr":"SN7238003807",
+      "titleEn":"Upper Clydach at Pontardawe",
+      "titleCy":"Afon Clydach Uchaf ym Mhontardawe",
+      "parameters":[
+         {
+            "parameter":175,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.360,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.7156,
+         "longitude":-4.0297739
+      },
+      "location":4120,
+      "nameEN":"Pontardulais",
+      "nameCY":"Pontarddulais",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4120",
+      "ngr":"SN5987303825",
+      "titleEn":"Dulais at Pontardulais",
+      "titleCy":"Afon Dulais ym Mhontarddulais",
+      "parameters":[
+         {
+            "parameter":47,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.263,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.761783,
+         "longitude":-3.5736689
+      },
+      "location":4121,
+      "nameEN":"Pontneddfechan",
+      "nameCY":"Pontneddfechan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4121",
+      "ngr":"SN9149108183",
+      "titleEn":"Mellte at Pontneddfechan",
+      "titleCy":"Afon Mellte ym Mhontneddfechan",
+      "parameters":[
+         {
+            "parameter":103,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.635,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.753956,
+         "longitude":-4.2190412
+      },
+      "location":4122,
+      "nameEN":"Pontyates",
+      "nameCY":"Pont-iets",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4122",
+      "ngr":"SN4692908471",
+      "titleEn":"Gwendraeth Fawr at Pontyates",
+      "titleCy":"Afon Gwendraeth Fawr ym Mhont-iets",
+      "parameters":[
+         {
+            "parameter":76,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.418,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.775038,
+         "longitude":-4.1842849
+      },
+      "location":4123,
+      "nameEN":"Pontyberem",
+      "nameCY":"Pontyberem",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4123",
+      "ngr":"SN4939810743",
+      "titleEn":"Gwendraeth Fawr at Pontyberem",
+      "titleCy":"Afon Gwendraeth Fawr ym Mhontyberem",
+      "parameters":[
+         {
+            "parameter":77,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.615,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.82037,
+         "longitude":-4.9700452
+      },
+      "location":4124,
+      "nameEN":"Prendergast Mill",
+      "nameCY":"Melin Prendergast",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4124",
+      "ngr":"SM9540217700",
+      "titleEn":"Western Cleddau at Prendergast Mill",
+      "titleCy":"Afon Cleddau Wen ym Melin Prendergast",
+      "parameters":[
+         {
+            "parameter":189,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.279,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.701481,
+         "longitude":-3.7157396
+      },
+      "location":4125,
+      "nameEN":"Resolven",
+      "nameCY":"Resolfen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4125",
+      "ngr":"SN8152901698",
+      "titleEn":"Neath at Resolven",
+      "titleCy":"Afon Nedd yn Resolfen",
+      "parameters":[
+         {
+            "parameter":109,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.846,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.819985,
+         "longitude":-4.4962942
+      },
+      "location":4126,
+      "nameEN":"St Clears",
+      "nameCY":"Sanclêr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4126",
+      "ngr":"SN2804616432",
+      "titleEn":"Cynin at St Clears",
+      "titleCy":"Afon Cynin yn Sanclêr",
+      "parameters":[
+         {
+            "parameter":32,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.659,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.736709,
+         "longitude":-4.6983973
+      },
+      "location":4127,
+      "nameEN":"Stepaside",
+      "nameCY":"Stepaside",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4127",
+      "ngr":"SN1377607669",
+      "titleEn":"Fords Lake at Stepaside",
+      "titleCy":"Fords Lake yn Stepaside",
+      "parameters":[
+         {
+            "parameter":68,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.336,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.18463,
+         "longitude":-4.1306231
+      },
+      "location":4129,
+      "nameEN":"Talsarn",
+      "nameCY":"Tal-sarn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4129",
+      "ngr":"SN5443556183",
+      "titleEn":"Aeron at Talsarn",
+      "titleCy":"Afon Aeron yn Nhal-sarn",
+      "parameters":[
+         {
+            "parameter":2,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.112,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.795704,
+         "longitude":-3.9977381
+      },
+      "location":4131,
+      "nameEN":"Tir Y Dail",
+      "nameCY":"Tir y Dail",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4131",
+      "ngr":"SN6233012672",
+      "titleEn":"Loughor at Tir Y Dail",
+      "titleCy":"Afon Llwchwr yn Nhir y Dail",
+      "parameters":[
+         {
+            "parameter":98,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.868,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.818998,
+         "longitude":-4.6096
+      },
+      "location":4132,
+      "nameEN":"Whitland",
+      "nameCY":"Hendy-Gwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4132",
+      "ngr":"SN2023416596",
+      "titleEn":"Gronw at Whitland",
+      "titleCy":"Afon Gronw yn Hendy-gwyn ar Daf",
+      "parameters":[
+         {
+            "parameter":72,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.563,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.712221,
+         "longitude":-3.6956351
+      },
+      "location":4133,
+      "nameEN":"Ynys Fach Bridge",
+      "nameCY":"Pont Ynys Fach",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4133",
+      "ngr":"SN8294602860",
+      "titleEn":"Clydach Brook at Ynys Fach Bridge",
+      "titleCy":"Nant Clydach ym Mhont Ynys Fach",
+      "parameters":[
+         {
+            "parameter":24,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.341,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.681515,
+         "longitude":-3.9026869
+      },
+      "location":4134,
+      "nameEN":"Ynystanglws",
+      "nameCY":"Ynystanglws",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4134",
+      "ngr":"SS6855399798",
+      "titleEn":"Tawe at Ynystanglws",
+      "titleCy":"Afon Tawe yn Ynystanglws",
+      "parameters":[
+         {
+            "parameter":154,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.933,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.731453,
+         "longitude":-3.7499996
+      },
+      "location":4143,
+      "nameEN":"Llawr Cae",
+      "nameCY":"Llawr Cae",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4143",
+      "ngr":"SH8192816305",
+      "titleEn":"Cerist at Llawr Cae",
+      "titleCy":"Afon Cerist yn Llawr Cae",
+      "parameters":[
+         {
+            "parameter":18,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.219,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.031358,
+         "longitude":-4.1266087
+      },
+      "location":4144,
+      "nameEN":"Hafod Wydr",
+      "nameCY":"Hafod Wydr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4144",
+      "ngr":"SH5748850346",
+      "titleEn":"Colwyn at Hafod Wydr",
+      "titleCy":"Afon Colwyn yn Hafod Wydr",
+      "parameters":[
+         {
+            "parameter":27,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.286,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.105483,
+         "longitude":-3.7921897
+      },
+      "location":4145,
+      "nameEN":"Cwmlanerch",
+      "nameCY":"Cwmlanerch",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4145",
+      "ngr":"SH8011857978",
+      "titleEn":"Conwy at Cwmlanerch",
+      "titleCy":"Afon Conwy yng Nghwm Llannerch",
+      "parameters":[
+         {
+            "parameter":28,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.788,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.600602,
+         "longitude":-3.8550832
+      },
+      "location":4146,
+      "nameEN":"Dyfi Bridge",
+      "nameCY":"Pont Dyfi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4146",
+      "ngr":"SH7445801929",
+      "titleEn":"Dyfi at Dyfi Bridge",
+      "titleCy":"Afon Dyfi ym Mhont Dyfi",
+      "parameters":[
+         {
+            "parameter":51,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.362,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.473289,
+         "longitude":-4.0117456
+      },
+      "location":4147,
+      "nameEN":"Dolybont",
+      "nameCY":"Dol y bont",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4147",
+      "ngr":"SN6345488054",
+      "titleEn":"Leri at Dolybont",
+      "titleCy":"Afon Tyleri yn Nôl-y-bont",
+      "parameters":[
+         {
+            "parameter":87,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.398,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.067667,
+         "longitude":-3.8131419
+      },
+      "location":4148,
+      "nameEN":"Pont Gethin",
+      "nameCY":"Pont Gethin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4148",
+      "ngr":"SH7860953807",
+      "titleEn":"Lledr at Pont Gethin",
+      "titleCy":"Afon Lledr ym Mhont Gethin",
+      "parameters":[
+         {
+            "parameter":89,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.089,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.04567,
+         "longitude":-4.3282907
+      },
+      "location":4149,
+      "nameEN":"Pont y Cim",
+      "nameCY":"Pont y Cim",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4149",
+      "ngr":"SH4401752358",
+      "titleEn":"Llyfni at Pont y Cim",
+      "titleCy":"Afon Llyfni ym Mhont y Cim",
+      "parameters":[
+         {
+            "parameter":92,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.437,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.82019,
+         "longitude":-3.8770838
+      },
+      "location":4150,
+      "nameEN":"Tyddyn Gwladys",
+      "nameCY":"Tyddyn Gwladys",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4150",
+      "ngr":"SH7360526391",
+      "titleEn":"Mawddach at Tyddyn Gwladys",
+      "titleCy":"Afon Mawddach yn Nhyddyn Gwladys",
+      "parameters":[
+         {
+            "parameter":102,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.741,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.744403,
+         "longitude":-3.8841207
+      },
+      "location":4151,
+      "nameEN":"Dolgellau",
+      "nameCY":"Dolgellau",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4151",
+      "ngr":"SH7291017974",
+      "titleEn":"Wnion at Dolgellau",
+      "titleCy":"Afon Wnion yn Nolgellau",
+      "parameters":[
+         {
+            "parameter":191,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.109,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.908556,
+         "longitude":-3.5761997
+      },
+      "location":4152,
+      "nameEN":"Bala",
+      "nameCY":"Y Bala",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4152",
+      "ngr":"SH9409535733",
+      "titleEn":"Dee at Bala",
+      "titleCy":"Afon Ddyfrdwy yn y Bala",
+      "parameters":[
+         {
+            "parameter":37,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.611,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.910425,
+         "longitude":-3.5897706
+      },
+      "location":4153,
+      "nameEN":"Bala Weir X",
+      "nameCY":"Gored X Y Bala",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4153",
+      "ngr":"SH9318735961",
+      "titleEn":"Tryweryn at Bala Weir X",
+      "titleCy":"Afon Tryweryn yng Nghored X y Bala",
+      "parameters":[
+         {
+            "parameter":164,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.661,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.008685,
+         "longitude":-4.1002424
+      },
+      "location":4155,
+      "nameEN":"Beddgelert",
+      "nameCY":"Beddgelert",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4155",
+      "ngr":"SH5918247772",
+      "titleEn":"Glaslyn at Beddgelert",
+      "titleCy":"Afon Glaslyn ym Meddgelert",
+      "parameters":[
+         {
+            "parameter":71,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.018,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.231404,
+         "longitude":-3.3420771
+      },
+      "location":4156,
+      "nameEN":"Bodfari",
+      "nameCY":"Bodfari",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4156",
+      "ngr":"SJ1051271326",
+      "titleEn":"Wheeler at Bodfari",
+      "titleCy":"Afon Chwiler ym Modfari",
+      "parameters":[
+         {
+            "parameter":190,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.508,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.265592,
+         "longitude":-4.3565279
+      },
+      "location":4157,
+      "nameEN":"Bodffordd",
+      "nameCY":"Bodfford",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4157",
+      "ngr":"SH4293076880",
+      "titleEn":"Frogwy at Bodffordd",
+      "titleCy":"Afon Frogwy ym Modffordd",
+      "parameters":[
+         {
+            "parameter":69,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.808,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.114603,
+         "longitude":-4.2669071
+      },
+      "location":4158,
+      "nameEN":"Bontnewydd",
+      "nameCY":"Bontnewydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4158",
+      "ngr":"SH4837459893",
+      "titleEn":"Gwyrfai at Bontnewydd",
+      "titleCy":"Afon Gwyrfai yn y Bontnewydd",
+      "parameters":[
+         {
+            "parameter":80,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.694,
+            "latestTime":"2020-10-06T21:30:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.928711,
+         "longitude":-3.050064
+      },
+      "location":4162,
+      "nameEN":"Brynkinalt",
+      "nameCY":"Brynkinalt",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4162",
+      "ngr":"SJ2951037328",
+      "titleEn":"Ceiriog at Brynkinalt",
+      "titleCy":"Afon Ceiriog ym Mryncunallt",
+      "parameters":[
+         {
+            "parameter":17,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.703,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.979148,
+         "longitude":-3.3879242
+      },
+      "location":4163,
+      "nameEN":"Corwen",
+      "nameCY":"Corwen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4163",
+      "ngr":"SJ0690843324",
+      "titleEn":"Dee at Corwen",
+      "titleCy":"Afon Ddyfrdwy yng Nghorwen",
+      "parameters":[
+         {
+            "parameter":38,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.866,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.963272,
+         "longitude":-3.7248956
+      },
+      "location":4164,
+      "nameEN":"Cynefail",
+      "nameCY":"Cynefail",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4164",
+      "ngr":"SH8424242049",
+      "titleEn":"River Gelyn Level at Cynefail",
+      "titleCy":"Lefel Afon Gelyn yng Nghynefail",
+      "parameters":[
+         {
+            "parameter":70,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.454,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.903094,
+         "longitude":-3.5926989
+      },
+      "location":4165,
+      "nameEN":"Dee Bridge",
+      "nameCY":"Pont y Dee",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4165",
+      "ngr":"SH9297235150",
+      "titleEn":"Dee at Dee Bridge",
+      "titleCy":"Afon Ddyfrdwy ym Mhont Dyfrdwy",
+      "parameters":[
+         {
+            "parameter":39,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.241,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.981255,
+         "longitude":-3.430145
+      },
+      "location":4166,
+      "nameEN":"Druid",
+      "nameCY":"Druid",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4166",
+      "ngr":"SJ0407843614",
+      "titleEn":"Alwen at Druid",
+      "titleCy":"Afon Alwen yn y Ddwyryd",
+      "parameters":[
+         {
+            "parameter":6,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.746,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.639739,
+         "longitude":-4.0242104
+      },
+      "location":4167,
+      "nameEN":"Pont y Garth",
+      "nameCY":"Pont y Garth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4167",
+      "ngr":"SH6312706590",
+      "titleEn":"Dysynni at Pont y Garth",
+      "titleCy":"Afon Dysynni ym Mhont y Garth",
+      "parameters":[
+         {
+            "parameter":52,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.056,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.007745,
+         "longitude":-2.8664166
+      },
+      "location":4168,
+      "nameEN":"Emral Brook",
+      "nameCY":"Emral Brook",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4168",
+      "ngr":"SJ4196145955",
+      "titleEn":"Emral Brook at Emral Brook",
+      "titleCy":"Emral Brook yn Emral Brook",
+      "parameters":[
+         {
+            "parameter":62,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.936851,
+         "longitude":-4.3821492
+      },
+      "location":4169,
+      "nameEN":"Pencaenewydd",
+      "nameCY":"Pencaenewydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4169",
+      "ngr":"SH4000540374",
+      "titleEn":"Erch at Pencaenewydd",
+      "titleCy":"Afon Erch ym Mhencaenewydd",
+      "parameters":[
+         {
+            "parameter":63,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.191,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.083091,
+         "longitude":-2.8791264
+      },
+      "location":4170,
+      "nameEN":"Farndon",
+      "nameCY":"Farndon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4170",
+      "ngr":"SJ4121154347",
+      "titleEn":"Dee at Farndon",
+      "titleCy":"Afon Ddyfrdwy yn Rhedynfre",
+      "parameters":[
+         {
+            "parameter":40,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":6.743,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.962445,
+         "longitude":-4.2367037
+      },
+      "location":4171,
+      "nameEN":"Garndolbenmaen",
+      "nameCY":"Garndolbenmaen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4171",
+      "ngr":"SH4986742906",
+      "titleEn":"Dwyfor at Garndolbenmaen",
+      "titleCy":"Afon Dwyfor yng Ngarndolbenmaen",
+      "parameters":[
+         {
+            "parameter":50,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.535,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.134144,
+         "longitude":-2.8713646
+      },
+      "location":4173,
+      "nameEN":"Ironbridge",
+      "nameCY":"Ironbridge",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4173",
+      "ngr":"SJ4180060020",
+      "titleEn":"Dee at Ironbridge",
+      "titleCy":"Afon Ddyfrdwy yn Ironbridge",
+      "parameters":[
+         {
+            "parameter":41,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":5.216,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.120018,
+         "longitude":-2.8470366
+      },
+      "location":4174,
+      "nameEN":"Lea Hall",
+      "nameCY":"Lea Hall",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4174",
+      "ngr":"SJ4340958429",
+      "titleEn":"Aldford brook at Lea Hall",
+      "titleCy":"Aldford Brook yn Lea Hall",
+      "parameters":[
+         {
+            "parameter":5,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.945,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.137107,
+         "longitude":-3.7972137
+      },
+      "location":4175,
+      "nameEN":"Pont Fawr",
+      "nameCY":"Pont Fawr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4175",
+      "ngr":"SH7987061504",
+      "titleEn":"Conwy at Pont Fawr",
+      "titleCy":"Afon Conwy ym Mhont Fawr",
+      "parameters":[
+         {
+            "parameter":29,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"mAOD",
+            "latestValue":5.707,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.96665,
+         "longitude":-2.9716221
+      },
+      "location":4176,
+      "nameEN":"Manley Hall",
+      "nameCY":"Manley Hall",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4176",
+      "ngr":"SJ3484041474",
+      "titleEn":"Dee at Manley Hall",
+      "titleCy":"Afon Ddyfrdwy ym Manley Hall",
+      "parameters":[
+         {
+            "parameter":42,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.115,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.100617,
+         "longitude":-4.0801768
+      },
+      "location":4177,
+      "nameEN":"Nant Peris",
+      "nameCY":"Nant Peris",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4177",
+      "ngr":"SH6082557958",
+      "titleEn":"Peris at Nant Peris",
+      "titleCy":"Afon Peris yn Nant Peris",
+      "parameters":[
+         {
+            "parameter":115,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.010,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.862986,
+         "longitude":-3.6745809
+      },
+      "location":4178,
+      "nameEN":"New Inn",
+      "nameCY":"New Inn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4178",
+      "ngr":"SH8736130814",
+      "titleEn":"Dee at New Inn",
+      "titleCy":"Afon Ddyfrdwy yn New Inn",
+      "parameters":[
+         {
+            "parameter":43,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.047,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.136374,
+         "longitude":-4.2520264
+      },
+      "location":4179,
+      "nameEN":"Peblic Mill",
+      "nameCY":"Melin Peblig",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4179",
+      "ngr":"SH4944662283",
+      "titleEn":"Seiont at Peblic Mill",
+      "titleCy":"Afon Seiont ym Melin Peblig",
+      "parameters":[
+         {
+            "parameter":130,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.072,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.262457,
+         "longitude":-3.4344599
+      },
+      "location":4180,
+      "nameEN":"Pont Dafydd",
+      "nameCY":"Pont Dafydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4180",
+      "ngr":"SJ0441574900",
+      "titleEn":"Clwyd at Pont Dafydd",
+      "titleCy":"Afon Clwyd ym Mhont Dafydd",
+      "parameters":[
+         {
+            "parameter":20,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.797,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.227635,
+         "longitude":-3.3947504
+      },
+      "location":4181,
+      "nameEN":"Pont y Cambwll",
+      "nameCY":"Pont y Cambwll",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4181",
+      "ngr":"SJ0698870974",
+      "titleEn":"Clwyd at Pont y Cambwll",
+      "titleCy":"Afon Clwyd ym Mhont y Cambwll",
+      "parameters":[
+         {
+            "parameter":21,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":1.656,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.079402,
+         "longitude":-2.9937308
+      },
+      "location":4182,
+      "nameEN":"Pont y Capel",
+      "nameCY":"Pont y Capel",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4182",
+      "ngr":"SJ3352954037",
+      "titleEn":"Alyn at Pont y Capel",
+      "titleCy":"Afon Alun ym Mhont y Capel",
+      "parameters":[
+         {
+            "parameter":7,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.854,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.232715,
+         "longitude":-3.5709448
+      },
+      "location":4183,
+      "nameEN":"Pont y Gwyddel",
+      "nameCY":"Pont y Gwyddel",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4183",
+      "ngr":"SH9523971783",
+      "titleEn":"Elwy at Pont y Gwyddel",
+      "titleCy":"Afon Elwy ym Mhont y Gwyddel",
+      "parameters":[
+         {
+            "parameter":58,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.211,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.293488,
+         "longitude":-3.4750044
+      },
+      "location":4185,
+      "nameEN":"Rhuddlan",
+      "nameCY":"Rhuddlan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4185",
+      "ngr":"SJ0178278407",
+      "titleEn":"Clwyd at Rhuddlan",
+      "titleCy":"Afon Clwyd yn Rhuddlan",
+      "parameters":[
+         {
+            "parameter":22,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":3.228,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.191847,
+         "longitude":-3.1927941
+      },
+      "location":4186,
+      "nameEN":"Rhydymwyn",
+      "nameCY":"Rhydymwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4186",
+      "ngr":"SJ2040366749",
+      "titleEn":"Alyn at Rhydymwyn",
+      "titleCy":"Afon Alun yn Rhyd-y-mwyn",
+      "parameters":[
+         {
+            "parameter":8,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.059,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.122874,
+         "longitude":-3.3137365
+      },
+      "location":4187,
+      "nameEN":"Ruthin Weir",
+      "nameCY":"Cored Rhuthun",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4187",
+      "ngr":"SJ1218259218",
+      "titleEn":"Clwyd at Ruthin Weir",
+      "titleCy":"Afon Clwyd yng Nghored Rhuthun",
+      "parameters":[
+         {
+            "parameter":23,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.642,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.262103,
+         "longitude":-3.4495457
+      },
+      "location":4188,
+      "nameEN":"St Asaph",
+      "nameCY":"Llanelwy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4188",
+      "ngr":"SJ0340874881",
+      "titleEn":"Elwy at St Asaph",
+      "titleCy":"Afon Elwy yn Llanelwy",
+      "parameters":[
+         {
+            "parameter":59,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.113,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.160207,
+         "longitude":-3.8241158
+      },
+      "location":4191,
+      "nameEN":"Trefriw",
+      "nameCY":"Trefriw",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4191",
+      "ngr":"SH7813664119",
+      "titleEn":"Conwy at Trefriw",
+      "titleCy":"Afon Conwy yn Nhrefriw",
+      "parameters":[
+         {
+            "parameter":30,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":3.172,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.007827,
+         "longitude":-2.8662841
+      },
+      "location":4192,
+      "nameEN":"Wych Brook",
+      "nameCY":"Nant Wych",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4192",
+      "ngr":"SJ4197045964",
+      "titleEn":"Wych Brook at Wych Brook",
+      "titleCy":"Nant Wych yn Nant Wych",
+      "parameters":[
+         {
+            "parameter":192,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.178,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.863141,
+         "longitude":-4.201464
+      },
+      "location":4193,
+      "nameEN":"Capel Dewi",
+      "nameCY":"Capel Dewi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4193",
+      "ngr":"SN4850920576",
+      "titleEn":"Tywi at Capel Dewi",
+      "titleCy":"Afon Tywi yng Nghapel Dewi",
+      "parameters":[
+         {
+            "parameter":168,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.862,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.109412,
+         "longitude":-3.7924605
+      },
+      "location":4194,
+      "nameEN":"Craig Clungwyn",
+      "nameCY":"Craig Clungwyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4194",
+      "ngr":"SN7734547192",
+      "titleEn":"Doethie at Craig Clungwyn",
+      "titleCy":"Afon Doethie yng Nghraig Clungwyn",
+      "parameters":[
+         {
+            "parameter":45,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.023,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.077768,
+         "longitude":-3.971084
+      },
+      "location":4195,
+      "nameEN":"Ddol Las",
+      "nameCY":"Ddol Las",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4195",
+      "ngr":"SN6501843990",
+      "titleEn":"Twrch at Ddol Las",
+      "titleCy":"Afon Twrch yn Nôl-Las",
+      "parameters":[
+         {
+            "parameter":166,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.666,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.010773,
+         "longitude":-3.8053884
+      },
+      "location":4196,
+      "nameEN":"Dolau Hirion",
+      "nameCY":"Dolau Hirion",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4196",
+      "ngr":"SN7618736244",
+      "titleEn":"Tywi at Dolau Hirion",
+      "titleCy":"Afon Tywi yn Nolau Hirion",
+      "parameters":[
+         {
+            "parameter":169,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.893,
+            "latestTime":"2020-10-06T19:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.880974,
+         "longitude":-4.1680298
+      },
+      "location":4197,
+      "nameEN":"Felin Mynachdy",
+      "nameCY":"Felin Mynachdy",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4197",
+      "ngr":"SN5087022490",
+      "titleEn":"Cothi at Felin Mynachdy",
+      "titleCy":"Afon Cothi yn Felin Mynachdy",
+      "parameters":[
+         {
+            "parameter":31,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.469,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.922738,
+         "longitude":-3.8742037
+      },
+      "location":4198,
+      "nameEN":"Felin Y Cwm",
+      "nameCY":"Felin y Cwm",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4198",
+      "ngr":"SN7121226573",
+      "titleEn":"Sawdde at Felin Y Cwm",
+      "titleCy":"Afon Sawdde yn Felin y Cwm",
+      "parameters":[
+         {
+            "parameter":129,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.598,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.873944,
+         "longitude":-4.2815034
+      },
+      "location":4199,
+      "nameEN":"Glan Gwili",
+      "nameCY":"Glan Gwili",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4199",
+      "ngr":"SN4303621947",
+      "titleEn":"Gwili at Glan Gwili",
+      "titleCy":"Afon Gwili yng Nglan Gwili",
+      "parameters":[
+         {
+            "parameter":78,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.929,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.993882,
+         "longitude":-3.7909876
+      },
+      "location":4201,
+      "nameEN":"Llandovery",
+      "nameCY":"Llanymddyfri",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4201",
+      "ngr":"SN7712934341",
+      "titleEn":"Bran at Llandovery",
+      "titleCy":"Afon Brân yn Llanymddyfri",
+      "parameters":[
+         {
+            "parameter":13,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.758,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.94019,
+         "longitude":-3.8843733
+      },
+      "location":4202,
+      "nameEN":"Llangadog",
+      "nameCY":"Llangadog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4202",
+      "ngr":"SN7056328532",
+      "titleEn":"Bran at Llangadog",
+      "titleCy":"Afon Brân yn Llangadog",
+      "parameters":[
+         {
+            "parameter":14,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.759,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.967319,
+         "longitude":-3.8725698
+      },
+      "location":4203,
+      "nameEN":"Llanwrda",
+      "nameCY":"Llanwrda",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4203",
+      "ngr":"SN7145231528",
+      "titleEn":"Dulais at Llanwrda",
+      "titleCy":"Afon Dulais yn Llanwrda",
+      "parameters":[
+         {
+            "parameter":48,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.523,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.121775,
+         "longitude":-3.7644282
+      },
+      "location":4204,
+      "nameEN":"Llyn Brianne Reservoir",
+      "nameCY":"Argae Llyn Brianne",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4204",
+      "ngr":"SN7929848520",
+      "titleEn":"Tywi at Llyn Brianne Reservoir",
+      "titleCy":"Afon Tywi yn Argae Llyn Brianne",
+      "parameters":[
+         {
+            "parameter":170,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":-2.115,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.89827,
+         "longitude":-3.952721
+      },
+      "location":4205,
+      "nameEN":"Manorafon",
+      "nameCY":"Manorafon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4205",
+      "ngr":"SN6574023994",
+      "titleEn":"Tywi at Manorafon",
+      "titleCy":"Afon Tywi ym Manorafon",
+      "parameters":[
+         {
+            "parameter":171,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.891,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.99297,
+         "longitude":-3.7799834
+      },
+      "location":4206,
+      "nameEN":"Pont Felindre",
+      "nameCY":"Pont Felindre",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4206",
+      "ngr":"SN7788234221",
+      "titleEn":"Gwydderig at Pont Felindre",
+      "titleCy":"Afon Gwydderig ym Mhont Felindre",
+      "parameters":[
+         {
+            "parameter":79,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.885,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.853952,
+         "longitude":-4.3101593
+      },
+      "location":4207,
+      "nameEN":"Pothouse Wharf",
+      "nameCY":"Pothouse Wharf",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4207",
+      "ngr":"SN4099319786",
+      "titleEn":"Tywi at Pothouse Wharf",
+      "titleCy":"Afon Tywi yn Pothouse Wharf",
+      "parameters":[
+         {
+            "parameter":172,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.708,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.861705,
+         "longitude":-4.1921711
+      },
+      "location":4208,
+      "nameEN":"Ty Castell",
+      "nameCY":"Ty Castell",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4208",
+      "ngr":"SN4914420397",
+      "titleEn":"Tywi at Ty Castell",
+      "titleCy":"Afon Tywi yn Nhy Castell",
+      "parameters":[
+         {
+            "parameter":173,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.014,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.11012,
+         "longitude":-3.77476
+      },
+      "location":4209,
+      "nameEN":"Ystradffin",
+      "nameCY":"Ystradffin",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4209",
+      "ngr":"SN7855947241",
+      "titleEn":"Tywi at Ystradffin",
+      "titleCy":"Afon Tywi yn Ystradffin",
+      "parameters":[
+         {
+            "parameter":174,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.199,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.045405,
+         "longitude":-4.5617405
+      },
+      "location":4210,
+      "nameEN":"Glan Teifi",
+      "nameCY":"Glan Teifi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4210",
+      "ngr":"SN2441941655",
+      "titleEn":"Teifi at Glan Teifi",
+      "titleCy":"Afon Teifi yng Nglan Teifi",
+      "parameters":[
+         {
+            "parameter":156,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":2.887,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.036513,
+         "longitude":-4.3173034
+      },
+      "location":4211,
+      "nameEN":"Llandysul",
+      "nameCY":"Llandysul",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4211",
+      "ngr":"SN4114840103",
+      "titleEn":"Tyweli at Llandysul",
+      "titleCy":"Afon Tyweli yn Llandysul",
+      "parameters":[
+         {
+            "parameter":167,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.988,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.042094,
+         "longitude":-4.2857
+      },
+      "location":4212,
+      "nameEN":"Llanfair",
+      "nameCY":"Llanfair",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4212",
+      "ngr":"SN4333540655",
+      "titleEn":"Teifi at Llanfair",
+      "titleCy":"Afon Teifi yn Llanfair",
+      "parameters":[
+         {
+            "parameter":157,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.844,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.193728,
+         "longitude":-3.9731095
+      },
+      "location":4213,
+      "nameEN":"Pont Llanio",
+      "nameCY":"Pont Llanio",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4213",
+      "ngr":"SN6523056890",
+      "titleEn":"Teifi at Pont Llanio",
+      "titleCy":"Afon Teifi ym Mhont Llanio",
+      "parameters":[
+         {
+            "parameter":158,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.985,
+            "latestTime":"2020-10-06T21:45:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.28202,
+         "longitude":-3.8627965
+      },
+      "location":4214,
+      "nameEN":"Pontrhydfendigaid",
+      "nameCY":"Pontrhydfendigaid",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4214",
+      "ngr":"SN7302266510",
+      "titleEn":"Teifi at Pontrhydfendigaid",
+      "titleCy":"Afon Teifi ym Mhontrhydfendigaid",
+      "parameters":[
+         {
+            "parameter":159,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.165,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.220373,
+         "longitude":-3.9333274
+      },
+      "location":4216,
+      "nameEN":"Tregaron",
+      "nameCY":"Tregaron",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4216",
+      "ngr":"SN6802859780",
+      "titleEn":"Brennig at Tregaron",
+      "titleCy":"Afon Brenig yn Nhregaron",
+      "parameters":[
+         {
+            "parameter":15,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.757,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.462147,
+         "longitude":-3.4460877
+      },
+      "location":4217,
+      "nameEN":"Cowbridge",
+      "nameCY":"Y Bont-faen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4217",
+      "ngr":"SS9963674678",
+      "titleEn":"Thaw at Cowbridge",
+      "titleCy":"Afon Ddawan yn y Bont-faen",
+      "parameters":[
+         {
+            "parameter":161,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.498,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.435406,
+         "longitude":-3.4150018
+      },
+      "location":4218,
+      "nameEN":"Gigman Bridge",
+      "nameCY":"Pont Gigman",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4218",
+      "ngr":"ST0173871662",
+      "titleEn":"Thaw at Gigman Bridge",
+      "titleCy":"Afon Ddawan ym Mhont Gigman",
+      "parameters":[
+         {
+            "parameter":162,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.447,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.574987,
+         "longitude":-3.2920973
+      },
+      "location":4219,
+      "nameEN":"Upper Boat Bridge",
+      "nameCY":"Pont Glan-bad",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4219",
+      "ngr":"ST1055587027",
+      "titleEn":"Taff at Upper Boat Bridge",
+      "titleCy":"Afon Taf ym Mhont Glan-bad",
+      "parameters":[
+         {
+            "parameter":150,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.816,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.605117,
+         "longitude":-3.3379485
+      },
+      "location":4220,
+      "nameEN":"Pontypridd, Sion Street",
+      "nameCY":"Pontypridd, Stryd Sion",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4220",
+      "ngr":"ST0743990435",
+      "titleEn":"Taff at Pontypridd, Sion Street",
+      "titleCy":"Afon Taf ym Mhontypridd, Stryd Sion",
+      "parameters":[
+         {
+            "parameter":151,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":4.392,
+            "latestTime":"2020-02-16T04:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.652094,
+         "longitude":-3.3320895
+      },
+      "location":4221,
+      "nameEN":"Abercynon",
+      "nameCY":"Abercynon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4221",
+      "ngr":"ST0794095652",
+      "titleEn":"Cynon at Abercynon",
+      "titleCy":"Afon Cynon yn Abercynon",
+      "parameters":[
+         {
+            "parameter":34,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.518,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.677829,
+         "longitude":-3.2221134
+      },
+      "location":4222,
+      "nameEN":"Bargoed",
+      "nameCY":"Bargoed",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4222",
+      "ngr":"ST1559698381",
+      "titleEn":"Rhymney at Bargoed",
+      "titleCy":"Afon Rhymni ym Margod",
+      "parameters":[
+         {
+            "parameter":127,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.505,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.081111,
+         "longitude":-4.6617115
+      },
+      "location":4224,
+      "nameEN":"Cardigan Quay",
+      "nameCY":"Cei Aberteifi",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4224",
+      "ngr":"SN1771045872",
+      "titleEn":"Teifi at Cardigan Quay",
+      "titleCy":"Afon Teifi yng Nghei Aberteifi",
+      "parameters":[
+         {
+            "parameter":160,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.042,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.780424,
+         "longitude":-3.7575561
+      },
+      "location":4225,
+      "nameEN":"Teddy Bear Bridge",
+      "nameCY":"Teddy Bear Bridge",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4225",
+      "ngr":"SN7885110546",
+      "titleEn":"Tawe at Teddy Bear Bridge",
+      "titleCy":"Afon Tawe yn Teddy Bear Bridge",
+      "parameters":[
+         {
+            "parameter":155,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.781,
+            "latestTime":"2020-02-19T12:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.591334,
+         "longitude":-3.7679743
+      },
+      "location":4226,
+      "nameEN":"Taibach",
+      "nameCY":"Tai-bach",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4226",
+      "ngr":"SS7762389535",
+      "titleEn":"Ffrwdwyllt at Taibach",
+      "titleCy":"Afon Ffrwdwyllt yn Nhai-bach",
+      "parameters":[
+         {
+            "parameter":67,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.387,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.699011,
+         "longitude":-4.1454977
+      },
+      "location":4227,
+      "nameEN":"Felinfoel",
+      "nameCY":"Felin-foel",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4227",
+      "ngr":"SN5182502209",
+      "titleEn":"Lliedi at Felinfoel",
+      "titleCy":"Afon Lliedi yn Felin-foel",
+      "parameters":[
+         {
+            "parameter":90,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.457,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.682963,
+         "longitude":-4.134887
+      },
+      "location":4228,
+      "nameEN":"Halfway",
+      "nameCY":"Halfway",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4228",
+      "ngr":"SN5250600403",
+      "titleEn":"Dafen at Halfway",
+      "titleCy":"Afon Dafen yn Halfway",
+      "parameters":[
+         {
+            "parameter":36,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.501,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.655123,
+         "longitude":-4.0552328
+      },
+      "location":4229,
+      "nameEN":"Pont-y-Cob",
+      "nameCY":"Pont-y-Cob",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4229",
+      "ngr":"SS5792597149",
+      "titleEn":"Lliw at Pont-y-Cob",
+      "titleCy":"Afon Lliw ym Mhont-y-Cob",
+      "parameters":[
+         {
+            "parameter":91,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.339,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.403337,
+         "longitude":-4.0576176
+      },
+      "location":4230,
+      "nameEN":"Llanbadarn Fawr",
+      "nameCY":"Llanbadarn Fawr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4230",
+      "ngr":"SN6011780362",
+      "titleEn":"Rheidol at Llanbadarn Fawr",
+      "titleCy":"Afon Rheidol yn Llanbadarn Fawr",
+      "parameters":[
+         {
+            "parameter":118,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.097,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.713126,
+         "longitude":-3.440677
+      },
+      "location":4231,
+      "nameEN":"Aberdare",
+      "nameCY":"Aberdâr",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4231",
+      "ngr":"SO0056202582",
+      "titleEn":"Cynon at Aberdare",
+      "titleCy":"Afon Cynon yn Aberdâr",
+      "parameters":[
+         {
+            "parameter":35,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.391,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.706354,
+         "longitude":-3.1450356
+      },
+      "location":4232,
+      "nameEN":"Aberbeeg",
+      "nameCY":"Aber-bîg",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4232",
+      "ngr":"SO2097501467",
+      "titleEn":"Ebbw at Aberbeeg",
+      "titleCy":"Afon Ebwy yn Aber-bîg",
+      "parameters":[
+         {
+            "parameter":56,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.616,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.947681,
+         "longitude":-3.3944346
+      },
+      "location":4233,
+      "nameEN":"Brecon",
+      "nameCY":"Aberhonddu",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4233",
+      "ngr":"SO0425628606",
+      "titleEn":"Usk at Brecon",
+      "titleCy":"Afon Wysg yn Aberhonddu",
+      "parameters":[
+         {
+            "parameter":183,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.787,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.515882,
+         "longitude":-3.3121906
+      },
+      "location":4235,
+      "nameEN":"Newtown",
+      "nameCY":"Y Drenewydd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4235",
+      "ngr":"SO1105391698",
+      "titleEn":"Severn at Newtown",
+      "titleCy":"Afon Hafren yn y Drenewydd",
+      "parameters":[
+         {
+            "parameter":138,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.278,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.000857,
+         "longitude":-2.9112057
+      },
+      "location":4241,
+      "nameEN":"Bangor on Dee",
+      "nameCY":"Bangor is y Coed",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4241",
+      "ngr":"SJ3894645226",
+      "titleEn":"Dee at Bangor on Dee",
+      "titleCy":"Afon Dyfrdwy am Bont Leadmill, Y Wyddgrug",
+      "parameters":[
+         {
+            "parameter":10062,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":13.133,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.172387,
+         "longitude":-3.1374823
+      },
+      "location":4242,
+      "nameEN":"Mold Leadmill Bridge",
+      "nameCY":"Bont Leadmill, Y Wyddgrug",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4242",
+      "ngr":"SJ2406464524",
+      "titleEn":"Alyn at Mold Leadmill Bridge",
+      "titleCy":"Afon Alun ym Mhont Leadmill, Y Wyddgrug",
+      "parameters":[
+         {
+            "parameter":10063,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.279,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.137365,
+         "longitude":-3.0824575
+      },
+      "location":4243,
+      "nameEN":"Pontblyddyn",
+      "nameCY":"Pontblyddyn",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4243",
+      "ngr":"SJ2768360571",
+      "titleEn":"Alyn at Pontblyddyn",
+      "titleCy":"Afon Alun ym Mhontblyddyn",
+      "parameters":[
+         {
+            "parameter":10064,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.379,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.107304,
+         "longitude":-2.9520844
+      },
+      "location":4244,
+      "nameEN":"Rossett Alyn Bridge",
+      "nameCY":"Bont Alyn, Yr Orsedd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4244",
+      "ngr":"SJ3636057103",
+      "titleEn":"Alyn at Rossett Alyn Bridge",
+      "titleCy":"Afon Alun am Mhont Alyn, Yr Orsedd",
+      "parameters":[
+         {
+            "parameter":10065,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.910,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.535996,
+         "longitude":-3.2749431
+      },
+      "location":4259,
+      "nameEN":"Aberbechan",
+      "nameCY":"Aberbechan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4259",
+      "ngr":"SO1362093890",
+      "titleEn":"Bechan Brook at Aberbechan",
+      "titleCy":"Nant Bechan yn Aberbechan",
+      "parameters":[
+         {
+            "parameter":10066,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.804,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.455202,
+         "longitude":-3.4885196
+      },
+      "location":4260,
+      "nameEN":"Dolwen",
+      "nameCY":"Dolwen",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4260",
+      "ngr":"SN9894985181",
+      "titleEn":"River Severn at Dolwen",
+      "titleCy":"Afon Hafren yn Dolwen",
+      "parameters":[
+         {
+            "parameter":10067,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.959,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.763642,
+         "longitude":-3.2645846
+      },
+      "location":4261,
+      "nameEN":"Llanfyllin (Cain)",
+      "nameCY":"Llanfyllin (Cain)",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4261",
+      "ngr":"SJ1476719199",
+      "titleEn":"Cain at Llanfyllin",
+      "titleCy":"Afon Cain yn Llanfyllin",
+      "parameters":[
+         {
+            "parameter":10068,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.380,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.775935,
+         "longitude":-3.1741992
+      },
+      "location":4262,
+      "nameEN":"Llansantffraid",
+      "nameCY":"Llansantffraid",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4262",
+      "ngr":"SJ2088820463",
+      "titleEn":"Cain at Llansantffraid",
+      "titleCy":"Afon Cain yn Llansantffraid",
+      "parameters":[
+         {
+            "parameter":10069,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.977,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.591665,
+         "longitude":-3.1613089
+      },
+      "location":4263,
+      "nameEN":"Pont-y-Gaer",
+      "nameCY":"Pont-y-Gaer",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4263",
+      "ngr":"SO2142799952",
+      "titleEn":"Camlad at Pont-y-Gaer",
+      "titleCy":"Afon Camlad ym Mhont-y-Gaer",
+      "parameters":[
+         {
+            "parameter":10070,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":1.145,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.879582,
+         "longitude":-4.9669448
+      },
+      "location":4264,
+      "nameEN":"Treffgarne",
+      "nameCY":"Treffgarne",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4264",
+      "ngr":"SM9588424275",
+      "titleEn":"Western Cleddau at Treffgarne",
+      "titleCy":"Afon Cleddau orllewin yn Nhrefgarn",
+      "parameters":[
+         {
+            "parameter":10071,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.610,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.593017,
+         "longitude":-3.7909658
+      },
+      "location":4265,
+      "nameEN":"Green Park Weir",
+      "nameCY":"Cored Green Park",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4265",
+      "ngr":"SS7603589761",
+      "titleEn":"River Afan at Greenpark Weir",
+      "titleCy":"Afon Afan yng Nghored Green Park",
+      "parameters":[
+         {
+            "parameter":10072,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":3.716,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.833014,
+         "longitude":-3.9527407
+      },
+      "location":4266,
+      "nameEN":"Forge Bridge",
+      "nameCY":"Pont Forge",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4266",
+      "ngr":"SN6554416737",
+      "titleEn":"Loughor at Forge Bridge",
+      "titleCy":"Llwchwr ym Mhont Forge",
+      "parameters":[
+         {
+            "parameter":10073,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.320,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.483186,
+         "longitude":-3.9826098
+      },
+      "location":4267,
+      "nameEN":"Tal y Bont Leri",
+      "nameCY":"Tal y Bont Leri",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4267",
+      "ngr":"SN6546389100",
+      "titleEn":"Leri at Tal y Bont",
+      "titleCy":"Leri yn Nhal y Bont",
+      "parameters":[
+         {
+            "parameter":10074,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.536,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.697373,
+         "longitude":-4.1666203
+      },
+      "location":4268,
+      "nameEN":"Trebeddrod",
+      "nameCY":"Trebeddrod",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4268",
+      "ngr":"SN5036002070",
+      "titleEn":"Trebeddrod Reservoir Level",
+      "titleCy":"Trebeddrod Cronfa Ddwr Lefel",
+      "parameters":[
+         {
+            "parameter":10075,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.000,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.747541,
+         "longitude":-3.6166175
+      },
+      "location":4269,
+      "nameEN":"Glynneath",
+      "nameCY":"Glyn-nedd",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4269",
+      "ngr":"SN8849206664",
+      "titleEn":"River Neath at Glynneath",
+      "titleCy":"Afon Nedd yng Nglyn-nedd",
+      "parameters":[
+         {
+            "parameter":10076,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.187,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.820865,
+         "longitude":-4.0051343
+      },
+      "location":4270,
+      "nameEN":"Llandybie",
+      "nameCY":"Llandybie",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4270",
+      "ngr":"SN6189715484",
+      "titleEn":"River Marlas at Llandybie",
+      "titleCy":"Afon Marlas yn Llandybie",
+      "parameters":[
+         {
+            "parameter":10081,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.329,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.772413,
+         "longitude":-3.7611148
+      },
+      "location":4271,
+      "nameEN":"Ystradgynlais",
+      "nameCY":"Ystradgynlais",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4271",
+      "ngr":"SN7858409661",
+      "titleEn":"Tawe at Ystradgynlais",
+      "titleCy":"Afon Tawe yn Ystradgynlais",
+      "parameters":[
+         {
+            "parameter":10077,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.873,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.697865,
+         "longitude":-4.0812204
+      },
+      "location":4272,
+      "nameEN":"Llangennech",
+      "nameCY":"Llangennech",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4272",
+      "ngr":"SN5626301953",
+      "titleEn":"River Morlais at Llangennech",
+      "titleCy":"Afon Morlais yn Llangennech",
+      "parameters":[
+         {
+            "parameter":10078,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.546,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.689352,
+         "longitude":-4.189358
+      },
+      "location":4273,
+      "nameEN":"Stradey Home Farm",
+      "nameCY":"Fferm garter y Strade ",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4273",
+      "ngr":"SN4876201225",
+      "titleEn":"Dulais at Stradey Home Farm",
+      "titleCy":"Dulais yn Fferm Gartre'r Strade",
+      "parameters":[
+         {
+            "parameter":10079,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.387,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.799216,
+         "longitude":-4.5313643
+      },
+      "location":4274,
+      "nameEN":"Llanddowror",
+      "nameCY":"Llanddowror",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4274",
+      "ngr":"SN2554914206",
+      "titleEn":"Llanddowror Brook at Llanddowror",
+      "titleCy":"Nant Llanddowror yn Llanddowror",
+      "parameters":[
+         {
+            "parameter":10080,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.325,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.410578,
+         "longitude":-3.4597878
+      },
+      "location":4275,
+      "nameEN":"Llanmaes",
+      "nameCY":"Llanmaes",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4275",
+      "ngr":"SS9857068962",
+      "titleEn":"Llanmaes Brook at Llanmaes",
+      "titleCy":"Nant Llanmaes yn Llanmaes",
+      "parameters":[
+         {
+            "parameter":10082,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.797,
+            "latestTime":"2020-10-06T20:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.809104,
+         "longitude":-3.4960723
+      },
+      "location":4276,
+      "nameEN":"Esgair Carnau",
+      "nameCY":"Esgair Carnau",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4276",
+      "ngr":"SN9695413333",
+      "titleEn":"River Hepste at Esgair Carnau",
+      "titleCy":"Afon Hepste yn Esgair Carnau",
+      "parameters":[
+         {
+            "parameter":10083,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.403,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.416653,
+         "longitude":-3.4780151
+      },
+      "location":4277,
+      "nameEN":"Frampton Court",
+      "nameCY":"Frampton Court",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4277",
+      "ngr":"SS9731669663",
+      "titleEn":"Llanmaes Brook at Frampton Court",
+      "titleCy":"Nant Llanmaes yn Frampton Court",
+      "parameters":[
+         {
+            "parameter":10084,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.544,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.664085,
+         "longitude":-3.9056726
+      },
+      "location":4278,
+      "nameEN":"Clarion Close",
+      "nameCY":"Clarion Close",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4278",
+      "ngr":"SS6829697865",
+      "titleEn":"Nant y Fendrod at Clarion Close",
+      "titleCy":"Nant y Fendrod yn Clarion Close",
+      "parameters":[
+         {
+            "parameter":10085,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.556,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.685948,
+         "longitude":-4.1920149
+      },
+      "location":4279,
+      "nameEN":"Bassett Terrace",
+      "nameCY":"Teras Bassett",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4279",
+      "ngr":"SN4856700852",
+      "titleEn":"Dulais at Bassett Terrace",
+      "titleCy":"Afon Dulais yn Teras Bassett",
+      "parameters":[
+         {
+            "parameter":10086,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.738,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.484462,
+         "longitude":-3.9826378
+      },
+      "location":4280,
+      "nameEN":"Tal y Bont Ceulan",
+      "nameCY":"Tal y Bont Ceulan",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4280",
+      "ngr":"SN6546589242",
+      "titleEn":"Ceulan at Tal y Bont",
+      "titleCy":"Ceulan yn Nhal y Bont",
+      "parameters":[
+         {
+            "parameter":10087,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.320,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.947783,
+         "longitude":-3.6893316
+      },
+      "location":4281,
+      "nameEN":"Usk Reservoir",
+      "nameCY":"Cronfa Ddwr Wysg",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4281",
+      "ngr":"SN8398929047",
+      "titleEn":"Usk at Usk Reservoir",
+      "titleCy":"Afon Wysg wrth Gronfa Ddwr Wysg",
+      "parameters":[
+         {
+            "parameter":10088,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.161,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.790418,
+         "longitude":-3.434077
+      },
+      "location":4282,
+      "nameEN":"Llwynon Compensation Flume",
+      "nameCY":"Sianel Gydadferol Llwynon",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4282",
+      "ngr":"SO0118711169",
+      "titleEn":"Llwynon Compensation Flume",
+      "titleCy":"Sianel Gydadferol Llwynon",
+      "parameters":[
+         {
+            "parameter":10089,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":1.297,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.796014,
+         "longitude":-3.3635462
+      },
+      "location":4283,
+      "nameEN":"Pontsticill ",
+      "nameCY":"Pontsticill ",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4283",
+      "ngr":"SO0606311698",
+      "titleEn":"Pontsticill",
+      "titleCy":"Pontsticill",
+      "parameters":[
+         {
+            "parameter":10090,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.199,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.51308,
+         "longitude":-3.5717394
+      },
+      "location":4284,
+      "nameEN":"Springfield Gardens",
+      "nameCY":"Gerddi Springfield",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4284",
+      "ngr":"SS9102980522",
+      "titleEn":"Morfa Brook at Springfield Gardens",
+      "titleCy":"Nant y Morfa yn Gerddi Springfield",
+      "parameters":[
+         {
+            "parameter":10091,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":0.500,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.585289,
+         "longitude":-3.7746105
+      },
+      "location":4285,
+      "nameEN":"Westend",
+      "nameCY":"Westend",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4285",
+      "ngr":"SS7714788874",
+      "titleEn":"Ffrwdwyllt at Westend",
+      "titleCy":"Ffrwdwyllt yn Westend               ",
+      "parameters":[
+         {
+            "parameter":10092,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.657,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.948274,
+         "longitude":-3.3951515
+      },
+      "location":4286,
+      "nameEN":"Brecon Promenade",
+      "nameCY":"Promenâd Aberhonddu",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4286",
+      "ngr":"SO0420828673",
+      "titleEn":"River Usk at Brecon Promenade",
+      "titleCy":"Afon Wysg wrth Bromenâd Aberhonddu",
+      "parameters":[
+         {
+            "parameter":10093,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.886,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.518604,
+         "longitude":-4.0401846
+      },
+      "location":4287,
+      "nameEN":"Ynys Las",
+      "nameCY":"Ynys Las",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4287",
+      "ngr":"SN6166593148",
+      "titleEn":"Afon Leri at Ynys Las",
+      "titleCy":"Afon Leri yn Ynys Las",
+      "parameters":[
+         
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.804122,
+         "longitude":-4.9591693
+      },
+      "location":4288,
+      "nameEN":"Cartlett Brook",
+      "nameCY":"Cartlett Brook",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4288",
+      "ngr":"SM9607815863",
+      "titleEn":"Cartlett Brook at Cartlett (Haverfordwest)",
+      "titleCy":"Cartlett Brook yn Cartlett (Hwlffordd)",
+      "parameters":[
+         {
+            "parameter":10094,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":0.514,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4289,
+      "nameEN":"Clywedog Reservoir Level",
+      "nameCY":"Lefel Llyn Clywedog",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4289",
+      "ngr":"SN9125287076",
+      "titleEn":"Clywedog Reservoir Level",
+      "titleCy":"Lefel Llyn Clywedog",
+      "parameters":[
+         {
+            "parameter":10255,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Steady",
+            "parameterStatusCY":"Lefel Sefydlog",
+            "units":"m",
+            "latestValue":-2.285,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4291,
+      "nameEN":"Dwyran Braint",
+      "nameCY":"Dwyran Afon Braint",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4291",
+      "ngr":"SH4431565546",
+      "titleEn":"River Braint at Dwyran",
+      "titleCy":"Afon Braint ar Dwyran",
+      "parameters":[
+         {
+            "parameter":10256,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.174,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4292,
+      "nameEN":"Llangefni",
+      "nameCY":"Llangefni",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4292",
+      "ngr":"SH4548875758",
+      "titleEn":"Cefni at Llangefni",
+      "titleCy":"Afon Cefni at Llangefni",
+      "parameters":[
+         {
+            "parameter":10257,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":8.554,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4293,
+      "nameEN":"Cwm, Elm Street",
+      "nameCY":"Cwm,Stryd Elm",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4293",
+      "ngr":"SO1805905691",
+      "titleEn":"River Ebbw at Cwm, Elm Street",
+      "titleCy":"Afon Ebwy yn Cwm, Stryd Elm",
+      "parameters":[
+         {
+            "parameter":10258,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":0.352,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4294,
+      "nameEN":"Dwyran Rhyd Y Valley",
+      "nameCY":"Dwyran Rhyd-Y-Valley",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4294",
+      "ngr":"SH4538165669",
+      "titleEn":"Afon Rhyd Y Valley at Dwyran",
+      "titleCy":"Afon Rhyd-Y-Valley yn Nwyran",
+      "parameters":[
+         {
+            "parameter":10259,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"m",
+            "latestValue":2.480,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":0.0,
+         "longitude":0.0
+      },
+      "location":4295,
+      "nameEN":"Bowling Bank",
+      "nameCY":"Bowling Bank",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"4295",
+      "ngr":"SJ3958048249",
+      "titleEn":"River Clywedog at Bowling Bank",
+      "titleCy":"Afon Clwyedog yn Bowling Bank",
+      "parameters":[
+         {
+            "parameter":10260,
+            "paramNameEN":"River Level",
+            "paramNameCY":"Lefel yr afon",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"m",
+            "latestValue":1.182,
+            "latestTime":"2020-10-06T20:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.404931,
+         "longitude":-3.0135621
+      },
+      "location":70139,
+      "nameEN":"Liverpool",
+      "nameCY":"Liverpool",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"70139",
+      "ngr":"SJ3271490269",
+      "titleEn":"Liverpool tide gauge",
+      "titleCy":"Mesurydd llanw Lerpwl",
+      "parameters":[
+         {
+            "parameter":10250,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":-1.571,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.310472,
+         "longitude":-4.6284417
+      },
+      "location":70539,
+      "nameEN":"UKCMF HOLYHEAD TS",
+      "nameCY":"UKCMF HOLYHEAD TS",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"70539",
+      "ngr":"SH2498282504",
+      "titleEn":"UKCMF HOLYHEAD TS tide gauge",
+      "titleCy":"Mesurydd llanw Caergybi",
+      "parameters":[
+         {
+            "parameter":10248,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":0.092,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.210566,
+         "longitude":-4.1124861
+      },
+      "location":72439,
+      "nameEN":"Ilfracombe",
+      "nameCY":"Ilfracombe",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"72439",
+      "ngr":"SS5253947828",
+      "titleEn":"Ilfracombe tide gauge",
+      "titleCy":"Mesurydd llanw Ilfracombe",
+      "parameters":[
+         {
+            "parameter":10249,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"mAOD",
+            "latestValue":3.195,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.492687,
+         "longitude":-2.7565905
+      },
+      "location":72639,
+      "nameEN":"Avonmouth Portbury",
+      "nameCY":"Avonmouth Portbury",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"72639",
+      "ngr":"ST4757077354",
+      "titleEn":"Avonmouth Portbury tide gauge",
+      "titleCy":"Mesurydd llanw Avonmouth Portbury",
+      "parameters":[
+         {
+            "parameter":10245,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":5.441,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.453189,
+         "longitude":-3.159917
+      },
+      "location":72839,
+      "nameEN":"Newport",
+      "nameCY":"Newport",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"72839",
+      "ngr":"ST3162983920",
+      "titleEn":"Newport tide gauge",
+      "titleCy":"Mesurydd llanw Caesnewydd",
+      "parameters":[
+         {
+            "parameter":10254,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":5.197,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.569605,
+         "longitude":-3.9776775
+      },
+      "location":72939,
+      "nameEN":"Mumbles",
+      "nameCY":"Mumbles",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"72939",
+      "ngr":"SS6303287491",
+      "titleEn":"Mumbles tide gauge",
+      "titleCy":"Mesurydd llanw Mumbles",
+      "parameters":[
+         {
+            "parameter":10253,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"mAOD",
+            "latestValue":3.511,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":51.707031,
+         "longitude":-5.0523641
+      },
+      "location":73039,
+      "nameEN":"Milford Haven",
+      "nameCY":"Milford Haven",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"73039",
+      "ngr":"SM8920205333",
+      "titleEn":"Milford Haven tide gauge",
+      "titleCy":"Mesurydd llanw Aberdaugleddau",
+      "parameters":[
+         {
+            "parameter":10252,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Falling",
+            "parameterStatusCY":"Lefel cwympo",
+            "units":"mAOD",
+            "latestValue":2.535,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.006943,
+         "longitude":-4.9899699
+      },
+      "location":73139,
+      "nameEN":"Fishguard",
+      "nameCY":"Fishguard",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"73139",
+      "ngr":"SM9488238501",
+      "titleEn":"Fishguard tide gauge",
+      "titleCy":"Mesurydd llanw Abergwaun",
+      "parameters":[
+         {
+            "parameter":10247,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":2.033,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":52.719266,
+         "longitude":-4.0544707
+      },
+      "location":73239,
+      "nameEN":"Barmouth",
+      "nameCY":"Barmouth",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"73239",
+      "ngr":"SH6133215493",
+      "titleEn":"Barmouth tide gauge",
+      "titleCy":"Mesurydd llanw Abermaw",
+      "parameters":[
+         {
+            "parameter":10246,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":1.734,
+            "latestTime":"2020-10-06T21:15:00Z"
+         }
+      ]
+   },
+   {
+      "coordinates":{
+         "latitude":53.327233,
+         "longitude":-3.8300191
+      },
+      "location":73339,
+      "nameEN":"Llandudno",
+      "nameCY":"Llandudno",
+      "statusEN":"Online",
+      "statusCY":"Ar-lein",
+      "url":"73339",
+      "ngr":"SH7821782708",
+      "titleEn":"Llandudno tide gauge",
+      "titleCy":"Mesurydd llanw Llandudno",
+      "parameters":[
+         {
+            "parameter":10251,
+            "paramNameEN":"Tide Level",
+            "paramNameCY":"Lefel y Llanw",
+            "parameterStatusEN":"Level Rising",
+            "parameterStatusCY":"Lefel codi",
+            "units":"mAOD",
+            "latestValue":-1.359,
+            "latestTime":"2020-10-06T21:00:00Z"
+         }
+      ]
+   }
+]`

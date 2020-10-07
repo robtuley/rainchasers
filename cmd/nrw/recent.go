@@ -20,7 +20,7 @@ type customTime struct {
 	time.Time
 }
 
-const ctLayout = "02/01/2006 15:04"
+const ctLayout = time.RFC3339
 
 var nilTime = (time.Time{}).UnixNano()
 
@@ -45,21 +45,22 @@ func (ct *customTime) IsSet() bool {
 	return ct.UnixNano() != nilTime
 }
 
-type recentJSON struct {
-	Features []struct {
-		Properties struct {
-			ID          string     `json:"Location"`
-			LatestValue string     `json:"LatestValue"`
-			LatestTime  customTime `json:"LatestTime"`
-			Title       string     `json:"TitleEN"`
-			Units       string     `json:"Units"`
-			URL         string     `json:"url"`
-			NGR         string     `json:"NGR"`
-		} `json:"properties"`
-	} `json:"features"`
+type recentJSON []struct {
+	ID     int    `json:"location"`
+	Title  string `json:"titleEN"`
+	Coords struct {
+		Lat float32 `json:"latitude"`
+		Lng float32 `json:"longitude"`
+	} `json:"coordinates"`
+	Parameters []struct {
+		Name        string     `json:"paramNameEN"`
+		LatestValue float32    `json:"latestValue"`
+		LatestTime  customTime `json:"latestTime"`
+		Units       string     `json:"units"`
+	} `json:"parameters"`
 }
 
-const recentURL = "https://api.naturalresources.wales/riverlevels/v1/all"
+const recentURL = "https://api.naturalresources.wales/rivers-and-seas/v1/api/StationData"
 const recentKeyHeader = "Ocp-Apim-Subscription-Key"
 
 // Recent fetches recent NRW readings
@@ -113,28 +114,38 @@ func parseRecent(r io.Reader) ([]gauge.Snapshot, error) {
 		return snaps, err
 	}
 
-	for _, feature := range parsed.Features {
-		p := feature.Properties
-		station := gauge.Station{
-			DataURL:   "rloi://" + p.ID,
-			AliasURL:  "rloi://" + p.ID,
-			HumanURL:  p.URL,
-			Name:      p.Title,
-			RiverName: "",  // not available
-			Lat:       0.0, // TODO from NGR
-			Lg:        0.0, // TODO from NGR
-			Type:      "level",
-			Unit:      p.Units,
+	for _, feature := range parsed {
+		if len(feature.Parameters) != 1 {
+			continue
+		}
+		parameters := feature.Parameters[0]
+		rtoi := strconv.Itoa(feature.ID)
+
+		var stationType string
+		switch parameters.Name {
+		case "Rainfall":
+			stationType = "rainfall"
+		case "River Level":
+			stationType = "level"
+		default:
+			continue
 		}
 
-		f64, err := strconv.ParseFloat(p.LatestValue, 32)
-		if err != nil {
-			return snaps, err
+		station := gauge.Station{
+			DataURL:   "rloi://" + rtoi,
+			AliasURL:  "rloi://" + rtoi,
+			HumanURL:  "https://rloi.naturalresources.wales/ViewDetails?station=" + rtoi,
+			Name:      feature.Title,
+			RiverName: "", // not available
+			Lat:       feature.Coords.Lat,
+			Lg:        feature.Coords.Lng,
+			Type:      stationType,
+			Unit:      parameters.Units,
 		}
 
 		reading := gauge.Reading{
-			EventTime: p.LatestTime.Time,
-			Value:     float32(f64),
+			EventTime: parameters.LatestTime.Time,
+			Value:     parameters.LatestValue,
 		}
 
 		snaps = append(snaps, gauge.Snapshot{
