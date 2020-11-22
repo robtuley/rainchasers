@@ -25,8 +25,12 @@ jobs:
       - name: Run tests
         run: go test -race ./...
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Build ea
-        run: go build -ldflags "-s -w -X main.build=${{ GITHUB_SHA }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
+        run: go build -ldflags "-s -w -X main.build=${{ steps.get_version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
 
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
