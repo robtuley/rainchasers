@@ -22,9 +22,6 @@ jobs:
       - name: Generate code
         run: go generate ./...
 
-      - name: Run tests
-        run: go test -race ./...
-
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
@@ -39,6 +36,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          context: .
           push: true
           tags: "ea:${{ steps.get_version.outputs.VERSION }}"
 
