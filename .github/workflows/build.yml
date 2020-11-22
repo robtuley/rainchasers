@@ -40,7 +40,6 @@ jobs:
         run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
 
       - name: Build and push ea
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -53,7 +52,6 @@ jobs:
         run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/sepa
 
       - name: Build and push sepa
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -66,7 +64,6 @@ jobs:
         run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/nrw
 
       - name: Build and push nrw
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -79,7 +76,6 @@ jobs:
         run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/store
 
       - name: Build and push store
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
