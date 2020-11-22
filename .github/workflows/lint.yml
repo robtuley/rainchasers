@@ -5,6 +5,8 @@ on:
       - "**.go"
       - go.mod
       - go.sum
+    tags-ignore:
+      - '**'
   pull_request:
     paths:
       - "**.go"

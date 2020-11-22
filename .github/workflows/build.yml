@@ -32,11 +32,10 @@ jobs:
       - name: Build ea
         run: go build -ldflags "-s -w -X main.build=${{ steps.get_version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
 
-      - name: Push to GitHub Packages
-        uses: docker/build-push-action@v1
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: robtuley/rainchasers-content/ea
-          tag_with_ref: true
+          push: true
+          tags: [ea:latest, "ea:${{ steps.get_version.outputs.VERSION }}"]
+
