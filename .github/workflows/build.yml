@@ -37,5 +37,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: [ea:latest, "ea:${{ steps.get_version.outputs.VERSION }}"]
+          tags: "ea:${{ steps.get_version.outputs.VERSION }}"
 
