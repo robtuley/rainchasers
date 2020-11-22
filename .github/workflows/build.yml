@@ -23,7 +23,7 @@ jobs:
         run: go generate ./...
 
       - name: Get the version
-        id: get_version
+        id: version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Set up Docker Buildx
@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build ea
-        run: go build -ldflags "-s -w -X main.build=${{ steps.get_version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
+        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
 
       - name: Build and push
         id: docker_build
@@ -45,5 +45,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: "ghcr.io/${{ github.repository_owner }}/rainchasers-ea:${{ steps.get_version.outputs.VERSION }}"
+          tags: "ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}"
 
