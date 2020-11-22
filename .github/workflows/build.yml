@@ -45,5 +45,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: "ghcr.io/${{ github.repository }}:${{ steps.version.outputs.VERSION }}"
+          tags: "ghcr.io/${{ github.repository }}/ea:${{ steps.version.outputs.VERSION }}"
 
