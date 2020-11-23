@@ -44,5 +44,9 @@ func serveTemplate(w http.ResponseWriter, r *http.Request) {
 		sectionT.ExecuteTemplate(w, "section", s)
 		return
 	}
+	if r.URL.Path != "/" {
+		http.Redirect(w, r, "/", 302)
+		return
+	}
 	sectionT.ExecuteTemplate(w, "home", content.Sections)
 }
