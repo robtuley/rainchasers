@@ -7,7 +7,23 @@ import (
 	"text/template"
 
 	"github.com/rainchasers/content"
+	"github.com/rainchasers/content/internal/river"
 )
+
+var sectionT *template.Template
+var sectionM map[string]river.Section
+
+func init() {
+	f1 := filepath.Join("static", "section.html")
+	f2 := filepath.Join("static", "badges.html")
+	f3 := filepath.Join("static", "home.html")
+	sectionT = template.Must(template.ParseFiles(f1, f2, f3))
+
+	sectionM = make(map[string]river.Section, len(content.Sections))
+	for _, s := range content.Sections {
+		sectionM["/"+s.Slug] = s
+	}
+}
 
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
@@ -23,9 +39,10 @@ func main() {
 }
 
 func serveTemplate(w http.ResponseWriter, r *http.Request) {
-	s := filepath.Join("static", "section.html")
-	f := filepath.Join("static", "footer.html")
-	tmpl := template.Must(template.ParseFiles(s, f))
-
-	tmpl.ExecuteTemplate(w, "section", content.Sections[0])
+	s, exists := sectionM[r.URL.Path]
+	if exists {
+		sectionT.ExecuteTemplate(w, "section", s)
+		return
+	}
+	sectionT.ExecuteTemplate(w, "home", content.Sections)
 }

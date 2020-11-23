@@ -1,5 +1,4 @@
-{{define "section"}}
-<!doctype html>
+{{define "section"}}<!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -21,7 +20,22 @@
   </p>
   <p>{{.Directions}}</p>
 
-  {{template "footer"}}
+  <h2>Install the App</h2>
+
+  <p>Rainchasers is best experienced as an app.</p>
+
+  {{template "badges"}}
+
+  <hr>
+
+  <footer>
+  <ul>
+    <li>Know better? Please 
+        <a href=https://github.com/robtuley/rainchasers/issues/new>
+            raise an 'issue' to explain</a>.</li>
+    <li>Find <a href="/river-levels">other river sections</a>.</li>
+  </ul>
+  </footer>
 
 </body>
 </html>

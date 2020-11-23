@@ -1,0 +1,34 @@
+{{define "home"}}<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rainchasers UK Whitewater Kayaking</title>
+  <link rel=stylesheet href="/s/main.css">
+  <meta name=viewport content="width=device-width,initial-scale=1.0">
+</head>
+<body>
+
+  <h2>Rainchasers</h2>
+
+  <p>A collection of kayaking or canoeing whitewater adventures in the UK to 
+     browse, search, and favourite in the hope of weekend rain. Gauge levels 
+     calibrated to the specific runs are included to allow you to judge the 
+     likely paddling conditions.</p>
+
+  {{template "badges"}}
+
+  <img src="/s/app.png" alt="Rainchasers app on a phone">
+
+  <h2>Currently Includes...</h2>
+
+  <ul>
+    {{range .}}
+    <li>
+      <a href="/{{.Slug}}">{{.SectionName}} ({{.RiverName}})</a>
+    </li>
+    {{end}}
+  </ul>
+
+</body>
+</html>
+{{end}}
