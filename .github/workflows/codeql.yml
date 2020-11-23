@@ -2,6 +2,10 @@ name: Code Scanning
 
 on:
   push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
   schedule:
     - cron: "0 0 * * 0"
 
