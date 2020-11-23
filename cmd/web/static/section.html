@@ -3,12 +3,19 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{{.RiverName}} ({{.SectionName}})</title>
+  <title>{{.RiverName}} - {{.SectionName}}</title>
   <link rel="stylesheet" href="/s/main.css">
 </head>
 <body>
-  <h1>{{.RiverName}} ({{.SectionName}})</h1>
-  <footer>This is the footer</footer>
+
+  <h2>{{.SectionName}}</h2>
+
+  <h3>{{.KM}}km of grade {{.Grade.Human}} on the river {{.RiverName}}</h3>
+  <p>{{.Description}}</p>
+
+  <h3>Getting There</h3>
+  <p>{{.Directions}}</p>
+
 </body>
 </html>
 {{end}}

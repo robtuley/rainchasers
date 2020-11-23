@@ -3,5 +3,6 @@ cmd/ea/ea
 cmd/sepa/sepa
 cmd/nrw/nrw
 cmd/store/store
+cmd/web/web
 app
 rivers.go
