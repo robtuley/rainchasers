@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{{.RiverName}} - {{.SectionName}}</title>
+  <title>{{.RiverName}} · {{.SectionName}}</title>
   <link rel="stylesheet" href="/s/main.css">
 </head>
 <body>
@@ -14,6 +14,10 @@
   <p>{{.Description}}</p>
 
   <h3>Getting There</h3>
+  <p>
+    <a href="https://www.google.com/maps/search/?api=1&query={{.Putin.Lat}},{{.Putin.Lng}}">Putin</a> ·
+    <a href="https://www.google.com/maps/search/?api=1&query={{.Takeout.Lat}},{{.Takeout.Lng}}">Takeout</a>
+  </p>
   <p>{{.Directions}}</p>
 
 </body>
