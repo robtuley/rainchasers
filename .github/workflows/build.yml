@@ -83,3 +83,16 @@ jobs:
           tags: |
             "ghcr.io/${{ github.repository }}/store:${{ steps.version.outputs.VERSION }}"
             "ghcr.io/${{ github.repository }}/store:latest"
+
+      - name: Build web
+        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/web
+
+      - name: Build and push web
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          file: ./Dockerfile-web
+          tags: |
+            "ghcr.io/${{ github.repository }}/web:${{ steps.version.outputs.VERSION }}"
+            "ghcr.io/${{ github.repository }}/web:latest"
