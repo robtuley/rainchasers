@@ -23,8 +23,9 @@ func main() {
 }
 
 func serveTemplate(w http.ResponseWriter, r *http.Request) {
-	fp := filepath.Join("static", "section.html")
-	tmpl := template.Must(template.ParseFiles(fp))
+	s := filepath.Join("static", "section.html")
+	f := filepath.Join("static", "footer.html")
+	tmpl := template.Must(template.ParseFiles(s, f))
 
 	tmpl.ExecuteTemplate(w, "section", content.Sections[0])
 }
