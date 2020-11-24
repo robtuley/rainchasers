@@ -18,7 +18,7 @@ spec:
             secretName: service-accn-key
       containers:
         - name: ea
-          image: eu.gcr.io/rainchasers/gauge/ea:latest
+          image: ghcr.io/robtuley/rainchasers/ea:latest
           volumeMounts:
             - name: google-cloud-key
               mountPath: /var/secrets/google
