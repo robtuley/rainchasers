@@ -15,8 +15,11 @@ const port = ":8080"
 
 var sectionT *template.Template
 var sectionM map[string]river.Section
+var logger *report.Logger
 
 func init() {
+	logger = daemon.NewLogger("web")
+
 	f1 := filepath.Join("static", "section.html")
 	f2 := filepath.Join("static", "badges.html")
 	f3 := filepath.Join("static", "home.html")
@@ -29,33 +32,51 @@ func init() {
 }
 
 func main() {
-	logger := daemon.NewLogger("web")
-
+	// setup routes
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/s/", http.StripPrefix("/s/", fs))
-
+	http.Handle("/favicon.ico", http.NotFoundHandler())
 	http.HandleFunc("/", serveTemplate)
 
-	logger.Info("server.start", report.Data{
+	// start server
+	logger.Info("http.start", report.Data{
 		"port": port,
 	})
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		logger.Action("server.error", report.Data{
+		logger.Action("http.stop", report.Data{
 			"error": err.Error(),
 		})
 	}
 }
 
 func serveTemplate(w http.ResponseWriter, r *http.Request) {
+	// try to serve a section
 	s, exists := sectionM[r.URL.Path]
 	if exists {
+		logger.Info("http.response", report.Data{
+			"status":  200,
+			"path":    r.URL.Path,
+			"section": s.UUID,
+		})
 		sectionT.ExecuteTemplate(w, "section", s)
 		return
 	}
+
+	// redirect to home
 	if r.URL.Path != "/" {
+		logger.Info("http.response", report.Data{
+			"status": 302,
+			"path":   r.URL.Path,
+		})
 		http.Redirect(w, r, "/", 302)
 		return
 	}
+
+	// serve homepage
+	logger.Info("http.response", report.Data{
+		"status": 200,
+		"path":   r.URL.Path,
+	})
 	sectionT.ExecuteTemplate(w, "home", rainchasers.Sections)
 }
