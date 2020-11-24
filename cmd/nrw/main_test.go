@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rainchasers/content/internal/daemon"
+	"github.com/robtuley/rainchasers/internal/daemon"
 	"go.uber.org/goleak"
 )
 

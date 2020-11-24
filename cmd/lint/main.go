@@ -6,16 +6,16 @@ import (
 	"strconv"
 
 	"github.com/algolia/algoliasearch-client-go/algoliasearch"
-	"github.com/rainchasers/content"
-	"github.com/rainchasers/content/internal/river"
+	"github.com/robtuley/rainchasers"
+	"github.com/robtuley/rainchasers/internal/river"
 )
 
 func main() {
 	r := &result{}
 
 sectionLoop:
-	for _, s := range content.Sections {
-		cals, _ := content.Calibrations[s.UUID]
+	for _, s := range rainchasers.Sections {
+		cals, _ := rainchasers.Calibrations[s.UUID]
 		r.AddToStats(s, cals)
 
 		if len(cals) == 0 {

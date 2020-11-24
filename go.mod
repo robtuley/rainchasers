@@ -1,4 +1,4 @@
-module github.com/rainchasers/content
+module github.com/robtuley/rainchasers
 
 go 1.15
 
@@ -8,7 +8,7 @@ require (
 	cloud.google.com/go/pubsub v1.3.1
 	github.com/algolia/algoliasearch-client-go v2.25.0+incompatible
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/rainchasers/report v0.0.0-20190320170759-ac9d157ad87e
+	github.com/robtuley/report v1.0.0
 	github.com/thingful/osgridconverter v0.0.0-20170127114542-06789ac2e515
 	go.uber.org/goleak v0.10.0
 	golang.org/x/tools v0.0.0-20200918232735-d647fc253266 // indirect

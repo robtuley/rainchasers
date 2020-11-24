@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/rainchasers/content/internal/gauge"
+	"github.com/robtuley/rainchasers/internal/gauge"
 )
 
 func TestRecentReadings(t *testing.T) {

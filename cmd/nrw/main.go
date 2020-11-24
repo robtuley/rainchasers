@@ -6,10 +6,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/content/internal/daemon"
-	"github.com/rainchasers/content/internal/gauge"
-	"github.com/rainchasers/content/internal/queue"
-	"github.com/rainchasers/report"
+	"github.com/robtuley/rainchasers/internal/daemon"
+	"github.com/robtuley/rainchasers/internal/gauge"
+	"github.com/robtuley/rainchasers/internal/queue"
+	"github.com/robtuley/report"
 )
 
 // Responds to environment variables:

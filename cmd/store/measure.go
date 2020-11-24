@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/rainchasers/content/internal/gauge"
-	"github.com/rainchasers/content/internal/river"
+	"github.com/robtuley/rainchasers/internal/gauge"
+	"github.com/robtuley/rainchasers/internal/river"
 )
 
 type readingSorter []gauge.Reading

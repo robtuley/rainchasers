@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	httpUserAgent     = "Rainchaser Bot <hello@rainchasers.com>"
+	httpUserAgent     = "Rainchaser Bot <rob@openknot.com>"
 	httpDefaultClient = &http.Client{
 		Timeout: time.Second * 60,
 	}

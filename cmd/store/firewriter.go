@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"github.com/rainchasers/content/internal/river"
-	"github.com/rainchasers/report"
+	"github.com/robtuley/rainchasers/internal/river"
+	"github.com/robtuley/report"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

@@ -4,14 +4,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/report"
+	"github.com/robtuley/report"
 )
 
-// Responds to following env vars:
+// NewLogger creates a logger for the supervisor or other actions
+//
+// The logger expects the following env variables:
 //   HONEYCOMB_API_KEY (no default, blank to skip honeycomb integration)
 //   NODE_NAME (no default, name of k8s node for logging)
 //   POD_NAME (no default, name of k8s pod for logging)
-func createLogger(name string) *report.Logger {
+func NewLogger(name string) *report.Logger {
 	honeycombKey := os.Getenv("HONEYCOMB_API_KEY")
 	nodeName := os.Getenv("NODE_NAME")
 	podName := os.Getenv("POD_NAME")

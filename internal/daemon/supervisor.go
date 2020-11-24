@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/rainchasers/report"
+	"github.com/robtuley/report"
 )
 
 // Supervisor is a supervised instance of a running daemon
@@ -22,7 +22,7 @@ type Supervisor struct {
 // New creates a new daemon
 func New(name string) *Supervisor {
 	s := &Supervisor{
-		Logger: createLogger(name),
+		Logger: NewLogger(name),
 		doneC:  make(chan struct{}),
 	}
 

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rainchasers/content/internal/gauge"
-	"github.com/rainchasers/report"
+	"github.com/robtuley/rainchasers/internal/gauge"
+	"github.com/robtuley/report"
 )
 
 type customTime struct {

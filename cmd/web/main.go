@@ -1,14 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"path/filepath"
 	"text/template"
 
-	"github.com/rainchasers/content"
-	"github.com/rainchasers/content/internal/river"
+	"github.com/robtuley/rainchasers"
+	"github.com/robtuley/rainchasers/internal/daemon"
+	"github.com/robtuley/rainchasers/internal/river"
+	"github.com/robtuley/report"
 )
+
+const port = ":8080"
 
 var sectionT *template.Template
 var sectionM map[string]river.Section
@@ -19,22 +22,28 @@ func init() {
 	f3 := filepath.Join("static", "home.html")
 	sectionT = template.Must(template.ParseFiles(f1, f2, f3))
 
-	sectionM = make(map[string]river.Section, len(content.Sections))
-	for _, s := range content.Sections {
+	sectionM = make(map[string]river.Section, len(rainchasers.Sections))
+	for _, s := range rainchasers.Sections {
 		sectionM["/"+s.Slug] = s
 	}
 }
 
 func main() {
+	logger := daemon.NewLogger("web")
+
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/s/", http.StripPrefix("/s/", fs))
 
 	http.HandleFunc("/", serveTemplate)
 
-	fmt.Println("Listening on :3000...")
-	err := http.ListenAndServe(":3000", nil)
+	logger.Info("server.start", report.Data{
+		"port": port,
+	})
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		fmt.Println("ERROR: ", err)
+		logger.Action("server.error", report.Data{
+			"error": err.Error(),
+		})
 	}
 }
 
@@ -48,5 +57,5 @@ func serveTemplate(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", 302)
 		return
 	}
-	sectionT.ExecuteTemplate(w, "home", content.Sections)
+	sectionT.ExecuteTemplate(w, "home", rainchasers.Sections)
 }

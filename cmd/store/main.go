@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/rainchasers/content"
-	"github.com/rainchasers/content/internal/daemon"
-	"github.com/rainchasers/content/internal/gauge"
-	"github.com/rainchasers/content/internal/queue"
-	"github.com/rainchasers/content/internal/river"
-	"github.com/rainchasers/report"
+	"github.com/robtuley/rainchasers"
+	"github.com/robtuley/rainchasers/internal/daemon"
+	"github.com/robtuley/rainchasers/internal/gauge"
+	"github.com/robtuley/rainchasers/internal/queue"
+	"github.com/robtuley/rainchasers/internal/river"
+	"github.com/robtuley/report"
 )
 
 func main() {
@@ -71,7 +71,7 @@ func (c *cache) Init(ctx context.Context, d *daemon.Supervisor) error {
 	ticker := time.NewTicker(50 * time.Millisecond)
 	defer ticker.Stop()
 updateLoop:
-	for _, s := range content.Sections {
+	for _, s := range rainchasers.Sections {
 		// get firestore info for the section
 		// (& update if necessary and in algolia if changed)
 		hasChanged, record, span := c.FireWriter.LoadAndUpdate(ctx, s)
@@ -86,7 +86,7 @@ updateLoop:
 
 		// if calibration exists then launch goroutine
 		// to listen to snapshots and update river
-		calibrations, isCalibrated := content.Calibrations[s.UUID]
+		calibrations, isCalibrated := rainchasers.Calibrations[s.UUID]
 		if isCalibrated {
 			ch := make(chan *gauge.Snapshot)
 

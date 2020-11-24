@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/algolia/algoliasearch-client-go/algoliasearch"
-	"github.com/rainchasers/content/internal/gauge"
-	"github.com/rainchasers/report"
+	"github.com/robtuley/rainchasers/internal/gauge"
+	"github.com/robtuley/report"
 )
 
 // AlgoliaWriter handles algolia writes
