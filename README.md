@@ -52,7 +52,7 @@ Following [this process to allow access to pub/sub from the deamons](https://clo
 The k8s cluster needs the Honeycomb API key in a secrets store:
 
     kubectl create secret generic -n default honeycomb-writekey \
-    --from-literal=key=<your API Key>
+      --from-literal=key=<your API Key>
 
 Daemons will post events to Honeycomb alongside JSON structured logs to Stdout.
 
@@ -61,12 +61,12 @@ Daemons will post events to Honeycomb alongside JSON structured logs to Stdout.
 The `firestore` daemon persists the river state infomation to Algolia SAAS search service
 and this requires algolia credentials:
 
-kubectl create secret generic -n default algolia-writekey \
- --from-literal=id=<app ID> --from-literal=key=<admin API key>
+    kubectl create secret generic -n default algolia-writekey \
+      --from-literal=id=<app ID> --from-literal=key=<admin API key>
 
 ### GKE
 
-Create the k8s deployments:
+The service is designed to be deployed to a Google Cloud k8s cluster.
 
     # setup kubectl access
     gcloud config set project rainchasers
@@ -74,7 +74,13 @@ Create the k8s deployments:
     gcloud container clusters get-credentials prod
 
     # create the deployments
-    kubectl create -f ./cmd/ea/deployment.yaml
-    kubectl create -f ./cmd/nrw/deployment.yaml
-    kubectl create -f ./cmd/sepa/deployment.yaml
-    kubectl create -f ./cmd/store/deployment.yaml
+    kubectl apply -f ./cmd/ea/deployment.yaml
+    kubectl apply -f ./cmd/nrw/deployment.yaml
+    kubectl apply -f ./cmd/sepa/deployment.yaml
+    kubectl apply -f ./cmd/store/deployment.yaml
+    kubectl apply -f ./cmd/web/deployment.yaml
+    kubectl apply -f ./cmd/web/service.yaml
+    
+    # view the web IP
+    kubectl get service com-rainchasers --output yaml
+
