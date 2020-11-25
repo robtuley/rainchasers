@@ -1,7 +1,0 @@
-FROM scratch
-
-# requires statically linked go binary
-COPY ./app /app
-COPY ./cmd/web/static /static
-
-ENTRYPOINT ["/app"]

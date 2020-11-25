@@ -9,5 +9,6 @@ COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifica
 
 # requires statically linked go binary
 COPY ./app /app
+COPY ./static /static
 
 ENTRYPOINT ["/app"]
