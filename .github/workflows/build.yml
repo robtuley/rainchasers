@@ -4,8 +4,11 @@ on:
     types: [published]
     
 jobs:
-  push_to_registry:
-    name: Push Docker image to GitHub Packages
+  build_and_push:
+    name: Build then push to GitHub registry
+    strategy:
+      matrix:
+        cmd: [ea, sepa, nrw, store, web]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.15
@@ -36,63 +39,14 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build ea
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/ea
+      - name: Build cmd
+        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/${{ matrix.cmd }}
 
-      - name: Build and push ea
+      - name: Build and push to registry
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           tags: |
-            "ghcr.io/${{ github.repository }}/ea:${{ steps.version.outputs.VERSION }}"
-            "ghcr.io/${{ github.repository }}/ea:latest"
-
-      - name: Build sepa
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/sepa
-
-      - name: Build and push sepa
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-            "ghcr.io/${{ github.repository }}/sepa:${{ steps.version.outputs.VERSION }}"
-            "ghcr.io/${{ github.repository }}/sepa:latest"
-
-      - name: Build nrw
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/nrw
-
-      - name: Build and push nrw
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-            "ghcr.io/${{ github.repository }}/nrw:${{ steps.version.outputs.VERSION }}"
-            "ghcr.io/${{ github.repository }}/nrw:latest"
-
-      - name: Build store
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/store
-
-      - name: Build and push store
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-            "ghcr.io/${{ github.repository }}/store:${{ steps.version.outputs.VERSION }}"
-            "ghcr.io/${{ github.repository }}/store:latest"
-
-      - name: Build web
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/web
-
-      - name: Build and push web
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          file: ./Dockerfile-web
-          tags: |
-            "ghcr.io/${{ github.repository }}/web:${{ steps.version.outputs.VERSION }}"
-            "ghcr.io/${{ github.repository }}/web:latest"
+            "ghcr.io/${{ github.repository }}/${{ matrix.cmd }}:${{ steps.version.outputs.VERSION }}"
+            "ghcr.io/${{ github.repository }}/${{ matrix.cmd }}:latest"
