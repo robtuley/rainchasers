@@ -16,6 +16,12 @@ const port = ":8080"
 var sectionT *template.Template
 var sectionM map[string]river.Section
 var logger *report.Logger
+var version string
+
+type homePage struct {
+	Version  string
+	Sections []river.Section
+}
 
 func init() {
 	logger = daemon.NewLogger("web")
@@ -40,12 +46,14 @@ func main() {
 
 	// start server
 	logger.Info("http.start", report.Data{
-		"port": port,
+		"version": version,
+		"port":    port,
 	})
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		logger.Action("http.stop", report.Data{
-			"error": err.Error(),
+			"version": version,
+			"error":   err.Error(),
 		})
 	}
 }
@@ -78,5 +86,8 @@ func serveTemplate(w http.ResponseWriter, r *http.Request) {
 		"status": 200,
 		"path":   r.URL.Path,
 	})
-	sectionT.ExecuteTemplate(w, "home", rainchasers.Sections)
+	sectionT.ExecuteTemplate(w, "home", homePage{
+		Version:  version,
+		Sections: rainchasers.Sections,
+	})
 }

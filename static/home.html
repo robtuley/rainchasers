@@ -22,13 +22,14 @@
   <h2>Currently Includes...</h2>
 
   <ul>
-    {{range .}}
+    {{range .Sections}}
     <li>
       <a href="/{{.Slug}}">{{.SectionName}} ({{.RiverName}})</a>
     </li>
     {{end}}
   </ul>
 
+  <p>{{.Version}}</p>
 </body>
 </html>
 {{end}}

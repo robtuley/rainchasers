@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build cmd
-        run: go build -ldflags "-s -w -X main.build=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/${{ matrix.cmd }}
+        run: go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/${{ matrix.cmd }}
 
       - name: Build and push to registry
         uses: docker/build-push-action@v2

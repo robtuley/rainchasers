@@ -1,5 +1,5 @@
 COMMIT_HASH=$(shell git rev-parse HEAD)
-GO_BUILD=go build -ldflags "-s -w -X main.build=$(COMMIT_HASH)" -a -installsuffix netgo -tags netgo -o ./app
+GO_BUILD=go build -ldflags "-s -w -X main.version=$(COMMIT_HASH)" -a -installsuffix netgo -tags netgo -o ./app
 
 eaday: test
 	CGO_ENABLED=0 $(GO_BUILD) ./cmd/eaday
