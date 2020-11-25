@@ -18,6 +18,9 @@ jobs:
         id: version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
+      - name: Log the version
+        run: echo ${{ steps.version.outputs.VERSION }}
+
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -31,5 +34,8 @@ jobs:
       - name: Get GKE credentials
         run: gcloud container clusters get-credentials ${{ secrets.GCP_CLUSTER }} --zone ${{ secrets.GCP_ZONE }}
 
-      - name: Test kubectl
-        run: kubectl get pods
+      - name: Update deployment image
+        run: "kubectl set image deployment/${{ matrix.cmd }} ${{ matrix.cmd }}=ghcr.io/robtuley/rainchasers/${{ matrix.cmd }}:${{ steps.version.outputs.VERSION }}"
+
+      - name: Check rollout status
+        run: kubectl rollout status deployment/${{ matrix.cmd }}
