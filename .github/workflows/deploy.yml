@@ -1,0 +1,21 @@
+name: Deploy to GKE
+
+on: 
+  workflow_run:
+    workflows: ["Build"]
+    types: 
+      - completed'
+
+env:
+  PROJECT_ID: rainchasers
+  GKE_CLUSTER: prod
+  GKE_ZONE: europe-west2-b
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
