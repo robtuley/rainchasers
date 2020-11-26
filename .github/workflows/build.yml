@@ -5,7 +5,7 @@ on:
     
 jobs:
   build_and_push:
-    name: Build then push to GitHub registry
+    name: "Build > Push > Deploy"
     strategy:
       matrix:
         cmd: [ea, sepa, nrw, store, web]
