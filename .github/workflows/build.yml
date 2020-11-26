@@ -41,6 +41,8 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build cmd
+        env:
+          CGO_ENABLED: 0
         run: go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -a -installsuffix netgo -tags netgo -o ./app ./cmd/${{ matrix.cmd }}
 
       - name: Build and push to registry
