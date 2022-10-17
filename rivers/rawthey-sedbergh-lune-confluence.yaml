@@ -6,8 +6,8 @@ grade:
   text: '3 (4)'
   value: 3
   max: 4
-desc: 'An addition to the main Rawthey section, consists of a few weirs and one rapid of note near the end - railway falls(IV).'
-directions: "If you're not just running this as an add-on to the last section, then put on at Sedbergh New Bridge where there's a big lay-by and a path to the river.\nBest get-out is on the Lune, 500m below the confluence where there's a bridleway on river left."
+desc: 'Run as an addition to the main Rawthey section or in its own right as an easier alternative to the section above. One weir early on is followed by lots of grade 3, including another old weir on a corner which may be worthy of inspection. Railway Falls (IV) follows, with easier water to the Lune confluence.'
+directions: "If you're not just running this as an add-on to the last section, then put on at Sedbergh New Bridge where there's a big lay-by and a path to the river.\nBest get-out is on the Lune, 500m below the confluence where there's a bridleway on river left, or extend the trip down to the bridge just downstream of Middleton"
 putin:
   lat: 54.3218269
   lng: -2.515986
@@ -16,9 +16,9 @@ takeout:
   lng: -2.5718409
 measures:
   -
-    scrape: 1
-    low: 1.3
-    medium: 1.6
-    high: 2.1
-    huge: 2.8
+    scrape: 0.75
+    low: 0.85
+    medium: 1.2
+    high: 1.5
+    huge: 2
     data_url: 'rloi://5020'
